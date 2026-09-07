@@ -1,0 +1,14 @@
+name = "OrdinalAnalysis"
+defaultTargets = ["OrdinalAnalysis"]
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+
+[[lean_lib]]
+name = "OrdinalAnalysis"
+
+[[require]]
+name = "Foundation"
+git = "https://github.com/FormalizedFormalLogic/Foundation"
+rev = "master"

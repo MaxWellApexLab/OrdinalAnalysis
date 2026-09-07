@@ -1,0 +1,21 @@
+name: hygiene
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Repository hygiene
+        env:
+          GATE_EXTRA_PATTERNS: ${{ secrets.GATE_EXTRA_PATTERNS }}
+        run: python scripts/outbound_gate.py
