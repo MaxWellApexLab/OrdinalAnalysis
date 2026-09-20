@@ -231,6 +231,43 @@ that survey reaches, this is the first complete, machine-checked proof of
 ending in `gentzen_theorem`), the forbidden-construct scan, and a reading of
 every definition the headline theorem quantifies over.
 
+## Above `ε₀`: `|PA + TI(ε₀)| = ε₁`, and the calculus for ACA
+
+`OrdinalAnalysis/Gentzen/Epsilon1Theorem.lean`:
+
+```
+epsilon1_theorem :
+  (∀ φ a, a < epsilonNote 1 → paLX₁ ⊢ closedTI₁ φ (gamma0Term a))
+  ∧ paLX₁ ⊬ (TI epsilon1Order.prec).univCl
+```
+
+`paLX₁` is `PA[X]` together with the scheme of transfinite induction along the
+coded Veblen ordering `≺₁` below the code of `ε₀`, for every unary formula of
+`LX` (the scheme is necessary: with the single `X`-instance the upper bound is
+false).  The upper bound proves transfinite induction for every formula below
+every notation `< ε₁`; the lower bound is transfinite induction along the
+`ε₁`-segment of `≺₁` for the free predicate `X`.  This is Schütte's theorem
+(Avigad 2002, Thm 9.8), and as far as the surveys reach the first machine-checked
+ordinal analysis above `ε₀`.
+
+The upper bound is Gentzen's jump over the Veblen codes arithmetized inside
+`PA` (`InternalVNote*.lean`, `CodedVeblenJump.lean`, `Epsilon1UpperBound.lean`;
+towers `ω^…^(ε₀+1)` are cofinal in `ε₁`).  The lower bound runs the `ε₀` chain
+one level up, in the notations below `ε₁` (`Below.lean`, `BelowDerivation.lean`,
+`CutAxioms.lean`): the axiom `TI(ε₀)` is derived in the infinitary calculus at
+height `ε₀ + 1` by the climb along the `Γ₀`-ordering (`Climb.lean`,
+`ClimbVeblen.lean`), every other instance of the scheme by substituting the
+formula for `X` in that one derivation (`SubstX.lean`, `Epsilon1Scheme.lean`),
+and the boundedness lemma at the `ε₁`-segment closes it.
+
+`OrdinalAnalysis/ACAOmega/` is the infinitary calculus for `ACA` (Afshari–Rathjen
+2012): set quantifiers by an eigenvariable rule and substitution of an arithmetical
+formula, ordinal cut ranks with set quantifiers at `ω`, and both cut-elimination
+theorems — the first brings rank `ω + k` down to `ω` by a `k`-fold `ω`-tower, the
+second (`secondCutElimination : ⊢^α_ω Γ → ⊢^{ε_α}_0 Γ`) removes the remaining
+cuts at the cost `α ↦ ε_α`, which is the whole mechanism of `|ACA| = ε_{ε₀}`.
+The ordinal analysis of `ACA` itself is in progress.
+
 ## Building
 
 ```

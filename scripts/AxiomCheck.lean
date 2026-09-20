@@ -363,3 +363,50 @@ info: 'OrdinalAnalysis.Gentzen.NotationBridge.nonote_lt_iff_icmpModelCode_eq_zer
 
 /-- info: 'OrdinalAnalysis.Gentzen.ClimbVeblen.climb' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.Gentzen.ClimbVeblen.climb
+
+/-- info: 'OrdinalAnalysis.Gentzen.Epsilon1UpperBound.epsilon1_upper_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.Epsilon1UpperBound.epsilon1_upper_bound
+
+/-- info: 'OrdinalAnalysis.Gentzen.CodedVeblenJump.jumpA₁' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.CodedVeblenJump.jumpA₁
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaDerivable₂.secondCutElimination' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaDerivable₂.secondCutElimination
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaDerivable₂.cutElimination_epsilon' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaDerivable₂.cutElimination_epsilon
+
+/-- info: 'OrdinalAnalysis.Gentzen.EpsilonSegmentOrder.not_derivable_TI_epsilon' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.EpsilonSegmentOrder.not_derivable_TI_epsilon
+
+/-- info: 'OrdinalAnalysis.OmegaDerivable.substX' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.OmegaDerivable.substX
+
+/-- info: 'OrdinalAnalysis.Gentzen.Epsilon1Scheme.scheme_axiom_derivable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.Epsilon1Scheme.scheme_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme.epsilon1_lower_bound_scheme' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme.epsilon1_lower_bound_scheme
+
+/-- info: 'OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme.paLX₁_scheme_consistent' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme.paLX₁_scheme_consistent
+
+/-- info: 'OrdinalAnalysis.Gentzen.epsilon1_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.epsilon1_theorem
+
+/-- info: 'OrdinalAnalysis.Gentzen.paLX₁_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.paLX₁_consistent
