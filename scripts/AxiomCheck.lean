@@ -882,3 +882,15 @@ info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_veblen' depends o
 
 /-- info: 'OrdinalAnalysis.ACA.ACAplus₀_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.ACA.ACAplus₀_consistent
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_upper_bound_univ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_upper_bound_univ
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_lower_bound_univ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_lower_bound_univ
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_theorem_univ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_theorem_univ
+
+/-- info: 'OrdinalAnalysis.Ramified.fs_lower' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.fs_lower

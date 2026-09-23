@@ -166,6 +166,8 @@ import OrdinalAnalysis.Ramified.TowerR
 import OrdinalAnalysis.Ramified.EpsProgR
 import OrdinalAnalysis.Ramified.DescentR
 import OrdinalAnalysis.Ramified.UpperBound
+import OrdinalAnalysis.Ramified.LimitTheorem
+import OrdinalAnalysis.Ramified.FSLower
 import OrdinalAnalysis.Ramified.NamingAxioms
 import OrdinalAnalysis.Ramified.Comprehension
 import OrdinalAnalysis.Ramified.CutAxioms

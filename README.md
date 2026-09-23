@@ -352,7 +352,15 @@ and nothing here should be read as that.
   epsilons) for the free predicate `X`, and does not prove it along the whole
   of that ordering.  This is the finite-level part of the Feferman–Schütte
   analysis of ramified analysis; with only finitely many levels the values are
-  ε-towers, and the limit theory `RA_{<ω}` sits at `φ_2(0)`.
+  ε-towers, and the limit theory `RA_{<ω}` (all finite levels) sits at
+  `φ_2(0)`, both halves (`Ramified/LimitTheorem.lean`, `ramified_theorem_univ`).
+  A finitary ramified theory cannot go further: any proof mentions finitely
+  many levels, which can be renumbered, so transfinite level indices add
+  nothing to a finitary theory.  Feferman–Schütte's `Γ₀` therefore belongs to
+  the semiformal calculus `RA_∞` itself, in Schütte's formulation, and its
+  bound half is `Ramified/FSLower.lean`: no derivation of `RA_∞` with cut rank
+  and height below `Γ₀` proves transfinite induction along the whole coded
+  Veblen ordering (`fs_lower`).  The autonomy half is in progress.
 
 * `ACA/OmegaJump.lean` and the `OmegaJump*` files: the theory `ACA⁺` — `ACA`
   with the axiom that every set has an ω-jump — its truth in the full ω-model
