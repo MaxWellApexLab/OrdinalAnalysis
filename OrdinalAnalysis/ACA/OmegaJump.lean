@@ -87,15 +87,17 @@ def jumpColumnAt2 : FirstOrder.Semiformula LX ℕ 2 :=
 
 /-! ### The hierarchy condition, second-order
 
-Both `Y` and `Z` are presented as *bound* set slots, slot `1` for `Y` and
-slot `0` for `Z`, so that `IsOmegaJump : Semiproposition ℒₒᵣ 2 0` closes to
+Both `Y` and `Z` are presented as *bound* set slots, slot `0` for `Y` and
+slot `1` for `Z`.  The innermost `∀²`/`∃²` binds the bound set slot `0`
+(`SecondOrder.Rew.q` fixes slot `0`, and `∀² φ` is evaluated at `X :> E`), so
+`IsOmegaJump : Semiproposition ℒₒᵣ 2 0` closes to
 `omegaJumpAxiom := ∀²Z ∃²Y IsOmegaJump(Y, Z)` by two plain applications of
-`∀²`/`∃²`. -/
+`∀²`/`∃²`: the inner `∃²` binds `Y`, the outer `∀²` binds `Z`. -/
 
-/-- The witness recovering the bound set slot `1` (`Y`), inside a two-slot
+/-- The witness recovering the bound set slot `0` (`Y`), inside a two-slot
 ambient formula. -/
 def yWit2 : Semiformula ℒₒᵣ ℕ Empty 2 1 :=
-  (#0 : FirstOrder.Semiterm ℒₒᵣ Empty 1) ∈# (1 : Fin 2)
+  (#0 : FirstOrder.Semiterm ℒₒᵣ Empty 1) ∈# (0 : Fin 2)
 
 theorem arith_yWit2 : Arith yWit2 := trivial
 
@@ -106,7 +108,7 @@ def hierBaseColLX : FirstOrder.Semiformula LX ℕ 1 :=
 /-- The base condition: column `0` of `Y` is exactly `Z`. -/
 def hierBase : Semiproposition ℒₒᵣ 2 0 :=
   ∀¹ ((toSOAtB yWit2 hierBaseColLX : Semiproposition ℒₒᵣ 2 1) 🡘
-    ((#0 : FirstOrder.Semiterm ℒₒᵣ ℕ 1) ∈# (0 : Fin 2)))
+    ((#0 : FirstOrder.Semiterm ℒₒᵣ ℕ 1) ∈# (1 : Fin 2)))
 
 /-- `x` belongs to column `k + 1` of `Y` iff `x` belongs to the jump of
 column `k` of `Y`, for `#0 = x` and `#1 = k`, at `LX`. -/

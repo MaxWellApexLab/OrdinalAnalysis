@@ -89,10 +89,9 @@ theorem tiUpto_congr_column_lifted :
 Y), a)` this lets one replace by `TIupto(column_{k+1} Y, a)` (given the omega-
 jump axiom's step condition for the column index at hand), this is the
 successor step of the column tower: for every `k`, `a`, `u` with `ω^a = u`,
-`TIupto(column_{k+1} Y, a)` gives `TIupto(column_k Y, u)`.  The two facts are
-combined at their point of use (`OmegaJumpDepth.lean`), where the shared
-column index `k` is opened by `spec₁` on both simultaneously rather than
-re-closed here. -/
+`TIupto(column_{k+1} Y, a)` gives `TIupto(column_k Y, u)`.  The column tower
+induction of `ACA/OmegaJumpInduction.lean` performs this combination inside
+`PA[X]`, before lifting. -/
 theorem tiUpto_congr_column_ACAplus :
     Provable ACAplus
       (toSOAt yWitFree

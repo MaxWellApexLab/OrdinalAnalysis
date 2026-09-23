@@ -13,10 +13,9 @@
   This file lifts that fact into the second-order syntax (`ACA/Lift.lean`'s
   `lift_paLX₀`), landing in `ACAplus` (`ACA` plus the omega-jump axiom): the full
   second-order induction scheme is unavoidable here because `lift_paLX`'s only route
-  for discharging `paLX`'s induction axiom is `ACA`'s own scheme (see the header of
-  `OmegaJump.lean` and this session's checkpoint notes for why an `ACAplus₀`-only
-  route, while not ruled out mathematically, needs infrastructure this session did not
-  build).
+  for discharging `paLX`'s induction axiom is `ACA`'s own scheme (an `ACAplus₀`-only
+  route, while not ruled out mathematically, would need a lifting of `paLX`'s
+  induction axioms into `ACA₀` through arithmetical comprehension and set induction).
 -/
 import OrdinalAnalysis.ACA.OmegaJump
 import OrdinalAnalysis.ACA.Lift

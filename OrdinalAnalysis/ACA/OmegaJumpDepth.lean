@@ -11,22 +11,14 @@
   `ACA/TowerInduction.lean`'s own `towerSO`/`omegaPowSO`, which this file
   reuses unchanged).
 
-  This is the arithmetic scaffolding for the tower-depth induction described
-  in this session's checkpoint notes : with `Y` a
-  free set variable and `Z = column_0 Y`, the induction on the tower depth `d`
-  for `theta(d) := forall c u (Tower(u, d, c) -> TIupto(c, column_d Y) ->
+  These are the tower laws of the tower-depth induction along the columns of an
+  omega-jump `Y`: with `Z = column_0 Y`, the induction on the tower depth `d` for
+  `theta(d) := forall c u (Tower(u, d, c) -> TIupto(c, column_d Y) ->
   TIupto(u, column_0 Y))` needs no second-order quantifier inside `theta` at
   all (unlike `ACA/TowerInduction.lean`'s `∀²X TI(c, X)`, since `column_d Y` is
   a single already-given set for each `d`, not a universally quantified one).
-  Assembling `theta`, proving its base and successor cases from
-  `towerZero_lifted`/`towerSucc_lifted` below plus `OmegaJumpExt.lean`'s
-  `tiUpto_congr_column_ACAplus` and `OmegaJumpTower.lean`'s
-  `jumpB_column_ACAplus`, and closing the induction via `ACA`'s
-  `indScheme₂` (a bare axiom, specialised at the free set variable `0` by
-  `spec₂` at `freeWitness` -- exactly `ACA/Congruence.lean`'s `setExt_spec`
-  recovers `setExt`'s free-variable form, rather than an arithmetical witness,
-  since `Y` need not be arithmetical) was not completed this session; see the
-  checkpoint notes for the precise remaining construction.
+  The induction itself is carried out in `ACA/OmegaJumpInduction.lean`, inside
+  `PA[X]` with the step condition of the omega-jump as a hypothesis.
 -/
 import OrdinalAnalysis.ACA.OmegaJumpExt
 import OrdinalAnalysis.ACA.TowerInduction

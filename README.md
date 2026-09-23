@@ -334,9 +334,35 @@ and nothing here should be read as that.
   removal of its axioms (`NamingAxioms.lean`, `AxiomsLogic.lean`,
   `AxiomsInduction.lean`, `CutAxioms.lean`), and the boundedness lemma over the
   ramified language (`Boundedness.lean`) give the non-provability half
-  (`LowerBound.lean`, `ramified_lower_bound`): `RA_{<ν+1}` does not prove
-  transfinite induction along the coded Veblen ordering restricted below the
-  ε-tower `φ_1^ν(ε₀)`.  The provability half is in progress.
+  (`LowerBound.lean`, `ramified_lower_bound`), and the lifting of `PA[X]` into
+  `RA_{<ν}` at a level parameter (`LiftR.lean`), the tower at a level
+  (`TowerR.lean`), the ε-progressiveness (`EpsProgR.lean`) and the descent
+  through the levels (`DescentR.lean`) give the provability half.  Together,
+  `Ramified/UpperBound.lean`:
+
+  ```
+  ramified_theorem (ν) (hν : 1 ≤ ν) :
+    (∀ a < φ_1^ν(ε₀), RAlt (ν + 1) ⊢ tiUptoSegR (φ_1^ν(ε₀)) a)
+    ∧ RAlt (ν + 1) ⊬ univCl (TIR (precBelowR (φ_1^ν(ε₀))))
+  ```
+
+  For every `ν ≥ 1`, ramified analysis with the levels `1, …, ν` proves
+  transfinite induction along every proper initial segment of the coded Veblen
+  ordering below the ε-tower `φ_1^ν(ε₀)` (that is, `ε_{ε_{⋯ε₀}}` with `ν`
+  epsilons) for the free predicate `X`, and does not prove it along the whole
+  of that ordering.  This is the finite-level part of the Feferman–Schütte
+  analysis of ramified analysis; with only finitely many levels the values are
+  ε-towers, and the limit theory `RA_{<ω}` sits at `φ_2(0)`.
+
+* `ACA/OmegaJump.lean` and the `OmegaJump*` files: the theory `ACA⁺` — `ACA`
+  with the axiom that every set has an ω-jump — its truth in the full ω-model
+  and hence its consistency (`OmegaJumpSound.lean`), and the provability half
+  of its analysis: the ε-jump `epsJump_plus` (transfinite induction up to `b`
+  for all sets gives it up to `ε_b`, by a tower induction over the columns of
+  an ω-jump, without any second-order induction) iterated outside the theory
+  gives `aca_plus_upper_bound`: `ACA⁺` proves transfinite induction along every
+  proper segment below `φ_2(0)`.  The non-provability half for `ACA⁺` is not
+  here.
 
 ## Building
 

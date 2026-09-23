@@ -801,3 +801,84 @@ info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_veblen' depends o
  Classical.choice,
  Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_omegaDerivable_chain_of_exists
+
+/-- info: 'OrdinalAnalysis.Ramified.lift_paLX_R' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.lift_paLX_R
+
+/-- info: 'OrdinalAnalysis.Ramified.provable_of_eqModels' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_of_eqModels
+
+/-- info: 'OrdinalAnalysis.Ramified.tower_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tower_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.epsProg_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.epsProg_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiPsi_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiPsi_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.descent_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descent_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.vebSegOrderR_prec_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.vebSegOrderR_prec_eq
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_upper_bound
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_theorem
+
+/-- info: 'OrdinalAnalysis.ACA.ColumnTower.concrete_colTower' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.ColumnTower.concrete_colTower
+
+/-- info: 'OrdinalAnalysis.ACA.columnTower_lifted' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.columnTower_lifted
+
+/-- info: 'OrdinalAnalysis.ACA.omegaTowerInduction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.omegaTowerInduction
+
+/-- info: 'OrdinalAnalysis.ACA.ColumnTower.concrete_colProg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.ColumnTower.concrete_colProg
+
+/-- info: 'OrdinalAnalysis.ACA.ColumnTower.concrete_colEpsJump' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.ColumnTower.concrete_colEpsJump
+
+/-- info: 'OrdinalAnalysis.ACA.epsProg_plus' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.epsProg_plus
+
+/-- info: 'OrdinalAnalysis.ACA.colEpsJump_lifted' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.colEpsJump_lifted
+
+/-- info: 'OrdinalAnalysis.ACA.tiExt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.tiExt
+
+/-- info: 'OrdinalAnalysis.ACA.epsJump_plus' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.epsJump_plus
+
+/-- info: 'OrdinalAnalysis.ACA.acaplus_tiUptoSeg_of_allTI' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.acaplus_tiUptoSeg_of_allTI
+
+/-- info: 'OrdinalAnalysis.ACA.allTI_epsIter' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.allTI_epsIter
+
+/-- info: 'OrdinalAnalysis.ACA.exists_lt_epsIter' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.exists_lt_epsIter
+
+/-- info: 'OrdinalAnalysis.ACA.aca_plus_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.aca_plus_upper_bound
+
+/-- info: 'OrdinalAnalysis.ACA.aca_plus_upper_bound_seg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.aca_plus_upper_bound_seg
+
+/-- info: 'OrdinalAnalysis.ACA.eval_omegaJumpAxiom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.eval_omegaJumpAxiom
+
+/-- info: 'OrdinalAnalysis.ACA.soundness_ACAplus' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.soundness_ACAplus
+
+/-- info: 'OrdinalAnalysis.ACA.ACAplus_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.ACAplus_consistent
+
+/-- info: 'OrdinalAnalysis.ACA.ACAplus₀_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.ACAplus₀_consistent

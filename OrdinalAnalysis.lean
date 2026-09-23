@@ -147,6 +147,10 @@ import OrdinalAnalysis.ACA.OmegaJump
 import OrdinalAnalysis.ACA.OmegaJumpTower
 import OrdinalAnalysis.ACA.OmegaJumpExt
 import OrdinalAnalysis.ACA.OmegaJumpDepth
+import OrdinalAnalysis.ACA.OmegaJumpInduction
+import OrdinalAnalysis.ACA.OmegaJumpProg
+import OrdinalAnalysis.ACA.OmegaJumpUpperBound
+import OrdinalAnalysis.ACA.OmegaJumpSound
 import OrdinalAnalysis.Gentzen.InternalVeblen
 import OrdinalAnalysis.Ramified.Literals
 import OrdinalAnalysis.Ramified.Reduction
@@ -156,6 +160,12 @@ import OrdinalAnalysis.Ramified.PredicativeCutGeneral
 import OrdinalAnalysis.Ramified.BlockCut
 import OrdinalAnalysis.Ramified.SegOrder
 import OrdinalAnalysis.Ramified.LowerBound
+import OrdinalAnalysis.Ramified.LiftRAux
+import OrdinalAnalysis.Ramified.LiftR
+import OrdinalAnalysis.Ramified.TowerR
+import OrdinalAnalysis.Ramified.EpsProgR
+import OrdinalAnalysis.Ramified.DescentR
+import OrdinalAnalysis.Ramified.UpperBound
 import OrdinalAnalysis.Ramified.NamingAxioms
 import OrdinalAnalysis.Ramified.Comprehension
 import OrdinalAnalysis.Ramified.CutAxioms
