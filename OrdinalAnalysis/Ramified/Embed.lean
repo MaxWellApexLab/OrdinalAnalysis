@@ -40,14 +40,14 @@
   bound for a finite list of axioms, this file measures the derivation itself:
 
       cutLvl d : ℕ                        the largest level of a cut formula in `d`
-      cutRankR d < ω ^ (cutLvl d + 1)      `cutRankR_lt_omegaPowLv_succ`
-      cutLvl d < ν  →  cutRankR d < ω ^ ν  `cutRankR_lt_omegaPowLv`
+      cutRankR d < ω · (cutLvl d + 1)      `cutRankR_lt_omegaMul_succ`
+      cutLvl d < ν  →  cutRankR d < ω · ν  `cutRankR_lt_omegaMul`
 
-  The second is `Ramified/Rank.lean`'s `rank_lt_omegaPow_of_level` run over the
+  The second is `Ramified/Rank.lean`'s `rank_lt_block_of_level` run over the
   derivation tree, and it is the shape predicative cut elimination consumes:
-  `⊢^α_{ρ ⊕ ω^ξ} ⇒ ⊢^{φ_ξ(α)}_ρ` wants the rank to sit inside a single `ω`-power
-  block, which is §2's reason for `ω^ν` rather than `ω·ν`.
-  `exists_omegaPowLv_bound` is the list form, the analogue of
+  the cut rank sits below `ω · ν`, and each block `[ω·(j−1), ω·j)` is removed by
+  one application of `φ_1` (`Ramified/BlockCut.lean`).
+  `exists_omegaMul_bound` is the list form, the analogue of
   `RankBound.exists_omegaAdd_bound`.
 -/
 import OrdinalAnalysis.Proof.Bridge
@@ -160,68 +160,68 @@ def cutLvl : {Δ : Sequent LRA} → ⊢ᴸᴷ¹ Δ → Lv
 @[simp] theorem cutLvl_exs {φ : Semiproposition LRA 1} {t : SyntacticTerm LRA}
     {Γ : Sequent LRA} (d : ⊢ᴸᴷ¹ φ/[t] :: Γ) : cutLvl d.exs = cutLvl d := rfl
 
-/-! ### `ω ^ ·` is monotone, non-strictly -/
-
-theorem omegaPowLv_le_omegaPowLv {μ ν : Lv} (h : μ ≤ ν) : omegaPowLv μ ≤ omegaPowLv ν := by
-  rcases Nat.eq_or_lt_of_le h with rfl | hlt
-  · exact le_rfl
-  · exact le_of_lt (omegaPowLv_lt_omegaPowLv hlt)
+/-! ### Raising the level of a block -/
 
 /-- Raising the level of the block keeps a bound. -/
-theorem lt_omegaPowLv_succ_of_le {x : Gamma0Note} {m n : Lv}
-    (hx : x < omegaPowLv (m + 1)) (h : m ≤ n) : x < omegaPowLv (n + 1) :=
-  lt_of_lt_of_le hx (omegaPowLv_le_omegaPowLv (Nat.succ_le_succ h))
+theorem lt_omegaMul_succ_of_le {x : Gamma0Note} {m n : Lv}
+    (hx : x < omegaMul (m + 1)) (h : m ≤ n) : x < omegaMul (n + 1) :=
+  lt_of_lt_of_le hx (omegaMul_le_omegaMul (Nat.succ_le_succ h))
 
 /-! ### The cut-rank bound -/
 
-/-- **The cut rank sits inside the `ω`-power block of the derivation's level.**
+/-- **The cut rank sits inside the `ω · ·` block of the derivation's level.**
 
-`Ramified/Rank.lean`'s `rank_lt_omegaPow_of_level` run over the derivation tree:
-at a `cut` node the cut formula's rank is below `ω^{lvlOf φ + 1}` and a
-successor stays inside the block by additive indecomposability, and everything
-else is the induction hypothesis lifted along `ω^· ` monotone. -/
-theorem cutRankR_lt_omegaPowLv_succ : ∀ {Δ : Sequent LRA} (d : ⊢ᴸᴷ¹ Δ),
-    cutRankR d < omegaPowLv (cutLvl d + 1) := by
+`Ramified/Rank.lean`'s `rank_lt_block_of_level` run over the derivation tree:
+at a `cut` node the cut formula's rank is below `ω · (lvlOf φ + 1)` and a
+successor stays inside the block because `ω · (ν + 1)` is a limit, and
+everything else is the induction hypothesis lifted along `ω · ·` monotone. -/
+theorem cutRankR_lt_omegaMul_succ : ∀ {Δ : Sequent LRA} (d : ⊢ᴸᴷ¹ Δ),
+    cutRankR d < omegaMul (cutLvl d + 1) := by
   intro Δ d
   induction d with
-  | identity r v => exact omegaPowLv_pos _
-  | verum => exact omegaPowLv_pos _
+  | identity r v => exact omegaMul_pos (Nat.succ_pos _)
+  | verum => exact omegaMul_pos (Nat.succ_pos _)
   | cut dp dn ihp ihn =>
       rename_i φ _ _
       refine max_lt ?_ (max_lt ?_ ?_)
-      · refine succ_lt_omegaPowLv (Nat.succ_pos _) ?_
-        exact lt_omegaPowLv_succ_of_le (rank_lt_omegaPowLv_succ φ) (le_max_left _ _)
-      · exact lt_omegaPowLv_succ_of_le ihp (le_trans (le_max_left _ _) (le_max_right _ _))
-      · exact lt_omegaPowLv_succ_of_le ihn (le_trans (le_max_right _ _) (le_max_right _ _))
+      · refine succ_lt_omegaMul (Nat.succ_pos _) ?_
+        exact lt_omegaMul_succ_of_le (rank_lt_omegaMul_succ φ) (le_max_left _ _)
+      · exact lt_omegaMul_succ_of_le ihp (le_trans (le_max_left _ _) (le_max_right _ _))
+      · exact lt_omegaMul_succ_of_le ihn (le_trans (le_max_right _ _) (le_max_right _ _))
   | contraction d ss ih => exact ih
   | or d ih => exact ih
   | and dp dq ihp ihq =>
-      exact max_lt (lt_omegaPowLv_succ_of_le ihp (le_max_left _ _))
-        (lt_omegaPowLv_succ_of_le ihq (le_max_right _ _))
+      exact max_lt (lt_omegaMul_succ_of_le ihp (le_max_left _ _))
+        (lt_omegaMul_succ_of_le ihq (le_max_right _ _))
   | all d ih => exact ih
   | exs d ih => exact ih
 
 /-- **The form predicative cut elimination consumes.**  If every cut of `d` is on
-a formula of level `< ν`, the whole derivation's cut rank is below `ω^ν`. -/
+a formula of level `< ν`, the whole derivation's cut rank is below `ω · ν`. -/
+theorem cutRankR_lt_omegaMul {Δ : Sequent LRA} (d : ⊢ᴸᴷ¹ Δ) {ν : Lv}
+    (h : cutLvl d < ν) : cutRankR d < omegaMul ν :=
+  lt_of_lt_of_le (cutRankR_lt_omegaMul_succ d)
+    (omegaMul_le_omegaMul (Nat.succ_le_of_lt h))
+
+/-- The coarser `ω`-power form of `cutRankR_lt_omegaMul`. -/
 theorem cutRankR_lt_omegaPowLv {Δ : Sequent LRA} (d : ⊢ᴸᴷ¹ Δ) {ν : Lv}
     (h : cutLvl d < ν) : cutRankR d < omegaPowLv ν :=
-  lt_of_lt_of_le (cutRankR_lt_omegaPowLv_succ d)
-    (omegaPowLv_le_omegaPowLv (Nat.succ_le_of_lt h))
+  lt_of_lt_of_le (cutRankR_lt_omegaMul d h) (omegaMul_le_omegaPowLv ν)
 
 /-- The list form, the analogue of `ACAOmega/RankBound.exists_omegaAdd_bound`:
-any finite list of formulas — a sequent of axioms, say — has *some* `ω`-power
+any finite list of formulas — a sequent of axioms, say — has *some* `ω · ·`
 block containing the (evaluated) rank of every member. -/
-theorem exists_omegaPowLv_bound : ∀ Γ : Sequent LRA,
-    ∃ ν : Lv, ∀ φ ∈ Γ, rank (evR φ) < omegaPowLv ν
+theorem exists_omegaMul_bound : ∀ Γ : Sequent LRA,
+    ∃ ν : Lv, ∀ φ ∈ Γ, rank (evR φ) < omegaMul ν
   | [] => ⟨0, by simp⟩
   | φ :: Γ => by
-      obtain ⟨ν, hν⟩ := exists_omegaPowLv_bound Γ
+      obtain ⟨ν, hν⟩ := exists_omegaMul_bound Γ
       refine ⟨max ν (lvlOf φ + 1), fun ψ hψ => ?_⟩
       rcases List.mem_cons.mp hψ with rfl | hψ'
       · rw [rank_evR]
-        exact lt_of_lt_of_le (rank_lt_omegaPowLv_succ ψ)
-          (omegaPowLv_le_omegaPowLv (le_max_right _ _))
-      · exact lt_of_lt_of_le (hν ψ hψ') (omegaPowLv_le_omegaPowLv (le_max_left _ _))
+        exact lt_of_lt_of_le (rank_lt_omegaMul_succ ψ)
+          (omegaMul_le_omegaMul (le_max_right _ _))
+      · exact lt_of_lt_of_le (hν ψ hψ') (omegaMul_le_omegaMul (le_max_left _ _))
 
 /-! ### The replay -/
 
@@ -276,8 +276,9 @@ theorem replayR : ∀ {Γ : Sequent LRA} (d : ⊢ᴸᴷ¹ Γ) (f : ℕ → ℕ),
         (OrdinalNotation.lt_succ_of_le (OrdinalNotation.le_nadd_right _ _))
         (hp.mono_rank (by rw [cutRankR_cut]; exact le_trans (le_max_left _ _) (le_max_right _ _)))
         (hn.mono_rank (by rw [cutRankR_cut]; exact le_trans (le_max_right _ _) (le_max_right _ _)))
-      rw [cutRankR_cut, rank_evR, rank_numSubstR]
-      exact lt_of_lt_of_le (OrdinalNotation.lt_succ _) (le_max_left _ _)
+      rw [cutRankR_cut, rank_evR]
+      exact lt_of_le_of_lt (rank_numSubstR_le f _)
+        (lt_of_lt_of_le (OrdinalNotation.lt_succ _) (le_max_left _ _))
   | _, Derivation.all d, f => by
       simp only [seqSubstR_cons, List.map_cons, numSubstR_all, evR_all]
       refine OmegaDerivableR.omegaRule (fun _ => (ordN d : O))
@@ -305,14 +306,14 @@ theorem replayR_closed {Γ : Sequent LRA} (d : ⊢ᴸᴷ¹ Γ)
   have h := replayR (O := O) d (fun _ => 0)
   rwa [seqSubstR_eq_self hc] at h
 
-/-- **The replay, with the cut rank placed inside an `ω`-power block.**  The form
-`Ramified/PredicativeCut.lean` consumes: if every cut of `d` is on a formula of
-level `< ν`, the replayed derivation has cut rank below `ω^ν`. -/
+/-- **The replay, with the cut rank placed inside an `ω · ·` block.**  The form
+predicative cut elimination consumes: if every cut of `d` is on a formula of
+level `< ν`, the replayed derivation has cut rank below `ω · ν`. -/
 theorem replayR_closed_of_level {Γ : Sequent LRA} (d : ⊢ᴸᴷ¹ Γ) {ν : Lv} (hν : cutLvl d < ν)
     (hc : ∀ φ ∈ Γ, Semiformula.freeVariables φ = ∅) :
-    OmegaDerivableR trueArithLitsR evInstR (omegaPowLv ν) (ordN d : O) (Γ.map evR) :=
+    OmegaDerivableR trueArithLitsR evInstR (omegaMul ν) (ordN d : O) (Γ.map evR) :=
   (replayR_closed (O := O) d hc).mono_rank
-    (le_of_lt (cutRankR_lt_omegaPowLv d hν))
+    (le_of_lt (cutRankR_lt_omegaMul d hν))
 
 end Ramified
 

@@ -6,13 +6,16 @@
   * **Cut ranks are ordinal notations**, as in `ACAOmega/Calculus.lean`: a cut on
     `φ` is allowed at rank `ρ` when `rank φ < ρ`.  Heights stay a generic
     `[OrdinalNotation O]`.  The rank lives in `Gamma0Note` because a level-`ν`
-    set atom costs `ω^ν` and the levels run up to `Γ₀`.
+    set atom costs up to `ω·ν` (`Ramified/Rank.lean`).
 
-  * **The instantiation must preserve the rank** (`InstantiationR.rank_nf`).
+  * **The instantiation must not raise the rank** (`InstantiationR.rank_nf`,
+    and numerals that are ground terms denoting their own index).
     `Instantiation` only promises `complexity_nf`, which is the right law when
     cuts are ranked by complexity; here the cut rule reads `rank`, and the
     quantifier and (Pr) cases of the reduction lemma produce cut formulas that
-    are instances, so their rank has to be the rank of the body.
+    are instances, so their rank has to be at most the rank of the body
+    (`InstantiationR.rank_inst_le`).  The rank of a (Pr) atom reads the stage of
+    the code its set argument denotes, so the numerals must denote.
 
   * **The two predicator rules.**  From `Γ, A_a(n̄)` conclude `Γ, n̄ ∈̇_ν ā`, and
     dually from `Γ, ∼A_a(n̄)` conclude `Γ, n̄ ∉̇_ν ā`, where `ν = lvl a` and
@@ -29,8 +32,8 @@
   `[t ∈ X, t ∉ X]` at height `0` becomes `[ψ(t), ∼ψ(t)]`, derivable only at
   height `2·complexity ψ`, which `redOrd β γ` has no room for.  D2 has no
   formula-for-variable substitution anywhere: the only substitution is of a
-  *term* into the body of a code, and `rank_subst₁` says that does not move the
-  rank.  So the reason for general identity is gone, and atomic identity is kept
+  *term* into the body of a code, and `rank_subst₁_le` says that does not raise
+  the rank.  So the reason for general identity is gone, and atomic identity is kept
   — which in turn keeps `Omega/Reduction.lean`'s identity case verbatim.
 
   **The instantiation supplies the (Pr) subject.**  The premise is
@@ -44,7 +47,9 @@
   atomic axioms must contain no set atom**.  `Literals` only asks that axioms be
   literals and be consistent, and a set atom *is* a literal — so without
   `MemFree` an axiom could be `n̄ ∉̇_ν ā` and a (Pr)/axiom cut would have no
-  principal reduction.  This is the exact analogue of `StandardLX.lean`'s
+  principal reduction.  It is stated syntactically, because a level-`0` set atom
+  costs nothing and so cannot be told apart from an arithmetic literal by its
+  rank.  This is the exact analogue of `StandardLX.lean`'s
   `trueArithLits_xfree`, which already excludes `X`-literals from the axioms for
   the same kind of reason, so it costs nothing in practice.
 -/
@@ -63,10 +68,16 @@ open LO LO.FirstOrder LO.FirstOrder.Derivation
 /-- An `Instantiation` of `LRA` that also preserves the rank.
 
 `Instantiation.complexity_nf` is the law a complexity-ranked calculus consumes;
-`rank_nf` is its analogue for an ordinal-ranked one. -/
+`rank_nf` is its analogue for an ordinal-ranked one.  The numerals are ground
+and denote their index: the rank of a (Pr) atom reads the stage of the code its
+set argument denotes. -/
 structure InstantiationR extends Instantiation LRA where
   /-- The normaliser preserves the rank. -/
   rank_nf : ∀ φ : Proposition LRA, rank (nf φ) = rank φ
+  /-- The numerals are ground terms. -/
+  num_ground : ∀ n : ℕ, GroundR (num n)
+  /-- The numeral of `n` denotes `n`. -/
+  num_val : ∀ n : ℕ, evTermR (num n) = n
   /-- Distinct numbers get distinct numerals.
 
   Not needed by the *principal* (Pr)/(Pr) case, but needed by the dispatcher
@@ -87,29 +98,35 @@ def inst (φ : Semiproposition LRA 1) (n : ℕ) : Proposition LRA :=
 @[simp] theorem inst_neg (φ : Semiproposition LRA 1) (n : ℕ) :
     I.inst (∼φ) n = ∼I.inst φ n := I.toInstantiation.inst_neg φ n
 
-/-- **The rank of an instance is the rank of the body.**  The law the (Pr) and
-quantifier cases of the reduction lemma consume. -/
-@[simp] theorem rank_inst (φ : Semiproposition LRA 1) (n : ℕ) :
-    rank (I.inst φ n) = rank φ := by
-  simp only [inst, Instantiation.inst, I.rank_nf, rank_subst₁]
+/-- **The rank of an instance is at most the rank of the body.**  The law the
+(Pr) and quantifier cases of the reduction lemma consume. -/
+theorem rank_inst_le (φ : Semiproposition LRA 1) (n : ℕ) :
+    rank (I.inst φ n) ≤ rank φ := by
+  simp only [inst, Instantiation.inst, I.rank_nf]
+  exact rank_subst₁_le φ _
 
 /-- Plain substitution, with no normalisation. -/
-def raw (numf : ℕ → SyntacticTerm LRA) (hnum : Function.Injective numf) : InstantiationR where
+def raw (numf : ℕ → SyntacticTerm LRA) (hnum : Function.Injective numf)
+    (hg : ∀ n, GroundR (numf n)) (hv : ∀ n, evTermR (numf n) = n) : InstantiationR where
   toInstantiation := Instantiation.raw numf
   rank_nf := fun _ => rfl
   num_inj := hnum
+  num_ground := hg
+  num_val := hv
 
-@[simp] theorem raw_num (numf : ℕ → SyntacticTerm LRA) (hnum : Function.Injective numf) :
-    (raw numf hnum).num = numf := rfl
+@[simp] theorem raw_num (numf : ℕ → SyntacticTerm LRA) (hnum : Function.Injective numf)
+    (hg : ∀ n, GroundR (numf n)) (hv : ∀ n, evTermR (numf n) = n) :
+    (raw numf hnum hg hv).num = numf := rfl
 
 @[simp] theorem raw_inst (numf : ℕ → SyntacticTerm LRA) (hnum : Function.Injective numf)
+    (hg : ∀ n, GroundR (numf n)) (hv : ∀ n, evTermR (numf n) = n)
     (φ : Semiproposition LRA 1) (n : ℕ) :
-    (raw numf hnum).inst φ n = φ/[numf n] := by
+    (raw numf hnum hg hv).inst φ n = φ/[numf n] := by
   simp [inst, Instantiation.inst, raw, Instantiation.raw]
 
 /-- **The standard instantiation**: Foundation's numerals, no normalisation.
 Exists, so nothing above is vacuous. -/
-def std : InstantiationR := raw num num_injective
+def std : InstantiationR := raw num num_injective groundR_num evTermR_num
 
 end InstantiationR
 
@@ -117,12 +134,13 @@ end InstantiationR
 
 A set atom is a literal, so `Literals` alone does not stop one from being an
 axiom — and then a (Pr) inference and an axiom could cut against each other with
-no principal reduction available.  `MemFree` excludes it.  It is phrased as
-"every axiom has rank `0`" because every set atom has rank `ω^ν > 0`, and it is
-satisfied by the intended axioms (true closed arithmetic literals) on the nose. -/
+no principal reduction available.  `MemFree` excludes it.  It is satisfied by
+the intended axioms (true closed arithmetic literals) on the nose. -/
 
 /-- No axiom is a set atom. -/
-def MemFree (A : Literals LRA) : Prop := ∀ φ : Proposition LRA, A.T φ → rank φ = 0
+def MemFree (A : Literals LRA) : Prop :=
+  ∀ φ : Proposition LRA, A.T φ → ∀ (ν : Lv) (t s : SyntacticTerm LRA),
+    φ ≠ memAt ν t s ∧ φ ≠ nmemAt ν t s
 
 namespace MemFree
 
@@ -130,18 +148,10 @@ variable {A : Literals LRA} (h : MemFree A)
 include h
 
 theorem ne_memAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
-    φ ≠ memAt ν t s := by
-  intro he
-  have h0 : rank φ = 0 := h φ hφ
-  rw [he, rank_memAt] at h0
-  exact absurd h0.symm (ne_of_lt (omegaPowLv_pos ν))
+    φ ≠ memAt ν t s := (h φ hφ ν t s).1
 
 theorem ne_nmemAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
-    φ ≠ nmemAt ν t s := by
-  intro he
-  have h0 : rank φ = 0 := h φ hφ
-  rw [he, rank_nmemAt] at h0
-  exact absurd h0.symm (ne_of_lt (omegaPowLv_pos ν))
+    φ ≠ nmemAt ν t s := (h φ hφ ν t s).2
 
 end MemFree
 
@@ -277,12 +287,15 @@ abbrev prAtom (I : InstantiationR) (a n : ℕ) : Proposition LRA :=
 @[simp] theorem neg_prAtom (I : InstantiationR) (a n : ℕ) :
     ∼(prAtom I a n) = nmemAt (lvl a) (I.num n) (I.num a) := rfl
 
-/-- **A (Pr) atom's rank is `ω^{lvl a}`, and its unfolding's rank is below it.**
-The inequality the (Pr)/(Pr) cut turns on. -/
+/-- **A (Pr) atom's unfolding has rank below the atom's.**  The atom costs
+`ω·(lvl a − 1) ⊕ stage a`, the unfolding at most `ω·(lvl a − 1)` plus the
+complexity and the parameter's stage (`rank_body_lt_memRank`).  The inequality
+the (Pr)/(Pr) cut turns on. -/
 theorem rank_inst_body_lt_rank_prAtom {a : ℕ} (ha : Good a) (n : ℕ) :
     rank (I.inst (body a) n) < rank (prAtom I a n) := by
-  rw [I.rank_inst, prAtom, rank_memAt]
-  exact rank_body_lt ha
+  rw [prAtom, rank_memAt]
+  exact lt_of_le_of_lt (I.rank_inst_le (body a) n)
+    (rank_body_lt_memRank ha (I.num_ground a) (I.num_val a))
 
 /-- **A (Pr) atom determines the code and the subject.**
 

@@ -17,7 +17,7 @@
     room).  D2 performs no formula-for-variable substitution anywhere: a level-`ν`
     set quantifier is a number quantifier over codes, so the ω-rule and `exs`
     already handle it, and the only substitution in the calculus is of a *term*
-    into the body of a code, which `rank_subst₁` says is rank-neutral.  So
+    into the body of a code, which `rank_subst₁_le` says cannot raise the rank.  So
     identity stays atomic and the provider disappears.
 
   * **Two new rules, two new handlers, one new principal case.**  (Pr) and (Pr⁻)
@@ -27,8 +27,9 @@
     `reduction_pr_principal`, which performs **one** cut (not the two nested cuts
     of the propositional cases) and so makes no new demand on the ordinal
     arithmetic.  The cut it performs is legal because
-    `rank (A_a(n̄)) = rank (body a) < ω^{lvl a} = rank (n̄ ∈̇ ā) ≤ ρ`, which is
-    `Ramified/Rank.lean`'s `rank_body_lt`: *the* lemma of the design.
+    `rank (A_a(n̄)) ≤ rank (body a) < ω·(lvl a − 1) ⊕ stage a = rank (n̄ ∈̇ ā) ≤ ρ`,
+    which is `Ramified/Rank.lean`'s `rank_body_lt_memRank`: *the* lemma of the
+    design, and the reason for the stage condition on codes.
 
   * **`MemFree` is a hypothesis of the whole lemma.**  A set atom is a literal,
     so `Literals` alone permits one as an axiom, and a (Pr) inference against
@@ -974,9 +975,8 @@ theorem reduction_aux (hA : MemFree A) {ρ : Gamma0Note} :
           · -- PRINCIPAL: the witness is the existential side's `n`.
             intro δ δ₀ ξ Δ₁ n heq hlt hs' heP hssR
             obtain rfl : ξ = ∼χ := by simpa using heq
-            have hcχ : rank (I.inst χ n) < ρ := by
-              rw [I.rank_inst]
-              exact lt_of_lt_of_le (OrdinalNotation.lt_succ _) hφ
+            have hcχ : rank (I.inst χ n) < ρ :=
+              lt_of_le_of_lt (I.rank_inst_le χ n) (lt_of_lt_of_le (OrdinalNotation.lt_succ _) hφ)
             have hA₀ : OmegaDerivableR A I ρ (OrdinalNotation.redOrd (f n) δ)
                 (I.inst χ n :: Θ) :=
               ih2 (f n) δ (lt_of_lt_of_le (OrdinalNotation.nadd_lt_nadd_left δ (hf n)) hs')
@@ -1077,9 +1077,8 @@ theorem reduction_aux (hA : MemFree A) {ρ : Gamma0Note} :
           · -- PRINCIPAL: the ω-rule on the right has a premise at `n₀`.
             intro δ ξ Δ₁ f heq hf hs' heP hssR
             obtain rfl : ξ = ∼χ := by simpa using heq
-            have hcχ : rank (I.inst χ n₀) < ρ := by
-              rw [I.rank_inst]
-              exact lt_of_lt_of_le (OrdinalNotation.lt_succ _) hφ
+            have hcχ : rank (I.inst χ n₀) < ρ :=
+              lt_of_le_of_lt (I.rank_inst_le χ n₀) (lt_of_lt_of_le (OrdinalNotation.lt_succ _) hφ)
             have hA₀ : OmegaDerivableR A I ρ (OrdinalNotation.redOrd α₀ δ)
                 (I.inst χ n₀ :: Θ) :=
               ih2 α₀ δ (lt_of_lt_of_le (OrdinalNotation.nadd_lt_nadd_left δ hb) hs') hprem hφ

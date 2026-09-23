@@ -2,65 +2,46 @@
   Every naming axiom of `RA_∞` is cut-free derivable, and its rank is below the
   level it names.
 
-  `Theory.lean` supplies two one-sided implications per code `a`:
+  `Theory.lean` supplies two axioms per level `μ > 0` and formula `A` of shape
+  `μ`, uniform in the code:
 
-      nameOut a := ∀¹ (nmemAt (lvl a) #0 (nameTerm a) ⋎ body a)   "everything named by `a` satisfies its body"
-      nameIn  a := ∀¹ (∼(body a) ⋎ memAt (lvl a) #0 (nameTerm a))  "everything satisfying the body is named by `a`"
+      nameOutP μ A :≡ ∀c ∀p ∀s (G(c, p, s) → ∀x (x ∈̇_μ c → A(x, p)))
+      nameInP  μ A :≡ ∀c ∀p ∀s (G(c, p, s) → ∀x (A(x, p) → x ∈̇_μ c))
 
-  closed by `Semiformula.univCl` into sentences of `LRA`.  This file shows that
-  `RA_∞ ⊢^0_β evR (emb (univCl (nameOut a)))` for some finite `β`, and likewise
-  for `nameIn a` — cut-free, because unfolding a name costs nothing but an
-  ω-rule and a single (Pr)/(Pr⁻) inference — and that the rank of the evaluated,
-  embedded axiom is below `ω^{lvl a}`.  Together with `Gentzen/CutAxioms.lean`'s
-  generic `cut_axioms_of` (ported here as `CutAxioms.cut_axioms_of`), this is
-  what lets the naming schema of `RA Λ` be cut away level by level.
+  with `G` the arithmetical guard `c = ⟨μ, s, ⌜A⌝, p⟩ ∧ A.complexity + stage p < s`.
+  This file shows that `RA_∞ ⊢^0_β evR (emb (univCl (nameOutP μ A)))` for a
+  finite `β`, and likewise for `nameInP μ A`, and that the rank of the
+  evaluated, embedded axiom is below `ω · ν` for `μ < ν`.  Together with
+  `Ramified/CutAxioms.lean`'s `cut_axioms_of`, this is what lets the naming
+  schema of `RA Λ` be cut away.
 
   ## The route
 
-  **Closing a variable-free proposition changes nothing.**  Under `ParamFree a`
-  the body `body a` has no free variable, and a short computation
-  (`freeVariables_nameOut`, `freeVariables_nameIn`) shows `nameOut a` and
-  `nameIn a` inherit this: the only term that could carry a free variable is
-  `nameTerm a`, a numeral, and `#0` is bound, not free.  So `univCl` adds no
-  quantifier — Foundation's own `Semiformula.univCl'_eq_self_of` says a
-  variable-free `univCl'` is the identity, and `Semiformula.emb_toEmpty` then
-  says embedding undoes `toEmpty` — and `Rewriting.emb (univCl φ) = φ`
-  (`emb_univCl_of_freeVariables_eq_empty`) is the whole of what closing costs
-  here.
+  **The axioms are closed.**  Every free variable of `A` is sent to the bound
+  parameter, and the guard is a transported arithmetical semisentence, so
+  `univCl` adds nothing (`emb_univCl_nameOutP`).
 
-  **Evaluating the naming matrix.**  `evR` fixes the set atom
-  `nmemAt (lvl a) #0 (nameTerm a)` (both arguments are already numerals or the
-  bound variable `#0`, so `evTR` does not move them) and otherwise pushes
-  inside, leaving `evR (body a)` as the only place a genuine evaluation can
-  occur (`ev_nameOut`, `ev_nameIn`).  Instantiating the resulting ω-quantifier
-  at a numeral `n` and evaluating again reduces, by the congruence law
-  `evInstR_inst_ev` of `Evaluate.lean`, to *the* `n`-th instance of the body
-  sitting next to the `n`-th instance of the atom
-  (`evInstR_inst_nameOutBody`, `evInstR_inst_nameInBody`) — exactly the
-  premise shape the (Pr)/(Pr⁻) rules of `Calculus.lean` were built to consume.
+  **Three ω-rules over `c`, `p`, `s`** (`AxiomsLogic.allClosureR_derivable`),
+  after which the numbers are fixed and the guard is a closed arithmetical
+  formula, decided in `ℕ` (`eval_guardR_subst`):
 
-  **Deriving the instance.**  `OmegaDerivableR` has identity only for atoms;
-  `OmegaDerivableR.identity_formula` extends it to an arbitrary formula by the
-  same induction `Omega/Identity.lean` uses for the unramified calculus, at the
-  finite height `2 · complexity`.  One (Pr⁻) (for `nameOut`) or (Pr) (for
-  `nameIn`) inference against that identity sequent, followed by one `or`, both
-  at heights that do not depend on `n` because `InstantiationR` preserves
-  complexity, gives the `n`-th instance at a height uniform in `n` — so the
-  outer ω-rule needs no growing family of premise ordinals, unlike the
-  induction schema of `Gentzen/AxiomsInduction.lean`. Heights stay in a generic
-  `[OrdinalNotation O]`; only finitely many `OrdinalNotation.ofNat` values are
-  ever used.
+  * if it is false, its negation is a true closed arithmetical formula, derived
+    by ω-completeness (`AxiomsLogic.omega_completeR`);
+  * if it is true, `c = ⟨μ, s, ⌜A⌝, p⟩` is a `Good` code with body
+    `A(·, p)`, and one more ω-rule over the subject, one (Pr⁻) (for `nameOutP`)
+    or (Pr) (for `nameInP`) inference and one identity sequent derive the
+    instance at a height uniform in the subject.
 
-  **The rank bound.**  `lvlOf (nameOut a) = lvlOf (nameIn a) = lvl a`
-  (`Theory.lean`'s `lvlOf_nameOut`/`lvlOf_nameIn`, under `Good a`), `evR`
-  preserves the level (`lvlOf_evR`), and `Rank.lean`'s
-  `rank_lt_omegaPow_of_level` turns "level below `ν`" into "rank below `ω^ν`" —
-  so a naming axiom at a level below `ν` has rank below `ω^ν`, which is what
-  the level-by-level cut-elimination climb needs from the schema `NamingAxioms
-  {μ | μ < ν}`.
+  Every height is a fixed finite number depending only on `A`: the guard's
+  complexity for the first case, twice the complexity of `A` plus a constant for
+  the second.
+
+  **The rank bound.**  `lvlOf (nameOutP μ A) = lvlOf (nameInP μ A) = μ`
+  (`Theory.lean`), `evR` preserves the level, and `Rank.lean`'s
+  `rank_lt_block_of_level` turns "level below `ν`" into "rank below `ω · ν`".
 -/
 import OrdinalAnalysis.Ramified.Theory
-import OrdinalAnalysis.Ramified.Evaluate
+import OrdinalAnalysis.Ramified.AxiomsLogic
 
 set_option autoImplicit false
 
@@ -68,27 +49,17 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open LO LO.FirstOrder LO.FirstOrder.Derivation LO.FirstOrder.Arithmetic
 
-/-! ### Closing a variable-free proposition is the identity
-
-`Semiformula.univCl φ := φ.univCl'.toEmpty _`, and Foundation already proves
-both halves of the round trip: `Semiformula.emb_toEmpty` undoes `toEmpty`, and
-`Semiformula.univCl'_eq_self_of` says `univCl'` does nothing to a formula with
-no free variable (its closure block `∀¹*` is empty). -/
+/-! ### Closing a variable-free proposition is the identity -/
 
 /-- **Closing a variable-free proposition and embedding it back gives the
-proposition itself.**  The naming axioms use this to shed the `univCl` the
-theory needs (a `Sentence`) but the calculus does not (a `Proposition`). -/
+proposition itself.** -/
 theorem emb_univCl_of_freeVariables_eq_empty {φ : Proposition LRA} (h : φ.freeVariables = ∅) :
     (Rewriting.emb (Semiformula.univCl φ) : Proposition LRA) = φ := by
   rw [Semiformula.coe_univCl_eq_univCl', Semiformula.univCl'_eq_self_of φ h]
 
-/-! ### The naming matrices are variable-free under `ParamFree`
-
-Neither `#0` (bound, not free) nor `nameTerm a` (a numeral) carries a free
-variable, so the only source of one in `nameOut a`/`nameIn a` is `body a`
-itself. -/
+/-! ### Free variables -/
 
 theorem freeVariables_memAt {n : ℕ} (ν : Lv) (t s : Semiterm LRA ℕ n) :
     (memAt ν t s).freeVariables = t.freeVariables ∪ s.freeVariables := by
@@ -122,139 +93,165 @@ theorem freeVariables_nmemAt {n : ℕ} (ν : Lv) (t s : Semiterm LRA ℕ n) :
     · exact ⟨0, by simpa using h⟩
     · exact ⟨1, by simpa using h⟩
 
-/-- The name of a code is a numeral, hence variable-free. -/
-theorem freeVariables_nameTerm (a : ℕ) : (nameTerm a : Semiterm LRA ℕ 1).freeVariables = ∅ :=
-  freeVariables_of_groundR (groundR_numAtR a)
+/-- A rewriting that sends every variable to a variable-free term yields a
+variable-free formula. -/
+theorem freeVariables_rew_eq_empty_of {n₁ n₂ : ℕ} (ω : Rew LRA ℕ n₁ ℕ n₂)
+    (φ : Semiformula LRA ℕ n₁) (hb : ∀ i : Fin n₁, (ω #i).freeVariables = ∅)
+    (hf : ∀ x : ℕ, (ω &x).freeVariables = ∅) : (ω ▹ φ).freeVariables = ∅ := by
+  ext x
+  simp only [Finset.notMem_empty, iff_false]
+  intro hx
+  rcases Semiformula.fvar?_rew (ω := ω) (φ := φ) (x := x) hx with ⟨i, hi⟩ | ⟨z, -, hz⟩
+  · rw [Semiterm.FVar?, hb i] at hi
+    exact Finset.notMem_empty x hi
+  · rw [Semiterm.FVar?, hf z] at hz
+    exact Finset.notMem_empty x hz
 
-/-- **`nameOut a` is variable-free whenever its code is parameter-free.** -/
-theorem freeVariables_nameOut {a : ℕ} (hp : ParamFree a) : (nameOut a).freeVariables = ∅ := by
-  have hbody : (body a).freeVariables = ∅ := hp
-  unfold nameOut
-  rw [Semiformula.freeVariables_all, Semiformula.freeVariables_or, freeVariables_nmemAt,
-    freeVariables_nameTerm, hbody]
-  simp
+theorem freeVariables_guardR (μ : Lv) (A : Semiformula LRA ℕ 1) :
+    (guardR μ A).freeVariables = ∅ := by
+  simp [guardR]
 
-/-- **`nameIn a` is variable-free whenever its code is parameter-free.** -/
-theorem freeVariables_nameIn {a : ℕ} (hp : ParamFree a) : (nameIn a).freeVariables = ∅ := by
-  have hbody : (body a).freeVariables = ∅ := hp
-  unfold nameIn
-  rw [Semiformula.freeVariables_all, Semiformula.freeVariables_or, Semiformula.freeVariables_not,
-    hbody, freeVariables_memAt, freeVariables_nameTerm]
-  simp
+theorem freeVariables_instA (A : Semiformula LRA ℕ 1) : (instA A).freeVariables = ∅ := by
+  refine freeVariables_rew_eq_empty_of _ A (fun i => ?_) (fun x => ?_)
+  · have hi : i = 0 := Subsingleton.elim i 0
+    subst hi
+    rfl
+  · rfl
 
-/-! ### Substituting the subject into the naming matrix -/
+theorem freeVariables_nameOutP (μ : Lv) (A : Semiformula LRA ℕ 1) :
+    (nameOutP μ A).freeVariables = ∅ := by
+  simp [nameOutP, nameOutMat, freeVariables_guardR, freeVariables_instA, freeVariables_nmemAt]
 
-/-- Substituting a term for the bound subject of the naming matrix's set atom
-touches only the subject: the name `nameTerm a` is a numeral, so every
-rewriting fixes it. -/
-theorem subst_nmemAt_bvar0 {n : ℕ} (ν : Lv) (a : ℕ) (t : Semiterm LRA ℕ n) :
-    (nmemAt ν (#0 : Semiterm LRA ℕ 1) (nameTerm a))/[t] = nmemAt ν t (numAtR a) := by
-  have h := Semiformula.rew_nrel2 (Rew.subst ![t]) (r := (Sum.inr (RARel.mem ν) : LRA.Rel 2))
-    (t₁ := (#0 : Semiterm LRA ℕ 1)) (t₂ := nameTerm a)
-  have hfun : (fun i => (![(Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (#0 : Semiterm LRA ℕ 1),
-        (Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (nameTerm a)] : Fin 2 → Semiterm LRA ℕ n) i)
-      = (![t, numAtR a] : Fin 2 → Semiterm LRA ℕ n) := by
-    funext i
-    fin_cases i
-    · rfl
-    · exact rew_numAtR _ a
-  have h2 : Semiformula.nrel (Sum.inr (RARel.mem ν) : LRA.Rel 2)
-        ![(Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (#0 : Semiterm LRA ℕ 1),
-          (Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (nameTerm a)]
-      = nmemAt ν t (numAtR a) :=
-    congrArg (Semiformula.nrel (Sum.inr (RARel.mem ν) : LRA.Rel 2)) hfun
-  exact h.trans h2
+theorem freeVariables_nameInP (μ : Lv) (A : Semiformula LRA ℕ 1) :
+    (nameInP μ A).freeVariables = ∅ := by
+  simp [nameInP, nameInMat, freeVariables_guardR, freeVariables_instA, freeVariables_memAt]
 
-/-- The dual, for the positive atom `nameIn` substitutes into. -/
-theorem subst_memAt_bvar0 {n : ℕ} (ν : Lv) (a : ℕ) (t : Semiterm LRA ℕ n) :
-    (memAt ν (#0 : Semiterm LRA ℕ 1) (nameTerm a))/[t] = memAt ν t (numAtR a) := by
-  have h := Semiformula.rew_rel2 (Rew.subst ![t]) (r := (Sum.inr (RARel.mem ν) : LRA.Rel 2))
-    (t₁ := (#0 : Semiterm LRA ℕ 1)) (t₂ := nameTerm a)
-  have hfun : (fun i => (![(Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (#0 : Semiterm LRA ℕ 1),
-        (Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (nameTerm a)] : Fin 2 → Semiterm LRA ℕ n) i)
-      = (![t, numAtR a] : Fin 2 → Semiterm LRA ℕ n) := by
-    funext i
-    fin_cases i
-    · rfl
-    · exact rew_numAtR _ a
-  have h2 : Semiformula.rel (Sum.inr (RARel.mem ν) : LRA.Rel 2)
-        ![(Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (#0 : Semiterm LRA ℕ 1),
-          (Rew.subst ![t] : Rew LRA ℕ 1 ℕ n) (nameTerm a)]
-      = memAt ν t (numAtR a) :=
-    congrArg (Semiformula.rel (Sum.inr (RARel.mem ν) : LRA.Rel 2)) hfun
-  exact h.trans h2
+theorem emb_univCl_nameOutP (μ : Lv) (A : Semiformula LRA ℕ 1) :
+    (Rewriting.emb (Semiformula.univCl (nameOutP μ A)) : Proposition LRA) = nameOutP μ A :=
+  emb_univCl_of_freeVariables_eq_empty (freeVariables_nameOutP μ A)
 
-/-! ### Evaluating the naming matrices
+theorem emb_univCl_nameInP (μ : Lv) (A : Semiformula LRA ℕ 1) :
+    (Rewriting.emb (Semiformula.univCl (nameInP μ A)) : Proposition LRA) = nameInP μ A :=
+  emb_univCl_of_freeVariables_eq_empty (freeVariables_nameInP μ A)
 
-`evR` is a fixed point on the set atom of the matrix — both of its arguments
-are already a bound variable or a numeral — so evaluating `nameOut a`/`nameIn
-a` only ever touches `body a`. -/
+/-! ### Rewriting a set atom
 
-theorem ev_nmemAt_bvar0 (a : ℕ) :
-    evR (nmemAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a))
-      = nmemAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a) := by
-  rw [evR_nmemAt, evTR_bvar]
-  exact congrArg (nmemAt (lvl a) (#0 : Semiterm LRA ℕ 1)) (evTR_numAtR a)
+A term carrying `Sum.inr (RARel.mem μ) : LRA.Rel 2` is not type-correct at
+implicit transparency, so `rw` and `simp` do not enter `memAt`; the two
+equations are `Semiformula.rew_rel2`/`rew_nrel2` followed by `congrArg`. -/
 
-theorem ev_memAt_bvar0 (a : ℕ) :
-    evR (memAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a))
-      = memAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a) := by
-  rw [evR_memAt, evTR_bvar]
-  exact congrArg (memAt (lvl a) (#0 : Semiterm LRA ℕ 1)) (evTR_numAtR a)
+theorem rew_memAt {n₁ n₂ : ℕ} (ω : Rew LRA ℕ n₁ ℕ n₂) (μ : Lv) (t s : Semiterm LRA ℕ n₁) :
+    ω ▹ memAt μ t s = memAt μ (ω t) (ω s) :=
+  Semiformula.rew_rel2 ω (r := (Sum.inr (RARel.mem μ) : LRA.Rel 2)) (t₁ := t) (t₂ := s)
 
-/-- **`evR` of `nameOut a`**: the set atom is untouched, `body a` is evaluated. -/
-theorem ev_nameOut (a : ℕ) :
-    evR (nameOut a) = ∀¹ (nmemAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a) ⋎ evR (body a)) := by
-  unfold nameOut
-  rw [evR_all, evR_or, ev_nmemAt_bvar0]
+theorem rew_nmemAt {n₁ n₂ : ℕ} (ω : Rew LRA ℕ n₁ ℕ n₂) (μ : Lv) (t s : Semiterm LRA ℕ n₁) :
+    ω ▹ nmemAt μ t s = nmemAt μ (ω t) (ω s) :=
+  Semiformula.rew_nrel2 ω (r := (Sum.inr (RARel.mem μ) : LRA.Rel 2)) (t₁ := t) (t₂ := s)
 
-/-- **`evR` of `nameIn a`**: dually. -/
-theorem ev_nameIn (a : ℕ) :
-    evR (nameIn a) = ∀¹ (∼(evR (body a)) ⋎ memAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a)) := by
-  unfold nameIn
-  rw [evR_all, evR_or, ev_memAt_bvar0, evR_neg]
+/-! ### The guard at numerals -/
 
-/-! ### The `n`-th instance of the evaluated matrix
+/-- The numeral of `n` has value `n` in every standard structure, whatever the
+environment. -/
+theorem val_numAtR_stdLRA {n : ℕ} (e : Fin n → ℕ) (f : ℕ → ℕ) (m : ℕ) :
+    Semiterm.val (s := stdLRA) e f (numAtR m : Semiterm LRA ℕ n) = m := by
+  rw [stdLRA_eq_raStd, val_groundR raStruc (groundR_numAtR m) e f, evTermR_numAtR]
 
-The congruence law `evInstR_inst_ev` says evaluating the body before or after
-substituting a numeral instance gives the same result; combined with the fact
-that `evR` fixes a set atom already between numerals, the `n`-th instance of
-the evaluated matrix is exactly the (Pr)/(Pr⁻) premise shape. -/
+/-- **The guard at numerals is decided in `ℕ`.** -/
+theorem eval_guardR_subst (μ : Lv) (A : Semiformula LRA ℕ 1) (w : Fin 3 → ℕ) (f : ℕ → ℕ) :
+    Semiformula.Eval (s := stdLRA) ![] f
+        (guardR μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA)) ↔
+      w 0 = mkCode μ (w 2) (Encodable.encode A) (w 1) ∧ A.complexity + stage (w 1) < w 2 := by
+  rw [← eval_guardDef_nat, Semiformula.eval_substs]
+  have hv : (Semiterm.val (s := stdLRA) ![] f ∘ fun i => (numAtR (w i) : SyntacticTerm LRA)) = w :=
+    funext fun i => val_numAtR_stdLRA ![] f (w i)
+  rw [hv, guardR, stdLRA_eq_raStd, eval_lMap_toLRA, Semiformula.eval_emb, guardSS,
+    Semiformula.eval_rew]
+  apply iff_of_eq
+  congr 2
+  funext i
+  fin_cases i <;> simp [Rew.subst_bvar]
 
-/-- **The `n`-th instance of the `nameOut` matrix**: the set atom at `n`,
-alongside the `n`-th instance of the body — the shape (Pr⁻) consumes. -/
-theorem evInstR_inst_nameOutBody (a n : ℕ) :
-    evInstR.inst (nmemAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a) ⋎ evR (body a)) n
-      = nmemAt (lvl a) (num n) (numAtR a) ⋎ evInstR.inst (body a) n := by
-  rw [evInstR_inst]
-  have hsub : (nmemAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a) ⋎ evR (body a))/[num n]
-      = (nmemAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a))/[num n] ⋎ (evR (body a))/[num n] :=
-    LogicalConnective.HomClass.map_or _ _ _
-  rw [hsub, subst_nmemAt_bvar0, evR_or, evR_nmemAt, evTR_num, evTR_numAtR]
-  congr 1
-  exact evInstR_inst_ev (body a) n
+/-- `R`-freeness of the guard. -/
+theorem rFree_guardR (μ : Lv) (A : Semiformula LRA ℕ 1) : RFree (guardR μ A) :=
+  rFree_lMap_toLRA _
 
-/-- **The `n`-th instance of the `nameIn` matrix**: dually, the shape (Pr)
-consumes. -/
-theorem evInstR_inst_nameInBody (a n : ℕ) :
-    evInstR.inst (∼(evR (body a)) ⋎ memAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a)) n
-      = ∼(evInstR.inst (body a) n) ⋎ memAt (lvl a) (num n) (numAtR a) := by
-  rw [evInstR_inst]
-  have hsub : (∼(evR (body a)) ⋎ memAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a))/[num n]
-      = (∼(evR (body a)))/[num n] ⋎ (memAt (lvl a) (#0 : Semiterm LRA ℕ 1) (nameTerm a))/[num n] :=
-    LogicalConnective.HomClass.map_or _ _ _
-  rw [hsub, subst_memAt_bvar0, evR_or, evR_memAt, evTR_num, evTR_numAtR]
-  congr 1
-  have hneg : (∼(evR (body a)))/[num n] = ∼((evR (body a))/[num n]) :=
-    LogicalConnective.HomClass.map_neg _ _
-  rw [hneg, evR_neg]
-  congr 1
-  exact evInstR_inst_ev (body a) n
+/-- **A false guard is refuted cut-free**, by ω-completeness, at the height of
+its complexity. -/
+theorem guardR_refutable (μ : Lv) (A : Semiformula LRA ℕ 1) (w : Fin 3 → ℕ)
+    (hg : ¬(w 0 = mkCode μ (w 2) (Encodable.encode A) (w 1) ∧
+      A.complexity + stage (w 1) < w 2)) :
+    OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0
+      (OrdinalNotation.ofNat (guardR μ A).complexity)
+      [evR (∼(guardR μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA)))] := by
+  have h := omega_completeR (∼(guardR μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA)))
+    ((rFree_neg _).mpr (rFree_rew _ (rFree_guardR μ A)))
+    (by
+      rw [Semiformula.freeVariables_not]
+      exact freeVariables_rewR_eq_empty _ (freeVariables_guardR μ A)
+        (fun i => freeVariables_of_groundR (groundR_numAtR _)))
+    (by
+      simp only [LogicalConnective.HomClass.map_neg]
+      exact fun ht => hg ((eval_guardR_subst μ A w _).mp ht))
+  have hc : (∼(guardR μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA))).complexity
+      = (guardR μ A).complexity := by
+    rw [Semiformula.complexity_neg]
+    exact Semiformula.complexity_rew _ _
+  rw [hgtR, hc] at h
+  exact h
+
+/-! ### The instance of the body at a code -/
+
+/-- Substituting the subject and the three code numbers into `A(x, p)` is the
+`n`-th instance of the body of a code with parameter `w 1`. -/
+theorem subst_instA (A : Semiformula LRA ℕ 1) (w : Fin 3 → ℕ) (n : ℕ) :
+    instA A ⇜ ((num n : SyntacticTerm LRA) :> fun i => (numAtR (w i) : SyntacticTerm LRA))
+      = (instParam (w 1) ▹ A)/[(num n : SyntacticTerm LRA)] := by
+  have hrew : (Rew.subst ((num n : SyntacticTerm LRA) :>
+        fun i => (numAtR (w i) : SyntacticTerm LRA))).comp
+        (Rew.bind ![(#0 : Semiterm LRA ℕ 4)] (fun _ => #2))
+      = (Rew.subst ![(num n : SyntacticTerm LRA)]).comp (instParam (w 1)) := by
+    ext x
+    · have hx : x = 0 := Subsingleton.elim x 0
+      subst hx
+      simp [Rew.comp_app, instParam]
+    · simp [Rew.comp_app, instParam, numAtR]
+  show Rew.subst _ ▹ (Rew.bind _ _ ▹ A) = Rew.subst _ ▹ (instParam (w 1) ▹ A)
+  rw [← TransitiveRewriting.comp_app, ← TransitiveRewriting.comp_app, hrew]
+
+/-- The subject-instance of the `nameOutP` matrix body, after evaluation. -/
+theorem ev_inst_nameOutBody (μ : Lv) (A : Semiformula LRA ℕ 1) (w : Fin 3 → ℕ) (n : ℕ) :
+    evInstR.inst (evR ((Rew.subst fun i => (numAtR (w i) : SyntacticTerm LRA)).q ▹
+        (nmemAt μ (#0 : Semiterm LRA ℕ 4) #1 ⋎ instA A))) n
+      = nmemAt μ (num n) (numAtR (w 0)) ⋎ evR ((instParam (w 1) ▹ A)/[(num n : SyntacticTerm LRA)]) := by
+  rw [evInstR_inst_ev, subst_q_substR]
+  have hsplit : ((nmemAt μ (#0 : Semiterm LRA ℕ 4) #1 ⋎ instA A) ⇜
+        ((num n : SyntacticTerm LRA) :> fun i => (numAtR (w i) : SyntacticTerm LRA)))
+      = nmemAt μ (num n) (numAtR (w 0)) ⋎ (instParam (w 1) ▹ A)/[(num n : SyntacticTerm LRA)] := by
+    rw [← subst_instA A w n]
+    show Rew.subst _ ▹ (nmemAt μ (#0 : Semiterm LRA ℕ 4) #1 ⋎ instA A) = _
+    rw [LogicalConnective.HomClass.map_or, rew_nmemAt]
+    rfl
+  rw [hsplit, evR_or, evR_nmemAt, evTR_num, evTR_numAtR]
+
+/-- The subject-instance of the `nameInP` matrix body, after evaluation. -/
+theorem ev_inst_nameInBody (μ : Lv) (A : Semiformula LRA ℕ 1) (w : Fin 3 → ℕ) (n : ℕ) :
+    evInstR.inst (evR ((Rew.subst fun i => (numAtR (w i) : SyntacticTerm LRA)).q ▹
+        (∼(instA A) ⋎ memAt μ (#0 : Semiterm LRA ℕ 4) #1))) n
+      = ∼evR ((instParam (w 1) ▹ A)/[(num n : SyntacticTerm LRA)]) ⋎ memAt μ (num n) (numAtR (w 0)) := by
+  rw [evInstR_inst_ev, subst_q_substR]
+  have hsplit : ((∼(instA A) ⋎ memAt μ (#0 : Semiterm LRA ℕ 4) #1) ⇜
+        ((num n : SyntacticTerm LRA) :> fun i => (numAtR (w i) : SyntacticTerm LRA)))
+      = ∼((instParam (w 1) ▹ A)/[(num n : SyntacticTerm LRA)]) ⋎ memAt μ (num n) (numAtR (w 0)) := by
+    rw [← subst_instA A w n]
+    show Rew.subst _ ▹ (∼(instA A) ⋎ memAt μ (#0 : Semiterm LRA ℕ 4) #1) = _
+    rw [LogicalConnective.HomClass.map_or, LogicalConnective.HomClass.map_neg, rew_memAt]
+    rfl
+  rw [hsplit, evR_or, evR_neg, evR_memAt, evTR_num, evTR_numAtR]
 
 /-! ### Identity for an arbitrary formula
 
 `OmegaDerivableR` has identity only for atoms (`Ramified/Calculus.lean`'s
-design note explains why: D2 needs no *general* identity, only this weaker,
+header explains why: D2 needs no *general* identity, only this weaker,
 derived form).  This is `Omega/Identity.lean` ported to `OmegaDerivableR`: the
 same induction, at the same finite height `2 · complexity`, using `and`/`or`
 for the connectives and the ω-rule/`exs` for the quantifiers — the two
@@ -350,87 +347,155 @@ end OmegaDerivableR
 
 /-! ### The naming axioms are cut-free derivable
 
-The height never depends on `n`: `InstantiationR.rank_nf`'s companion,
-complexity preservation, makes every instance of `body a` the same complexity
-as `body a` itself, so the identity sequent underneath the (Pr)/(Pr⁻)
-inference sits at a single finite height, uniform in `n`, and the outer
-ω-rule needs no growing family. -/
+The three outer quantifiers are peeled at once by `allClosureR_derivable`; each
+numeral instance is derived at the height `g + 2c + 4`, with `g` the complexity
+of the guard and `c` that of `A` — uniform in the three numbers. -/
 
-variable {O : Type} [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O]
-
-/-- **Every `nameOut` axiom is cut-free derivable.** -/
-theorem nameOut_derivable {a : ℕ} (hg : Good a) (hp : ParamFree a) :
-    ∃ β : O, OmegaDerivableR trueArithLitsR evInstR 0 β
-      [evR (Rewriting.emb (Semiformula.univCl (nameOut a)) : Proposition LRA)] := by
-  have hfv : (nameOut a).freeVariables = ∅ := freeVariables_nameOut hp
-  rw [emb_univCl_of_freeVariables_eq_empty hfv, ev_nameOut]
-  set c : ℕ := (body a).complexity with hc
-  refine ⟨OrdinalNotation.ofNat (2 * c + 3), ?_⟩
-  refine OmegaDerivableR.omegaRule (Γ := ([] : Sequent LRA))
-    (fun _ => OrdinalNotation.ofNat (2 * c + 2))
-    (fun _ => OrdinalNotation.ofNat_lt_ofNat (by omega)) (fun n => ?_)
-  rw [evInstR_inst_nameOutBody]
-  set ψ : Proposition LRA := evInstR.inst (body a) n with hψdef
-  have hψc : ψ.complexity = c := by
-    rw [hψdef, hc]; exact OmegaDerivableR.complexity_instR (body a) n
-  refine OmegaDerivableR.or (α := OrdinalNotation.ofNat (2 * c + 2))
-    (β := OrdinalNotation.ofNat (2 * c + 1)) (Γ := ([] : Sequent LRA))
+/-- **One numeral instance of `nameOutP`**, at a height depending only on `A`. -/
+theorem nameOutMat_inst_derivable {μ : Lv} {A : Semiformula LRA ℕ 1} (h0 : 0 < μ)
+    (hA : Shape μ A) (w : Fin 3 → ℕ) :
+    OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0
+      (OrdinalNotation.ofNat ((guardR μ A).complexity + 2 * A.complexity + 4))
+      [evR (nameOutMat μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA))] := by
+  set v : Fin 3 → SyntacticTerm LRA := fun i => numAtR (w i) with hv
+  set g : ℕ := (guardR μ A).complexity with hgdef
+  set c : ℕ := A.complexity with hcdef
+  have hsplit : (nameOutMat μ A ⇜ v) = ∼(guardR μ A ⇜ v) ⋎
+      (∀¹ ((Rew.subst v).q ▹ (nmemAt μ (#0 : Semiterm LRA ℕ 4) #1 ⋎ instA A))) := by
+    show Rew.subst v ▹ (∼(guardR μ A) ⋎ (∀¹ _)) = _
+    rw [LogicalConnective.HomClass.map_or, LogicalConnective.HomClass.map_neg, Rewriting.app_all]
+  rw [hsplit, evR_or, evR_all]
+  refine OmegaDerivableR.or (β := OrdinalNotation.ofNat (g + 2 * c + 3))
     (OrdinalNotation.ofNat_lt_ofNat (by omega)) ?_
-  refine OmegaDerivableR.npr (α := OrdinalNotation.ofNat (2 * c + 1))
-    (β := OrdinalNotation.ofNat (2 * c)) hg (OrdinalNotation.ofNat_lt_ofNat (by omega)) ?_
-  have hident : OmegaDerivableR trueArithLitsR evInstR 0
-      (OrdinalNotation.ofNat (2 * c) : O) [ψ, ∼ψ] := by
-    rw [← hψc]; exact OmegaDerivableR.identity_formula ψ
-  exact OmegaDerivableR.contraction (by intro x hx; simp only [List.mem_cons] at hx ⊢; tauto)
-    hident
+  by_cases hg : w 0 = mkCode μ (w 2) (Encodable.encode A) (w 1) ∧ c + stage (w 1) < w 2
+  · obtain ⟨hw0, hst⟩ := hg
+    have hgood : Good (w 0) := by rw [hw0]; exact good_mkCode h0 hA hst
+    have hbody : body (w 0) = instParam (w 1) ▹ A := by rw [hw0, body_mkCode]
+    have hlvl : lvl (w 0) = μ := by rw [hw0, lvl_mkCode]
+    refine OmegaDerivableR.contraction
+      (Δ := [∀¹ evR ((Rew.subst v).q ▹ (nmemAt μ (#0 : Semiterm LRA ℕ 4) #1 ⋎ instA A)),
+        evR (∼(guardR μ A ⇜ v))])
+      (by intro x hx; simp only [List.mem_cons, List.not_mem_nil, or_false] at hx ⊢; tauto) ?_
+    refine OmegaDerivableR.mono_ord ?_ (ofNat_le_ofNat (show 2 * c + 3 ≤ g + 2 * c + 3 by omega))
+    refine OmegaDerivableR.omegaRule (fun _ => OrdinalNotation.ofNat (2 * c + 2))
+      (fun _ => OrdinalNotation.ofNat_lt_ofNat (by omega)) (fun n => ?_)
+    rw [hv, ev_inst_nameOutBody]
+    set ψ : Proposition LRA := evInstR.inst (body (w 0)) n with hψ
+    have hψe : evR ((instParam (w 1) ▹ A)/[(num n : SyntacticTerm LRA)]) = ψ := by
+      rw [hψ, evInstR_inst, hbody]
+    have hψc : ψ.complexity = c := by
+      rw [hψ, OmegaDerivableR.complexity_instR, hbody, Semiformula.complexity_rew]
+    rw [hψe]
+    refine OmegaDerivableR.or (β := OrdinalNotation.ofNat (2 * c + 1))
+      (OrdinalNotation.ofNat_lt_ofNat (by omega)) ?_
+    have hid : OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0
+        (OrdinalNotation.ofNat (2 * c)) [ψ, ∼ψ] := by
+      rw [← hψc]; exact OmegaDerivableR.identity_formula ψ
+    have hnpr := OmegaDerivableR.npr (A := trueArithLitsR) (I := evInstR) (ρ := 0)
+      (α := (OrdinalNotation.ofNat (2 * c + 1) : Gamma0Note))
+      (β := OrdinalNotation.ofNat (2 * c)) (a := w 0) (n := n)
+      (Γ := ψ :: [evR (∼(guardR μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA)))]) hgood
+      (OrdinalNotation.ofNat_lt_ofNat (by omega))
+      (OmegaDerivableR.contraction
+        (by intro x hx; simp only [List.mem_cons, List.not_mem_nil, or_false] at hx ⊢; tauto) hid)
+    subst hlvl
+    exact hnpr
+  · exact OmegaDerivableR.contraction
+      (by intro x hx; simp only [List.mem_cons, List.not_mem_nil, or_false] at hx ⊢; tauto)
+      ((guardR_refutable μ A w hg).mono_ord (ofNat_le_ofNat (by omega)))
 
-/-- **Every `nameIn` axiom is cut-free derivable.** -/
-theorem nameIn_derivable {a : ℕ} (hg : Good a) (hp : ParamFree a) :
-    ∃ β : O, OmegaDerivableR trueArithLitsR evInstR 0 β
-      [evR (Rewriting.emb (Semiformula.univCl (nameIn a)) : Proposition LRA)] := by
-  have hfv : (nameIn a).freeVariables = ∅ := freeVariables_nameIn hp
-  rw [emb_univCl_of_freeVariables_eq_empty hfv, ev_nameIn]
-  set c : ℕ := (body a).complexity with hc
-  refine ⟨OrdinalNotation.ofNat (2 * c + 3), ?_⟩
-  refine OmegaDerivableR.omegaRule (Γ := ([] : Sequent LRA))
-    (fun _ => OrdinalNotation.ofNat (2 * c + 2))
-    (fun _ => OrdinalNotation.ofNat_lt_ofNat (by omega)) (fun n => ?_)
-  rw [evInstR_inst_nameInBody]
-  set ψ : Proposition LRA := evInstR.inst (body a) n with hψdef
-  have hψc : ψ.complexity = c := by
-    rw [hψdef, hc]; exact OmegaDerivableR.complexity_instR (body a) n
-  refine OmegaDerivableR.or (α := OrdinalNotation.ofNat (2 * c + 2))
-    (β := OrdinalNotation.ofNat (2 * c + 1)) (Γ := ([] : Sequent LRA))
+/-- **One numeral instance of `nameInP`**, at a height depending only on `A`. -/
+theorem nameInMat_inst_derivable {μ : Lv} {A : Semiformula LRA ℕ 1} (h0 : 0 < μ)
+    (hA : Shape μ A) (w : Fin 3 → ℕ) :
+    OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0
+      (OrdinalNotation.ofNat ((guardR μ A).complexity + 2 * A.complexity + 4))
+      [evR (nameInMat μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA))] := by
+  set v : Fin 3 → SyntacticTerm LRA := fun i => numAtR (w i) with hv
+  set g : ℕ := (guardR μ A).complexity with hgdef
+  set c : ℕ := A.complexity with hcdef
+  have hsplit : (nameInMat μ A ⇜ v) = ∼(guardR μ A ⇜ v) ⋎
+      (∀¹ ((Rew.subst v).q ▹ (∼(instA A) ⋎ memAt μ (#0 : Semiterm LRA ℕ 4) #1))) := by
+    show Rew.subst v ▹ (∼(guardR μ A) ⋎ (∀¹ _)) = _
+    rw [LogicalConnective.HomClass.map_or, LogicalConnective.HomClass.map_neg, Rewriting.app_all]
+  rw [hsplit, evR_or, evR_all]
+  refine OmegaDerivableR.or (β := OrdinalNotation.ofNat (g + 2 * c + 3))
     (OrdinalNotation.ofNat_lt_ofNat (by omega)) ?_
-  refine OmegaDerivableR.contraction
-    (Δ := [memAt (lvl a) (num n) (numAtR a), ∼ψ])
-    (by intro x hx; simp only [List.mem_cons] at hx ⊢; tauto) ?_
-  refine OmegaDerivableR.pr (α := OrdinalNotation.ofNat (2 * c + 1))
-    (β := OrdinalNotation.ofNat (2 * c)) hg (OrdinalNotation.ofNat_lt_ofNat (by omega)) ?_
-  have hident : OmegaDerivableR trueArithLitsR evInstR 0
-      (OrdinalNotation.ofNat (2 * c) : O) [ψ, ∼ψ] := by
-    rw [← hψc]; exact OmegaDerivableR.identity_formula ψ
-  exact hident
+  by_cases hg : w 0 = mkCode μ (w 2) (Encodable.encode A) (w 1) ∧ c + stage (w 1) < w 2
+  · obtain ⟨hw0, hst⟩ := hg
+    have hgood : Good (w 0) := by rw [hw0]; exact good_mkCode h0 hA hst
+    have hbody : body (w 0) = instParam (w 1) ▹ A := by rw [hw0, body_mkCode]
+    have hlvl : lvl (w 0) = μ := by rw [hw0, lvl_mkCode]
+    refine OmegaDerivableR.contraction
+      (Δ := [∀¹ evR ((Rew.subst v).q ▹ (∼(instA A) ⋎ memAt μ (#0 : Semiterm LRA ℕ 4) #1)),
+        evR (∼(guardR μ A ⇜ v))])
+      (by intro x hx; simp only [List.mem_cons, List.not_mem_nil, or_false] at hx ⊢; tauto) ?_
+    refine OmegaDerivableR.mono_ord ?_ (ofNat_le_ofNat (show 2 * c + 3 ≤ g + 2 * c + 3 by omega))
+    refine OmegaDerivableR.omegaRule (fun _ => OrdinalNotation.ofNat (2 * c + 2))
+      (fun _ => OrdinalNotation.ofNat_lt_ofNat (by omega)) (fun n => ?_)
+    rw [hv, ev_inst_nameInBody]
+    set ψ : Proposition LRA := evInstR.inst (body (w 0)) n with hψ
+    have hψe : evR ((instParam (w 1) ▹ A)/[(num n : SyntacticTerm LRA)]) = ψ := by
+      rw [hψ, evInstR_inst, hbody]
+    have hψc : ψ.complexity = c := by
+      rw [hψ, OmegaDerivableR.complexity_instR, hbody, Semiformula.complexity_rew]
+    rw [hψe]
+    refine OmegaDerivableR.or (β := OrdinalNotation.ofNat (2 * c + 1))
+      (OrdinalNotation.ofNat_lt_ofNat (by omega)) ?_
+    have hid : OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0
+        (OrdinalNotation.ofNat (2 * c)) [ψ, ∼ψ] := by
+      rw [← hψc]; exact OmegaDerivableR.identity_formula ψ
+    have hpr := OmegaDerivableR.pr (A := trueArithLitsR) (I := evInstR) (ρ := 0)
+      (α := (OrdinalNotation.ofNat (2 * c + 1) : Gamma0Note))
+      (β := OrdinalNotation.ofNat (2 * c)) (a := w 0) (n := n)
+      (Γ := ∼ψ :: [evR (∼(guardR μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA)))]) hgood
+      (OrdinalNotation.ofNat_lt_ofNat (by omega))
+      (OmegaDerivableR.contraction
+        (by intro x hx; simp only [List.mem_cons, List.not_mem_nil, or_false] at hx ⊢; tauto) hid)
+    subst hlvl
+    exact OmegaDerivableR.contraction
+      (by intro x hx; simp only [List.mem_cons, List.not_mem_nil, or_false] at hx ⊢; tauto) hpr
+  · exact OmegaDerivableR.contraction
+      (by intro x hx; simp only [List.mem_cons, List.not_mem_nil, or_false] at hx ⊢; tauto)
+      ((guardR_refutable μ A w hg).mono_ord (ofNat_le_ofNat (by omega)))
+
+/-- **Every `nameOutP` axiom is cut-free derivable**, at a finite height. -/
+theorem nameOutP_derivable {μ : Lv} {A : Semiformula LRA ℕ 1} (h0 : 0 < μ) (hA : Shape μ A) :
+    OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0
+      (OrdinalNotation.nadd
+        (OrdinalNotation.ofNat ((guardR μ A).complexity + 2 * A.complexity + 4))
+        (OrdinalNotation.ofNat 3))
+      [evR (Rewriting.emb (Semiformula.univCl (nameOutP μ A)) : Proposition LRA)] := by
+  rw [emb_univCl_nameOutP, nameOutP]
+  exact allClosureR_derivable (nameOutMat μ A) (nameOutMat_inst_derivable h0 hA)
+
+/-- **Every `nameInP` axiom is cut-free derivable**, at a finite height. -/
+theorem nameInP_derivable {μ : Lv} {A : Semiformula LRA ℕ 1} (h0 : 0 < μ) (hA : Shape μ A) :
+    OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0
+      (OrdinalNotation.nadd
+        (OrdinalNotation.ofNat ((guardR μ A).complexity + 2 * A.complexity + 4))
+        (OrdinalNotation.ofNat 3))
+      [evR (Rewriting.emb (Semiformula.univCl (nameInP μ A)) : Proposition LRA)] := by
+  rw [emb_univCl_nameInP, nameInP]
+  exact allClosureR_derivable (nameInMat μ A) (nameInMat_inst_derivable h0 hA)
 
 /-- **Every axiom of the naming schema is cut-free derivable.** -/
 theorem naming_axiom_derivable {Λ : Set Lv} {σ : Sentence LRA} (h : σ ∈ NamingAxioms Λ) :
-    ∃ β : O, OmegaDerivableR trueArithLitsR evInstR 0 β
+    ∃ β : Gamma0Note, OmegaDerivableR trueArithLitsR evInstR 0 β
       [evR (Rewriting.emb σ : Proposition LRA)] := by
-  obtain ⟨a, hg, hp, -, rfl | rfl⟩ := h
-  · exact nameOut_derivable hg hp
-  · exact nameIn_derivable hg hp
+  obtain ⟨μ, A, -, h0, hA, rfl | rfl⟩ := h
+  · exact ⟨_, nameOutP_derivable h0 hA⟩
+  · exact ⟨_, nameInP_derivable h0 hA⟩
 
-/-- **A naming axiom at a level below `ν` has rank below `ω^ν`.**  The half of
-the naming schema `Rank.lean`'s `rank_lt_omegaPow_of_level` was built for:
-`lvlOf_nameOut`/`lvlOf_nameIn` locate the level of the axiom at `lvl a`, and
-`evR` moves neither the level nor the rank. -/
+/-- **A naming axiom at a level below `ν` has rank below `ω · ν`.**
+`lvlOf_nameOutP`/`lvlOf_nameInP` locate the level of the axiom at `μ`, and `evR`
+moves neither the level nor the rank. -/
 theorem rank_evR_emb_naming_lt {ν : Lv} {σ : Sentence LRA} (h : σ ∈ NamingAxioms {μ | μ < ν}) :
-    rank (evR (Rewriting.emb σ : Proposition LRA)) < omegaPowLv ν := by
-  obtain ⟨a, hg, hp, hν, rfl | rfl⟩ := h
-  · rw [emb_univCl_of_freeVariables_eq_empty (freeVariables_nameOut hp), rank_evR]
-    exact rank_lt_omegaPow_of_level (by rw [lvlOf_nameOut hg]; exact hν)
-  · rw [emb_univCl_of_freeVariables_eq_empty (freeVariables_nameIn hp), rank_evR]
-    exact rank_lt_omegaPow_of_level (by rw [lvlOf_nameIn hg]; exact hν)
+    rank (evR (Rewriting.emb σ : Proposition LRA)) < omegaMul ν := by
+  obtain ⟨μ, A, hν, -, hA, rfl | rfl⟩ := h
+  · rw [emb_univCl_nameOutP, rank_evR]
+    exact rank_lt_block_of_level (by rw [lvlOf_nameOutP hA]; exact hν)
+  · rw [emb_univCl_nameInP, rank_evR]
+    exact rank_lt_block_of_level (by rw [lvlOf_nameInP hA]; exact hν)
 
 end Ramified
 

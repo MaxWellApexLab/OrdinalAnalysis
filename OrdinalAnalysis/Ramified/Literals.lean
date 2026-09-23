@@ -20,11 +20,9 @@
   `trueArithLitsR` is that intended set: the closed literals of the *arithmetic*
   part of `LRA` that are true in `ℕ`.  Two differences from `StandardLX.lean`.
 
-  * `MemFree` is proved **syntactically**, off the rank: an arithmetic symbol is
-    `Sum.inl r`, `relLevel (Sum.inl r) = none`, so `rank = 0`, whereas a level-`ν`
-    set atom has rank `ω^ν > 0`.  No semantics is involved.  `StandardLX.lean`
-    had to argue semantically because its exclusion (`X`) also has rank `0`; the
-    analogue here is `xfree`, and that one does go through a symbol projection.
+  * `MemFree` is proved **syntactically**, by a symbol projection: an
+    arithmetic symbol is tagged `Sum.inl`, a set atom `Sum.inr`.  No semantics is
+    involved.
 
   * The reading of the fresh symbols is fixed rather than a parameter.  The
     parametric family `stdLX P` exists in `Gentzen/` because the boundedness
@@ -58,7 +56,7 @@ theorem neg_injective {n : ℕ} {φ ψ : Semiformula LRA ℕ n} (h : ∼φ = ∼
 
 /-! ### `MemFree`, in the shapes the reduction lemma consumes
 
-`Ramified/Calculus.lean` defines `MemFree A` as "every axiom has rank `0`" and
+`Ramified/Calculus.lean` defines `MemFree A` as "no axiom is a set atom" and
 derives `ne_memAt`/`ne_nmemAt`.  The reduction lemma also meets the *negated*
 forms: in its `atom` case the cut formula is the axiom `ψ`, and a (Pr) handler
 presents `∼ψ` as a set atom. -/
@@ -72,32 +70,21 @@ include h
 theorem neg_ne_memAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
     ∼φ ≠ memAt ν t s := by
   intro he
-  have h0 : rank (∼φ) = 0 := by rw [rank_neg]; exact h φ hφ
-  rw [he, rank_memAt] at h0
-  exact absurd h0.symm (ne_of_lt (omegaPowLv_pos ν))
+  have h' : φ = nmemAt ν t s := by
+    have := congrArg (fun χ => ∼χ) he
+    simpa using this
+  exact MemFree.ne_nmemAt h hφ ν t s h'
 
 /-- The negation of an axiom is not a negated set atom either. -/
 theorem neg_ne_nmemAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
     ∼φ ≠ nmemAt ν t s := by
   intro he
-  have h0 : rank (∼φ) = 0 := by rw [rank_neg]; exact h φ hφ
-  rw [he, rank_nmemAt] at h0
-  exact absurd h0.symm (ne_of_lt (omegaPowLv_pos ν))
+  have h' : φ = memAt ν t s := by
+    have := congrArg (fun χ => ∼χ) he
+    simpa using this
+  exact MemFree.ne_memAt h hφ ν t s h'
 
 end MemFree
-
-/-! ### A reading of `LRA`
-
-Arithmetic standard, the fresh symbols empty.  Deliberately not an instance. -/
-
-/-- The fresh symbols, read as empty.  `RALang` has no function symbols. -/
-def raStruc : Structure RALang ℕ where
-  func := fun _ fn _ => PEmpty.elim fn
-  rel := fun _ _ _ => False
-
-/-- **A standard model of `LRA`**: arithmetic standard, `X` and every `∈̇_ν`
-empty. -/
-def stdLRA : Structure LRA ℕ := Structure.add ℒₒᵣ RALang ℕ (str₂ := raStruc)
 
 /-- Truth of a closed arithmetic formula in `ℕ`.  For the formulas the axiom set
 is built from — closed, `X`-free and `∈̇`-free — the reading of the fresh
@@ -147,9 +134,7 @@ theorem freeVariables_of_isArithLitR {φ : Proposition LRA} (h : IsArithLitR φ)
   · exact (Semiformula.freeVariables_rel _ v).trans (hb k v hcl)
   · exact (Semiformula.freeVariables_nrel _ v).trans (hb k v hcl)
 
-/-- **An arithmetic literal has rank `0`.**  `relLevel (Sum.inl r) = none`, so
-`atomRank (Sum.inl r) = 0`; this is `MemFree` in one line, and it is the reason
-that condition costs nothing for the intended axioms. -/
+/-- **An arithmetic literal has rank `0`.**  `atomRank (Sum.inl r) _ = 0`. -/
 theorem rank_of_isArithLitR {φ : Proposition LRA} (h : IsArithLitR φ) : rank φ = 0 := by
   obtain ⟨k, r, v, (rfl | rfl), -⟩ := h <;> rfl
 
@@ -177,11 +162,6 @@ def trueArithLitsR : Literals LRA where
 @[simp] theorem trueArithLitsR_T (φ : Proposition LRA) :
     trueArithLitsR.T φ ↔ IsArithLitR φ ∧ TrueNR φ := Iff.rfl
 
-/-- **The axiom set is mem-free**, i.e. it satisfies the new obligation of
-`Ramified/Calculus.lean`.  Every axiom is an arithmetic literal, hence of rank
-`0`, while a level-`ν` set atom has rank `ω^ν`. -/
-theorem memFree_trueArithLitsR : MemFree trueArithLitsR :=
-  fun _ h => rank_of_isArithLitR h.1
 
 /-! ### The axiom set is also `X`-free
 
@@ -220,6 +200,15 @@ theorem trueArithLitsR_xfree {φ : Proposition LRA} (h : trueArithLitsR.T φ)
     [ (have := congrArg freshHead he) ; (have := congrArg freshHead he) ] <;>
     rw [freshHead_of_isArithLitR h.1] at this <;> simp at this
 
+/-- **The axiom set is mem-free**, i.e. it satisfies the obligation of
+`Ramified/Calculus.lean`: every axiom is an arithmetic literal, whose head
+symbol is tagged `Sum.inl`, while a set atom's is tagged `Sum.inr`. -/
+theorem memFree_trueArithLitsR : MemFree trueArithLitsR := by
+  intro φ h ν t s
+  constructor <;> intro he <;>
+    [ (have := congrArg freshHead he) ; (have := congrArg freshHead he) ] <;>
+    rw [freshHead_of_isArithLitR h.1] at this <;> simp at this
+
 /-! ### The normalisation side
 
 `InstantiationR` asks for `rank_nf` and `num_inj` on top of `Instantiation`.
@@ -234,7 +223,7 @@ normalise away. -/
 
 @[simp] theorem std_inst (φ : Semiproposition LRA 1) (n : ℕ) :
     InstantiationR.std.inst φ n = φ/[num n] :=
-  InstantiationR.raw_inst num num_injective φ n
+  InstantiationR.raw_inst num num_injective groundR_num evTermR_num φ n
 
 end Ramified
 

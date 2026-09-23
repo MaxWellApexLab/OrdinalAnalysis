@@ -315,20 +315,28 @@ and nothing here should be read as that.
   boundedness as for `ACA`, with the segment orderings of `Gamma0Order₂.lean`.
 
 * `OrdinalAnalysis/Ramified/`: ramified analysis in a "names" presentation.  A
-  set of level `ν` is a numeral coding a predicator, the set atoms `t ∈̇_ν s`
-  are relation symbols, and every level is first-order (`Language.lean`,
-  `Code.lean`).  The infinitary calculus `RA_∞` has two predicator rules and
-  ordinal cut ranks with a level-`ν` atom at rank `ω^ν` (`Calculus.lean`,
-  `Rank.lean`); its reduction lemma and cut-elimination theorems are
-  `Reduction.lean` and `PredicativeCut.lean`, and predicative cut elimination
+  set of level `μ` is a numeral coding a predicator with one set parameter of
+  the same level (`Code.lean`: the level, a stage, the formula and the
+  parameter; the stage guard is what keeps the naming schema consistent), the
+  set atoms `t ∈̇_μ s` are relation symbols, and every level is first-order
+  (`Language.lean`).  The finitary theories `RA_{<ν}` (`Theory.lean`) have the
+  equality axioms, `PA⁻`, induction for formulas of level below `ν`, and one
+  pair of naming axioms per formula; comprehension with a same-level parameter,
+  in particular the closure of every level under Gentzen's jump, is a theorem
+  (`Comprehension.lean`).  The infinitary calculus `RA_∞` has two predicator
+  rules and ordinal cut ranks in blocks `ω·μ` (`Calculus.lean`, `Rank.lean`);
+  its reduction lemma and cut-elimination theorems are `Reduction.lean`,
+  `PredicativeCut.lean` and `BlockCut.lean`, and predicative cut elimination
   holds at every Veblen level, `⊢^α_{ω^ξ} Γ ⇒ ⊢^{φ_ξ(α)}_0 Γ`
-  (`PredicativeCutGeneral.lean`, over the Veblen structure of
-  `Ordinal/VeblenStructure.lean` and the rank segments of the natural sum in
-  `Ordinal/Veblen/RankSegments.lean`).  The finitary theories `RA_{<ν}`
-  (`Theory.lean`), their replay into `RA_∞` (`Embed.lean`), and the
-  derivability and removal of the naming axioms (`NamingAxioms.lean`,
-  `CutAxioms.lean`) are in place; the ordinal analysis `|RA_{<ν}|` itself is in
-  progress.
+  (`PredicativeCutGeneral.lean`, over `Ordinal/VeblenStructure.lean` and the
+  rank segments of the natural sum in `Ordinal/Veblen/RankSegments.lean`).
+  The replay of `RA_{<ν}` into `RA_∞` (`Embed.lean`), the derivability and
+  removal of its axioms (`NamingAxioms.lean`, `AxiomsLogic.lean`,
+  `AxiomsInduction.lean`, `CutAxioms.lean`), and the boundedness lemma over the
+  ramified language (`Boundedness.lean`) give the non-provability half
+  (`LowerBound.lean`, `ramified_lower_bound`): `RA_{<ν+1}` does not prove
+  transfinite induction along the coded Veblen ordering restricted below the
+  ε-tower `φ_1^ν(ε₀)`.  The provability half is in progress.
 
 ## Building
 

@@ -2,8 +2,8 @@
   The one case of the reduction lemma that decides D1 against D2.
 
   `gamma0_design.md` §4 G2 asks the prototype for "one (Pr)/(Pr) reduction case"
-  and `rank (body a) < ω^{lvl a}`.  The second is `Ramified/Rank.lean`'s
-  `rank_body_lt`; this file is the first.
+  and a rank inequality for the unfolding of a code.  The second is
+  `Ramified/Rank.lean`'s `rank_body_lt_memRank`; this file is the first.
 
   `ReductionStatement` records the shape of the full lemma — the same shape as
   `Omega/Reduction.lean`'s `reduction` and `ACAOmega/Reduction.lean`'s, with the
@@ -20,7 +20,7 @@
   * the cut formula is a set atom `n̄ ∈̇_ν ā` with `ν = lvl a` and `Good a`;
   * both sides are (Pr) inferences on it, so the sub-derivations give the
     unfolding `A_a(n̄)` and its negation at strictly smaller heights;
-  * `rank (A_a(n̄)) = rank (body a) < ω^ν = rank (n̄ ∈̇_ν ā) ≤ ρ`
+  * `rank (A_a(n̄)) ≤ rank (body a) < ω·(ν − 1) ⊕ stage a = rank (n̄ ∈̇_ν ā) ≤ ρ`
     (`rank_inst_body_lt_rank_prAtom`), so a cut on the unfolding is legal at the
     very rank the atom itself is being cut at — *this is the whole design*;
   * the height bookkeeping closes with `redOrd`, with room to spare.
@@ -94,10 +94,10 @@ The proof is two appeals to the induction hypothesis and one cut:
    with the target extended by `∼A_a(n̄)` — giving `⊢^{redOrd β γ₀} ∼A_a(n̄), Θ`;
 2. symmetrically, the whole right derivation against the left *premise*, at
    measure `β₀ ⊕ γ` — giving `⊢^{redOrd β₀ γ} A_a(n̄), Θ`;
-3. cut on `A_a(n̄)`, legal because `rank (A_a(n̄)) < ω^{lvl a} = rank (n̄ ∈̇ ā) ≤ ρ`,
+3. cut on `A_a(n̄)`, legal because `rank (A_a(n̄)) < rank (n̄ ∈̇ ā) ≤ ρ`,
    and both heights are below `redOrd β γ`.
 
-Step 3 is where the whole of D2 is decided, and it is `rank_body_lt`. -/
+Step 3 is where the whole of D2 is decided, and it is `rank_body_lt_memRank`. -/
 theorem reduction_pr_principal {ρ : Gamma0Note} {s β γ β₀ γ₀ : O}
     (ih2 : RedIHR A I ρ s) (hs : OrdinalNotation.nadd β γ ≤ s)
     {a n : ℕ} (ha : Good a) (hr : rank (prAtom I a n) ≤ ρ)
@@ -153,7 +153,7 @@ theorem reduction_pr_principal {ρ : Gamma0Note} {s β γ β₀ γ₀ : O}
       · have := hΔ hx
         simp only [List.mem_cons] at this
         tauto
-  -- Step 3: cut on the unfolding.  This is the step `rank_body_lt` buys.
+  -- Step 3: cut on the unfolding.  This is the step `rank_body_lt_memRank` buys.
   have hrank : rank (I.inst (body a) n) < ρ :=
     lt_of_lt_of_le (rank_inst_body_lt_rank_prAtom ha n) hr
   exact of_append_self

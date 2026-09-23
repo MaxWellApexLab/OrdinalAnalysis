@@ -676,3 +676,128 @@ info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_veblen' depends o
 
 /-- info: 'OrdinalAnalysis.ACA.aca_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.ACA.aca_theorem
+
+/-- info: 'OrdinalAnalysis.Ramified.gamma0OrderR' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.gamma0OrderR
+
+/-- info: 'OrdinalAnalysis.Ramified.boundedness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.boundedness
+
+/-- info: 'OrdinalAnalysis.Ramified.not_derivable_TI_R' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.not_derivable_TI_R
+
+/-- info: 'OrdinalAnalysis.Ramified.not_derivable_TI_R_gamma0' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.not_derivable_TI_R_gamma0
+
+/-- info: 'OrdinalAnalysis.Ramified.eq_axiom_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.eq_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.Ramified.paMinus_axiom_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.paMinus_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.Ramified.induction_axiom_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.induction_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.Ramified.lvlOf_emb_lt_of_mem_RAlt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.lvlOf_emb_lt_of_mem_RAlt
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_evR_emb_lt_of_mem_RAlt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_evR_emb_lt_of_mem_RAlt
+
+/-- info: 'OrdinalAnalysis.Ramified.RAlt_axiom_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.RAlt_axiom_derivable
+
+/-! ### Same-level parameters, comprehension, and cut elimination by blocks -/
+
+/-- info: 'OrdinalAnalysis.Ramified.exists_jump_code' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.exists_jump_code
+
+/-- info: 'OrdinalAnalysis.Ramified.exists_jump_code_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.exists_jump_code_lt
+
+/-- info: 'OrdinalAnalysis.Ramified.exists_comprehension_code' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.exists_comprehension_code
+
+/-- info: 'OrdinalAnalysis.Ramified.exists_naming' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.exists_naming
+
+/-- info: 'OrdinalAnalysis.Ramified.exists_naming_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.exists_naming_lt
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_body_lt_memRank' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_body_lt_memRank
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_lt_block_of_level' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_lt_block_of_level
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_le_omegaMul_lvlOf_nadd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_le_omegaMul_lvlOf_nadd
+
+/-- info: 'OrdinalAnalysis.Ramified.guardTotal_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.guardTotal_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.RAlt_axiom_derivable'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.RAlt_axiom_derivable'
+
+/-- info: 'OrdinalAnalysis.Ramified.RA_univ_axiom_derivable'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.RA_univ_axiom_derivable'
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_blocks' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_blocks
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_below_block' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_below_block
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.rank_inst_body_lt_rank_prAtom' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.rank_inst_body_lt_rank_prAtom
+
+/-! ### The non-provability half for the repaired ramified theories -/
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_lower_bound
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_lower_bound_veblen' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_lower_bound_veblen
+
+/-- info: 'OrdinalAnalysis.Ramified.provable_cutFree_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_cutFree_of
+
+/-- info: 'OrdinalAnalysis.Ramified.provable_cutFree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_cutFree
+
+/-- info: 'OrdinalAnalysis.Ramified.provable_omegaDerivable_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_omegaDerivable_of
+
+/-- info: 'OrdinalAnalysis.Ramified.provable_omegaDerivable_chain_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_omegaDerivable_chain_of
+
+/-- info: 'OrdinalAnalysis.Ramified.provable_omegaDerivable_univ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_omegaDerivable_univ
+
+/-- info: 'OrdinalAnalysis.Ramified.RAlt_axiom_derivable_lt_epsilon' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.RAlt_axiom_derivable_lt_epsilon
+
+/-- info: 'OrdinalAnalysis.Ramified.naming_axiom_derivable_lt_epsilon' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.naming_axiom_derivable_lt_epsilon
+
+/-- info: 'OrdinalAnalysis.Ramified.vebSegOrderR' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.vebSegOrderR
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.toBelow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.toBelow
+
+/-- info: 'OrdinalAnalysis.ACA.jumpB_column_ACAplus' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.jumpB_column_ACAplus
+
+/-- info: 'OrdinalAnalysis.ACA.tiUpto_congr_column_ACAplus' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.tiUpto_congr_column_ACAplus
+/-- info: 'OrdinalAnalysis.Ramified.provable_omegaDerivable_chain_of_exists' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_omegaDerivable_chain_of_exists

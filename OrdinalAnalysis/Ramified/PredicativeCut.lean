@@ -8,10 +8,9 @@
   proved by main induction on `ξ` with a side induction on `α`.  `ξ = 0` is the
   elimination lemma (`ρ + 1`, cost `φ_0(α) = ω^α`); `ξ = 1` at `ρ = 0` is
   `ACAOmega/SecondCut.lean`'s `secondCutElimination` (`ω`, cost `ε_α`), the
-  theorem that turns `ε₀` into `ε_{ε₀}`.  The rank blocks are `ω`-powers and not
-  `ω·ξ` because `Ramified/Rank.lean`'s `rank_lt_omegaPowLv_succ` puts the
-  level-`ν` fragment's ranks exactly in `[ω^ν, ω^{ν+1})`, which is what
-  `⊢^α_{ρ ⊕ ω^ξ} ⇒ ⊢^{φ_ξ(α)}_ρ` consumes.
+  theorem that turns `ε₀` into `ε_{ε₀}`.  `Ramified/Rank.lean` puts the ranks of
+  the level-`≤ ν` fragment below `ω · (ν + 1)`; the theorem at `ξ = 1` with base
+  `ρ = ω · j` removes one such block at a time (`Ramified/BlockCut.lean`).
 
   This file factors the theorem into the part that is proof theory and the part
   that is ordinal arithmetic, proves the first in full generality, and proves the
@@ -281,13 +280,12 @@ theorem chain_of_lt_omegaPowLv_one (a : Gamma0Note) (h : a < omegaPowLv 1) :
   exact ⟨n, chain_of_repr n a hn⟩
 
 /-- **The ε-jump, in the ramified calculus.**  A derivation whose cuts are all of
-rank below `ω` — that is, all on level-`0` (arithmetical) formulas, by
-`Ramified/Rank.lean`'s `rank_lt_omegaPowLv_succ` at `ν = 0` — at height `α`
-becomes cut free at height `φ_1(α)`.
+rank below `ω` — that is, on formulas whose set atoms have level `≤ 1` and, at
+level `1`, ground set arguments (`Ramified/Rank.lean`'s `rank_lt_block_of_level`
+and `memRank`) — at height `α` becomes cut free at height `φ_1(α)`.
 
-This is the regression the design note (§5 risk 4, as refined by the prototype's
-verdict) asks for: the `ν = 1` check is an *ordinal* one, and it is that the
-level-`0` fragment costs exactly `α ↦ ε_α`, matching `ACA₀`/`ACA`. -/
+This is the one-level regression against `ACAOmega/SecondCut.lean`: cut rank
+`ω` costs exactly `α ↦ ε_α`. -/
 theorem predicativeCut_omega (hA : MemFree A) (V : VeblenStructure O)
     {α : O} {Γ : Sequent LRA} (h : OmegaDerivableR A I (omegaPowLv 1) α Γ) :
     OmegaDerivableR A I 0 (V.veblen OrdinalNotation.one α) Γ :=

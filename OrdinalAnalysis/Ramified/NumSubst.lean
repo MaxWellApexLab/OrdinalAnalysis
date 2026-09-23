@@ -101,15 +101,16 @@ theorem seqSubstR_eq_self {f : ℕ → ℕ} {Γ : Sequent LRA}
       rw [seqSubstR_cons, numSubstR_eq_self (h φ (by simp)),
         ih (fun ψ hψ => h ψ (List.mem_cons_of_mem _ hψ))]
 
-/-! ### The rank and the level are blind to a numeral substitution
+/-! ### A numeral substitution does not raise the rank, and keeps the level
 
-Both are `Rew`-invariant (`Ramified/Rank.lean`'s `rank_rew`, `Ramified/Code.lean`'s
-`lvlOf_rew`), so the replay may renumber freely without disturbing either the cut
-rank it is required to respect or the level bookkeeping.  Recorded here in the
-`numSubstR` shape the replay meets. -/
+The level is `Rew`-invariant (`Ramified/Code.lean`'s `lvlOf_rew`) and the rank can
+only go down under a rewriting (`Ramified/Rank.lean`'s `rank_rew_le`), so the
+replay may renumber freely without breaking either the cut rank it is required
+to respect or the level bookkeeping.  Recorded here in the `numSubstR` shape the
+replay meets. -/
 
-@[simp] theorem rank_numSubstR (f : ℕ → ℕ) (φ : Proposition LRA) :
-    rank (numSubstR f ▹ φ) = rank φ := rank_rew _ φ
+theorem rank_numSubstR_le (f : ℕ → ℕ) (φ : Proposition LRA) :
+    rank (numSubstR f ▹ φ) ≤ rank φ := rank_rew_le _ φ
 
 @[simp] theorem lvlOf_numSubstR (f : ℕ → ℕ) (φ : Proposition LRA) :
     lvlOf (numSubstR f ▹ φ) = lvlOf φ := lvlOf_rew _ φ
