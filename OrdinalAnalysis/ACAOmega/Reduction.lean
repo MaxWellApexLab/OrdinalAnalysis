@@ -156,6 +156,7 @@ def subAtFamily (num : ℕ → FirstOrder.SyntacticTerm L) {ψ : Semiformula L �
     · simp only [SecondOrder.Rew.comp_fv, SecondOrder.Rew.shift_fv, SecondOrder.Rew.app_fvar,
         subAt_fv, subst_bvar_self, fvAt_succ_succ]
   nf_comm _ _ := rfl
+  inst₂_comm m φ ψ' := app_subst₂ (subAt ψ m) φ ψ'
   Ok ρ := omegaN ≤ ρ
   rank_ctrl m φ ρ hok h := by
     rcases lt_or_ge (rank φ) omegaN with h' | h'

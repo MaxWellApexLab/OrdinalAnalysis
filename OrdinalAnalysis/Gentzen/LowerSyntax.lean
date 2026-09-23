@@ -1,5 +1,5 @@
 /-
-  Task 1 of the lower bound: the *syntax* of `TI(≺)` at the coded ordering.
+  The *syntax* of `TI(≺)` at the coded ordering.
 
   Everything the lower-bound argument does to `TI precCode` is syntactic
   bookkeeping, and all of it is done once here so that no later file has to

@@ -410,3 +410,269 @@ info: 'OrdinalAnalysis.Gentzen.NotationBridge.nonote_lt_iff_icmpModelCode_eq_zer
 
 /-- info: 'OrdinalAnalysis.Gentzen.paLX₁_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.Gentzen.paLX₁_consistent
+
+/-- info: 'OrdinalAnalysis.ACAOmega.evInst₂' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.evInst₂
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaDerivable₂.evProvider' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaDerivable₂.evProvider
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaDerivable₂.secondCutElimination_ev_Gamma0' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaDerivable₂.secondCutElimination_ev_Gamma0
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaDerivable₂.cutElimination_omegaAdd_ev' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaDerivable₂.cutElimination_omegaAdd_ev
+
+/-- info: 'OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound.concrete_eps0_ti' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound.concrete_eps0_ti
+
+/-- info: 'OrdinalAnalysis.Gentzen.VeblenTower.concrete_towerSucc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.VeblenTower.concrete_towerSucc
+
+/-- info: 'OrdinalAnalysis.Gentzen.VeblenSuccStep.concrete_succ_general' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.VeblenSuccStep.concrete_succ_general
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalEpsCover.concrete_cover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalEpsCover.concrete_cover
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalEpsMono.eps_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalEpsMono.eps_mono
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalEpsMonoCode.concrete_epsMono' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalEpsMonoCode.concrete_epsMono
+
+/-- info: 'OrdinalAnalysis.ACAOmega.not_derivable_TI₂' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.not_derivable_TI₂
+
+/-- info: 'OrdinalAnalysis.ACAOmega.not_derivable_TI₂_epsilonSeg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.not_derivable_TI₂_epsilonSeg
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Embed₂.replay₂' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Embed₂.replay₂
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Embed₂.replay₂_closed' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Embed₂.replay₂_closed
+
+/-- info: 'OrdinalAnalysis.ACA.gen₂' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.gen₂
+
+/-- info: 'OrdinalAnalysis.ACA.spec₂' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.spec₂
+
+/-- info: 'OrdinalAnalysis.ACA.ACA_shift₁_invariant' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.ACA_shift₁_invariant
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Axioms₂.cut_axioms₂_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Axioms₂.cut_axioms₂_of
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Axioms₂.aca_logical_axiom_derivable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Axioms₂.aca_logical_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaTruth₂.omega_complete₂_ev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaTruth₂.omega_complete₂_ev
+
+/-- info: 'OrdinalAnalysis.ACAOmega.AxiomsInduction₂.succInd₂_derivable' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.AxiomsInduction₂.succInd₂_derivable
+
+/-- info: 'OrdinalAnalysis.NONote.repr_succ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.NONote.repr_succ
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaDerivable₂.rank_le_omegaAdd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaDerivable₂.rank_le_omegaAdd
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.veblenStructure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.veblenStructure
+
+/-- info: 'OrdinalAnalysis.ACAOmega.LowerBound₂.aca_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.LowerBound₂.aca_lower_bound
+
+/-- info: 'OrdinalAnalysis.ACAOmega.LowerBound₂.aca_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.LowerBound₂.aca_consistent
+
+/-- info: 'OrdinalAnalysis.ACAOmega.SchemeAxioms₂.aca_axiom_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.SchemeAxioms₂.aca_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.ACAOmega.ACATheorem.aca_lower_bound_statement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.ACATheorem.aca_lower_bound_statement
+
+/-- info: 'OrdinalAnalysis.ACA.lift_paLX' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.lift_paLX
+
+/-- info: 'OrdinalAnalysis.ACA.allNums_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.allNums_mono
+
+/-- info: 'OrdinalAnalysis.ACA.image_eqLX' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.image_eqLX
+
+/-- info: 'OrdinalAnalysis.ACAOmega.not_derivable_TI₂_gamma0' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.not_derivable_TI₂_gamma0
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.closed_veblenNote' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.closed_veblenNote
+
+/-- info: 'OrdinalAnalysis.ACAOmega.OmegaDerivable₂.substX₂' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.OmegaDerivable₂.substX₂
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Climb₂.TIupto₂_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Climb₂.TIupto₂_derivable
+
+/-- info: 'OrdinalAnalysis.ACA.congruence' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.congruence
+
+/-- info: 'OrdinalAnalysis.ACA.image_indScheme' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.image_indScheme
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Gamma0Theorem.gamma0_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Gamma0Theorem.gamma0_theorem
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Gamma0Theorem.gamma0_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Gamma0Theorem.gamma0_lower_bound
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Gamma0Theorem.acaΓ_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Gamma0Theorem.acaΓ_consistent
+
+/-- info: 'OrdinalAnalysis.ACAOmega.AxiomsTI₂.acaΓ_axiom_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.AxiomsTI₂.acaΓ_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.ACAOmega.Gamma0Segment.phi2_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACAOmega.Gamma0Segment.phi2_lower_bound
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalVeblen.iveblen_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalVeblen.iveblen_mono
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalVeblen.iveblen_vmodelCode' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalVeblen.iveblen_vmodelCode
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.reduction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.reduction
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.secondCutEliminationR' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.secondCutEliminationR
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.predicativeCutElimination' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.predicativeCutElimination
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalVebCover.veb_tower_cover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalVebCover.veb_tower_cover
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalVeblenCode.concrete_vebMono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalVeblenCode.concrete_vebMono
+
+/-- info: 'OrdinalAnalysis.Gentzen.InternalVeblenCode.concrete_vebCover' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.InternalVeblenCode.concrete_vebCover
+
+/-- info: 'OrdinalAnalysis.ACA.towerInduction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.towerInduction
+
+/-- info: 'OrdinalAnalysis.ACA.aca_theorem_of_ti_epsilon' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.aca_theorem_of_ti_epsilon
+
+/-- info: 'OrdinalAnalysis.Ramified.replayR' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.replayR
+
+/-- info: 'OrdinalAnalysis.Ramified.evInstR' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.evInstR
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.exists_lt_nadd_omegaPow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.exists_lt_nadd_omegaPow
+
+/--
+info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.rankAbsorbed_powClosed' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.rankAbsorbed_powClosed
+
+/--
+info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.predicativeCutStatement_powClosed' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.predicativeCutStatement_powClosed
+
+/--
+info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.predicativeCut_veblen' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.predicativeCut_veblen
+
+/--
+info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_veblen' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_veblen
+
+/-- info: 'OrdinalAnalysis.Ramified.naming_axiom_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.naming_axiom_derivable
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_evR_emb_naming_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_evR_emb_naming_lt
+
+/-- info: 'OrdinalAnalysis.Ramified.cut_axioms_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.cut_axioms_of
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_le_omegaPowLv_lvlOf_nadd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_le_omegaPowLv_lvlOf_nadd
+
+/-- info: 'OrdinalAnalysis.Gentzen.ProgStep.concrete_coverGood' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.ProgStep.concrete_coverGood
+
+/-- info: 'OrdinalAnalysis.Gentzen.ProgStep.concrete_progCover' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.ProgStep.concrete_progCover
+
+/-- info: 'OrdinalAnalysis.Gentzen.ProgStep.concrete_succTI' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.ProgStep.concrete_succTI
+
+/-- info: 'OrdinalAnalysis.Gentzen.ProgStep.concrete_epsValue' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.ProgStep.concrete_epsValue
+
+/-- info: 'OrdinalAnalysis.ACA.emb_psiE' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.emb_psiE
+
+/-- info: 'OrdinalAnalysis.ACA.lift_paLX_psi' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.lift_paLX_psi
+
+/-- info: 'OrdinalAnalysis.ACA.tiPsi' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.tiPsi
+
+/-- info: 'OrdinalAnalysis.ACA.succAllTI' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.succAllTI
+
+/-- info: 'OrdinalAnalysis.ACA.goodAllTI' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.goodAllTI
+
+/-- info: 'OrdinalAnalysis.ACA.epsProg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.epsProg
+
+/-- info: 'OrdinalAnalysis.ACA.ti_epsilon_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.ti_epsilon_all
+
+/-- info: 'OrdinalAnalysis.ACA.aca_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.aca_upper_bound
+
+/-- info: 'OrdinalAnalysis.ACA.aca_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.aca_theorem

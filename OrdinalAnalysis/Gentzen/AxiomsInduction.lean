@@ -21,7 +21,7 @@
   * **The evaluator does the arithmetic.**  The step's `n`-th instance mentions
     `ψ(n̄ + 1)`, and the chain needs `ψ(n+1‾)`; those are different formulas, and
     the calculus has no equality reasoning about `X` to bridge them
-    (see the header of `Omega/Calculus.lean`).  What bridges them is that the instantiation is
+   .  What bridges them is that the instantiation is
     `evInst`: it normalises `n̄ + 1` to `(n+1)‾` after substituting.  That is
     `inst_stepBody`, and it is the whole content of the successor step.
 

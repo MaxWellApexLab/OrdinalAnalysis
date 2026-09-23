@@ -1,5 +1,5 @@
 /-
-  The `|ACA| = ε_{ε₀}` node: the **syntax layer**
+  The **syntax layer**
   of `ACA_∞`, on top of Foundation's monadic second-order formulas.
 
   Three things live here.

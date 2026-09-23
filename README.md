@@ -266,7 +266,69 @@ formula, ordinal cut ranks with set quantifiers at `ω`, and both cut-eliminatio
 theorems — the first brings rank `ω + k` down to `ω` by a `k`-fold `ω`-tower, the
 second (`secondCutElimination : ⊢^α_ω Γ → ⊢^{ε_α}_0 Γ`) removes the remaining
 cuts at the cost `α ↦ ε_α`, which is the whole mechanism of `|ACA| = ε_{ε₀}`.
-The ordinal analysis of `ACA` itself is in progress.
+
+## Schütte: `|ACA| = ε_{ε₀}`
+
+`OrdinalAnalysis/ACA/UpperBound.lean`:
+
+```
+aca_theorem :
+  (∀ a : SegNote, Provable ACA (tiUptoSegSO a.val)) ∧ ¬ Provable ACA TIsegSO
+```
+
+`ACA` is arithmetical comprehension with the induction scheme for *every*
+second-order formula, presented as a one-sided second-order sequent calculus
+(`ACA/LK.lean`) that is sound for the full ω-model (`ACA/Standard.lean`).
+`SegNote` is the set of Veblen notations below `ε_{ε₀}`; `tiUptoSegSO a` is
+transfinite induction along the coded ordering below `ā`, for a free set
+variable; `TIsegSO` is the same statement for the whole segment.  So `ACA`
+proves transfinite induction along every proper initial segment of the
+ordering below `ε_{ε₀}` and does not prove it along the whole of it — the
+theorem is Schütte's, and the infinitary side follows Afshari–Rathjen
+(CiE 2012).
+
+The lower bound replays a proof in `ACA` into `ACA_∞` (`ACAOmega/Embed₂.lean`),
+cuts the axioms away (`Axioms₂.lean`, `SchemeAxioms₂.lean`), brings the
+derivation to cut rank `0` with the two cut-elimination theorems at a height
+below `ε_{ε₀}`, and refutes it with the boundedness lemma of the second-order
+calculus (`Boundedness₂.lean`, `LowerBound₂.lean`).  The upper bound lifts
+Gentzen's `ε₀` argument from `PA[X]` into `ACA` at an arbitrary set parameter
+(`ACA/Lift.lean`, `Congruence.lean`, `LiftInduction.lean`), runs the internal
+ω-tower induction — the single use of the full second-order induction scheme,
+which is where `ACA` outruns `ACA₀` (`ACA/TowerInduction.lean`) — and shows
+that `∀u (Eps(u,g) → ∀X TI(≺₁, u, X))` is progressive along the Veblen ordering
+(`ACA/EpsProg.lean`), which carries transfinite induction below every `ε_c`
+with `c < ε₀`.
+
+## Towards `Γ₀`
+
+Two things sit above `ε_{ε₀}`.  Neither is Feferman–Schütte's `|ATR₀| = Γ₀`,
+and nothing here should be read as that.
+
+* `ACAOmega/Gamma0Theorem.lean`, `gamma0_theorem`: the theory `ACA + TI(<Γ₀)` —
+  `ACA` with transfinite induction along every proper initial segment of the
+  coded Veblen ordering below `Γ₀`, as a scheme — proves transfinite induction
+  along every proper segment (by its axioms) and does not prove it along the
+  whole ordering.  This is the sense in which the theories of Avigad's
+  *Ordinal analysis without proofs* reach `Γ₀`; the content is the
+  non-provability half, obtained by the same replay, cut elimination and
+  boundedness as for `ACA`, with the segment orderings of `Gamma0Order₂.lean`.
+
+* `OrdinalAnalysis/Ramified/`: ramified analysis in a "names" presentation.  A
+  set of level `ν` is a numeral coding a predicator, the set atoms `t ∈̇_ν s`
+  are relation symbols, and every level is first-order (`Language.lean`,
+  `Code.lean`).  The infinitary calculus `RA_∞` has two predicator rules and
+  ordinal cut ranks with a level-`ν` atom at rank `ω^ν` (`Calculus.lean`,
+  `Rank.lean`); its reduction lemma and cut-elimination theorems are
+  `Reduction.lean` and `PredicativeCut.lean`, and predicative cut elimination
+  holds at every Veblen level, `⊢^α_{ω^ξ} Γ ⇒ ⊢^{φ_ξ(α)}_0 Γ`
+  (`PredicativeCutGeneral.lean`, over the Veblen structure of
+  `Ordinal/VeblenStructure.lean` and the rank segments of the natural sum in
+  `Ordinal/Veblen/RankSegments.lean`).  The finitary theories `RA_{<ν}`
+  (`Theory.lean`), their replay into `RA_∞` (`Embed.lean`), and the
+  derivability and removal of the naming axioms (`NamingAxioms.lean`,
+  `CutAxioms.lean`) are in place; the ordinal analysis `|RA_{<ν}|` itself is in
+  progress.
 
 ## Building
 

@@ -23,7 +23,8 @@
     `evInst.inst` by one application of `evInst_inst_ev`, which is the congruence
     law `ev (ω ▹ ev φ) = ev (ω ▹ φ)` of `Evaluate.lean`.
 
-  Two traps govern the spelling.
+  Two traps govern the spelling, both recorded in
+  the design notes.
 
   * **`XLang` is a `def`.**  `simp`/`rw` refuse to enter a term containing
     `Sum.inr XRel.X : LX.Rel 1`, so — exactly as in `LowerSyntax.lean` and

@@ -1,5 +1,5 @@
 /-
-  Task 4 of the lower bound: **ω-completeness for true closed `X`-free arithmetic**.
+  **Ω-completeness for true closed `X`-free arithmetic**.
 
   Every closed, `X`-free formula of `LX` that is true in the standard model has a
   cut-free derivation in the ω-calculus over the atomic axioms `trueArithLits`.
@@ -17,7 +17,7 @@
     to be `NONote.ofNat φ.complexity`.  No `ω`-power, no natural sum, no
     successor tower: the ω-rule needs individual premise ordinals only when the
     premises really do grow with `n`, which happens for the induction axiom
-    (task 7) and not here.  `hgt_lt_omega` records that the bound is `< ω`,
+    (`AxiomsInduction.lean`) and not here.  `hgt_lt_omega` records that the bound is `< ω`,
     which is what the spec's axiom table claims for the `𝗣𝗔⁻` and `𝗘𝗤` rows.
 
   * **`X`-freeness must be syntactic.**  The atomic case hands
@@ -104,7 +104,7 @@ substitution of numerals, and so that its atomic case produces a
 `StandardLX.IsArithLit`.
 
 Stated for an arbitrary variable type `ξ`, not just for `ℕ`: the embedding of
-`paLX` (task 6) has to know that `X`-freeness survives `Rewriting.emb`, which
+`paLX` (`Embed.lean`) has to know that `X`-freeness survives `Rewriting.emb`, which
 crosses from `Sentence LX` to `Proposition LX`, and that is the same lemma as
 survival of `Rew.subst`. -/
 def XFree {ξ : Type*} {n : ℕ} : Semiformula LX ξ n → Prop

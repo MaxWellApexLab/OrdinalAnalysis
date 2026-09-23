@@ -1,5 +1,5 @@
 /-
-  Task 3 of the lower bound: the class `C` of §C of the specification, and its
+  The class `C` of §C of the specification, and its
   closure under *premise-formation* — the operation the boundedness induction
   performs when it walks up an `OmegaDerivable` derivation.
 
@@ -51,7 +51,7 @@
 
   * **`InC` is inverted once.**  `InC.exhaustive` turns membership into a
     nine-way disjunction of *equations*; every later proof `rcases` that and
-    never touches the inductive again.  This is also deliverable (d): the list
+    never touches the inductive again.  This also gives the list
     the boundedness induction cases on.
 
   Traps hit, beyond the two `LowerSyntax.lean` already documents.

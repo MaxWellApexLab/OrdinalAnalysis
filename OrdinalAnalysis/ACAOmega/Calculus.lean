@@ -159,13 +159,75 @@ theorem rank_eq_zero {φ : Proposition L} (h : A.T φ) : rank φ = 0 := by
 
 end Literals₂
 
+/-! ### Two identities about second-order rewriting
+
+These are needed already by `Instantiation₂.raw` below, and again by the
+substitution lemma. -/
+
+/-- `χ/[#0] = χ`. -/
+theorem subst_bvar_self {Ξ ξ : Type*} {N : ℕ} (χ : Semiformula L Ξ ξ N 1) :
+    χ/[(#0 : FirstOrder.Semiterm L ξ 1)] = χ := by
+  have e : (FirstOrder.Rew.subst ![(#0 : FirstOrder.Semiterm L ξ 1)]) =
+      (FirstOrder.Rew.id : FirstOrder.Rew L ξ 1 ξ 1) := by
+    rw [← FirstOrder.Rew.subst_eq_id]
+    congr 1
+    funext i
+    rw [Fin.fin_one_eq_zero i]
+    rfl
+  show FirstOrder.Rew.subst ![(#0 : FirstOrder.Semiterm L ξ 1)] ▹ χ = χ
+  rw [e]
+  simp
+
+/-- Restricting a one-variable substitution to no variables is the identity. -/
+theorem subst_bRight_succ (Φ : Fin 1 → Semiformula L ℕ ℕ 0 1) :
+    (SecondOrder.Rew.subst Φ).bRight (Fin.succ : Fin 0 → Fin 1) = SecondOrder.Rew.id := by
+  ext X
+  · exact X.elim0
+  · simp
+
+/-- Restricting `free` to no bound variables is `shift`. -/
+theorem free_bRight_succ :
+    (SecondOrder.Rew.free (L := L) (ξ := ℕ) (N := 0)).bRight (Fin.succ : Fin 0 → Fin 1) =
+      SecondOrder.Rew.shift := by
+  ext X
+  · exact X.elim0
+  · simp
+
+/-- **A second-order substitution commutes with instantiating a set quantifier.** -/
+theorem app_subst₂ (Ω : SecondOrder.Rew L ℕ 0 ℕ 0 ℕ) (φ : Semiproposition L 1 0)
+    (ψ : Semiformula L ℕ ℕ 0 1) :
+    Ω.app (φ/⟦ψ⟧) = (Ω.q.app φ)/⟦Ω.app ψ⟧ := by
+  have e : Ω.comp (SecondOrder.Rew.subst ![ψ]) =
+      (SecondOrder.Rew.subst ![Ω.app ψ]).comp Ω.q := by
+    ext X
+    · cases X using Fin.cases with
+      | zero => simp
+      | succ X => exact X.elim0
+    · simp only [SecondOrder.Rew.comp_fv, SecondOrder.Rew.subst_fv, SecondOrder.Rew.app_fvar,
+        SecondOrder.Rew.q_fv, SecondOrder.Rew.bmap_app_eq, subst_bRight_succ,
+        SecondOrder.Rew.app_id, subst_bvar_self]
+  show Ω.app ((SecondOrder.Rew.subst ![ψ]).app φ) =
+    (SecondOrder.Rew.subst ![Ω.app ψ]).app (Ω.q.app φ)
+  rw [← SecondOrder.Rew.app_comp, ← SecondOrder.Rew.app_comp, e]
+
 /-! ### Instantiation -/
 
 /-- How quantifiers instantiate: a family of numerals, a normaliser applied after
-every substitution, and the laws the calculus consumes.  `rank_nf` replaces the
-first-order `complexity_nf`; `nf_rename` says the normaliser does not look at the
-names of free set variables, which is what makes the shift transport
-`map_shift₁` available for every instantiation. -/
+every number substitution, the instance of a *set*-quantifier body, and the laws
+the calculus consumes.  `rank_nf` replaces the first-order `complexity_nf`;
+`nf_rename` says the normaliser does not look at the names of free set
+variables, which is what makes the shift transport `map_shift₁` available for
+every instantiation.
+
+`inst₂` is a **field**, not `nf (φ/⟦ψ⟧)`.  It has to be, because a substitution
+family has to agree with it on `free₁ φ` and be the identity on `shift₁ γ`, and
+those two ranges overlap: with `inst₂ φ ψ = nf (φ/⟦ψ⟧)` and a normaliser that
+moves a formula with no set variable in it at all — the evaluator of
+`ACAOmega/Evaluate.lean` is one — no such family exists.  The evaluating
+instantiation therefore takes for `inst₂` the map that substitutes `ψ` and
+normalises *only the freshly created* instances `ψ/[t]`; `raw` takes plain
+substitution, and `nf (φ/⟦ψ⟧)` is still a legal choice for any `nf` that fixes
+what it does not create. -/
 structure Instantiation₂ (L : FirstOrder.Language) where
   /-- The numerals. -/
   num : ℕ → FirstOrder.SyntacticTerm L
@@ -178,6 +240,21 @@ structure Instantiation₂ (L : FirstOrder.Language) where
   /-- The normaliser commutes with renaming the free set variables. -/
   nf_rename : ∀ (f : ℕ → ℕ) (φ : Proposition L),
     nf ((SecondOrder.Rew.rewrite f).app φ) = (SecondOrder.Rew.rewrite f).app (nf φ)
+  /-- The instance of a set-quantifier body by the one-hole formula `ψ`. -/
+  inst₂ : Semiproposition L 1 0 → Semiformula L ℕ ℕ 0 1 → Proposition L
+  /-- Instantiation commutes with negation. -/
+  inst₂_neg : ∀ (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1),
+    inst₂ (∼φ) ψ = ∼inst₂ φ ψ
+  /-- Instantiation has the rank of the plain substitution — this is what makes
+  the `(∃₂)` rule reduce the cut rank. -/
+  rank_inst₂ : ∀ (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1),
+    rank (inst₂ φ ψ) = rank (φ/⟦ψ⟧)
+  /-- Instantiation commutes with renaming the free set variables. -/
+  inst₂_rename : ∀ (f : ℕ → ℕ) (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1),
+    (SecondOrder.Rew.rewrite f).app (inst₂ φ ψ)
+      = inst₂ ((SecondOrder.Rew.rewrite f).app φ) ((SecondOrder.Rew.rewrite f).app ψ)
+
+attribute [simp] Instantiation₂.inst₂_neg
 
 namespace Instantiation₂
 
@@ -185,11 +262,6 @@ variable (I : Instantiation₂ L)
 
 /-- The `n`-th instance of a number-quantifier body. -/
 def inst (φ : Semiproposition L 0 1) (n : ℕ) : Proposition L := I.nf (φ/[I.num n])
-
-/-- The instance of a set-quantifier body by the one-hole formula `ψ`:
-substitute, then normalise. -/
-def inst₂ (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1) : Proposition L :=
-  I.nf (φ/⟦ψ⟧)
 
 @[simp] theorem inst_neg (φ : Semiproposition L 0 1) (n : ℕ) :
     I.inst (∼φ) n = ∼I.inst φ n := by
@@ -202,31 +274,31 @@ def inst₂ (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1) : Prop
     rank (I.inst φ n) = rank φ := by
   simp only [inst, I.rank_nf, rank_subst₁]
 
-@[simp] theorem inst₂_neg (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1) :
-    I.inst₂ (∼φ) ψ = ∼I.inst₂ φ ψ := by
-  simp only [inst₂]
-  rw [← I.nf_neg]
-  congr 1
-  simp [Semiproposition.subst₁]
-
-theorem rank_inst₂ (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1) :
-    rank (I.inst₂ φ ψ) = rank (φ/⟦ψ⟧) := I.rank_nf _
-
 /-- **The instantiation bound.**  An arithmetical instance of a set-quantifier
 body has rank strictly below the rank of the quantified formula. -/
 theorem rank_inst₂_lt_exs₂ {φ : Semiproposition L 1 0} {ψ : Semiformula L ℕ ℕ 0 1}
     (hψ : Arith ψ) : rank (I.inst₂ φ ψ) < rank (∃² φ) := by
-  rw [rank_inst₂]
+  rw [I.rank_inst₂]
   exact rank_subst₂_lt_exs₂ hψ
 
 theorem rank_inst₂_lt_all₂ {φ : Semiproposition L 1 0} {ψ : Semiformula L ℕ ℕ 0 1}
     (hψ : Arith ψ) : rank (I.inst₂ φ ψ) < rank (∀² φ) := by
-  rw [rank_inst₂]
+  rw [I.rank_inst₂]
   exact rank_subst₂_lt_all₂ hψ
 
 /-- Plain substitution, with no normalisation. -/
-def raw (num : ℕ → FirstOrder.SyntacticTerm L) : Instantiation₂ L :=
-  ⟨num, id, fun _ => rfl, fun _ => rfl, fun _ _ => rfl⟩
+def raw (num : ℕ → FirstOrder.SyntacticTerm L) : Instantiation₂ L where
+  num := num
+  nf := id
+  nf_neg _ := rfl
+  rank_nf _ := rfl
+  nf_rename _ _ := rfl
+  inst₂ φ ψ := φ/⟦ψ⟧
+  inst₂_neg _ _ := by simp [Semiproposition.subst₁]
+  rank_inst₂ _ _ := rfl
+  inst₂_rename f φ ψ := by
+    have h := app_subst₂ (SecondOrder.Rew.rewrite f) φ ψ
+    rwa [SecondOrder.Rew.q_rewrite] at h
 
 @[simp] theorem raw_num (num : ℕ → FirstOrder.SyntacticTerm L) : (raw num).num = num := rfl
 
@@ -374,54 +446,8 @@ theorem identity_cases {χ φ : Proposition L} {Θ : SecondOrder.Sequent L}
 
 /-! ### Substitution
 
-Two identities about Foundation's second-order rewriting, then the abstract
-substitution lemma. -/
-
-/-- `χ/[#0] = χ`. -/
-theorem subst_bvar_self {Ξ ξ : Type*} {N : ℕ} (χ : Semiformula L Ξ ξ N 1) :
-    χ/[(#0 : FirstOrder.Semiterm L ξ 1)] = χ := by
-  have e : (FirstOrder.Rew.subst ![(#0 : FirstOrder.Semiterm L ξ 1)]) =
-      (FirstOrder.Rew.id : FirstOrder.Rew L ξ 1 ξ 1) := by
-    rw [← FirstOrder.Rew.subst_eq_id]
-    congr 1
-    funext i
-    rw [Fin.fin_one_eq_zero i]
-    rfl
-  show FirstOrder.Rew.subst ![(#0 : FirstOrder.Semiterm L ξ 1)] ▹ χ = χ
-  rw [e]
-  simp
-
-/-- Restricting a one-variable substitution to no variables is the identity. -/
-theorem subst_bRight_succ (Φ : Fin 1 → Semiformula L ℕ ℕ 0 1) :
-    (SecondOrder.Rew.subst Φ).bRight (Fin.succ : Fin 0 → Fin 1) = SecondOrder.Rew.id := by
-  ext X
-  · exact X.elim0
-  · simp
-
-/-- Restricting `free` to no bound variables is `shift`. -/
-theorem free_bRight_succ :
-    (SecondOrder.Rew.free (L := L) (ξ := ℕ) (N := 0)).bRight (Fin.succ : Fin 0 → Fin 1) =
-      SecondOrder.Rew.shift := by
-  ext X
-  · exact X.elim0
-  · simp
-
-/-- **A second-order substitution commutes with instantiating a set quantifier.** -/
-theorem app_subst₂ (Ω : SecondOrder.Rew L ℕ 0 ℕ 0 ℕ) (φ : Semiproposition L 1 0)
-    (ψ : Semiformula L ℕ ℕ 0 1) :
-    Ω.app (φ/⟦ψ⟧) = (Ω.q.app φ)/⟦Ω.app ψ⟧ := by
-  have e : Ω.comp (SecondOrder.Rew.subst ![ψ]) =
-      (SecondOrder.Rew.subst ![Ω.app ψ]).comp Ω.q := by
-    ext X
-    · cases X using Fin.cases with
-      | zero => simp
-      | succ X => exact X.elim0
-    · simp only [SecondOrder.Rew.comp_fv, SecondOrder.Rew.subst_fv, SecondOrder.Rew.app_fvar,
-        SecondOrder.Rew.q_fv, SecondOrder.Rew.bmap_app_eq, subst_bRight_succ,
-        SecondOrder.Rew.app_id, subst_bvar_self]
-  show Ω.app ((SecondOrder.Rew.subst ![ψ]).app φ) =
-    (SecondOrder.Rew.subst ![Ω.app ψ]).app (Ω.q.app φ)
-  rw [← SecondOrder.Rew.app_comp, ← SecondOrder.Rew.app_comp, e]
+The abstract substitution lemma; the two identities about Foundation's
+second-order rewriting that it needs are above, before `Instantiation₂`. -/
 
 /-- Lifting a substitution under `N` set binders. -/
 def liftN (Ω : SecondOrder.Rew L ℕ 0 ℕ 0 ℕ) : (N : ℕ) → SecondOrder.Rew L ℕ N ℕ N ℕ
@@ -545,6 +571,11 @@ structure RewFamily (I : Instantiation₂ L) where
   shift_comp : ∀ m : ℕ,
     (Ω (m + 1)).comp SecondOrder.Rew.shift = SecondOrder.Rew.shift.comp (Ω m)
   nf_comm : ∀ (m : ℕ) (φ : Proposition L), I.nf ((Ω m).app φ) = (Ω m).app (I.nf φ)
+  /-- The rewriting commutes with instantiating a set quantifier.  With
+  `inst₂ φ ψ = nf (φ/⟦ψ⟧)` this is `nf_comm` and `app_subst₂`; in general it is
+  an extra demand, because `inst₂` is a field of `Instantiation₂`. -/
+  inst₂_comm : ∀ (m : ℕ) (φ : Semiproposition L 1 0) (ψ : Semiformula L ℕ ℕ 0 1),
+    (Ω m).app (I.inst₂ φ ψ) = I.inst₂ ((Ω m).q.app φ) ((Ω m).app ψ)
   Ok : NONote → Prop
   rank_ctrl : ∀ (m : ℕ) (φ : Proposition L) (ρ : NONote),
     Ok ρ → rank φ < ρ → rank ((Ω m).app φ) < ρ
@@ -566,11 +597,7 @@ def RewFamily.toSubstFamily (A : Literals₂ L) (R : RewFamily I) : SubstFamily 
     congr 1
     exact SecondOrder.Rew.app_comm_subst _ _ _
   arith m ψ hψ := arith_app ψ hψ (R.Ω m) (fun X => X.elim0) (fun X => R.arith_fv m X)
-  inst₂ m φ ψ := by
-    simp only [Instantiation₂.inst₂, liftN_zero, liftN_succ]
-    rw [← R.nf_comm]
-    congr 1
-    exact app_subst₂ _ _ _
+  inst₂ m φ ψ := R.inst₂_comm m φ ψ
   free m φ := by
     show (R.Ω (m + 1)).app (SecondOrder.Rew.free.app φ) =
       SecondOrder.Rew.free.app ((R.Ω m).q.app φ)
@@ -642,6 +669,9 @@ def renameFamily (I : Instantiation₂ L) (f : ℕ → ℕ) : RewFamily I where
     · exact X.elim0
     · simp
   nf_comm m φ := I.nf_rename _ φ
+  inst₂_comm m φ ψ := by
+    rw [SecondOrder.Rew.q_rewrite]
+    exact I.inst₂_rename _ φ ψ
   Ok _ := True
   rank_ctrl m φ ρ _ h := by rw [rank_rewrite]; exact h
 

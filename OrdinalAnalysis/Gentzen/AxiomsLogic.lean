@@ -1,5 +1,5 @@
 /-
-  Task 7 of the lower bound, first half: **the logical axioms of `PA[X]`**.
+  **The logical axioms of `PA[X]`**.
 
   `paLX = 𝗘𝗤 LX ∪ (Theory.lMap toLX 𝗣𝗔⁻ ∪ InductionScheme LX Set.univ)`, and
   `Embed.lean` replays a `paLX`-derivation in the ω-calculus rule by rule,

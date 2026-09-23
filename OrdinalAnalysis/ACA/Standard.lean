@@ -1,5 +1,5 @@
 /-
-  Task 2c of the `|ACA| = ε_{ε₀}` node, part three: the **full ω-model**, and
+  The **full ω-model**, and
   soundness of the calculus of `LK.lean` in it.
 
   Foundation's `SecondOrder/Semantics.lean` supplies `Struc₂`, `Eval` and the
@@ -291,6 +291,54 @@ variables so that `0` is free for the eigenvariable. -/
       FirstOrder.Semiterm.bvar) = ![t.val e f] := by funext i; simp
   rw [show (φ/[t]) = FirstOrder.Rew.subst ![t] ▹ φ from rfl, eval_rew, h1, h2]
 
+/-- **Simultaneous substitution of a term vector under `Eval`** — the
+`n`-parameter generalisation of `eval_subst₁`, which is what the standard
+(parametrized) induction scheme needs. -/
+theorem eval_subst {N n₁ n₂ : ℕ} {𝕊 : Set (Set M)} {F : Ξ → Set M} {E : Fin N → Set M}
+    {f : ξ → M} {e : Fin n₂ → M} (φ : Semiformula L Ξ ξ N n₁)
+    (v : Fin n₁ → FirstOrder.Semiterm L ξ n₂) :
+    (FirstOrder.Rew.subst v ▹ φ).Eval 𝕊 F f E e ↔
+      φ.Eval 𝕊 F f E (fun i => (v i).val e f) := by
+  have h1 : (FirstOrder.Semiterm.val (s := s) e f ∘ (FirstOrder.Rew.subst v) ∘
+      FirstOrder.Semiterm.fvar) = f := by funext y; simp
+  have h2 : (FirstOrder.Semiterm.val (s := s) e f ∘ (FirstOrder.Rew.subst v) ∘
+      FirstOrder.Semiterm.bvar) = fun i => (v i).val e f := by funext i; simp
+  rw [eval_rew, h1, h2]
+
+/-! ### The universal closures under `Eval`
+
+Only the direction "true under every assignment of the closed slots ⇒ the
+closure is true" is needed (the axioms are *proved* true, never used as
+hypotheses), and it is the direction that goes through with no bookkeeping. -/
+
+/-- **`∀¹*` is true if the matrix is true under every number assignment.** -/
+theorem eval_allNums_of {N : ℕ} {𝕊 : Set (Set M)} {F : Ξ → Set M} {f : ξ → M}
+    {E : Fin N → Set M} :
+    ∀ (n : ℕ) (φ : Semiformula L Ξ ξ N n),
+      (∀ e : Fin n → M, φ.Eval 𝕊 F f E e) → (∀¹* φ).Eval 𝕊 F f E ![]
+  |       0, _, h => h ![]
+  | (n + 1), φ, h =>
+      eval_allNums_of n (∀¹ φ) fun e => by
+        simp only [Semiformula.eval_fal₀]
+        intro x
+        exact h (x :> e)
+
+/-- **`∀²*` is true if the matrix is true under every assignment of sets from
+`𝕊` to the closed slots.** -/
+theorem eval_allSets_of {n : ℕ} {𝕊 : Set (Set M)} {F : Ξ → Set M} {f : ξ → M}
+    {e : Fin n → M} :
+    ∀ (N : ℕ) (φ : Semiformula L Ξ ξ N n),
+      (∀ E : Fin N → Set M, (∀ i, E i ∈ 𝕊) → φ.Eval 𝕊 F f E e) → (∀²* φ).Eval 𝕊 F f ![] e
+  |       0, _, h => h ![] fun i => i.elim0
+  | (N + 1), φ, h =>
+      eval_allSets_of N (∀² φ) fun E hE => by
+        simp only [Semiformula.eval_fal₁]
+        intro X hX
+        refine h (X :> E) fun i => ?_
+        cases i using Fin.cases with
+        | zero => simpa using hX
+        | succ i => simpa using hE i
+
 /-- **Lifted first-order formulas evaluate as they do first-order.** -/
 theorem eval_lift {N n : ℕ} {𝕊 : Set (Set M)} {F : Ξ → Set M} {E : Fin N → Set M}
     {f : ξ → M} {e : Fin n → M} (φ : FirstOrder.Semiformula L ξ n) :
@@ -441,35 +489,69 @@ theorem eval_setInduction : SOTrue setInduction := by
   | zero => simpa using h0
   | succ n ih => simpa using hs n (by simpa using ih)
 
-/-- **Every comprehension axiom is true** in the full model — including the
-non-arithmetical ones, since every subset of `ℕ` is available.  `ACA₀` only takes
-the arithmetical instances, but truth does not care. -/
-theorem eval_compAx (ψ : Semiformula ℒₒᵣ ℕ ℕ 0 1) : SOTrue (compAx ψ) := by
+/-- **Set extensionality is true.**  `eval_lift` reduces the equality atom to
+ordinary equality of naturals; the rest is `Eq.mpr`. -/
+theorem eval_setExt : SOTrue setExt := by
   intro F f
-  simp only [compAx, Semiformula.eval_exs₁, Semiformula.eval_fal₀]
-  refine ⟨{x | ψ.Eval (Set.univ : Set (Set ℕ)) F f ![] ![x]}, Set.mem_univ _, fun x => ?_⟩
-  have hE : (![{x | ψ.Eval (Set.univ : Set (Set ℕ)) F f ![] ![x]}] : Fin 1 → Set ℕ) ∘ Fin.elim0
-      = ![] := by funext i; exact i.elim0
-  simp only [LogicalConnective.HomClass.map_iff, LogicalConnective.Prop.iff_eq,
-    Semiformula.eval_bvar, eval_bmap, hE, FirstOrder.Semiterm.val_bvar,
-    Matrix.cons_val_fin_one, Set.mem_ofPred_eq]
+  simp only [setExt, Semiformula.eval_fal₁, Semiformula.eval_fal₀,
+    LogicalConnective.HomClass.map_imply, eval_lift]
+  intro X _ x y hxy hx
+  simp only [Semiformula.eval_bvar, FirstOrder.Semiterm.val_bvar, Matrix.cons_val_fin_one] at hx ⊢
+  have hxy' : y = x := hxy
+  subst hxy'
+  exact hx
 
-/-- **Every induction axiom is true**, for an arbitrary second-order `φ`.  This
-is the axiom that separates `ACA` from `ACA₀`; semantically it costs nothing. -/
-theorem eval_indScheme (φ : Semiformula ℒₒᵣ ℕ ℕ 0 1) : SOTrue (indScheme φ) := by
+/-- **Every `∀²`-closed comprehension axiom is true** in the full model —
+including the non-arithmetical ones, since every subset of `ℕ` is available.
+`ACA₀` only takes the arithmetical `NoSetFvar` instances, but truth does not
+care. -/
+theorem eval_arithComp₂ {N n : ℕ} (ψ : Semiproposition ℒₒᵣ N (n + 1)) :
+    SOTrue (arithComp₂ ψ) := by
   intro F f
-  have hz : FirstOrder.Semiterm.val (M := ℕ) ![] f (zeroT : FirstOrder.Semiterm ℒₒᵣ ℕ 0) = 0 := by
-    simp [zeroT]
-  have hsucc : ∀ y : ℕ,
-      FirstOrder.Semiterm.val (M := ℕ) ![y] f (succT : FirstOrder.Semiterm ℒₒᵣ ℕ 1) = y + 1 := by
-    intro y; simp [succT]
-  simp only [indScheme, LogicalConnective.HomClass.map_imply, LogicalConnective.HomClass.map_and,
-    Semiformula.eval_fal₀, eval_subst₁, hz, hsucc]
-  intro h x
-  obtain ⟨h0, hs⟩ := h
+  refine eval_allSets_of N _ fun E _ => eval_allNums_of n _ fun e => ?_
+  show (compBody ψ).Eval (Set.univ : Set (Set ℕ)) F f E e
+  simp only [compBody, Semiformula.eval_exs₁]
+  refine ⟨{x | ψ.Eval (Set.univ : Set (Set ℕ)) F f E (x :> e)}, Set.mem_univ _, ?_⟩
+  simp only [Semiformula.eval_fal₀]
+  intro x
+  have hE : (({x | ψ.Eval (Set.univ : Set (Set ℕ)) F f E (x :> e)} :> E) :
+      Fin (N + 1) → Set ℕ) ∘ Fin.succ = E := by
+    funext i; simp
+  simp [LogicalConnective.HomClass.map_iff, LogicalConnective.Prop.iff_eq,
+    Semiformula.eval_bvar, eval_bmap, hE]
+
+/-- The value of the base-case substitution: `#0 ↦ 0`, the parameters
+unchanged. -/
+private theorem val_indZeroSub (n : ℕ) (e : Fin n → ℕ) (f : ℕ → ℕ) :
+    (fun i => FirstOrder.Semiterm.val (M := ℕ) e f (indZeroSub n i)) = (0 : ℕ) :> e := by
+  funext i
+  cases i using Fin.cases with
+  | zero => simp [indZeroSub, zeroT]
+  | succ i => simp [indZeroSub]
+
+/-- The value of the successor-step substitution: `#0 ↦ x + 1`, the parameters
+unchanged. -/
+private theorem val_indSuccSub (n : ℕ) (x : ℕ) (e : Fin n → ℕ) (f : ℕ → ℕ) :
+    (fun i => FirstOrder.Semiterm.val (M := ℕ) (x :> e) f (indSuccSub n i)) = (x + 1) :> e := by
+  funext i
+  cases i using Fin.cases with
+  | zero => simp [indSuccSub, succT]
+  | succ i => simp [indSuccSub]
+
+/-- **Every universally closed induction axiom is true**, for an arbitrary
+second-order `φ` with arbitrary set and number parameters.  This is the axiom
+that separates `ACA` from `ACA₀`; semantically it costs nothing. -/
+theorem eval_indScheme₂ {N n : ℕ} (φ : Semiproposition ℒₒᵣ N (n + 1)) :
+    SOTrue (indScheme₂ φ) := by
+  intro F f
+  refine eval_allSets_of N _ fun E _ => eval_allNums_of n _ fun e => ?_
+  show (indBody φ).Eval (Set.univ : Set (Set ℕ)) F f E e
+  simp only [indBody, LogicalConnective.HomClass.map_imply, LogicalConnective.HomClass.map_and,
+    Semiformula.eval_fal₀, eval_subst, val_indZeroSub, val_indSuccSub]
+  rintro ⟨h0, hs⟩ x
   induction x with
   | zero => exact h0
-  | succ n ih => exact hs n ih
+  | succ m ih => exact hs m ih
 
 /-- **A first-order sentence true in `ℕ` lifts to a true proposition.** -/
 theorem eval_liftSentence {σ : FirstOrder.Sentence ℒₒᵣ}
@@ -492,19 +574,18 @@ theorem eval_paMinus {χ : Proposition ℒₒᵣ} (h : χ ∈ paMinus) : SOTrue 
 
 /-- **Every axiom of `ACA₀` is true in the full ω-model.** -/
 theorem eval_ACA₀ {χ : Proposition ℒₒᵣ} (h : χ ∈ ACA₀) : SOTrue χ := by
-  rcases h with h | ⟨ψ, _, rfl⟩
-  · rcases h with h | rfl
-    · rcases h with h | h
-      · exact eval_eqAxioms h
-      · exact eval_paMinus h
-    · exact eval_setInduction
-  · exact eval_compAx ψ
+  rcases h with ((h | h) | rfl | rfl) | ⟨N, n, ψ, _, _, _, rfl⟩
+  · exact eval_eqAxioms h
+  · exact eval_paMinus h
+  · exact eval_setInduction
+  · exact eval_setExt
+  · exact eval_arithComp₂ ψ
 
 /-- **Every axiom of `ACA` is true in the full ω-model.** -/
 theorem eval_ACA {χ : Proposition ℒₒᵣ} (h : χ ∈ ACA) : SOTrue χ := by
-  rcases h with h | ⟨φ, rfl⟩
+  rcases h with h | ⟨N, n, φ, _, _, rfl⟩
   · exact eval_ACA₀ h
-  · exact eval_indScheme φ
+  · exact eval_indScheme₂ φ
 
 /-! ### Soundness of the theories -/
 
