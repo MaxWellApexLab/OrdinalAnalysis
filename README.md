@@ -444,15 +444,19 @@ below `Ω`, and `tiUptoSentence a` is the same with `⌜a⌝` in place of `⌜Ω
 (`tiUptoSentence Ω = tiFieldSentence` by definition).  The theorem says that
 `ID₁` proves transfinite induction along `≺` below every notation below `Ω`,
 that is, below every ordinal below the Bachmann–Howard ordinal, and does not
-prove it along the whole of the field.
+prove it along the whole of the field.  As far as the surveys reach (proof
+assistants, arXiv, the Lean Zulip), no ordinal analysis of an impredicative
+theory had been machine-checked before.
 
 The pieces, following Freund's notes on the ordinal analysis of `ID₁`
 (arXiv:2204.09321): the `ϑ`-notation as a syntactic linear order
 (`Ordinal/Theta/{Basic,Order}.lean`), its arithmetic
 (`Arith.lean`, `Instance.lean`), its well-foundedness by the accessible-part
-argument (`WellFounded.lean` — as far as the surveys reach, the first
-machine-checked well-foundedness proof of a collapsing-function notation
-system reaching the Bachmann–Howard ordinal), the hull sets and operators
+argument (`WellFounded.lean`; a machine-checked well-foundedness proof of
+Buchholz's notation `OT_B` below `ψ₀(Ω_ω)`, in Lean 4 and Isabelle, exists in
+koteitan's `pss-proof` (2026), so this is not the first such proof — what is
+new here, as far as the surveys reach, is the ordinal analysis built on it),
+the hull sets and operators
 (`Hull.lean`, `HullCofinal.lean`); the theory `ID₁` and its consistency by the
 least fixed point (`ID1/{Theory,Sound}.lean`); the coding of the notation in
 arithmetic with the order facts inside `IΣ₁` (`ID1/Internal/`); the stage
