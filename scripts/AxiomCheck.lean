@@ -894,3 +894,83 @@ info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_veblen' depends o
 
 /-- info: 'OrdinalAnalysis.Ramified.fs_lower' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.Ramified.fs_lower
+
+/-! ### Notation levels: rank blocks, junk-empty literals, transfinite bounds -/
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.instEncodable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.instEncodable
+
+/-- info: 'OrdinalAnalysis.VNote.nfb_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.VNote.nfb_iff
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.repr_omegaMulNote' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.repr_omegaMulNote
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.repr_blk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.repr_blk
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.blkTop_le_blk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.blkTop_le_blk
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.blkTop_lt_blk_of_limit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.blkTop_lt_blk_of_limit
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_lt_blkTop_of_level' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_lt_blkTop_of_level
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_lt_blk_of_level_limit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_lt_blk_of_level_limit
+
+/-- info: 'OrdinalAnalysis.Ramified.blk_ofNat_succ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.blk_ofNat_succ
+
+/-- info: 'OrdinalAnalysis.Ramified.blkTop_ofNat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.blkTop_ofNat
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_evR_emb_lt_blkTop_of_mem_RAlt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_evR_emb_lt_blkTop_of_mem_RAlt
+
+/-- info: 'OrdinalAnalysis.Ramified.cutRankR_lt_blkTop' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.cutRankR_lt_blkTop
+
+/-- info: 'OrdinalAnalysis.Ramified.memFree_junkLitsR' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.memFree_junkLitsR
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.mono_lits' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.mono_lits
+
+/-- info: 'OrdinalAnalysis.Ramified.boundedness_junk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.boundedness_junk
+
+/-- info: 'OrdinalAnalysis.Ramified.not_derivable_TI_R_junk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.not_derivable_TI_R_junk
+
+/-- info: 'OrdinalAnalysis.Ramified.not_derivable_TI_R_gamma0_junk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.not_derivable_TI_R_gamma0_junk
+
+/-- info: 'OrdinalAnalysis.Ramified.fs_lower_junk' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.fs_lower_junk
+
+/-- info: 'OrdinalAnalysis.Ramified.provable_rank_height_of_exists' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.provable_rank_height_of_exists
+
+/-- info: 'OrdinalAnalysis.Ramified.cutFree_below_omegaPow_succ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.cutFree_below_omegaPow_succ
+
+/-- info: 'OrdinalAnalysis.Ramified.blk_omegaPow_ofNat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.blk_omegaPow_ofNat
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_lower_omegaPow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_lower_omegaPow
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_lower_bound_omegaPow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_lower_bound_omegaPow
+
+/-- info: 'OrdinalAnalysis.Ramified.lt_omegaLv_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.lt_omegaLv_iff
+
+/-- info: 'OrdinalAnalysis.Ramified.mem_RAlt_of_mem_RAlt_of_lvl_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.mem_RAlt_of_mem_RAlt_of_lvl_lt
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_upper_bound_RA_univ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_upper_bound_RA_univ

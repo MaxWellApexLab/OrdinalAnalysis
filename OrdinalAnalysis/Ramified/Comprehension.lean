@@ -88,18 +88,18 @@ theorem eval_nmemAt {n : ℕ} (b : Fin n → M) (f : ℕ → M) (μ : Lv) (t u :
 theorem eval_guardR_model (μ : Lv) (A : Semiformula LRA ℕ 1) (c p t : M) (f : ℕ → M) :
     Semiformula.Eval (s := s) ![c, p, t] f (guardR μ A) ↔
       Semiformula.Evalb (s := s.lMap toLRA)
-        ![c, p, t, numVal M μ, numVal M (Encodable.encode A), numVal M A.complexity]
+        ![c, p, t, numVal M (Encodable.encode μ), numVal M (Encodable.encode A), numVal M A.complexity]
         guardDef.val := by
   rw [guardR, Semiformula.eval_lMap, Semiformula.eval_emb, guardSS, Semiformula.eval_rew]
   have hb : (Semiterm.val (s := s.lMap toLRA) ![c, p, t] (Empty.elim : Empty → M) ∘
-      ⇑(Rew.subst ![(#0 : Semiterm ℒₒᵣ Empty 3), #1, #2, (μ : Semiterm ℒₒᵣ Empty 3),
+      ⇑(Rew.subst ![(#0 : Semiterm ℒₒᵣ Empty 3), #1, #2, ((Encodable.encode μ : ℕ) : Semiterm ℒₒᵣ Empty 3),
         ((Encodable.encode A : ℕ) : Semiterm ℒₒᵣ Empty 3), (A.complexity : Semiterm ℒₒᵣ Empty 3)])
       ∘ Semiterm.bvar)
-      = ![c, p, t, numVal M μ, numVal M (Encodable.encode A), numVal M A.complexity] := by
+      = ![c, p, t, numVal M (Encodable.encode μ), numVal M (Encodable.encode A), numVal M A.complexity] := by
     funext i
     fin_cases i <;> simp [Rew.subst_bvar, numVal]
   have hf : (Semiterm.val (s := s.lMap toLRA) ![c, p, t] (Empty.elim : Empty → M) ∘
-      ⇑(Rew.subst ![(#0 : Semiterm ℒₒᵣ Empty 3), #1, #2, (μ : Semiterm ℒₒᵣ Empty 3),
+      ⇑(Rew.subst ![(#0 : Semiterm ℒₒᵣ Empty 3), #1, #2, ((Encodable.encode μ : ℕ) : Semiterm ℒₒᵣ Empty 3),
         ((Encodable.encode A : ℕ) : Semiterm ℒₒᵣ Empty 3), (A.complexity : Semiterm ℒₒᵣ Empty 3)])
       ∘ Semiterm.fvar) = (Empty.elim : Empty → M) := funext fun x => x.elim
   rw [hb, hf]
@@ -154,7 +154,7 @@ theorem arithPart_RA (Λ : Set Lv) : ArithPart (RA Λ) :=
 
 theorem arithPart_RAlt {ν : Lv} (hν : 1 ≤ ν) : ArithPart (RAlt ν) :=
   ⟨fun _ h => mem_RAlt_of_peanoMinus h,
-    fun φ => induction_mem_RAlt _ (by rw [lvlOf_lMap_toLRA]; exact hν)⟩
+    fun φ => induction_mem_RAlt _ (by rw [lvlOf_lMap_toLRA]; exact lt_of_lt_of_le Gamma0Note.zero_lt_one hν)⟩
 
 /-- **The arithmetical reduct of a model of `T` satisfies `PA⁻`.** -/
 theorem reduct_models_peanoMinus {T : Theory LRA} (hPA : Theory.lMap toLRA 𝗣𝗔⁻ ⊆ T)
@@ -204,7 +204,7 @@ theorem reduct_guardTotal {T : Theory LRA} (hT : ArithPart T) [Nonempty M]
   exact hct
 
 theorem reduct_guardAt {T : Theory LRA} (hPA : Theory.lMap toLRA 𝗣𝗔⁻ ⊆ T) [Nonempty M]
-    (hM : M↓[LRA] ⊧* T) {c p t m e k : ℕ} (hc : c = mkCode m t e p) (hs : k + stage p < t) :
+    (hM : M↓[LRA] ⊧* T) {c p t m e k : ℕ} (hc : c = mkCodeN m t e p) (hs : k + stage p < t) :
     Semiformula.Evalb (s := s.lMap toLRA)
       ![numVal M c, numVal M p, numVal M t, numVal M m, numVal M e, numVal M k] guardDef.val := by
   have h : (s.lMap toLRA).toStruc ⊧ guardAt c p t m e k :=
@@ -239,7 +239,7 @@ of `{x | A(x, p)}`. -/
 theorem models_nameOutP {μ : Lv} {A : Semiformula LRA ℕ 1}
     (h : M↓[LRA] ⊧ Semiformula.univCl (nameOutP μ A)) (c p t : M)
     (hg : Semiformula.Evalb (s := s.lMap toLRA)
-      ![c, p, t, numVal M μ, numVal M (Encodable.encode A), numVal M A.complexity] guardDef.val)
+      ![c, p, t, numVal M (Encodable.encode μ), numVal M (Encodable.encode A), numVal M A.complexity] guardDef.val)
     (x : M) (hx : memM μ x c) : Semiformula.Eval (s := s) ![x] (fun _ => p) A := by
   have h1 := (Semiformula.eval_univCl (nameOutP μ A)).mp (models_iff.mp h) (fun _ => c)
   rw [nameOutP, Semiformula.eval_allClosure] at h1
@@ -261,7 +261,7 @@ theorem models_nameOutP {μ : Lv} {A : Semiformula LRA ℕ 1}
 theorem models_nameInP {μ : Lv} {A : Semiformula LRA ℕ 1}
     (h : M↓[LRA] ⊧ Semiformula.univCl (nameInP μ A)) (c p t : M)
     (hg : Semiformula.Evalb (s := s.lMap toLRA)
-      ![c, p, t, numVal M μ, numVal M (Encodable.encode A), numVal M A.complexity] guardDef.val)
+      ![c, p, t, numVal M (Encodable.encode μ), numVal M (Encodable.encode A), numVal M A.complexity] guardDef.val)
     (x : M) (hA : Semiformula.Eval (s := s) ![x] (fun _ => p) A) : memM μ x c := by
   have h1 := (Semiformula.eval_univCl (nameInP μ A)).mp (models_iff.mp h) (fun _ => c)
   rw [nameInP, Semiformula.eval_allClosure] at h1
@@ -328,7 +328,7 @@ theorem comprehension_of {T : Theory LRA} (hT : ArithPart T) {μ : Lv} {A : Semi
   intro f
   rw [eval_compr]
   intro z
-  obtain ⟨c, t, hct⟩ := reduct_guardTotal hT hM (numVal M μ) (numVal M (Encodable.encode A))
+  obtain ⟨c, t, hct⟩ := reduct_guardTotal hT hM (numVal M (Encodable.encode μ)) (numVal M (Encodable.encode A))
     (numVal M A.complexity) z
   refine ⟨c, fun x => ⟨fun hx => ?_, fun hx => ?_⟩⟩
   · exact models_nameOutP (Semantics.modelsSet_iff.mp hM hout) c z t hct x hx
@@ -345,7 +345,7 @@ theorem exists_comprehension_code {Λ : Set Lv} {μ : Lv} (h0 : 0 < μ) (hμ : �
 theorem exists_comprehension_code_lt {ν μ : Lv} (h0 : 0 < μ) (hμ : μ < ν)
     {A : Semiformula LRA ℕ 1} (hA : Shape μ A) :
     RAlt ν ⊢ Semiformula.univCl (compr μ A) :=
-  comprehension_of (arithPart_RAlt (Nat.succ_le_of_lt (lt_trans h0 hμ)))
+  comprehension_of (arithPart_RAlt (Gamma0Note.one_le_of_pos (lt_trans h0 hμ)))
     (naming_mem_RAlt (mem_NamingAxioms_out (Λ := {x | x < ν}) hμ h0 hA))
     (naming_mem_RAlt (mem_NamingAxioms_in (Λ := {x | x < ν}) hμ h0 hA))
 
@@ -473,7 +473,7 @@ theorem exists_naming {Λ : Set Lv} {ν : Lv} (hν : ν ∈ Λ) {A : Semiformula
     (hlvl : lvlOf A < ν) (hcl : A.freeVariables = ∅) :
     ∃ a : ℕ, Good a ∧ lvl a = ν ∧ body a = A ∧
       RA Λ ⊢ Semiformula.univCl (nameOut a) ∧ RA Λ ⊢ Semiformula.univCl (nameIn a) := by
-  have h0 : 0 < ν := lt_of_le_of_lt (Nat.zero_le _) hlvl
+  have h0 : 0 < ν := lt_of_le_of_lt (Gamma0Note.zero_le_note _) hlvl
   have hA : Shape ν A := shape_of_lvlOf_lt hlvl
   exact ⟨code ν A, good_code hlvl, lvl_code ν A, body_code hcl,
     naming_of (arithPart_RA Λ).peanoMinus (nameOutP_mem_RA hν h0 hA) (nameInP_mem_RA hν h0 hA)⟩
@@ -484,7 +484,7 @@ theorem exists_naming_lt {ν μ : Lv} (hμ : μ < ν) {A : Semiformula LRA ℕ 1
     (hlvl : lvlOf A < μ) (hcl : A.freeVariables = ∅) :
     ∃ a : ℕ, Good a ∧ lvl a = μ ∧ body a = A ∧
       RAlt ν ⊢ Semiformula.univCl (nameOut a) ∧ RAlt ν ⊢ Semiformula.univCl (nameIn a) := by
-  have h0 : 0 < μ := lt_of_le_of_lt (Nat.zero_le _) hlvl
+  have h0 : 0 < μ := lt_of_le_of_lt (Gamma0Note.zero_le_note _) hlvl
   have hA : Shape μ A := shape_of_lvlOf_lt hlvl
   exact ⟨code μ A, good_code hlvl, lvl_code μ A, body_code hcl,
     naming_of (fun _ h => mem_RAlt_of_peanoMinus h)

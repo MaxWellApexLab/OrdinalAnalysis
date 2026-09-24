@@ -6,7 +6,7 @@
   * **Cut ranks are ordinal notations**, as in `ACAOmega/Calculus.lean`: a cut on
     `φ` is allowed at rank `ρ` when `rank φ < ρ`.  Heights stay a generic
     `[OrdinalNotation O]`.  The rank lives in `Gamma0Note` because a level-`ν`
-    set atom costs up to `ω·ν` (`Ramified/Rank.lean`).
+    set atom costs up to `blkTop ν`, `ω·ν` at a finite `ν` (`Ramified/Rank.lean`).
 
   * **The instantiation must not raise the rank** (`InstantiationR.rank_nf`,
     and numerals that are ground terms denoting their own index).
@@ -43,15 +43,15 @@
   to feed the rule.  It also makes the (Pr) premise a *function of the
   conclusion*, which is what the reduction lemma's principal case needs.
 
-  One side condition the prototype discovered, recorded as `MemFree`: **the
-  atomic axioms must contain no set atom**.  `Literals` only asks that axioms be
+  One side condition on the atomic axioms, recorded as `MemFree`: **no axiom
+  is the conclusion of a predicator rule**.  `Literals` only asks that axioms be
   literals and be consistent, and a set atom *is* a literal — so without
-  `MemFree` an axiom could be `n̄ ∉̇_ν ā` and a (Pr)/axiom cut would have no
-  principal reduction.  It is stated syntactically, because a level-`0` set atom
-  costs nothing and so cannot be told apart from an arithmetic literal by its
-  rank.  This is the exact analogue of `StandardLX.lean`'s
-  `trueArithLits_xfree`, which already excludes `X`-literals from the axioms for
-  the same kind of reason, so it costs nothing in practice.
+  `MemFree` an axiom could be `n̄ ∉̇_ν ā` with `a` a `Good` code of level `ν`,
+  and a (Pr)/axiom cut would have no principal reduction.  Negated set atoms at
+  names that denote no `Good` code of their level are allowed: they are what
+  makes such a name denote the empty set.  This is the analogue of
+  `StandardLX.lean`'s `trueArithLits_xfree`, which excludes `X`-literals from
+  the axioms for the same kind of reason.
 -/
 import OrdinalAnalysis.Ramified.Rank
 
@@ -134,13 +134,22 @@ end InstantiationR
 
 A set atom is a literal, so `Literals` alone does not stop one from being an
 axiom — and then a (Pr) inference and an axiom could cut against each other with
-no principal reduction available.  `MemFree` excludes it.  It is satisfied by
-the intended axioms (true closed arithmetic literals) on the nose. -/
+no principal reduction available.  `MemFree` excludes exactly that: no positive
+set atom is an axiom, and a negated set atom `t ∉̇_ν s` is an axiom only when `s`
+is ground and does not denote a `Good` code of level `ν`.  Such an atom is never
+the conclusion of a (Pr⁻) inference, so it meets a (Pr) atom only through a cut on
+a literal, which is the existing literal case of the reduction lemma.  The
+negated *junk* atoms are the axioms that make a non-`Good` name denote the empty
+set (`Ramified/Literals.lean`'s `junkLitsR`); the true closed arithmetic
+literals satisfy the condition on the nose. -/
 
-/-- No axiom is a set atom. -/
+/-- **No axiom is a (Pr) or (Pr⁻) conclusion**: no positive set atom is an axiom,
+and a negated set atom is one only at a ground name that denotes no `Good` code
+of its level. -/
 def MemFree (A : Literals LRA) : Prop :=
   ∀ φ : Proposition LRA, A.T φ → ∀ (ν : Lv) (t s : SyntacticTerm LRA),
-    φ ≠ memAt ν t s ∧ φ ≠ nmemAt ν t s
+    φ ≠ memAt ν t s ∧
+      (φ = nmemAt ν t s → GroundR s ∧ ¬(Good (evTermR s) ∧ lvl (evTermR s) = ν))
 
 namespace MemFree
 
@@ -150,8 +159,13 @@ include h
 theorem ne_memAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
     φ ≠ memAt ν t s := (h φ hφ ν t s).1
 
-theorem ne_nmemAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
-    φ ≠ nmemAt ν t s := (h φ hφ ν t s).2
+/-- **No axiom is a (Pr⁻) conclusion.** -/
+theorem ne_nmemAt {φ : Proposition LRA} (hφ : A.T φ) (I : InstantiationR) {a : ℕ}
+    (ha : Good a) (n : ℕ) : φ ≠ nmemAt (lvl a) (I.num n) (I.num a) := by
+  intro he
+  have hbad := ((h φ hφ _ _ _).2 he).2
+  rw [I.num_val] at hbad
+  exact hbad ⟨ha, rfl⟩
 
 end MemFree
 
@@ -240,6 +254,22 @@ theorem mono_rank {ρ σ : Gamma0Note} {α : O} {Γ : Sequent LRA}
   | pr ha hlt _ ih => exact .pr ha hlt ih
   | npr ha hlt _ ih => exact .npr ha hlt ih
 
+/-- **Weakening in the atomic axioms.**  More axioms, the same derivations. -/
+theorem mono_lits {B : Literals LRA} (hAB : ∀ φ, A.T φ → B.T φ) {ρ : Gamma0Note} {α : O}
+    {Γ : Sequent LRA} (h : OmegaDerivableR A I ρ α Γ) : OmegaDerivableR B I ρ α Γ := by
+  induction h with
+  | atom h => exact .atom (hAB _ h)
+  | identity rl v => exact .identity rl v
+  | verum => exact .verum
+  | or hlt _ ih => exact .or hlt ih
+  | and h₁ h₂ _ _ ih₁ ih₂ => exact .and h₁ h₂ ih₁ ih₂
+  | omegaRule f hf _ ih => exact .omegaRule f hf ih
+  | exs n hlt _ ih => exact .exs n hlt ih
+  | contraction ss _ ih => exact .contraction ss ih
+  | cut hc h₁ h₂ _ _ ih₁ ih₂ => exact .cut hc h₁ h₂ ih₁ ih₂
+  | pr ha hlt _ ih => exact .pr ha hlt ih
+  | npr ha hlt _ ih => exact .npr ha hlt ih
+
 /-- A sequent carrying an atom together with its negation is derivable outright. -/
 theorem of_mem_identity {ρ : Gamma0Note} {α : O} {Θ : Sequent LRA} {k : ℕ}
     (rl : LRA.Rel k) (v) (hp : Semiformula.rel rl v ∈ Θ)
@@ -288,7 +318,7 @@ abbrev prAtom (I : InstantiationR) (a n : ℕ) : Proposition LRA :=
     ∼(prAtom I a n) = nmemAt (lvl a) (I.num n) (I.num a) := rfl
 
 /-- **A (Pr) atom's unfolding has rank below the atom's.**  The atom costs
-`ω·(lvl a − 1) ⊕ stage a`, the unfolding at most `ω·(lvl a − 1)` plus the
+`blk (lvl a) ⊕ stage a`, the unfolding at most `blk (lvl a)` plus the
 complexity and the parameter's stage (`rank_body_lt_memRank`).  The inequality
 the (Pr)/(Pr) cut turns on. -/
 theorem rank_inst_body_lt_rank_prAtom {a : ℕ} (ha : Good a) (n : ℕ) :

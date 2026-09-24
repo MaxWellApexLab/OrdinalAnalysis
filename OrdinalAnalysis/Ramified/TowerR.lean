@@ -131,7 +131,7 @@ def thetaR (μ : Lv) : Semiformula LRA ℕ 1 :=
 
 theorem lvlOf_thetaR_le (μ : Lv) : lvlOf (thetaR μ) ≤ μ := by
   simp only [thetaR, lvlOf_all, lvlOf_or, lvlOf_neg, lvlOf_arAt, lvlOf_subst₁]
-  exact max_le (Nat.zero_le μ) (max_le (lvlOf_tiMuR_le μ) (lvlOf_tiMuR_le μ))
+  exact max_le (Gamma0Note.zero_le_note μ) (max_le (lvlOf_tiMuR_le μ) (lvlOf_tiMuR_le μ))
 
 section Model
 
@@ -178,7 +178,7 @@ theorem jump_code_M (hM : M↓[LRA] ⊧* RAlt ν) (h0 : 0 < μ) (hμ : μ < ν) 
 /-- **(Tw_μ) in a model**: `Tower(u, n, c) → TI_μ(c) → TI_μ(u)`. -/
 theorem tower_TImu (hM : M↓[LRA] ⊧* RAlt ν) (h0 : 0 < μ) (hμ : μ < ν) :
     ∀ n c u : M, towerM u n c → TImu μ c → TImu μ u := by
-  have hν : 1 ≤ ν := Nat.succ_le_of_lt (lt_trans h0 hμ)
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_trans h0 hμ)
   let f : ℕ → M := fun _ => Classical.arbitrary M
   have H := indM hM (thetaR μ) (lt_of_le_of_lt (lvlOf_thetaR_le μ) hμ) f ?_ ?_
   · intro n
@@ -204,7 +204,7 @@ end Tower
 `0 < μ < ν`. -/
 theorem tower_provable {ν μ : Lv} (h0 : 0 < μ) (hμ : μ < ν) :
     RAlt ν ⊢ Semiformula.univCl (∀¹ thetaR μ) := by
-  have hν : 1 ≤ ν := Nat.succ_le_of_lt (lt_trans h0 hμ)
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_trans h0 hμ)
   refine provable_of_eqModels hν ?_ ?_
   · rw [lvlOf_emb_univCl, lvlOf_all]
     exact lt_of_le_of_lt (lvlOf_thetaR_le μ) hμ

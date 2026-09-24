@@ -857,7 +857,7 @@ theorem emb_memExt (ν : Lv) :
 
 /-- The five-element base case, at height `0`: a false-equality axiom or the
 identity rule, depending on whether the two argument pairs agree. -/
-theorem memX0_base (ν a b c d : ℕ) :
+theorem memX0_base (ν : Lv) (a b c d : ℕ) :
     OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0 (OrdinalNotation.ofNat 0)
       [neqA (numAtR a : SyntacticTerm LRA) (numAtR c), neqA (numAtR b : SyntacticTerm LRA) (numAtR d),
        (⊥ : Proposition LRA), nmemAtG ν (numAtR a : SyntacticTerm LRA) (numAtR b),
@@ -874,7 +874,7 @@ theorem memX0_base (ν a b c d : ℕ) :
 
 /-- The four `or`-introductions flattening `memX0_base`'s sequent into the
 shape `evR (memX4 ν ⇜ w)` reduces to. -/
-theorem memX0_derivable (ν a b c d : ℕ) :
+theorem memX0_derivable (ν : Lv) (a b c d : ℕ) :
     OmegaDerivableR (O := Gamma0Note) trueArithLitsR evInstR 0 (OrdinalNotation.ofNat 4)
       [(∼(eqA (numAtR a : SyntacticTerm LRA) (numAtR c) ⋏ (eqA (numAtR b) (numAtR d) ⋏ ⊤)))
         ⋎ (∼(memAtG ν (numAtR a : SyntacticTerm LRA) (numAtR b)) ⋎ memAtG ν (numAtR c) (numAtR d))] := by

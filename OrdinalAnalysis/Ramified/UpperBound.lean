@@ -95,33 +95,39 @@ section Levels
 
 variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν : ℕ}
 
+theorem ofNat_pos' {n : ℕ} (h : 0 < n) : (0 : Gamma0Note) < Gamma0Note.ofNat n := by
+  rw [← Gamma0Note.ofNat_zero]; exact Gamma0Note.ofNat_lt_ofNat h
+
 /-- **`TI_{ν−j}(φ_1^{j+1}(c̄))`** in a model of `RAlt (ν+1)`, for `j < ν` and an
 external `c < ε₀`. -/
-theorem levels_M (hM : M↓[LRA] ⊧* RAlt (ν + 1)) {c : Gamma0Note} (hc : c < epsilonNote 0) :
+theorem levels_M (hM : M↓[LRA] ⊧* RAlt (Gamma0Note.ofNat (ν + 1))) {c : Gamma0Note}
+    (hc : c < epsilonNote 0) :
     ∀ j : ℕ, j + 1 ≤ ν →
-      TImu (ν - j) (numVal M (gamma0Code (veblenIter 1 (j + 1) c)))
+      TImu (Gamma0Note.ofNat (ν - j)) (numVal M (gamma0Code (veblenIter 1 (j + 1) c)))
   | 0, h => by
       have h0 : 0 < ν := h
       rw [Nat.sub_zero, veblenIter_succ', veblenIter_zero]
-      exact ti_epsilon_M hM h0 (Nat.lt_succ_self ν) hc
+      exact ti_epsilon_M hM (ofNat_pos' h0) (Gamma0Note.ofNat_lt_ofNat (Nat.lt_succ_self ν)) hc
   | j + 1, h => by
-      have hν1 : 1 ≤ ν + 1 := Nat.succ_le_succ (Nat.zero_le ν)
+      have hν1 : 1 ≤ Gamma0Note.ofNat (ν + 1) := Gamma0Note.one_le_ofNat (by omega)
       have hprev := levels_M hM hc j (by omega)
-      have h2 : 2 ≤ ν - j := by omega
-      have hlt : ν - j < ν + 1 := by omega
-      have hpsi := descent_M hM h2 hlt hprev
+      have hlt : Gamma0Note.ofNat (ν - j) < Gamma0Note.ofNat (ν + 1) :=
+        Gamma0Note.ofNat_lt_ofNat (by omega)
       have hsub : ν - (j + 1) = ν - j - 1 := by omega
+      have hpsi := descent_M hM (ofNat_pos' (show 0 < ν - j - 1 by omega))
+        (Gamma0Note.ofNat_lt_ofNat (show ν - j - 1 < ν - j by omega)) hlt hprev
       rw [hsub, veblenIter_succ' 1 (j + 1) c]
       exact hpsi _ (epsM_code hM hν1 (veblenIter 1 (j + 1) c))
 
 /-- **`TI_1(φ_1^ν(c̄))`**: transfinite induction below `φ_1^ν(c)` for every
 level-`1` set. -/
-theorem level_one_M (hM : M↓[LRA] ⊧* RAlt (ν + 1)) (hν : 1 ≤ ν) {c : Gamma0Note}
-    (hc : c < epsilonNote 0) : TImu 1 (numVal M (gamma0Code (veblenIter 1 ν c))) := by
+theorem level_one_M (hM : M↓[LRA] ⊧* RAlt (Gamma0Note.ofNat (ν + 1))) (hν : 1 ≤ ν)
+    {c : Gamma0Note} (hc : c < epsilonNote 0) :
+    TImu 1 (numVal M (gamma0Code (veblenIter 1 ν c))) := by
   have h := levels_M hM hc (ν - 1) (by omega)
   have e1 : ν - (ν - 1) = 1 := by omega
   have e2 : ν - 1 + 1 = ν := by omega
-  rw [e1, e2] at h
+  rw [e1, e2, Gamma0Note.ofNat_one] at h
   exact h
 
 end Levels
@@ -247,20 +253,21 @@ variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν 
 /-- **The upper bound in a model**: in every model of `RAlt (ν+1)` with true
 equality, `X` satisfies transfinite induction along `≺_b` up to `ā`, for
 `b = φ_1^ν(ε₀)` and every `a < b`. -/
-theorem upper_M (hM : M↓[LRA] ⊧* RAlt (ν + 1)) (hν : 1 ≤ ν) {a : Gamma0Note}
+theorem upper_M (hM : M↓[LRA] ⊧* RAlt (Gamma0Note.ofNat (ν + 1))) (hν : 1 ≤ ν) {a : Gamma0Note}
     (ha : a < veblenIter 1 ν (epsilonNote 0)) :
     (∀ x : M, (∀ y : M, precM y x ∧
         precM x (numVal M (gamma0Code (veblenIter 1 ν (epsilonNote 0)))) → XM y) → XM x) →
       ∀ y : M, precM y (numVal M (gamma0Code a)) ∧
         precM (numVal M (gamma0Code a))
           (numVal M (gamma0Code (veblenIter 1 ν (epsilonNote 0)))) → XM y := by
-  have hν1 : 1 ≤ ν + 1 := Nat.succ_le_succ (Nat.zero_le ν)
+  have hν1 : 1 ≤ Gamma0Note.ofNat (ν + 1) := Gamma0Note.one_le_ofNat (Nat.succ_le_succ (Nat.zero_le ν))
   set B : M := numVal M (gamma0Code (veblenIter 1 ν (epsilonNote 0)))
   obtain ⟨c, hc, hac⟩ := exists_lt_veblenIter ν a ha
   have h1 := level_one_M hM hν hc
   have hshape : Shape 1 (segGuardR (veblenIter 1 ν (epsilonNote 0))) :=
-    shape_of_lvlOf_lt (by rw [lvlOf_segGuardR]; exact Nat.one_pos)
-  obtain ⟨w, hw⟩ := comprM hM Nat.one_pos (Nat.succ_lt_succ (lt_of_lt_of_le Nat.zero_lt_one hν))
+    shape_of_lvlOf_lt (by rw [lvlOf_segGuardR]; exact Gamma0Note.zero_lt_one)
+  obtain ⟨w, hw⟩ := comprM hM Gamma0Note.zero_lt_one
+    (by rw [← Gamma0Note.ofNat_one]; exact Gamma0Note.ofNat_lt_ofNat (by omega))
     hshape (Classical.arbitrary M)
   have hG : ∀ x, memM 1 x w ↔ (precM x B → XM x) := fun x =>
     (hw x).trans (eval_segGuardR _ x _)
@@ -279,8 +286,8 @@ induction for `X` along the coded Veblen ordering restricted to the segment
 below `φ_1^ν(ε₀)`, up to `a`. -/
 theorem ramified_upper_bound (ν : ℕ) (hν : 1 ≤ ν) (a : Gamma0Note)
     (ha : a < veblenIter 1 ν (epsilonNote 0)) :
-    RAlt (ν + 1) ⊢ tiUptoSegR (veblenIter 1 ν (epsilonNote 0)) a := by
-  have hν1 : 1 ≤ ν + 1 := Nat.succ_le_succ (Nat.zero_le ν)
+    RAlt (Gamma0Note.ofNat (ν + 1)) ⊢ tiUptoSegR (veblenIter 1 ν (epsilonNote 0)) a := by
+  have hν1 : 1 ≤ Gamma0Note.ofNat (ν + 1) := Gamma0Note.one_le_ofNat (Nat.succ_le_succ (Nat.zero_le ν))
   refine provable_of_eqModels hν1 ?_ ?_
   · rw [tiUptoSegR, lvlOf_emb_univCl]
     have h0 : lvlOf (∼(Prog (precBelowR (veblenIter 1 ν (epsilonNote 0)))) ⋎
@@ -288,7 +295,7 @@ theorem ramified_upper_bound (ν : ℕ) (hν : 1 ≤ ν) (a : Gamma0Note)
           (numAtR (gamma0Code a))) ⋎ Xat (#0 : Semiterm LRA ℕ 1)))) = 0 := by
       simp [Prog, below, precAt, precBelowR, precCode₁R, lvlOf_lMap_toLRA]
     rw [h0]
-    exact Nat.succ_pos ν
+    exact ofNat_pos' (Nat.succ_pos ν)
   · intro N _ sN _ hN
     rw [tiUptoSegR, models_iff_proposition]
     intro f
@@ -309,8 +316,8 @@ segment ordering `≺_b` up to every `a < b`, and does not prove transfinite
 induction for `X` along the whole of `≺_b`. -/
 theorem ramified_theorem (ν : ℕ) (hν : 1 ≤ ν) :
     (∀ a : Gamma0Note, a < veblenIter 1 ν (epsilonNote 0) →
-        RAlt (ν + 1) ⊢ tiUptoSegR (veblenIter 1 ν (epsilonNote 0)) a) ∧
-      RAlt (ν + 1) ⊬ (Semiformula.univCl
+        RAlt (Gamma0Note.ofNat (ν + 1)) ⊢ tiUptoSegR (veblenIter 1 ν (epsilonNote 0)) a) ∧
+      RAlt (Gamma0Note.ofNat (ν + 1)) ⊬ (Semiformula.univCl
         (TIR (precBelowR (veblenIter 1 ν (epsilonNote 0)))) : Sentence LRA) := by
   refine ⟨fun a ha => ramified_upper_bound ν hν a ha, ?_⟩
   have h := ramified_lower_bound ν hν

@@ -7,25 +7,28 @@
   quantifiers — a level-`μ` set quantifier is an ordinary number quantifier over
   codes — and the cost sits on the set *atoms*.
 
-  ## `ω·μ` blocks
+  ## The rank blocks `[ω·(−1+μ), ω·(−1+μ) + ω]`
 
-  A level-`μ` set atom `t ∈̇_μ s` (with `μ ≥ 1`) is priced inside the block
-  `[ω·(μ−1), ω·μ]`:
+  A level-`μ` set atom `t ∈̇_μ s` (with `μ ≠ 0`) is priced inside the block
+  `[blk μ, blk μ ⊕ ω]`, where `blk μ = ω·(−1+μ)` (`Ordinal/Veblen/OmegaMul.lean`):
 
-      rank (t ∈̇_μ s) = ω·(μ−1) ⊕ stage(s)     if `s` is ground,
-      rank (t ∈̇_μ s) = ω·μ                     otherwise,
+      rank (t ∈̇_μ s) = blk μ ⊕ stage(s)       if `s` is ground,
+      rank (t ∈̇_μ s) = blk μ ⊕ ω = blkTop μ   otherwise,
 
   where `stage(s)` is the stage field (`Ramified/Code.lean`) of the value of the
   ground term `s`.  Level-`0` atoms, `X` and the symbols of arithmetic cost `0`.
+  At a finite level `μ = n + 1` the block is `[ω·n, ω·(n+1)]`
+  (`blk_ofNat_succ`, `blkTop_ofNat`); at an infinite level it is
+  `[ω·μ, ω·μ + ω]`.
 
   **Why `ω·μ` and not `ω^μ`.**  Cut reduction needs two facts of the rank: an
   instance of `∀z φ` has smaller rank than `∀z φ`, and the (Pr) rule lowers the
   rank.  Both hold with either pricing.  The difference is what predicative cut
-  elimination then charges: removing the cuts of a block `[ω·(j−1), ω·j)` costs
-  one application of `φ_1` (`PowClosed 1 (ω·j)`), so `ν` levels cost `φ_1^ν`,
-  whereas `ω^μ` blocks would charge `φ_μ` for level `μ` and give a bound that is
-  sound but not attained.  See the boundedness and upper-bound files for the
-  ordinals themselves.
+  elimination then charges: removing the cuts of a block of length `ω` costs one
+  application of `φ_1` (`PowClosed 1 (blk μ)`), so `ν` finite levels cost
+  `φ_1^ν`, whereas `ω^μ` blocks would charge `φ_μ` for level `μ` and give a
+  bound that is sound but not attained.  The `−1` keeps the finite levels as
+  they were: level `1` is priced in `[0, ω]`.
 
   **Why the stage.**  With a same-level parameter a level-`μ` body may contain
   level-`μ` atoms `t ∈̇_μ p̄`; the unfolding of a code can therefore only be
@@ -33,8 +36,11 @@
   the name.  The stage condition of `Good` (`A.complexity + stage p < s`) is
   exactly the inequality that makes the (Pr) rule rank-decreasing:
 
-      rank (body a/[t]) ≤ ω·(μ−1) ⊕ (A.complexity + stage p) < ω·(μ−1) ⊕ s
-                        = rank (t ∈̇_μ ā)          (`rank_body_lt_memRank`).
+      rank (body a/[t]) ≤ blk μ ⊕ (A.complexity + stage p) < blk μ ⊕ s
+                        = rank (t ∈̇_μ ā)          (`rank_body_lt_memRank`),
+
+  using that every lower level's whole block lies below `blk μ`
+  (`Gamma0Note.blkTop_le_blk`).
 
   **The price of the change.**  A rewriting can turn an open set argument into
   a ground one, never the reverse, and ground terms keep their values; so the
@@ -43,10 +49,12 @@
   Evaluation of closed terms preserves values and groundness, so the rank *is*
   invariant under the evaluator (`Ramified/Evaluate.lean`'s `rank_evR`).
 
-  The block lemmas: `rank_lt_block_of_level` (every atom below level `ν` ⇒ rank
-  below `ω·ν`), `rank_le_maxAtomRank_nadd` (the rank is at most the largest
-  atom rank plus the complexity), and its two consequences
-  `rank_le_omegaMul_lvlOf_nadd` and `rank_body_lt_memRank`.
+  The block lemmas: `rank_lt_blkTop_of_level` (every atom below level `ν` ⇒
+  rank below `blkTop ν`, which is `ω · ν` at a finite `ν`:
+  `rank_lt_block_of_level`), `rank_lt_blk_of_level_limit` (below a limit level
+  `λ` the rank stays below `blk λ = ω · λ`), `rank_le_maxAtomRank_nadd` (the rank
+  is at most the largest atom rank plus the complexity), and its two
+  consequences `rank_le_blkTop_lvlOf_nadd` and `rank_body_lt_memRank`.
 -/
 import OrdinalAnalysis.Ramified.Code
 import OrdinalAnalysis.Ordinal.Veblen.RankSegments
@@ -57,35 +65,36 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder
+open LO LO.FirstOrder Gamma0Note
 
-/-! ### `ω ^ ν` at a level
+/-! ### `ω ^ ν` at a finite level
 
 Kept for the cut-rank bookkeeping of `Ramified/PredicativeCut.lean`, which is
 stated at `ω^1 = ω`. -/
 
-/-- `ω ^ ν`, for a level `ν`. -/
-def omegaPowLv (ν : Lv) : Gamma0Note :=
+/-- `ω ^ ν`, for a natural number `ν`. -/
+def omegaPowLv (ν : ℕ) : Gamma0Note :=
   OrdinalNotation.omegaPow (OrdinalNotation.ofNat ν)
 
-theorem omegaPowLv_pos (ν : Lv) : (0 : Gamma0Note) < omegaPowLv ν :=
+theorem omegaPowLv_pos (ν : ℕ) : (0 : Gamma0Note) < omegaPowLv ν :=
   Gamma0Note.omegaPow_pos _
 
-theorem omegaPowLv_lt_omegaPowLv {μ ν : Lv} (h : μ < ν) : omegaPowLv μ < omegaPowLv ν :=
+theorem omegaPowLv_lt_omegaPowLv {μ ν : ℕ} (h : μ < ν) : omegaPowLv μ < omegaPowLv ν :=
   OrdinalNotation.omegaPow_lt_omegaPow (OrdinalNotation.ofNat_lt_ofNat h)
 
 /-- `1 < ω ^ ν` for `ν ≥ 1`. -/
-theorem one_lt_omegaPowLv {ν : Lv} (hν : 0 < ν) :
+theorem one_lt_omegaPowLv {ν : ℕ} (hν : 0 < ν) :
     (OrdinalNotation.one : Gamma0Note) < omegaPowLv ν :=
   lt_of_le_of_lt (OrdinalNotation.one_le_omegaPow (OrdinalNotation.ofNat 0))
     (omegaPowLv_lt_omegaPowLv (μ := 0) hν)
 
 /-- `ω ^ ν` is closed under successor, for `ν ≥ 1`. -/
-theorem succ_lt_omegaPowLv {ν : Lv} (hν : 0 < ν) {x : Gamma0Note} (hx : x < omegaPowLv ν) :
+theorem succ_lt_omegaPowLv {ν : ℕ} (hν : 0 < ν) {x : Gamma0Note} (hx : x < omegaPowLv ν) :
     OrdinalNotation.succ x < omegaPowLv ν :=
   OrdinalNotation.nadd_lt_omegaPow hx (one_lt_omegaPowLv hν)
 
-theorem repr_omegaPowLv (ν : Lv) : Gamma0Note.repr (omegaPowLv ν) = Ordinal.omega0 ^ (ν : Ordinal) := by
+theorem repr_omegaPowLv (ν : ℕ) :
+    Gamma0Note.repr (omegaPowLv ν) = Ordinal.omega0 ^ (ν : Ordinal) := by
   show Gamma0Note.repr (Gamma0Note.omegaPow (Gamma0Note.ofNat ν)) = _
   rw [Gamma0Note.repr_omegaPow, Gamma0Note.repr_ofNat]
 
@@ -94,9 +103,7 @@ theorem repr_omegaPowLv (ν : Lv) : Gamma0Note.repr (omegaPowLv ν) = Ordinal.om
 Small facts about `ρ ⊕ n` for a natural number `n`. -/
 
 /-- `0` is the least notation. -/
-theorem gamma0_zero_le (x : Gamma0Note) : (0 : Gamma0Note) ≤ x := by
-  rw [Gamma0Note.le_def, Gamma0Note.repr_zero]
-  exact zero_le
+theorem gamma0_zero_le (x : Gamma0Note) : (0 : Gamma0Note) ≤ x := Gamma0Note.zero_le_note x
 
 /-- `OrdinalNotation.ofNat` is monotone. -/
 theorem ofNat_le_ofNat {m n : ℕ} (h : m ≤ n) :
@@ -121,58 +128,58 @@ theorem succ_le_succ' {x y : Gamma0Note} (h : x ≤ y) :
     OrdinalNotation.succ x ≤ OrdinalNotation.succ y :=
   OrdinalNotation.nadd_le_nadd_left _ h
 
-/-! ### `ω · μ` at a level -/
+/-! ### `ω · μ` for a natural number `μ` -/
 
-/-- **`ω · μ`**, the `μ`-fold natural sum of `ω`: the top of the level-`μ` rank
-block. -/
-def omegaMul (μ : Lv) : Gamma0Note := Gamma0Note.omegaPowMul 1 μ
+/-- **`ω · μ`**, the `μ`-fold natural sum of `ω`: the top of the finite level-`μ`
+rank block. -/
+def omegaMul (μ : ℕ) : Gamma0Note := Gamma0Note.omegaPowMul 1 μ
 
 @[simp] theorem omegaMul_zero : omegaMul 0 = 0 := rfl
 
-theorem repr_omegaMul (μ : Lv) :
+theorem repr_omegaMul (μ : ℕ) :
     Gamma0Note.repr (omegaMul μ) = Ordinal.omega0 * (μ : Ordinal) := by
   rw [omegaMul, Gamma0Note.repr_omegaPowMul, Gamma0Note.repr_one, Ordinal.opow_one]
 
 /-- **`ω · μ` is a multiple of `ω`**: the side condition under which predicative
 cut elimination at `ξ = 1` may start at the base `ω · μ`. -/
-theorem powClosed_omegaMul (μ : Lv) : Gamma0Note.PowClosed 1 (omegaMul μ) := by
+theorem powClosed_omegaMul (μ : ℕ) : Gamma0Note.PowClosed 1 (omegaMul μ) := by
   have h := (Gamma0Note.powClosed_nadd_omegaPowMul (Gamma0Note.powClosed_zero 1) μ).1
   rwa [Gamma0Note.zero_nadd] at h
 
 /-- `ω · (μ + 1) = ω · μ ⊕ ω`. -/
-theorem omegaMul_succ (μ : Lv) :
+theorem omegaMul_succ (μ : ℕ) :
     omegaMul (μ + 1) = Gamma0Note.nadd (omegaMul μ) (Gamma0Note.omegaPow 1) := rfl
 
-theorem omegaMul_lt_omegaMul {μ ν : Lv} (h : μ < ν) : omegaMul μ < omegaMul ν := by
+theorem omegaMul_lt_omegaMul {μ ν : ℕ} (h : μ < ν) : omegaMul μ < omegaMul ν := by
   rw [Gamma0Note.lt_def, repr_omegaMul, repr_omegaMul]
   exact mul_lt_mul_of_pos_left (by exact_mod_cast h) Ordinal.omega0_pos
 
-theorem omegaMul_le_omegaMul {μ ν : Lv} (h : μ ≤ ν) : omegaMul μ ≤ omegaMul ν := by
+theorem omegaMul_le_omegaMul {μ ν : ℕ} (h : μ ≤ ν) : omegaMul μ ≤ omegaMul ν := by
   rcases h.eq_or_lt with rfl | h
   · exact le_rfl
   · exact le_of_lt (omegaMul_lt_omegaMul h)
 
-theorem omegaMul_pos {ν : Lv} (hν : 0 < ν) : (0 : Gamma0Note) < omegaMul ν :=
+theorem omegaMul_pos {ν : ℕ} (hν : 0 < ν) : (0 : Gamma0Note) < omegaMul ν :=
   omegaMul_lt_omegaMul (μ := 0) hν
 
 /-- The value of `ω · μ ⊕ k`. -/
-theorem repr_omegaMul_nadd_ofNat (μ : Lv) (k : ℕ) :
+theorem repr_omegaMul_nadd_ofNat (μ k : ℕ) :
     Gamma0Note.repr (Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat k))
       = Ordinal.omega0 * (μ : Ordinal) + (k : Ordinal) := by
   rw [Gamma0Note.repr_nadd_ofNat, repr_omegaMul]
 
 /-- **`ω · μ ⊕ k < ω · (μ + 1)`**: a finite part never leaves its block. -/
-theorem omegaMul_nadd_ofNat_lt (μ : Lv) (k : ℕ) :
+theorem omegaMul_nadd_ofNat_lt (μ k : ℕ) :
     Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat k) < omegaMul (μ + 1) := by
   rw [Gamma0Note.lt_def, repr_omegaMul_nadd_ofNat, repr_omegaMul, Nat.cast_succ, mul_add_one]
   exact (add_lt_add_iff_left _).2 (Ordinal.natCast_lt_omega0 k)
 
-theorem omegaMul_le_nadd (μ : Lv) (x : Gamma0Note) :
+theorem omegaMul_le_nadd (μ : ℕ) (x : Gamma0Note) :
     omegaMul μ ≤ Gamma0Note.nadd (omegaMul μ) x :=
   OrdinalNotation.le_nadd_left (omegaMul μ) x
 
 /-- **`ω · ν` is closed under successor**, for `ν ≥ 1`: it is a limit. -/
-theorem succ_lt_omegaMul {ν : Lv} (hν : 0 < ν) {x : Gamma0Note} (hx : x < omegaMul ν) :
+theorem succ_lt_omegaMul {ν : ℕ} (hν : 0 < ν) {x : Gamma0Note} (hx : x < omegaMul ν) :
     OrdinalNotation.succ x < omegaMul ν := by
   show Gamma0Note.nadd x 1 < omegaMul ν
   rw [Gamma0Note.lt_def, Gamma0Note.repr_nadd_one, repr_omegaMul]
@@ -183,7 +190,7 @@ theorem succ_lt_omegaMul {ν : Lv} (hν : 0 < ν) {x : Gamma0Note} (hx : x < ome
   exact hlim.succ_lt hx
 
 /-- `ω · ν ≤ ω ^ ν`: the old pricing is an upper bound for the new one. -/
-theorem omegaMul_le_omegaPowLv (ν : Lv) : omegaMul ν ≤ omegaPowLv ν := by
+theorem omegaMul_le_omegaPowLv (ν : ℕ) : omegaMul ν ≤ omegaPowLv ν := by
   rw [Gamma0Note.le_def, repr_omegaMul, repr_omegaPowLv]
   rcases ν with _ | m
   · simp
@@ -197,47 +204,61 @@ theorem omegaMul_le_omegaPowLv (ν : Lv) : omegaMul ν ≤ omegaPowLv ν := by
     Ordinal.opow_le_opow_right Ordinal.omega0_pos (by exact_mod_cast (by omega : 2 ≤ m + 1 + 1))
   exact le_of_lt (lt_of_lt_of_le (h2 ▸ h1) h3)
 
+/-! ### The blocks at finite levels
+
+`blk` and `blkTop` at `ofNat n` are the finite blocks `ω · n`. -/
+
+/-- **The base of the level-`(n+1)` block is `ω · n`.** -/
+theorem blk_ofNat_succ (n : ℕ) : blk (Gamma0Note.ofNat (n + 1)) = omegaMul n := by
+  rw [← Gamma0Note.repr_inj, Gamma0Note.repr_blk_ofNat_succ, repr_omegaMul]
+
+/-- **The top of the level-`n` block is `ω · n`.** -/
+theorem blkTop_ofNat (n : ℕ) : blkTop (Gamma0Note.ofNat n) = omegaMul n := by
+  rw [← Gamma0Note.repr_inj, Gamma0Note.repr_blkTop_ofNat, repr_omegaMul]
+
 /-! ### Ground set arguments and the rank of a set atom -/
 
 /-- **The rank of a level-`μ` set atom with set argument `s`.**  Level `0`
-costs nothing; at level `μ + 1` a ground argument costs `ω·μ ⊕ stage(s)` and an
-open one the whole block `ω·(μ + 1)`. -/
-def memRank {n : ℕ} : Lv → Semiterm LRA ℕ n → Gamma0Note
-  | 0, _ => 0
-  | μ + 1, s =>
-      if GroundR s then Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat (stage (evTermR s)))
-      else omegaMul (μ + 1)
+costs nothing; at a level `μ ≠ 0` a ground argument costs `blk μ ⊕ stage(s)` and
+an open one the whole block, `blkTop μ = blk μ ⊕ ω`. -/
+def memRank {n : ℕ} (μ : Lv) (s : Semiterm LRA ℕ n) : Gamma0Note :=
+  if μ = 0 then 0
+  else if GroundR s then Gamma0Note.nadd (blk μ) (Gamma0Note.ofNat (stage (evTermR s)))
+  else blkTop μ
 
-@[simp] theorem memRank_zero {n : ℕ} (s : Semiterm LRA ℕ n) : memRank 0 s = 0 := rfl
+@[simp] theorem memRank_zero {n : ℕ} (s : Semiterm LRA ℕ n) : memRank 0 s = 0 := if_pos rfl
 
-theorem memRank_of_groundR {n : ℕ} (μ : Lv) {s : Semiterm LRA ℕ n} (h : GroundR s) :
-    memRank (μ + 1) s = Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat (stage (evTermR s))) :=
-  if_pos h
+theorem memRank_of_groundR {n : ℕ} {μ : Lv} (hμ : μ ≠ 0) {s : Semiterm LRA ℕ n}
+    (h : GroundR s) :
+    memRank μ s = Gamma0Note.nadd (blk μ) (Gamma0Note.ofNat (stage (evTermR s))) := by
+  rw [memRank, if_neg hμ, if_pos h]
 
 theorem memRank_of_not_groundR {n : ℕ} (μ : Lv) {s : Semiterm LRA ℕ n} (h : ¬GroundR s) :
-    memRank (μ + 1) s = omegaMul (μ + 1) :=
-  if_neg h
+    memRank μ s = blkTop μ := by
+  by_cases hμ : μ = 0
+  · rw [memRank, if_pos hμ, hμ, blkTop_zero]
+  · rw [memRank, if_neg hμ, if_neg h]
 
-/-- A level-`μ` atom costs at most `ω · μ`. -/
-theorem memRank_le_omegaMul {n : ℕ} (μ : Lv) (s : Semiterm LRA ℕ n) :
-    memRank μ s ≤ omegaMul μ := by
-  rcases μ with _ | μ
-  · exact le_rfl
+/-- A level-`μ` atom costs at most `blkTop μ`. -/
+theorem memRank_le_blkTop {n : ℕ} (μ : Lv) (s : Semiterm LRA ℕ n) :
+    memRank μ s ≤ blkTop μ := by
+  by_cases hμ : μ = 0
+  · rw [memRank, if_pos hμ]; exact gamma0_zero_le _
   · by_cases h : GroundR s
-    · rw [memRank_of_groundR μ h]
-      exact le_of_lt (omegaMul_nadd_ofNat_lt μ _)
+    · rw [memRank_of_groundR hμ h]
+      exact le_of_lt (blk_nadd_ofNat_lt_blkTop hμ _)
     · rw [memRank_of_not_groundR μ h]
 
 /-- **A rewriting can only lower the rank of a set atom**: a ground argument
 keeps its value, an open one may become ground. -/
 theorem memRank_rew_le {n₁ n₂ : ℕ} (ω : Rew LRA ℕ n₁ ℕ n₂) (μ : Lv) (s : Semiterm LRA ℕ n₁) :
     memRank μ (ω s) ≤ memRank μ s := by
-  rcases μ with _ | μ
-  · exact le_rfl
+  by_cases hμ : μ = 0
+  · rw [hμ, memRank_zero, memRank_zero]
   · by_cases h : GroundR s
-    · rw [memRank_of_groundR μ h, memRank_of_groundR μ (groundR_rew ω h), evTermR_rew ω h]
+    · rw [memRank_of_groundR hμ h, memRank_of_groundR hμ (groundR_rew ω h), evTermR_rew ω h]
     · rw [memRank_of_not_groundR μ h]
-      exact memRank_le_omegaMul _ _
+      exact memRank_le_blkTop _ _
 
 /-- The rank of an atom `r v`: `0` for arithmetic symbols and `X`, and
 `memRank μ (v 1)` for a level-`μ` set atom. -/
@@ -246,14 +267,14 @@ def atomRank : {k : ℕ} → LRA.Rel k → {n : ℕ} → (Fin k → Semiterm LRA
   | _, Sum.inr RARel.X, _, _ => 0
   | _, Sum.inr (RARel.mem μ), _, v => memRank μ (v 1)
 
-/-- An atom costs at most `ω` times its level. -/
-theorem atomRank_le_omegaMul_level {k n : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n) :
-    atomRank r v ≤ omegaMul ((relLevel r).getD 0) := by
+/-- An atom costs at most the top of its level's block. -/
+theorem atomRank_le_blkTop_level {k n : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n) :
+    atomRank r v ≤ blkTop ((relLevel r).getD 0) := by
   rcases r with r | r
   · exact gamma0_zero_le _
   · cases r with
     | X => exact gamma0_zero_le _
-    | mem μ => exact memRank_le_omegaMul μ (v 1)
+    | mem μ => exact memRank_le_blkTop μ (v 1)
 
 theorem atomRank_rew_le {k n₁ n₂ : ℕ} (ω : Rew LRA ℕ n₁ ℕ n₂) (r : LRA.Rel k)
     (v : Fin k → Semiterm LRA ℕ n₁) : atomRank r (fun i => ω (v i)) ≤ atomRank r v := by
@@ -352,42 +373,70 @@ theorem rank_subst₁_le {n : ℕ} (φ : Semiformula LRA ℕ 1) (t : Semiterm LR
 
 /-! ### The rank below a level -/
 
-/-- An atom of level `< ν` — including a levelless one — has rank `< ω · ν`. -/
-theorem atomRank_lt_omegaMul {k n : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n) {ν : Lv}
-    (h : (relLevel r).getD 0 < ν) : atomRank r v < omegaMul ν :=
-  lt_of_le_of_lt (atomRank_le_omegaMul_level r v) (omegaMul_lt_omegaMul h)
+/-- An atom of level `< ν` — including a levelless one — has rank below the
+top of the level-`ν` block. -/
+theorem atomRank_lt_blkTop {k n : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n) {ν : Lv}
+    (h : (relLevel r).getD 0 < ν) : atomRank r v < blkTop ν :=
+  lt_of_le_of_lt (atomRank_le_blkTop_level r v) (blkTop_lt_blkTop h)
 
-/-- **Every set atom below `ν` ⇒ rank below `ω · ν`.**
-
-The induction has three ingredients: `ω · ν` is positive, it is closed under
-`max` because the order is linear, and it is closed under `succ` because it is
-a limit. -/
-theorem rank_lt_block_of_level {n : ℕ} {ν : Lv} {φ : Semiformula LRA ℕ n}
-    (h : lvlOf φ < ν) : rank φ < omegaMul ν := by
-  have hν : 0 < ν := lt_of_le_of_lt (Nat.zero_le _) h
+/-- **A block bound that is a limit bounds the rank of every formula whose
+atoms it bounds.**  The one induction behind every block lemma below: the bound
+is positive, closed under `max` because the order is linear, and closed under
+`succ`. -/
+theorem rank_lt_of_atoms {n : ℕ} {B : Gamma0Note} (hB : 0 < B)
+    (hsucc : ∀ x, x < B → OrdinalNotation.succ x < B) {φ : Semiformula LRA ℕ n}
+    (hat : ∀ {m k : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ m),
+      (relLevel r).getD 0 ≤ lvlOf φ → atomRank r v < B) :
+    rank φ < B := by
   induction φ using Semiformula.rec' with
-  | hverum => exact omegaMul_pos hν
-  | hfalsum => exact omegaMul_pos hν
-  | hrel r v => exact atomRank_lt_omegaMul r v h
-  | hnrel r v => exact atomRank_lt_omegaMul r v h
+  | hverum => exact hB
+  | hfalsum => exact hB
+  | hrel r v => exact hat r v (le_of_eq (lvlOf_rel r v).symm)
+  | hnrel r v => exact hat r v (le_of_eq (lvlOf_nrel r v).symm)
   | hand φ ψ ihφ ihψ =>
-      simp only [lvlOf_and, max_lt_iff] at h
-      exact succ_lt_omegaMul hν (max_lt (ihφ h.1) (ihψ h.2))
+      rw [lvlOf_and] at hat
+      exact hsucc _ (max_lt (ihφ fun r v h => hat r v (le_trans h (le_max_left _ _)))
+        (ihψ fun r v h => hat r v (le_trans h (le_max_right _ _))))
   | hor φ ψ ihφ ihψ =>
-      simp only [lvlOf_or, max_lt_iff] at h
-      exact succ_lt_omegaMul hν (max_lt (ihφ h.1) (ihψ h.2))
-  | hall φ ih => exact succ_lt_omegaMul hν (ih h)
-  | hexs φ ih => exact succ_lt_omegaMul hν (ih h)
+      rw [lvlOf_or] at hat
+      exact hsucc _ (max_lt (ihφ fun r v h => hat r v (le_trans h (le_max_left _ _)))
+        (ihψ fun r v h => hat r v (le_trans h (le_max_right _ _))))
+  | hall φ ih => rw [lvlOf_all] at hat; exact hsucc _ (ih fun r v h => hat r v h)
+  | hexs φ ih => rw [lvlOf_exs] at hat; exact hsucc _ (ih fun r v h => hat r v h)
 
-/-- **The rank blocks.**  Every formula of level `ν` has rank below `ω·(ν+1)`. -/
-theorem rank_lt_omegaMul_succ {n : ℕ} (φ : Semiformula LRA ℕ n) :
-    rank φ < omegaMul (lvlOf φ + 1) :=
-  rank_lt_block_of_level (Nat.lt_succ_self _)
+/-- **Every set atom below `ν` ⇒ rank below `blkTop ν`.** -/
+theorem rank_lt_blkTop_of_level {n : ℕ} {ν : Lv} {φ : Semiformula LRA ℕ n}
+    (h : lvlOf φ < ν) : rank φ < blkTop ν := by
+  have hν : ν ≠ 0 := ne_of_gt (lt_of_le_of_lt (gamma0_zero_le _) h)
+  exact rank_lt_of_atoms (blkTop_pos hν) (fun x hx => succ_lt_blkTop hx)
+    (fun r v hr => atomRank_lt_blkTop r v (lt_of_le_of_lt hr h))
+
+/-- **The finite rank blocks.**  Every set atom below the finite level `ν` ⇒ rank
+below `ω · ν`. -/
+theorem rank_lt_block_of_level {n : ℕ} {ν : ℕ} {φ : Semiformula LRA ℕ n}
+    (h : lvlOf φ < Gamma0Note.ofNat ν) : rank φ < omegaMul ν := by
+  rw [← blkTop_ofNat]; exact rank_lt_blkTop_of_level h
+
+/-- **The rank blocks.**  Every formula of level `ν` has rank below
+`blkTop (ν ⊕ 1)`. -/
+theorem rank_lt_blkTop_succ {n : ℕ} (φ : Semiformula LRA ℕ n) :
+    rank φ < blkTop (Gamma0Note.nadd (lvlOf φ) 1) :=
+  rank_lt_blkTop_of_level (Gamma0Note.lt_nadd_one _)
 
 /-- The coarser `ω ^ ν` form of `rank_lt_block_of_level`. -/
-theorem rank_lt_omegaPow_of_level {n : ℕ} {ν : Lv} {φ : Semiformula LRA ℕ n}
-    (h : lvlOf φ < ν) : rank φ < omegaPowLv ν :=
+theorem rank_lt_omegaPow_of_level {n : ℕ} {ν : ℕ} {φ : Semiformula LRA ℕ n}
+    (h : lvlOf φ < Gamma0Note.ofNat ν) : rank φ < omegaPowLv ν :=
   lt_of_lt_of_le (rank_lt_block_of_level h) (omegaMul_le_omegaPowLv ν)
+
+/-- **Below a limit level the rank stays below the base of its block**:
+`lvlOf φ < λ`, `λ` a limit ⇒ `rank φ < blk λ = ω · λ`. -/
+theorem rank_lt_blk_of_level_limit {n : ℕ} {L : Lv} (hlim : ∀ μ < L, Gamma0Note.nadd μ 1 < L)
+    {φ : Semiformula LRA ℕ n} (h : lvlOf φ < L) : rank φ < blk L := by
+  have h0 : (0 : Gamma0Note) < L := lt_of_le_of_lt (gamma0_zero_le _) h
+  have hpos : 0 < blk L := lt_of_le_of_lt (gamma0_zero_le _) (blkTop_lt_blk_of_limit hlim h0)
+  exact rank_lt_of_atoms hpos (fun _ hx => succ_lt_blk hx)
+    (fun r v hr => lt_of_le_of_lt (atomRank_le_blkTop_level r v)
+      (blkTop_lt_blk_of_limit hlim (lt_of_le_of_lt hr h)))
 
 /-! ### The largest atom rank -/
 
@@ -441,28 +490,39 @@ theorem rank_le_maxAtomRank_nadd {n : ℕ} (φ : Semiformula LRA ℕ n) :
       rw [rank_exs, Semiformula.complexity_exs]
       exact le_trans (succ_le_succ' ih) (le_of_eq (nadd_ofNat_succ _ _))
 
-/-- The largest atom rank is at most `ω` times the level. -/
-theorem maxAtomRank_le_omegaMul_lvlOf {n : ℕ} (φ : Semiformula LRA ℕ n) :
-    maxAtomRank φ ≤ omegaMul (lvlOf φ) := by
+/-- The largest atom rank is at most the top of the block of the level. -/
+theorem maxAtomRank_le_blkTop_lvlOf {n : ℕ} (φ : Semiformula LRA ℕ n) :
+    maxAtomRank φ ≤ blkTop (lvlOf φ) := by
   induction φ using Semiformula.rec' with
   | hverum => exact gamma0_zero_le _
   | hfalsum => exact gamma0_zero_le _
-  | hrel r v => exact atomRank_le_omegaMul_level r v
-  | hnrel r v => exact atomRank_le_omegaMul_level r v
+  | hrel r v => rw [lvlOf_rel]; exact atomRank_le_blkTop_level r v
+  | hnrel r v => rw [lvlOf_nrel]; exact atomRank_le_blkTop_level r v
   | hand φ ψ ihφ ihψ =>
-      exact max_le (le_trans ihφ (omegaMul_le_omegaMul (le_max_left _ _)))
-        (le_trans ihψ (omegaMul_le_omegaMul (le_max_right _ _)))
+      rw [lvlOf_and]
+      exact max_le (le_trans ihφ (blkTop_mono (le_max_left _ _)))
+        (le_trans ihψ (blkTop_mono (le_max_right _ _)))
   | hor φ ψ ihφ ihψ =>
-      exact max_le (le_trans ihφ (omegaMul_le_omegaMul (le_max_left _ _)))
-        (le_trans ihψ (omegaMul_le_omegaMul (le_max_right _ _)))
-  | hall φ ih => exact ih
-  | hexs φ ih => exact ih
+      rw [lvlOf_or]
+      exact max_le (le_trans ihφ (blkTop_mono (le_max_left _ _)))
+        (le_trans ihψ (blkTop_mono (le_max_right _ _)))
+  | hall φ ih => rw [lvlOf_all]; exact ih
+  | hexs φ ih => rw [lvlOf_exs]; exact ih
 
-/-- **The finite-part rank bound**: `rank φ ≤ ω · lvlOf φ ⊕ complexity φ`. -/
-theorem rank_le_omegaMul_lvlOf_nadd {n : ℕ} (φ : Semiformula LRA ℕ n) :
-    rank φ ≤ Gamma0Note.nadd (omegaMul (lvlOf φ)) (Gamma0Note.ofNat φ.complexity) :=
+/-- **The finite-part rank bound**: `rank φ ≤ blkTop (lvlOf φ) ⊕ complexity φ`. -/
+theorem rank_le_blkTop_lvlOf_nadd {n : ℕ} (φ : Semiformula LRA ℕ n) :
+    rank φ ≤ Gamma0Note.nadd (blkTop (lvlOf φ)) (Gamma0Note.ofNat φ.complexity) :=
   le_trans (rank_le_maxAtomRank_nadd φ)
-    (OrdinalNotation.nadd_le_nadd_left _ (maxAtomRank_le_omegaMul_lvlOf φ))
+    (OrdinalNotation.nadd_le_nadd_left _ (maxAtomRank_le_blkTop_lvlOf φ))
+
+/-- **The finite-part rank bound at a finite level**:
+`rank φ ≤ ω · ν ⊕ complexity φ` when `lvlOf φ ≤ ν`. -/
+theorem rank_le_omegaMul_lvlOf_nadd {n : ℕ} {ν : ℕ} {φ : Semiformula LRA ℕ n}
+    (h : lvlOf φ ≤ Gamma0Note.ofNat ν) :
+    rank φ ≤ Gamma0Note.nadd (omegaMul ν) (Gamma0Note.ofNat φ.complexity) := by
+  rw [← blkTop_ofNat]
+  exact le_trans (rank_le_blkTop_lvlOf_nadd φ)
+    (OrdinalNotation.nadd_le_nadd_left _ (Gamma0Note.blkTop_mono h))
 
 /-! ### The lemma the reduction lemma consumes -/
 
@@ -482,9 +542,9 @@ theorem paramRew_instParam (p : ℕ) : ParamRew (instParam p) p :=
 
 /-- One atom of `maxAtomRank_rew_le_of_shape`. -/
 theorem atomRank_rew_le_of_atomShape {μ : Lv} {p : ℕ} {k n₁ : ℕ} (r : LRA.Rel k)
-    (v : Fin k → Semiterm LRA ℕ n₁) (hr : AtomShape (μ + 1) r v) {n₂ : ℕ}
+    (v : Fin k → Semiterm LRA ℕ n₁) (hr : AtomShape μ r v) {n₂ : ℕ}
     (ω : Rew LRA ℕ n₁ ℕ n₂) (hω : ParamRew ω p) :
-    atomRank r (fun i => ω (v i)) ≤ Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat (stage p)) := by
+    atomRank r (fun i => ω (v i)) ≤ Gamma0Note.nadd (blk μ) (Gamma0Note.ofNat (stage p)) := by
   rcases r with r | r
   · exact gamma0_zero_le _
   · cases r with
@@ -492,17 +552,19 @@ theorem atomRank_rew_le_of_atomShape {μ : Lv} {p : ℕ} {k n₁ : ℕ} (r : LRA
     | mem κ =>
         show memRank κ (ω (v 1)) ≤ _
         rcases hr with hlt | ⟨rfl, hv⟩
-        · exact le_trans (memRank_le_omegaMul κ _)
-            (le_trans (omegaMul_le_omegaMul (Nat.le_of_lt_succ hlt)) (omegaMul_le_nadd μ _))
-        · rw [hv, memRank_of_groundR μ (hω 0).1, (hω 0).2]
+        · exact le_trans (memRank_le_blkTop κ _)
+            (le_trans (blkTop_le_blk hlt) (blk_le_nadd μ _))
+        · by_cases hκ : κ = 0
+          · rw [hκ, memRank_zero]; exact gamma0_zero_le _
+          · rw [hv, memRank_of_groundR hκ (hω 0).1, (hω 0).2]
 
-/-- **The atoms of an instantiated body of shape `μ + 1` cost at most
-`ω · μ ⊕ stage p`**: lower levels cost at most `ω · μ`, and a level-`(μ + 1)`
-atom has the parameter, now the ground term of value `p`, as its set
-argument. -/
+/-- **The atoms of an instantiated body of shape `μ` cost at most
+`blk μ ⊕ stage p`**: lower levels cost at most their block tops, which lie below
+`blk μ`, and a level-`μ` atom has the parameter, now the ground term of value
+`p`, as its set argument. -/
 theorem maxAtomRank_rew_le_of_shape {μ : Lv} {p : ℕ} {n₁ : ℕ} {φ : Semiformula LRA ℕ n₁}
-    (hφ : Shape (μ + 1) φ) {n₂ : ℕ} {ω : Rew LRA ℕ n₁ ℕ n₂} (hω : ParamRew ω p) :
-    maxAtomRank (ω ▹ φ) ≤ Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat (stage p)) := by
+    (hφ : Shape μ φ) {n₂ : ℕ} {ω : Rew LRA ℕ n₁ ℕ n₂} (hω : ParamRew ω p) :
+    maxAtomRank (ω ▹ φ) ≤ Gamma0Note.nadd (blk μ) (Gamma0Note.ofNat (stage p)) := by
   induction φ using Semiformula.rec' generalizing n₂ with
   | hverum => exact gamma0_zero_le _
   | hfalsum => exact gamma0_zero_le _
@@ -525,44 +587,42 @@ theorem maxAtomRank_rew_le_of_shape {μ : Lv} {p : ℕ} {n₁ : ℕ} {φ : Semif
       simp only [Rewriting.app_exs]
       exact ih hφ hω.q
 
-/-- **The rank of an instantiated body of shape `μ + 1`**:
-`ω · μ ⊕ (complexity + stage p)`. -/
+/-- **The rank of an instantiated body of shape `μ`**:
+`blk μ ⊕ (complexity + stage p)`. -/
 theorem rank_rew_le_of_shape {μ : Lv} {p : ℕ} {n₁ : ℕ} {φ : Semiformula LRA ℕ n₁}
-    (hφ : Shape (μ + 1) φ) {n₂ : ℕ} {ω : Rew LRA ℕ n₁ ℕ n₂} (hω : ParamRew ω p) :
+    (hφ : Shape μ φ) {n₂ : ℕ} {ω : Rew LRA ℕ n₁ ℕ n₂} (hω : ParamRew ω p) :
     rank (ω ▹ φ) ≤
-      Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat (φ.complexity + stage p)) := by
+      Gamma0Note.nadd (blk μ) (Gamma0Note.ofNat (φ.complexity + stage p)) := by
   refine le_trans (rank_le_maxAtomRank_nadd _) ?_
   rw [Semiformula.complexity_rew]
   refine le_trans (OrdinalNotation.nadd_le_nadd_left _ (maxAtomRank_rew_le_of_shape hφ hω))
     (le_of_eq ?_)
   apply Gamma0Note.repr_inj.mp
-  show Gamma0Note.repr (Gamma0Note.nadd (Gamma0Note.nadd (omegaMul μ)
+  show Gamma0Note.repr (Gamma0Note.nadd (Gamma0Note.nadd (blk μ)
       (Gamma0Note.ofNat (stage p))) (Gamma0Note.ofNat φ.complexity)) = _
   rw [Gamma0Note.repr_nadd_ofNat, Gamma0Note.repr_nadd_ofNat, Gamma0Note.repr_nadd_ofNat,
     add_assoc, ← Nat.cast_add, Nat.add_comm]
 
 /-- **A predicator's unfolding has smaller rank than the atom it unfolds.**
 
-For a `Good` code `a` of level `μ + 1`, any instance of the body costs at most
-`ω · μ ⊕ (complexity + stage (param a))`, which the stage condition puts
-strictly below `ω · μ ⊕ stage a` — the rank of every atom `t ∈̇_{μ+1} s` whose
+For a `Good` code `a` of level `μ`, any instance of the body costs at most
+`blk μ ⊕ (complexity + stage (param a))`, which the stage condition puts
+strictly below `blk μ ⊕ stage a` — the rank of every atom `t ∈̇_μ s` whose
 ground set argument `s` has value `a`.  This is what makes the (Pr)/(Pr) cut of
 the reduction lemma legal at the very rank the (Pr) atom is cut at. -/
 theorem rank_body_lt_memRank {a : ℕ} (h : Good a) {n : ℕ} {s : Semiterm LRA ℕ n}
     (hs : GroundR s) (hv : evTermR s = a) : rank (body a) < memRank (lvl a) s := by
   rw [body]
-  obtain ⟨μ, hμ⟩ : ∃ μ : Lv, lvl a = μ + 1 :=
-    ⟨lvl a - 1, (Nat.sub_add_cancel (good_lvl_pos h)).symm⟩
-  have hshape : Shape (μ + 1) (formula a) := by rw [← hμ]; exact good_shape h
-  have hle : rank (instParam (param a) ▹ formula a) ≤ Gamma0Note.nadd (omegaMul μ)
+  have hle : rank (instParam (param a) ▹ formula a) ≤ Gamma0Note.nadd (blk (lvl a))
       (Gamma0Note.ofNat ((formula a).complexity + stage (param a))) :=
-    rank_rew_le_of_shape (ω := instParam (param a)) hshape (paramRew_instParam (param a))
-  have key : ∀ m k : ℕ, m < k → Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat m)
-      < Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat k) :=
+    rank_rew_le_of_shape (ω := instParam (param a)) (good_shape h) (paramRew_instParam (param a))
+  have key : ∀ m k : ℕ, m < k → Gamma0Note.nadd (blk (lvl a)) (Gamma0Note.ofNat m)
+      < Gamma0Note.nadd (blk (lvl a)) (Gamma0Note.ofNat k) :=
     fun m k hmk => Gamma0Note.nadd_lt_nadd_right _ (Gamma0Note.ofNat_lt_ofNat hmk)
   have hlt := key _ _ (good_stage h)
-  have hm : memRank (lvl a) s = Gamma0Note.nadd (omegaMul μ) (Gamma0Note.ofNat (stage a)) := by
-    rw [hμ, memRank_of_groundR μ hs, hv]
+  have hm : memRank (lvl a) s
+      = Gamma0Note.nadd (blk (lvl a)) (Gamma0Note.ofNat (stage a)) := by
+    rw [memRank_of_groundR (ne_of_gt (good_lvl_pos h)) hs, hv]
   rw [hm]
   exact lt_of_le_of_lt hle hlt
 

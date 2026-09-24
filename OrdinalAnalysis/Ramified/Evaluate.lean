@@ -235,10 +235,10 @@ argument of a set atom through its groundness and its value only, both of which
 /-- `evTR` does not move the rank of a set atom. -/
 @[simp] theorem memRank_evTR {n : ℕ} (μ : Lv) (s : Semiterm LRA ℕ n) :
     memRank μ (evTR s) = memRank μ s := by
-  rcases μ with _ | μ
-  · rfl
+  by_cases hμ : μ = 0
+  · rw [hμ, memRank_zero, memRank_zero]
   · by_cases h : GroundR s
-    · rw [memRank_of_groundR μ h, memRank_of_groundR μ (groundR_evTR h), evTermR_evTR]
+    · rw [memRank_of_groundR hμ h, memRank_of_groundR hμ (groundR_evTR h), evTermR_evTR]
     · rw [memRank_of_not_groundR μ h,
         memRank_of_not_groundR μ (fun h' => h (groundR_evTR_iff.mp h'))]
 
@@ -268,8 +268,8 @@ theorem atomRank_evTR {k n : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA �
   induction φ using Semiformula.rec' with
   | hverum => rfl
   | hfalsum => rfl
-  | hrel r v => rfl
-  | hnrel r v => rfl
+  | hrel r v => rw [evR_rel, lvlOf_rel, lvlOf_rel]
+  | hnrel r v => rw [evR_nrel, lvlOf_nrel, lvlOf_nrel]
   | hand φ ψ ihφ ihψ => rw [evR_and, lvlOf_and, lvlOf_and, ihφ, ihψ]
   | hor φ ψ ihφ ihψ => rw [evR_or, lvlOf_or, lvlOf_or, ihφ, ihψ]
   | hall φ ih => rw [evR_all, lvlOf_all, lvlOf_all, ih]

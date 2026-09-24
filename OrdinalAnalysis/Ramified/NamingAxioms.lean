@@ -11,7 +11,7 @@
   with `G` the arithmetical guard `c = ⟨μ, s, ⌜A⌝, p⟩ ∧ A.complexity + stage p < s`.
   This file shows that `RA_∞ ⊢^0_β evR (emb (univCl (nameOutP μ A)))` for a
   finite `β`, and likewise for `nameInP μ A`, and that the rank of the
-  evaluated, embedded axiom is below `ω · ν` for `μ < ν`.  Together with
+  evaluated, embedded axiom is below `blkTop ν` for `μ < ν`.  Together with
   `Ramified/CutAxioms.lean`'s `cut_axioms_of`, this is what lets the naming
   schema of `RA Λ` be cut away.
 
@@ -38,7 +38,7 @@
 
   **The rank bound.**  `lvlOf (nameOutP μ A) = lvlOf (nameInP μ A) = μ`
   (`Theory.lean`), `evR` preserves the level, and `Rank.lean`'s
-  `rank_lt_block_of_level` turns "level below `ν`" into "rank below `ω · ν`".
+  `rank_lt_blkTop_of_level` turns "level below `ν`" into "rank below `blkTop ν`".
 -/
 import OrdinalAnalysis.Ramified.Theory
 import OrdinalAnalysis.Ramified.AxiomsLogic
@@ -161,7 +161,7 @@ theorem eval_guardR_subst (μ : Lv) (A : Semiformula LRA ℕ 1) (w : Fin 3 → �
     Semiformula.Eval (s := stdLRA) ![] f
         (guardR μ A ⇜ fun i => (numAtR (w i) : SyntacticTerm LRA)) ↔
       w 0 = mkCode μ (w 2) (Encodable.encode A) (w 1) ∧ A.complexity + stage (w 1) < w 2 := by
-  rw [← eval_guardDef_nat, Semiformula.eval_substs]
+  rw [mkCode_eq, ← eval_guardDef_nat, Semiformula.eval_substs]
   have hv : (Semiterm.val (s := stdLRA) ![] f ∘ fun i => (numAtR (w i) : SyntacticTerm LRA)) = w :=
     funext fun i => val_numAtR_stdLRA ![] f (w i)
   rw [hv, guardR, stdLRA_eq_raStd, eval_lMap_toLRA, Semiformula.eval_emb, guardSS,
@@ -486,16 +486,16 @@ theorem naming_axiom_derivable {Λ : Set Lv} {σ : Sentence LRA} (h : σ ∈ Nam
   · exact ⟨_, nameOutP_derivable h0 hA⟩
   · exact ⟨_, nameInP_derivable h0 hA⟩
 
-/-- **A naming axiom at a level below `ν` has rank below `ω · ν`.**
+/-- **A naming axiom at a level below `ν` has rank below `blkTop ν`.**
 `lvlOf_nameOutP`/`lvlOf_nameInP` locate the level of the axiom at `μ`, and `evR`
 moves neither the level nor the rank. -/
 theorem rank_evR_emb_naming_lt {ν : Lv} {σ : Sentence LRA} (h : σ ∈ NamingAxioms {μ | μ < ν}) :
-    rank (evR (Rewriting.emb σ : Proposition LRA)) < omegaMul ν := by
+    rank (evR (Rewriting.emb σ : Proposition LRA)) < Gamma0Note.blkTop ν := by
   obtain ⟨μ, A, hν, -, hA, rfl | rfl⟩ := h
   · rw [emb_univCl_nameOutP, rank_evR]
-    exact rank_lt_block_of_level (by rw [lvlOf_nameOutP hA]; exact hν)
+    exact rank_lt_blkTop_of_level (by rw [lvlOf_nameOutP hA]; exact hν)
   · rw [emb_univCl_nameInP, rank_evR]
-    exact rank_lt_block_of_level (by rw [lvlOf_nameInP hA]; exact hν)
+    exact rank_lt_blkTop_of_level (by rw [lvlOf_nameInP hA]; exact hν)
 
 end Ramified
 

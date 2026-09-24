@@ -27,15 +27,15 @@
     `reduction_pr_principal`, which performs **one** cut (not the two nested cuts
     of the propositional cases) and so makes no new demand on the ordinal
     arithmetic.  The cut it performs is legal because
-    `rank (A_a(n̄)) ≤ rank (body a) < ω·(lvl a − 1) ⊕ stage a = rank (n̄ ∈̇ ā) ≤ ρ`,
+    `rank (A_a(n̄)) ≤ rank (body a) < blk (lvl a) ⊕ stage a = rank (n̄ ∈̇ ā) ≤ ρ`,
     which is `Ramified/Rank.lean`'s `rank_body_lt_memRank`: *the* lemma of the
     design, and the reason for the stage condition on codes.
 
   * **`MemFree` is a hypothesis of the whole lemma.**  A set atom is a literal,
     so `Literals` alone permits one as an axiom, and a (Pr) inference against
     such an axiom would be an irreducible principal case.  `MemFree A` — no axiom
-    is a set atom — rules it out, and `Ramified/Literals.lean` discharges it for
-    the intended axiom set.  This is the one genuinely new side condition of D2
+    is a (Pr) or (Pr⁻) conclusion — rules it out, and `Ramified/Literals.lean`
+    discharges it for the intended axiom sets.  This is the one genuinely new side condition of D2
     and it is why `reduction` carries an extra argument that
     `ACAOmega/Reduction.lean`'s does not.
 
@@ -666,8 +666,8 @@ theorem reduction_aux (hA : MemFree A) {ρ : Gamma0Note} :
             exact absurd h.symm (Literals.neg_ne_all hψ)
           · intro δ δ₀ ξ Δ₁ m h
             exact absurd h.symm (Literals.neg_ne_exs hψ)
-          · intro δ δ₀ a₁ n₁ Δ₁ _ h
-            exact absurd h.symm (MemFree.neg_ne_memAt hA hψ _ _ _)
+          · intro δ δ₀ a₁ n₁ Δ₁ ha₁ h
+            exact absurd h.symm (MemFree.neg_ne_memAt hA hψ I ha₁ _)
           · intro δ δ₀ a₁ n₁ Δ₁ _ h
             exact absurd h.symm (MemFree.neg_ne_nmemAt hA hψ _ _ _)
         · refine .contraction ?_ (.atom hψ)
@@ -1175,7 +1175,7 @@ theorem reduction_aux (hA : MemFree A) {ρ : Gamma0Note} :
               (memAt (lvl a₀) (I.num n₀) (I.num a₀) :: Γ') := .pr ha hb hprem
           refine reduction_right ih2 hd hss hφ ?_ ?_ ?_ ?_ ?_ ?_ ?_ he hs hst
           · intro δ ξ hξ hξe _
-            exact absurd hξe (MemFree.ne_nmemAt hA hξ _ _ _)
+            exact absurd hξe (MemFree.ne_nmemAt hA hξ I ha _)
           · intro δ δ₀ ψ₁ ψ₂ Δ₁ h
             exact absurd h (ne_of_headTag (by simp))
           · intro δ δ₀ δ₁ ψ₁ ψ₂ Δ₁ h

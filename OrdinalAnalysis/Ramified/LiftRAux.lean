@@ -184,7 +184,8 @@ def DefinableLt (ν : Lv) (P : M → Prop) : Prop :=
     ∀ x, P x ↔ Semiformula.Eval (s := s) ![x] fB B
 
 theorem definableLt_top [Nonempty M] (hν : 1 ≤ ν) : DefinableLt (M := M) ν (fun _ => True) :=
-  ⟨⊤, hν, fun _ => Classical.arbitrary M, fun _ => by simp⟩
+  ⟨⊤, by rw [lvlOf_verum]; exact lt_of_lt_of_le Gamma0Note.zero_lt_one hν,
+    fun _ => Classical.arbitrary M, fun _ => by simp⟩
 
 theorem definableLt_mem {μ : Lv} (hμ : μ < ν) (z : M) :
     DefinableLt (M := M) ν (fun x => memM μ x z) :=

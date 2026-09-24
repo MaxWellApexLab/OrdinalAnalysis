@@ -360,7 +360,14 @@ and nothing here should be read as that.
   the semiformal calculus `RA_∞` itself, in Schütte's formulation, and its
   bound half is `Ramified/FSLower.lean`: no derivation of `RA_∞` with cut rank
   and height below `Γ₀` proves transfinite induction along the whole coded
-  Veblen ordering (`fs_lower`).  The autonomy half is in progress.
+  Veblen ordering (`fs_lower`).  The levels of the calculus are now the Veblen
+  notations below `Γ₀` themselves (`Language.lean`, `Ordinal/Veblen/OmegaMul.lean`,
+  `Ordinal/Veblen/Encodable.lean`), with membership atoms of a code that is not
+  a predicator at its level made false by literal axioms (`junkLitsR`), and the
+  first transfinite bounds are in `Ramified/TransfiniteLower.lean`: below level
+  `ω^n` no derivation of cut rank below `ω^{n+1}` and height below `φ_{n+1}(0)`
+  proves transfinite induction along the ordering restricted below `φ_{n+1}(0)`
+  (`sf_lower_omegaPow`).  The autonomy half is in progress.
 
 * `ACA/OmegaJump.lean` and the `OmegaJump*` files: the theory `ACA⁺` — `ACA`
   with the axiom that every set has an ω-jump — its truth in the full ω-model

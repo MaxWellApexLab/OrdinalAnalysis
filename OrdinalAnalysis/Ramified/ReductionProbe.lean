@@ -193,9 +193,9 @@ axiom, and that axiom is the negation of the cut formula?  When the cut formula
 is a (Pr) atom, the negation is `n̄ ∉̇_ν ā` — a literal, hence not excluded by
 `Literals` alone.  `MemFree` excludes it, and this lemma is the form the `atom`
 case of the (Pr) reduction will consume. -/
-theorem reduction_pr_atom_absurd (hA : MemFree A) {a n : ℕ}
+theorem reduction_pr_atom_absurd (hA : MemFree A) {a n : ℕ} (ha : Good a)
     {χ : Proposition LRA} (hχ : A.T χ) (he : χ = ∼(prAtom I a n)) : False :=
-  MemFree.ne_nmemAt hA hχ (lvl a) (I.num n) (I.num a) he
+  MemFree.ne_nmemAt hA hχ I ha n he
 
 /-- The positive twin. -/
 theorem reduction_pr_atom_absurd' (hA : MemFree A) {a n : ℕ}

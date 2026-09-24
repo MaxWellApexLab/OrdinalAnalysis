@@ -148,7 +148,7 @@ def psiR (μ : Lv) : Semiformula LRA ℕ 1 :=
 
 theorem lvlOf_psiR_le (μ : Lv) : lvlOf (psiR μ) ≤ μ := by
   simp only [psiR, lvlOf_all, lvlOf_or, lvlOf_neg, lvlOf_arAt, lvlOf_subst₁]
-  exact max_le (Nat.zero_le μ) (lvlOf_tiMuR_le μ)
+  exact max_le (Gamma0Note.zero_le_note μ) (lvlOf_tiMuR_le μ)
 
 section Psi
 
@@ -207,7 +207,7 @@ theorem good_TImu (hμ : μ < ν) (hν : 1 ≤ ν) {g s₀ : M} (hg : ∀ h, pre
 
 /-- **(EP_μ) in a model**: `ψ_μ` is progressive along `≺₁`. -/
 theorem epsProg_M (h0 : 0 < μ) (hμ : μ < ν) : ProgM (PsiM (M := M) μ) := by
-  have hν : 1 ≤ ν := Nat.succ_le_of_lt (lt_trans h0 hμ)
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_trans h0 hμ)
   intro g hg u heu z hprog x hx
   obtain ⟨s₀, n, w, hgood, htw, hxw⟩ := cover_M hM hν heu hx
   have hs : TImu μ s₀ := good_TImu hM hμ hν hg hgood
@@ -226,7 +226,7 @@ theorem psi_code_M (h0 : 0 < μ) (hμ : μ < ν) {c : Gamma0Note} (hc : c < epsi
 /-- **(A_μ) in a model**: `TI_μ(ε̄_c)` for every external `c < ε₀`. -/
 theorem ti_epsilon_M (h0 : 0 < μ) (hμ : μ < ν) {c : Gamma0Note} (hc : c < epsilonNote 0) :
     TImu μ (numVal M (gamma0Code (epsilonNote c))) := by
-  have hν : 1 ≤ ν := Nat.succ_le_of_lt (lt_trans h0 hμ)
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_trans h0 hμ)
   exact psi_code_M hM h0 hμ hc _ (epsM_code hM hν c)
 
 end Model
@@ -236,7 +236,7 @@ end Model
 /-- **(EP_μ)**: `RAlt ν ⊢ Prog(≺₁, ψ_μ)`, for `0 < μ < ν`. -/
 theorem epsProg_provable {ν μ : Lv} (h0 : 0 < μ) (hμ : μ < ν) :
     RAlt ν ⊢ Semiformula.univCl (progR (psiR μ)) := by
-  have hν : 1 ≤ ν := Nat.succ_le_of_lt (lt_trans h0 hμ)
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_trans h0 hμ)
   refine provable_of_eqModels hν ?_ ?_
   · rw [lvlOf_emb_univCl, lvlOf_progR]
     exact lt_of_le_of_lt (lvlOf_psiR_le μ) hμ
@@ -252,7 +252,7 @@ theorem epsProg_provable {ν μ : Lv} (h0 : 0 < μ) (hμ : μ < ν) :
 /-- **(G_μ)**: `RAlt ν ⊢ TI(≺₁, c̄, ψ_μ)` for every external `c < ε₀`, `μ < ν`. -/
 theorem tiPsi_provable {ν μ : Lv} (hμ : μ < ν) {c : Gamma0Note} (hc : c < epsilonNote 0) :
     RAlt ν ⊢ Semiformula.univCl (tiUpR (psiR μ) (numAtR (gamma0Code c))) := by
-  have hν : 1 ≤ ν := Nat.succ_le_of_lt (lt_of_le_of_lt (Nat.zero_le μ) hμ)
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_of_le_of_lt (Gamma0Note.zero_le_note μ) hμ)
   refine provable_of_eqModels hν ?_ ?_
   · rw [lvlOf_emb_univCl, lvlOf_tiUpR]
     exact lt_of_le_of_lt (lvlOf_psiR_le μ) hμ
@@ -271,7 +271,7 @@ theorem ti_epsilon_provable {ν μ : Lv} (h0 : 0 < μ) (hμ : μ < ν) {c : Gamm
     (hc : c < epsilonNote 0) :
     RAlt ν ⊢ Semiformula.univCl ((tiMuR μ)/[(numAtR (gamma0Code (epsilonNote c)) :
       Semiterm LRA ℕ 0)]) := by
-  have hν : 1 ≤ ν := Nat.succ_le_of_lt (lt_trans h0 hμ)
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_trans h0 hμ)
   refine provable_of_eqModels hν ?_ ?_
   · rw [lvlOf_emb_univCl, lvlOf_subst₁]
     exact lt_of_le_of_lt (lvlOf_tiMuR_le μ) hμ

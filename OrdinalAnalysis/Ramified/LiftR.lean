@@ -51,20 +51,21 @@ open LO LO.FirstOrder LO.FirstOrder.Arithmetic
 theorem lvlOf_eq_zero_of_rFree {n : ℕ} {φ : Semiformula LRA ℕ n} (h : RFree φ) :
     lvlOf φ = 0 := by
   induction φ using Semiformula.rec' with
-  | hverum => rfl
-  | hfalsum => rfl
-  | hrel r v => obtain ⟨r', rfl⟩ := h; rfl
-  | hnrel r v => obtain ⟨r', rfl⟩ := h; rfl
+  | hverum => exact lvlOf_verum
+  | hfalsum => exact lvlOf_falsum
+  | hrel r v => obtain ⟨r', rfl⟩ := h; rw [lvlOf_def]; rfl
+  | hnrel r v => obtain ⟨r', rfl⟩ := h; rw [lvlOf_def]; rfl
   | hand φ ψ ihφ ihψ => simp [ihφ h.1, ihψ h.2]
   | hor φ ψ ihφ ihψ => simp [ihφ h.1, ihψ h.2]
-  | hall φ ih => exact ih h
-  | hexs φ ih => exact ih h
+  | hall φ ih => rw [lvlOf_all]; exact ih h
+  | hexs φ ih => rw [lvlOf_exs]; exact ih h
 
 theorem lvlOf_emb_relExtX :
     lvlOf (Rewriting.emb (Theory.Eq.relExt (Sum.inr RARel.X : LRA.Rel 1)) : Proposition LRA) = 0 := by
   rw [emb_relExtX]
   simp [relX2, eqA, XAG]
-  exact ⟨rfl, rfl, rfl⟩
+  refine le_antisymm (max_le ?_ (max_le ?_ ?_)) (Gamma0Note.zero_le_note _) <;>
+    exact le_of_eq (by first | rfl | (rw [lvlOf_def]; rfl))
 
 theorem lvlOf_emb_memExt (κ : Lv) :
     lvlOf (Rewriting.emb (Theory.Eq.relExt (Sum.inr (RARel.mem κ) : LRA.Rel 2)) : Proposition LRA)
@@ -73,7 +74,7 @@ theorem lvlOf_emb_memExt (κ : Lv) :
   simp [memX4, eqA, memAtG]
   have h1 : (relLevel (Language.Eq.eq : LRA.Rel 2)).getD 0 = 0 := rfl
   have h2 : ∀ (v : Fin 2 → Semiterm LRA ℕ 4),
-      lvlOf (Semiformula.rel (Sum.inr (RARel.mem κ) : LRA.Rel 2) v) = κ := fun _ => rfl
+      lvlOf (Semiformula.rel (Sum.inr (RARel.mem κ) : LRA.Rel 2) v) = κ := fun _ => by rw [lvlOf_def]; rfl
   rw [h1, h2, h2]
   simp
 
@@ -120,7 +121,7 @@ theorem eval_truncStr (ν : Lv) {n : ℕ} (φ : Semiformula LRA ℕ n) (hφ : lv
           s.rel (Sum.inr RARel.X) (fun i => Semiterm.val (s := s) e f (v i))
         simp only [val_truncStr]
       | mem κ =>
-        have hκ : κ < ν := hφ
+        have hκ : κ < ν := by have h := hφ; rw [lvlOf_def] at h; exact h
         show (κ < ν ∧ s.rel (Sum.inr (RARel.mem κ))
             (fun i => Semiterm.val (s := truncStr ν) e f (v i))) ↔
           s.rel (Sum.inr (RARel.mem κ)) (fun i => Semiterm.val (s := s) e f (v i))
@@ -136,25 +137,29 @@ theorem eval_truncStr (ν : Lv) {n : ℕ} (φ : Semiformula LRA ℕ n) (hφ : lv
           ¬s.rel (Sum.inr RARel.X) (fun i => Semiterm.val (s := s) e f (v i))
         simp only [val_truncStr]
       | mem κ =>
-        have hκ : κ < ν := hφ
+        have hκ : κ < ν := by have h := hφ; rw [lvlOf_def] at h; exact h
         show ¬(κ < ν ∧ s.rel (Sum.inr (RARel.mem κ))
             (fun i => Semiterm.val (s := truncStr ν) e f (v i))) ↔
           ¬s.rel (Sum.inr (RARel.mem κ)) (fun i => Semiterm.val (s := s) e f (v i))
         simp only [val_truncStr, hκ, true_and]
   | hand φ ψ ihφ ihψ =>
+    rw [lvlOf_and] at hφ
     have h1 : lvlOf φ < ν := lt_of_le_of_lt (le_max_left _ _) hφ
     have h2 : lvlOf ψ < ν := lt_of_le_of_lt (le_max_right _ _) hφ
     rw [LogicalConnective.HomClass.map_and, LogicalConnective.HomClass.map_and, ihφ h1 e,
       ihψ h2 e]
   | hor φ ψ ihφ ihψ =>
+    rw [lvlOf_or] at hφ
     have h1 : lvlOf φ < ν := lt_of_le_of_lt (le_max_left _ _) hφ
     have h2 : lvlOf ψ < ν := lt_of_le_of_lt (le_max_right _ _) hφ
     rw [LogicalConnective.HomClass.map_or, LogicalConnective.HomClass.map_or, ihφ h1 e,
       ihψ h2 e]
   | hall φ ih =>
+    rw [lvlOf_all] at hφ
     rw [Semiformula.eval_all, Semiformula.eval_all]
     exact forall_congr' fun x => ih hφ (x :> e)
   | hexs φ ih =>
+    rw [lvlOf_exs] at hφ
     rw [Semiformula.eval_ex, Semiformula.eval_ex]
     exact exists_congr fun x => ih hφ (x :> e)
 
@@ -179,7 +184,7 @@ theorem truncStr_models [Nonempty M] {ν : Lv} (hν : 1 ≤ ν) (hM : M↓[LRA] 
     fun σ hσ hl => key σ (mem_RAlt_of_eq hσ hl)
   have hzero : ∀ σ : Sentence LRA, σ ∈ 𝗘𝗤 LRA → RFree σ →
       (truncStr (M := M) ν).toStruc ⊧ σ := fun σ hσ hR =>
-    keyEq σ hσ (by rw [lvlOf_eq_zero_of_rFree (rFree_emb hR)]; exact hν)
+    keyEq σ hσ (by rw [lvlOf_eq_zero_of_rFree (rFree_emb hR)]; exact lt_of_lt_of_le Gamma0Note.zero_lt_one hν)
   refine Semantics.modelsSet_iff.mpr ?_
   rintro σ (hσ | hσ)
   · exact key σ hσ
@@ -193,7 +198,7 @@ theorem truncStr_models [Nonempty M] {ν : Lv} (hν : 1 ≤ ν) (hM : M↓[LRA] 
       · exact hzero _ (Theory.eqAxiom.relExt _) (rFree_relExt_inl r)
       · cases r with
         | X =>
-          exact keyEq _ (Theory.eqAxiom.relExt _) (by rw [lvlOf_emb_relExtX]; exact hν)
+          exact keyEq _ (Theory.eqAxiom.relExt _) (by rw [lvlOf_emb_relExtX]; exact lt_of_lt_of_le Gamma0Note.zero_lt_one hν)
         | mem κ =>
           by_cases hκ : κ < ν
           · exact keyEq _ (Theory.eqAxiom.relExt _) (by rw [lvlOf_emb_memExt]; exact hκ)
@@ -406,24 +411,28 @@ theorem eval_substXB_interleave (B : Semiformula LRA ℕ 1) (g fB : ℕ → M) (
 theorem lvlOf_substXB_le (B : Semiformula LRA ℕ 1) {n : ℕ} (φ : Semiformula Gentzen.LX ℕ n) :
     lvlOf (substXB B φ) ≤ lvlOf B := by
   induction φ using Semiformula.rec' with
-  | hverum => exact Nat.zero_le _
-  | hfalsum => exact Nat.zero_le _
+  | hverum => exact Eq.trans_le (by rw [lvlOf_def]; rfl) (Gamma0Note.zero_le_note _)
+  | hfalsum => exact Eq.trans_le (by rw [lvlOf_def]; rfl) (Gamma0Note.zero_le_note _)
   | hrel r v =>
     rcases r with r | r
-    · exact Nat.zero_le _
+    · exact Eq.trans_le (by rw [lvlOf_def]; rfl) (Gamma0Note.zero_le_note _)
     · cases r
       show lvlOf (instB B _) ≤ lvlOf B
       rw [instB, lvlOf_rew]
   | hnrel r v =>
     rcases r with r | r
-    · exact Nat.zero_le _
+    · exact Eq.trans_le (by rw [lvlOf_def]; rfl) (Gamma0Note.zero_le_note _)
     · cases r
       show lvlOf (∼(instB B _)) ≤ lvlOf B
       rw [lvlOf_neg, instB, lvlOf_rew]
-  | hand φ ψ ihφ ihψ => exact max_le ihφ ihψ
-  | hor φ ψ ihφ ihψ => exact max_le ihφ ihψ
-  | hall φ ih => exact ih
-  | hexs φ ih => exact ih
+  | hand φ ψ ihφ ihψ =>
+    show lvlOf (substXB B φ ⋏ substXB B ψ) ≤ lvlOf B
+    rw [lvlOf_and]; exact max_le ihφ ihψ
+  | hor φ ψ ihφ ihψ =>
+    show lvlOf (substXB B φ ⋎ substXB B ψ) ≤ lvlOf B
+    rw [lvlOf_or]; exact max_le ihφ ihψ
+  | hall φ ih => show lvlOf (∀¹ substXB B φ) ≤ lvlOf B; rw [lvlOf_all]; exact ih
+  | hexs φ ih => show lvlOf (∃¹ substXB B φ) ≤ lvlOf B; rw [lvlOf_exs]; exact ih
 
 /-- **`lxStr P` is a model of `PA[X]`** for every `P` defined, with parameters, by
 a formula of level `< ν` in a model of `RAlt ν` with true equality. -/
@@ -531,7 +540,7 @@ def substMem (μ : Lv) {n : ℕ} (φ : Semiformula Gentzen.LX ℕ n) : Semiformu
 
 theorem lvlOf_substMem_le (μ : Lv) {n : ℕ} (φ : Semiformula Gentzen.LX ℕ n) :
     lvlOf (substMem μ φ) ≤ μ :=
-  lvlOf_substXB_le _ φ
+  (lvlOf_substXB_le _ φ).trans (le_of_eq (lvlOf_memAt _ _ _))
 
 /-- **The lifting of `PA[X]` into `RA_{<ν}` at a level-`μ` set, `μ < ν`.**  Every
 theorem `σ` of `PA[X]` becomes, after replacing `X t` by `t ∈̇_μ z` for a free
@@ -539,7 +548,7 @@ parameter `z`, a theorem of `RAlt ν` — universally closed, so for every
 level-`μ` set `z` at once. -/
 theorem lift_paLX_R {ν μ : Lv} (hν : μ < ν) {σ : Sentence Gentzen.LX} (h : Gentzen.paLX ⊢ σ) :
     RAlt ν ⊢ Semiformula.univCl (substMem μ (Rewriting.emb σ : Semiformula Gentzen.LX ℕ 0)) := by
-  have hν1 : 1 ≤ ν := Nat.succ_le_of_lt (lt_of_le_of_lt (Nat.zero_le μ) hν)
+  have hν1 : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_of_le_of_lt (Gamma0Note.zero_le_note μ) hν)
   refine provable_of_eqModels hν1 ?_ ?_
   · rw [lvlOf_emb_univCl]
     exact lt_of_le_of_lt (lvlOf_substMem_le μ _) hν

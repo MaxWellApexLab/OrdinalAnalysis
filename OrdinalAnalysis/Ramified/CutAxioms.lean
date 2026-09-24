@@ -82,23 +82,25 @@ theorem cut_axioms_of (T : Theory LRA) {ρ : Gamma0Note}
 
 /-! ### The finite-part rank bound
 
-`Rank.lean`'s `rank_le_omegaMul_lvlOf_nadd` is the bound; here it is lifted to
-an arbitrary level above `lvlOf φ`, and to the coarser `ω`-power form. -/
+`Rank.lean`'s `rank_le_blkTop_lvlOf_nadd` is the bound; here it is lifted to
+an arbitrary level above `lvlOf φ`, and at a finite level to the coarser
+`ω`-power form. -/
 
 /-- **The finite-part rank bound, at an arbitrary level above `lvlOf φ`**:
-`rank φ ≤ ω · ν ⊕ complexity φ` whenever `lvlOf φ ≤ ν`. -/
+`rank φ ≤ blkTop ν ⊕ complexity φ` whenever `lvlOf φ ≤ ν`. -/
 theorem rank_le_nadd_ofNat_complexity_of_level {n : ℕ} {ν : Lv} {φ : Semiformula LRA ℕ n}
     (h : lvlOf φ ≤ ν) :
-    rank φ ≤ Gamma0Note.nadd (omegaMul ν) (Gamma0Note.ofNat φ.complexity) :=
-  le_trans (rank_le_omegaMul_lvlOf_nadd φ)
-    (OrdinalNotation.nadd_le_nadd_left _ (omegaMul_le_omegaMul h))
+    rank φ ≤ Gamma0Note.nadd (Gamma0Note.blkTop ν) (Gamma0Note.ofNat φ.complexity) :=
+  le_trans (rank_le_blkTop_lvlOf_nadd φ)
+    (OrdinalNotation.nadd_le_nadd_left _ (Gamma0Note.blkTop_mono h))
 
-/-- **Every rank is its level's `ω`-power plus a finite part** — the coarser
-form of `rank_le_omegaMul_lvlOf_nadd`, through `ω · μ ≤ ω ^ μ`. -/
-theorem rank_le_omegaPowLv_lvlOf_nadd {n : ℕ} (φ : Semiformula LRA ℕ n) :
-    rank φ ≤ OrdinalNotation.nadd (omegaPowLv (lvlOf φ)) (OrdinalNotation.ofNat φ.complexity) :=
-  le_trans (rank_le_omegaMul_lvlOf_nadd φ)
-    (OrdinalNotation.nadd_le_nadd_left _ (omegaMul_le_omegaPowLv (lvlOf φ)))
+/-- **Every rank at a finite level `ν` is `ω ^ ν` plus a finite part** — the
+coarser form of `rank_le_omegaMul_lvlOf_nadd`, through `ω · ν ≤ ω ^ ν`. -/
+theorem rank_le_omegaPowLv_lvlOf_nadd {n : ℕ} {ν : ℕ} {φ : Semiformula LRA ℕ n}
+    (h : lvlOf φ ≤ Gamma0Note.ofNat ν) :
+    rank φ ≤ OrdinalNotation.nadd (omegaPowLv ν) (OrdinalNotation.ofNat φ.complexity) :=
+  le_trans (rank_le_omegaMul_lvlOf_nadd h)
+    (OrdinalNotation.nadd_le_nadd_left _ (omegaMul_le_omegaPowLv ν))
 
 end Ramified
 

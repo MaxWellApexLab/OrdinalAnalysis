@@ -11,7 +11,7 @@
   pairing (`pairDef`), and proves the three facts about it the rest of the
   development consumes:
 
-  * in `ℕ` it says exactly `c = mkCode μ s ⌜A⌝ p ∧ A.complexity + stage p < s`
+  * in `ℕ` it says exactly `c = mkCodeN ⌜μ⌝ s ⌜A⌝ p ∧ A.complexity + stage p < s`
     (`eval_guardDef_nat`), so the infinitary calculus can decide it by looking
     at numbers;
   * it is total in its first and third arguments, provably in `IΣ₁`
@@ -52,7 +52,7 @@ end Model
 
 /-- **The guard in `ℕ`**: exactly the code condition of `Ramified/Code.lean`. -/
 theorem eval_guardDef_nat (c p s m e k : ℕ) : guardDef.val.Evalb ![c, p, s, m, e, k] ↔
-    c = mkCode m s e p ∧ k + stage p < s := by
+    c = mkCodeN m s e p ∧ k + stage p < s := by
   rw [eval_guardDef]
   simp only [nat_pair_eq]
   constructor
@@ -97,7 +97,7 @@ def guardAt (c p s m e k : ℕ) : ArithmeticSentence :=
     guardDef.val
 
 theorem models_guardAt_iff (c p s m e k : ℕ) :
-    ℕ↓[ℒₒᵣ] ⊧ guardAt c p s m e k ↔ c = mkCode m s e p ∧ k + stage p < s := by
+    ℕ↓[ℒₒᵣ] ⊧ guardAt c p s m e k ↔ c = mkCodeN m s e p ∧ k + stage p < s := by
   rw [← eval_guardDef_nat]
   simp only [guardAt, models_iff, Semiformula.eval_rew, Function.comp_def]
   apply iff_of_eq
@@ -107,7 +107,7 @@ theorem models_guardAt_iff (c p s m e k : ℕ) :
 
 /-- **A true numeral instance of the guard is provable in `PA⁻`**
 (`Σ₁`-completeness). -/
-theorem guardAt_provable {c p s m e k : ℕ} (hc : c = mkCode m s e p) (hs : k + stage p < s) :
+theorem guardAt_provable {c p s m e k : ℕ} (hc : c = mkCodeN m s e p) (hs : k + stage p < s) :
     𝗣𝗔⁻ ⊢ guardAt c p s m e k :=
   sigma_one_completeness (by simp [guardAt]) ((models_guardAt_iff c p s m e k).mpr ⟨hc, hs⟩)
 

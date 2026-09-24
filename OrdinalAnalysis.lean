@@ -168,6 +168,9 @@ import OrdinalAnalysis.Ramified.DescentR
 import OrdinalAnalysis.Ramified.UpperBound
 import OrdinalAnalysis.Ramified.LimitTheorem
 import OrdinalAnalysis.Ramified.FSLower
+import OrdinalAnalysis.Ramified.TransfiniteLower
+import OrdinalAnalysis.Ordinal.Veblen.Encodable
+import OrdinalAnalysis.Ordinal.Veblen.OmegaMul
 import OrdinalAnalysis.Ramified.NamingAxioms
 import OrdinalAnalysis.Ramified.Comprehension
 import OrdinalAnalysis.Ramified.CutAxioms

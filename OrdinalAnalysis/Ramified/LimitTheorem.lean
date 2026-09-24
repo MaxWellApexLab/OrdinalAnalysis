@@ -1,18 +1,18 @@
 /-
-  The ordinal analysis of `RA_{<ω} = RA Set.univ`, the ungraded theory of ramified
-  analysis with names at every finite level, at `φ_2(0)`.
+  The ordinal analysis of `RA_{<ω} = RAlt ω`, the theory of ramified analysis
+  with names, equality and induction at every finite level, at `φ_2(0)`.
 
-  `RA Set.univ` is the union, over every level, of the graded theories `RAlt ν`
-  studied in `Ramified/UpperBound.lean`.  Its two-sided analysis sits exactly at
-  the ordinal `φ_2(0)`, the first fixed point of `a ↦ ε_a`, i.e. the limit of the
-  finite iteration of `φ_1` starting at `ε₀`.
+  `RAlt ω` is the union, over every finite `ν`, of the graded theories
+  `RAlt (ν+1)` studied in `Ramified/UpperBound.lean`.  Its two-sided analysis sits
+  exactly at the ordinal `φ_2(0)`, the first fixed point of `a ↦ ε_a`, i.e. the
+  limit of the finite iteration of `φ_1` starting at `ε₀`.
 
-  **Lower half** (`ramified_lower_bound_univ`).  A hypothetical `RA Set.univ`-proof
-  of `TI(≺_{φ_2(0)}, X)` unpacks, by `Theory.Proof.provable_iff`, into a raw `LK`
-  derivation together with a *finite* list of axioms of `RA Set.univ`.  Every
-  finite list has a common level bound `ν`, and an axiom of `RA Set.univ` whose own
-  embedded level is `≤ ν` already satisfies the level guard of `RAlt (ν+1)`
-  (`mem_RAlt_succ_of_mem_RA_univ`) — so the *same* derivation is a proof from
+  **Lower half** (`ramified_lower_bound_univ`).  A hypothetical `RAlt ω`-proof of
+  `TI(≺_{φ_2(0)}, X)` unpacks, by `Theory.Proof.provable_iff`, into a raw `LK`
+  derivation together with a *finite* list of axioms of `RAlt ω`.  Every such
+  axiom has a finite level, so the list has a common finite level bound `ν`, and
+  an axiom of level `≤ ν` already satisfies the level guard of `RAlt (ν+1)`
+  (`mem_RAlt_of_mem_RAlt_of_lvl_lt`) — so the *same* derivation is a proof from
   `RAlt (ν+1)`.  Since `φ_1^ν(ε₀) ≤ φ_2(0)` for *every* `ν`
   (`veblenIter_le_phiTwoZeroR`, `φ_2(0)` being the supremum of the whole tower,
   not just cofinal with it), `Ramified/LowerBound.lean`'s
@@ -27,9 +27,9 @@
   `b` left as a free parameter (`upper_M_at`, `ramified_upper_bound_at`), gives
   `RAlt (ν+1) ⊢ tiUptoSegR φ_2(0) a` directly, once `a` is known to lie below
   `φ_1^ν(ε₀)` for *some* `ν` — the ordinary cofinality of the `φ_1`-tower below
-  `φ_2(0)` (`exists_lt_phiTwoZeroR`).  Monotonicity of `RAlt`/`RA` in their level
-  parameter (`RAlt_weakerThan_RA_univ`) then moves the `RAlt (ν+1)`-proof to
-  `RA Set.univ`.
+  `φ_2(0)` (`exists_lt_phiTwoZeroR`).  Monotonicity of `RAlt` in its level
+  parameter (`RAlt_ofNat_weakerThan_omega`) then moves the `RAlt (ν+1)`-proof to
+  `RAlt ω`, and from there to `RA Set.univ` (`ramified_upper_bound_RA_univ`).
 
   So no genuine "segment-bridging" implication between `tiUptoSegR b a` and
   `tiUptoSegR b' a` (for `a < b ≤ b'`) is needed: the outer bound of `upper_M`'s
@@ -108,48 +108,74 @@ theorem veblenIter_one_le_succ (n : ℕ) (x : Gamma0Note) :
 open LO LO.FirstOrder LO.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
 
-/-! ### From `RA Set.univ` down to `RAlt (ν+1)`, one finite proof at a time
+/-! ### The finite levels
 
-A finite proof from `RA Set.univ` only ever uses finitely many axioms, each of some
-level; raised to any `ν` above all their levels, every one of them already
-satisfies `RAlt (ν+1)`'s level guard (`Theory.lean`'s `lvlOf_emb_lt_of_mem_RAlt`
-runs the same case split in the other direction). -/
+`RA_{<ω}` is `RAlt ω`: every axiom has a finite level.  With notation levels,
+`RA Set.univ` also contains names at every infinite level below `Γ₀`; the theory
+of this file is the one with names, equality and induction at the finite levels
+only. -/
 
-/-- A finite list of sentences has a common level bound (of their `emb` images).
-Restates `LowerBound.lean`'s private `exists_level_bound` here, since that lemma
-belongs to this file's argument just as much and is not exported. -/
-private theorem exists_level_bound_list (Δ : List (Sentence LRA)) :
-    ∃ ν : Lv, ∀ ψ ∈ Δ, lvlOf (Rewriting.emb ψ : Proposition LRA) ≤ ν := by
+/-- The level `ω`. -/
+def omegaLv : Lv := Gamma0Note.omegaPow 1
+
+/-- **Below `ω` exactly the finite levels.** -/
+theorem lt_omegaLv_iff {μ : Lv} : μ < omegaLv ↔ ∃ n : ℕ, μ = Gamma0Note.ofNat n := by
+  constructor
+  · intro h
+    rw [omegaLv, Gamma0Note.lt_def, Gamma0Note.repr_omegaPow, Gamma0Note.repr_one,
+      Ordinal.opow_one] at h
+    obtain ⟨n, hn⟩ := Ordinal.lt_omega0.1 h
+    exact ⟨n, Gamma0Note.repr_inj.1 (by rw [hn, Gamma0Note.repr_ofNat])⟩
+  · rintro ⟨n, rfl⟩
+    rw [omegaLv, Gamma0Note.lt_def, Gamma0Note.repr_omegaPow, Gamma0Note.repr_one,
+      Ordinal.opow_one, Gamma0Note.repr_ofNat]
+    exact Ordinal.natCast_lt_omega0 n
+
+theorem ofNat_lt_omegaLv (n : ℕ) : Gamma0Note.ofNat n < omegaLv := lt_omegaLv_iff.2 ⟨n, rfl⟩
+
+theorem one_le_omegaLv : 1 ≤ omegaLv :=
+  le_of_lt (by rw [← Gamma0Note.ofNat_one]; exact ofNat_lt_omegaLv 1)
+
+/-! ### From `RA_{<ω}` down to `RAlt (ν+1)`, one finite proof at a time
+
+A finite proof from `RAlt ω` only ever uses finitely many axioms, each of some
+finite level; raised to any `ν` above all their levels, every one of them already
+satisfies `RAlt (ν+1)`'s level guard. -/
+
+/-- A finite list of axioms of `RAlt ω` has a common finite level bound. -/
+private theorem exists_level_bound_list (Δ : List (Sentence LRA))
+    (hΔ : ∀ τ ∈ Δ, τ ∈ RAlt omegaLv) :
+    ∃ ν : ℕ, ∀ ψ ∈ Δ, lvlOf (Rewriting.emb ψ : Proposition LRA) ≤ Gamma0Note.ofNat ν := by
   induction Δ with
   | nil => exact ⟨0, by simp⟩
   | cons ψ Δ ih =>
-      obtain ⟨ν, hν⟩ := ih
-      refine ⟨max ν (lvlOf (Rewriting.emb ψ : Proposition LRA)), fun τ hτ => ?_⟩
+      obtain ⟨ν, hν⟩ := ih (fun τ hτ => hΔ τ (List.mem_cons_of_mem _ hτ))
+      obtain ⟨m, hm⟩ := lt_omegaLv_iff.1
+        (lvlOf_emb_lt_of_mem_RAlt one_le_omegaLv (hΔ ψ List.mem_cons_self))
+      refine ⟨max ν m, fun τ hτ => ?_⟩
       rcases List.mem_cons.mp hτ with rfl | hτ'
-      · exact le_max_right _ _
-      · exact le_trans (hν τ hτ') (le_max_left _ _)
+      · rw [hm]; exact Gamma0Note.ofNat_le_ofNat_iff.2 (le_max_right _ _)
+      · exact le_trans (hν τ hτ') (Gamma0Note.ofNat_le_ofNat_iff.2 (le_max_left _ _))
 
-/-- **An axiom of `RA Set.univ` of level `≤ ν` already lies in `RAlt (ν+1)`.**  Every
-block of `RA Set.univ` widens the corresponding block of `RAlt (ν+1)` only by
-dropping its level guard, so an individual axiom that happens to have low level
-qualifies regardless. -/
-private theorem mem_RAlt_succ_of_mem_RA_univ {ν : Lv} {τ : Sentence LRA} (hτ : τ ∈ RA Set.univ)
-    (hlvl : lvlOf (Rewriting.emb τ : Proposition LRA) ≤ ν) : τ ∈ RAlt (ν + 1) := by
-  rcases hτ with hτ | hτ | hτ | hτ
-  · exact mem_RAlt_of_eq hτ (Nat.lt_succ_of_le hlvl)
+/-- **An axiom of `RAlt L` of level `< ν` already lies in `RAlt ν`.**  Every
+block of `RAlt L` is cut out by a level condition, which an individual axiom of
+low level meets at `ν` as well. -/
+theorem mem_RAlt_of_mem_RAlt_of_lvl_lt {L ν : Lv} {τ : Sentence LRA} (hτ : τ ∈ RAlt L)
+    (hlvl : lvlOf (Rewriting.emb τ : Proposition LRA) < ν) : τ ∈ RAlt ν := by
+  rcases hτ with ⟨hτ, -⟩ | hτ | ⟨φ, -, rfl⟩ | hτ
+  · exact mem_RAlt_of_eq hτ hlvl
   · exact mem_RAlt_of_peanoMinus hτ
-  · obtain ⟨φ, -, rfl⟩ := hτ
-    rw [lvlOf_emb_univCl, lvlOf_succInd] at hlvl
-    exact induction_mem_RAlt φ (Nat.lt_succ_of_le hlvl)
+  · rw [lvlOf_emb_univCl, lvlOf_succInd] at hlvl
+    exact induction_mem_RAlt φ hlvl
   · obtain ⟨μ, A, -, h0, hA, rfl | rfl⟩ := hτ
     · rw [lvlOf_emb_univCl, lvlOf_nameOutP hA] at hlvl
-      exact naming_mem_RAlt ⟨μ, A, Nat.lt_succ_of_le hlvl, h0, hA, Or.inl rfl⟩
+      exact naming_mem_RAlt ⟨μ, A, hlvl, h0, hA, Or.inl rfl⟩
     · rw [lvlOf_emb_univCl, lvlOf_nameInP hA] at hlvl
-      exact naming_mem_RAlt ⟨μ, A, Nat.lt_succ_of_le hlvl, h0, hA, Or.inr rfl⟩
+      exact naming_mem_RAlt ⟨μ, A, hlvl, h0, hA, Or.inr rfl⟩
 
-/-- **`RAlt ν ⪯ RA Set.univ`**, for every `ν`. -/
-private theorem RAlt_weakerThan_RA_univ (ν : Lv) : RAlt ν ⪯ RA Set.univ :=
-  Theory.Proof.weakerThan_of_le (Set.Subset.trans (RAlt_subset_RA ν) (RA_subset (Set.subset_univ _)))
+/-- **`RAlt (ofNat n) ⪯ RAlt ω`**, for every `n`. -/
+theorem RAlt_ofNat_weakerThan_omega (n : ℕ) : RAlt (Gamma0Note.ofNat n) ⪯ RAlt omegaLv :=
+  RAlt_weakerThan (le_of_lt (ofNat_lt_omegaLv n))
 
 /-! ### The upper bound at an arbitrary outer segment, in a model
 
@@ -166,18 +192,20 @@ variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν 
 `upper_M`, with the outer bound generalised from `veblenIter 1 ν (epsilonNote 0)`
 to any `b`, and the cofinal witness `(c, hc, hac)` taken as a hypothesis instead of
 being produced by `exists_lt_veblenIter` from `a < veblenIter 1 ν (epsilonNote 0)`. -/
-theorem upper_M_at (b : Gamma0Note) (hM : M↓[LRA] ⊧* RAlt (ν + 1)) (hν : 1 ≤ ν)
-    {a c : Gamma0Note} (hc : c < epsilonNote 0) (hac : a < veblenIter 1 ν c) :
+theorem upper_M_at (b : Gamma0Note) (hM : M↓[LRA] ⊧* RAlt (Gamma0Note.ofNat (ν + 1)))
+    (hν : 1 ≤ ν) {a c : Gamma0Note} (hc : c < epsilonNote 0) (hac : a < veblenIter 1 ν c) :
     (∀ x : M, (∀ y : M, precM y x ∧
         precM x (numVal M (gamma0Code b)) → XM y) → XM x) →
       ∀ y : M, precM y (numVal M (gamma0Code a)) ∧
         precM (numVal M (gamma0Code a)) (numVal M (gamma0Code b)) → XM y := by
-  have hν1 : 1 ≤ ν + 1 := Nat.succ_le_succ (Nat.zero_le ν)
+  have hν1 : 1 ≤ Gamma0Note.ofNat (ν + 1) :=
+    Gamma0Note.one_le_ofNat (Nat.succ_le_succ (Nat.zero_le ν))
   set B : M := numVal M (gamma0Code b)
   have h1 := level_one_M hM hν hc
   have hshape : Shape 1 (segGuardR b) :=
-    shape_of_lvlOf_lt (by rw [lvlOf_segGuardR]; exact Nat.one_pos)
-  obtain ⟨w, hw⟩ := comprM hM Nat.one_pos (Nat.succ_lt_succ (lt_of_lt_of_le Nat.zero_lt_one hν))
+    shape_of_lvlOf_lt (by rw [lvlOf_segGuardR]; exact Gamma0Note.zero_lt_one)
+  obtain ⟨w, hw⟩ := comprM hM Gamma0Note.zero_lt_one
+    (by rw [← Gamma0Note.ofNat_one]; exact Gamma0Note.ofNat_lt_ofNat (by omega))
     hshape (Classical.arbitrary M)
   have hG : ∀ x, memM 1 x w ↔ (precM x B → XM x) := fun x =>
     (hw x).trans (eval_segGuardR _ x _)
@@ -195,8 +223,9 @@ end Model
 `ramified_upper_bound`, with the outer bound generalised. -/
 theorem ramified_upper_bound_at (b : Gamma0Note) {ν : ℕ} (hν : 1 ≤ ν) (a c : Gamma0Note)
     (hc : c < epsilonNote 0) (hac : a < veblenIter 1 ν c) :
-    RAlt (ν + 1) ⊢ tiUptoSegR b a := by
-  have hν1 : 1 ≤ ν + 1 := Nat.le_add_left 1 ν
+    RAlt (Gamma0Note.ofNat (ν + 1)) ⊢ tiUptoSegR b a := by
+  have hν1 : 1 ≤ Gamma0Note.ofNat (ν + 1) :=
+    Gamma0Note.one_le_ofNat (Nat.le_add_left 1 ν)
   refine provable_of_eqModels hν1 ?_ ?_
   · rw [tiUptoSegR, lvlOf_emb_univCl]
     have h0 : lvlOf (∼(Prog (precBelowR b)) ⋎
@@ -204,51 +233,63 @@ theorem ramified_upper_bound_at (b : Gamma0Note) {ν : ℕ} (hν : 1 ≤ ν) (a 
           (numAtR (gamma0Code a))) ⋎ Xat (#0 : Semiterm LRA ℕ 1)))) = 0 := by
       simp [Prog, below, precAt, precBelowR, precCode₁R, lvlOf_lMap_toLRA]
     rw [h0]
-    exact Nat.succ_pos ν
+    exact ofNat_pos' (Nat.succ_pos ν)
   · intro N _ sN _ hN
     rw [tiUptoSegR, models_iff_proposition]
     intro f
     exact (eval_tiUptoSegR_body b a f).mpr (upper_M_at b hN hν hc hac)
 
-/-! ### The two headline theorems for `RA Set.univ` at `φ_2(0)` -/
+/-! ### The two headline theorems for `RA_{<ω}` at `φ_2(0)` -/
 
 /-- **The provability half of the ordinal analysis of `RA_{<ω}`.**  For every
-Veblen notation `a < φ_2(0)`, `RA Set.univ` proves transfinite induction for `X`
+Veblen notation `a < φ_2(0)`, `RAlt ω` proves transfinite induction for `X`
 along the coded Veblen ordering restricted to the segment below `φ_2(0)`, up to
 `a`. -/
 theorem ramified_upper_bound_univ (a : Gamma0Note) (ha : a < phiTwoZeroR) :
-    RA Set.univ ⊢ tiUptoSegR phiTwoZeroR a := by
+    RAlt omegaLv ⊢ tiUptoSegR phiTwoZeroR a := by
   obtain ⟨n, hn⟩ := exists_lt_phiTwoZeroR ha
   have han1 : a < veblenIter 1 (n + 1) (epsilonNote 0) :=
     lt_of_lt_of_le hn (veblenIter_one_le_succ n (epsilonNote 0))
   obtain ⟨c, hc, hac⟩ := exists_lt_veblenIter (n + 1) a han1
   have hderiv := ramified_upper_bound_at phiTwoZeroR (Nat.le_add_left 1 n) a c hc hac
-  exact (RAlt_weakerThan_RA_univ (n + 2)).wk hderiv
+  exact (RAlt_ofNat_weakerThan_omega (n + 2)).wk hderiv
 
-/-- **The non-provability half of the ordinal analysis of `RA_{<ω}`.**  `RA Set.univ`
+/-- **The non-provability half of the ordinal analysis of `RA_{<ω}`.**  `RAlt ω`
 does not prove transfinite induction along the coded Veblen ordering restricted to
 the whole segment below `φ_2(0)`. -/
 theorem ramified_lower_bound_univ :
-    RA Set.univ ⊬ (Semiformula.univCl (TIR (precBelowR phiTwoZeroR)) : Sentence LRA) := by
+    RAlt omegaLv ⊬ (Semiformula.univCl (TIR (precBelowR phiTwoZeroR)) : Sentence LRA) := by
   intro hp
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := RA_provable_iff.mp hp
-  obtain ⟨ν0, hν0⟩ := exists_level_bound_list Δ
-  set ν : Lv := max ν0 1 with hνdef
-  have hmem : ∀ τ ∈ Δ, τ ∈ RAlt (ν + 1) := fun τ hτ =>
-    mem_RAlt_succ_of_mem_RA_univ (hΔ τ hτ) (le_trans (hν0 τ hτ) (le_max_left _ _))
-  have hRAlt : RAlt (ν + 1) ⊢ (Semiformula.univCl (TIR (precBelowR phiTwoZeroR)) : Sentence LRA) :=
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := RAlt_provable_iff.mp hp
+  obtain ⟨ν0, hν0⟩ := exists_level_bound_list Δ hΔ
+  set ν : ℕ := max ν0 1 with hνdef
+  have hmem : ∀ τ ∈ Δ, τ ∈ RAlt (Gamma0Note.ofNat (ν + 1)) := fun τ hτ =>
+    mem_RAlt_of_mem_RAlt_of_lvl_lt (hΔ τ hτ)
+      (lt_of_le_of_lt (le_trans (hν0 τ hτ)
+        (Gamma0Note.ofNat_le_ofNat_iff.2 (le_max_left _ _)))
+        (Gamma0Note.ofNat_lt_ofNat (Nat.lt_succ_self ν)))
+  have hRAlt : RAlt (Gamma0Note.ofNat (ν + 1)) ⊢
+      (Semiformula.univCl (TIR (precBelowR phiTwoZeroR)) : Sentence LRA) :=
     RAlt_provable_iff.mpr ⟨Δ, hmem, ⟨d⟩⟩
   exact not_provable_TIR_of_cutFree (Gamma0Note.ofNat 2) 0 zero_lt_ofNat_two
     (veblenIter_le_phiTwoZeroR ν) hRAlt
 
-/-- **The ordinal analysis of `RA_{<ω} = RA Set.univ`, both halves**, at `φ_2(0)`:
-`RA Set.univ` proves transfinite induction for `X` along the segment ordering
+/-- **The ordinal analysis of `RA_{<ω} = RAlt ω`, both halves**, at `φ_2(0)`:
+`RAlt ω` proves transfinite induction for `X` along the segment ordering
 `≺_{φ_2(0)}` up to every `a < φ_2(0)`, and does not prove transfinite induction for
 `X` along the whole of `≺_{φ_2(0)}`. -/
 theorem ramified_theorem_univ :
-    (∀ a : Gamma0Note, a < phiTwoZeroR → RA Set.univ ⊢ tiUptoSegR phiTwoZeroR a) ∧
-      RA Set.univ ⊬ (Semiformula.univCl (TIR (precBelowR phiTwoZeroR)) : Sentence LRA) :=
+    (∀ a : Gamma0Note, a < phiTwoZeroR → RAlt omegaLv ⊢ tiUptoSegR phiTwoZeroR a) ∧
+      RAlt omegaLv ⊬ (Semiformula.univCl (TIR (precBelowR phiTwoZeroR)) : Sentence LRA) :=
   ⟨ramified_upper_bound_univ, ramified_lower_bound_univ⟩
+
+/-- The provability half survives in the theory with names at every level:
+`RA Set.univ` proves everything `RAlt ω` does. -/
+theorem ramified_upper_bound_RA_univ (a : Gamma0Note) (ha : a < phiTwoZeroR) :
+    RA Set.univ ⊢ tiUptoSegR phiTwoZeroR a :=
+  (Theory.Proof.weakerThan_of_le
+    (Set.Subset.trans (RAlt_subset_RA omegaLv) (RA_subset (Set.subset_univ _)))).wk
+    (ramified_upper_bound_univ a ha)
 
 end Ramified
 

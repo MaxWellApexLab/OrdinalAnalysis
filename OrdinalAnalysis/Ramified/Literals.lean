@@ -5,8 +5,8 @@
   `Omega/Calculus.lean`'s `Literals` asks two things of an axiom set: every axiom
   is a literal, and no axiom is asserted together with its negation.  For `LRA`
   that is not enough, and `Ramified/Calculus.lean` records the missing condition
-  as `MemFree`: **no axiom is a set atom**.  The reason is structural rather than
-  semantic.  A set atom `n̄ ∈̇_ν ā` *is* a literal, so `Literals` alone permits it
+  as `MemFree`: **no axiom is the conclusion of a predicator rule**.  The reason
+  is structural rather than semantic.  A set atom `n̄ ∈̇_ν ā` *is* a literal, so `Literals` alone permits it
   as an axiom; but then a (Pr) inference and an axiom could be the two sides of a
   cut, and that pair has no principal reduction — the (Pr) side offers the
   unfolding `A_a(n̄)` while the axiom side offers nothing at all.  Every other
@@ -56,26 +56,26 @@ theorem neg_injective {n : ℕ} {φ ψ : Semiformula LRA ℕ n} (h : ∼φ = ∼
 
 /-! ### `MemFree`, in the shapes the reduction lemma consumes
 
-`Ramified/Calculus.lean` defines `MemFree A` as "no axiom is a set atom" and
-derives `ne_memAt`/`ne_nmemAt`.  The reduction lemma also meets the *negated*
-forms: in its `atom` case the cut formula is the axiom `ψ`, and a (Pr) handler
-presents `∼ψ` as a set atom. -/
+`Ramified/Calculus.lean` defines `MemFree A` as "no axiom is the conclusion of a
+predicator rule" and derives `ne_memAt`/`ne_nmemAt`.  The reduction lemma also
+meets the *negated* forms: in its `atom` case the cut formula is the axiom `ψ`,
+and a (Pr) handler presents `∼ψ` as a set atom. -/
 
 namespace MemFree
 
 variable {A : Literals LRA} (h : MemFree A)
 include h
 
-/-- The negation of an axiom is not a set atom either. -/
-theorem neg_ne_memAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
-    ∼φ ≠ memAt ν t s := by
+/-- The negation of an axiom is not a (Pr) conclusion. -/
+theorem neg_ne_memAt {φ : Proposition LRA} (hφ : A.T φ) (I : InstantiationR) {a : ℕ}
+    (ha : Good a) (n : ℕ) : ∼φ ≠ memAt (lvl a) (I.num n) (I.num a) := by
   intro he
-  have h' : φ = nmemAt ν t s := by
+  have h' : φ = nmemAt (lvl a) (I.num n) (I.num a) := by
     have := congrArg (fun χ => ∼χ) he
     simpa using this
-  exact MemFree.ne_nmemAt h hφ ν t s h'
+  exact MemFree.ne_nmemAt h hφ I ha n h'
 
-/-- The negation of an axiom is not a negated set atom either. -/
+/-- The negation of an axiom is not a negated set atom. -/
 theorem neg_ne_nmemAt {φ : Proposition LRA} (hφ : A.T φ) (ν : Lv) (t s : SyntacticTerm LRA) :
     ∼φ ≠ nmemAt ν t s := by
   intro he
@@ -141,7 +141,7 @@ theorem rank_of_isArithLitR {φ : Proposition LRA} (h : IsArithLitR φ) : rank �
 /-- **An arithmetic literal has level `0`.**  The companion of
 `rank_of_isArithLitR`, in the form the level bookkeeping wants. -/
 theorem lvlOf_of_isArithLitR {φ : Proposition LRA} (h : IsArithLitR φ) : lvlOf φ = 0 := by
-  obtain ⟨k, r, v, (rfl | rfl), -⟩ := h <;> rfl
+  obtain ⟨k, r, v, (rfl | rfl), -⟩ := h <;> (rw [lvlOf_def]; rfl)
 
 /-! ### The axiom set -/
 
@@ -205,9 +205,89 @@ theorem trueArithLitsR_xfree {φ : Proposition LRA} (h : trueArithLitsR.T φ)
 symbol is tagged `Sum.inl`, while a set atom's is tagged `Sum.inr`. -/
 theorem memFree_trueArithLitsR : MemFree trueArithLitsR := by
   intro φ h ν t s
-  constructor <;> intro he <;>
-    [ (have := congrArg freshHead he) ; (have := congrArg freshHead he) ] <;>
-    rw [freshHead_of_isArithLitR h.1] at this <;> simp at this
+  have key : ∀ ψ : Proposition LRA, freshHead ψ = true → φ ≠ ψ := by
+    intro ψ hψ he
+    have := congrArg freshHead he
+    rw [freshHead_of_isArithLitR h.1, hψ] at this
+    exact Bool.false_ne_true this
+  exact ⟨key _ (freshHead_memAt ν t s), fun he => absurd he (key _ (freshHead_nmemAt ν t s))⟩
+
+/-! ### The junk literals
+
+A number `a` that is not a `Good` code of level `ν` names, at level `ν`, the
+empty set: `n̄ ∉̇_ν ā` is an axiom for every `n`.  Without these axioms such a name
+would be a free level-`ν` predicate of the semiformal calculus, about which
+nothing can be derived from below.  They are negated set atoms at names no
+predicator rule can reach, so the calculus keeps `MemFree`
+(`memFree_junkLitsR`), and they are true in the reading where every set atom is
+false. -/
+
+/-- `φ` is **a junk literal**: `n̄ ∉̇_ν ā` with `a` not a `Good` code of level
+`ν`. -/
+def JunkAtom (φ : Proposition LRA) : Prop :=
+  ∃ (ν : Lv) (n a : ℕ), φ = nmemAt ν (num n) (num a) ∧ ¬(Good a ∧ lvl a = ν)
+
+/-- A positive set atom is not a negated one. -/
+theorem memAt_ne_nmemAt {n : ℕ} {ν ν' : Lv} {t s t' s' : Semiterm LRA ℕ n} :
+    memAt ν t s ≠ nmemAt ν' t' s' := by
+  intro h; cases h
+
+/-- The level tag of the head symbol, `none` for a non-atom. -/
+def headLv {n : ℕ} : Semiformula LRA ℕ n → Option Lv
+  |  .rel r _ => relLevel r
+  | .nrel r _ => relLevel r
+  |         _ => none
+
+theorem freshHead_of_junkAtom {φ : Proposition LRA} (h : JunkAtom φ) : freshHead φ = true := by
+  obtain ⟨ν, n, a, rfl, -⟩ := h; rfl
+
+/-- **The atomic axioms with the junk literals**: the true closed arithmetic
+literals, and `n̄ ∉̇_ν ā` for every `a` that is not a `Good` code of level
+`ν`. -/
+def junkLitsR : Literals LRA where
+  T := fun φ => trueArithLitsR.T φ ∨ JunkAtom φ
+  literal := by
+    rintro φ (h | ⟨ν, n, a, rfl, -⟩)
+    · exact trueArithLitsR.literal φ h
+    · exact ⟨2, Sum.inr (RARel.mem ν), ![num n, num a], Or.inr rfl⟩
+  consistent := by
+    rintro φ (h1 | h1) (h2 | h2)
+    · exact trueArithLitsR.consistent φ h1 h2
+    · have e1 := freshHead_of_isArithLitR (isArithLitR_neg h1.1)
+      rw [freshHead_of_junkAtom h2] at e1
+      simp at e1
+    · obtain ⟨ν, n, a, rfl, -⟩ := h1
+      have e1 := freshHead_of_isArithLitR h2.1
+      exact absurd e1 (by simp)
+    · obtain ⟨ν, n, a, rfl, -⟩ := h1
+      obtain ⟨ν', n', a', he, -⟩ := h2
+      exact memAt_ne_nmemAt he
+
+@[simp] theorem junkLitsR_T (φ : Proposition LRA) :
+    junkLitsR.T φ ↔ trueArithLitsR.T φ ∨ JunkAtom φ := Iff.rfl
+
+/-- Every arithmetic axiom is a junk-literal axiom. -/
+theorem trueArithLitsR_le_junkLitsR (φ : Proposition LRA) (h : trueArithLitsR.T φ) :
+    junkLitsR.T φ := Or.inl h
+
+/-- **The junk literals keep `MemFree`.** -/
+theorem memFree_junkLitsR : MemFree junkLitsR := by
+  rintro φ (h | ⟨ν', n, a, rfl, hbad⟩) ν t s
+  · exact memFree_trueArithLitsR φ h ν t s
+  · refine ⟨fun he => memAt_ne_nmemAt he.symm, fun he => ?_⟩
+    obtain ⟨rfl, -, rfl⟩ := nmemAt_inj he
+    exact ⟨groundR_num a, by rw [evTermR_num]; exact hbad⟩
+
+/-- **No junk-literal axiom is an `X`-atom or a negated `X`-atom.** -/
+theorem junkLitsR_xfree {φ : Proposition LRA} (h : junkLitsR.T φ) (t : SyntacticTerm LRA) :
+    φ ≠ Xat t ∧ φ ≠ ∼(Xat t) := by
+  rcases h with h | ⟨ν, n, a, rfl, -⟩
+  · exact trueArithLitsR_xfree h t
+  · refine ⟨fun he => ?_, fun he => ?_⟩
+    · have := congrArg headLv he
+      simp [headLv, nmemAt, Xat, relLevel, RARel.level] at this
+    · have := congrArg headLv (he.trans (Semiformula.neg_rel _ _))
+      simp [headLv, nmemAt, relLevel, RARel.level] at this
 
 /-! ### The normalisation side
 

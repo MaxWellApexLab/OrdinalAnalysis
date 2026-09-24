@@ -471,14 +471,18 @@ theorem not_goodR_negProg : ¬ GoodR C γ δ (evR (∼(Prog C.prec))) := by
 
 set_option maxHeartbeats 2000000 in
 /-- **Boundedness.**  A cut-free derivation of height `α` of a sequent in the
-class has, for every lower bound `γ`, a good member under `(γ, γ ⊕ ω^α)`. -/
-theorem boundedness [WellFoundedLT O] [OrdinalNotation O] {α : O} {Γ : Sequent LRA}
-    (h : OmegaDerivableR trueArithLitsR evInstR 0 α Γ) :
+class has, for every lower bound `γ`, a good member under `(γ, γ ⊕ ω^α)`.  The
+atomic axioms may include the junk literals: a negated set atom is never in the
+class. -/
+theorem boundedness_junk [WellFoundedLT O] [OrdinalNotation O] {α : O} {Γ : Sequent LRA}
+    (h : OmegaDerivableR junkLitsR evInstR 0 α Γ) :
     InCeSeq C Γ → ∀ γ : O, Bound C γ (OrdinalNotation.nadd γ (OrdinalNotation.omegaPow α)) Γ := by
   induction h with
   | @atom α φ hφ =>
-      intro _ γ
-      exact Bound.head (GoodR.xfree (isXFreeClosed_of_isArithLitR hφ.1) hφ.2) _
+      intro hC γ
+      rcases hφ with hφ | ⟨ν, n, a, rfl, -⟩
+      · exact Bound.head (GoodR.xfree (isXFreeClosed_of_isArithLitR hφ.1) hφ.2) _
+      · exact absurd (hC _ List.mem_cons_self) not_inCe_nmemAt
   | @identity α k rl v =>
       intro hC γ
       have hle : γ ≤ OrdinalNotation.nadd γ (OrdinalNotation.omegaPow α) :=
@@ -615,11 +619,18 @@ theorem boundedness [WellFoundedLT O] [OrdinalNotation O] {α : O} {Γ : Sequent
       intro hC _
       exact absurd (hC _ List.mem_cons_self) not_inCe_nmemAt
 
-/-- **`TI(≺)` has no cut-free `RA_∞`-derivation at any height.** -/
-theorem not_derivable_TI_R [WellFoundedLT O] [OrdinalNotation O] (C : CodedOrderR O) (α : O) :
-    ¬ OmegaDerivableR trueArithLitsR evInstR 0 α [evR (TIR C.prec)] := by
+/-- **Boundedness**, for the true arithmetic literals alone. -/
+theorem boundedness [WellFoundedLT O] [OrdinalNotation O] {α : O} {Γ : Sequent LRA}
+    (h : OmegaDerivableR trueArithLitsR evInstR 0 α Γ) :
+    InCeSeq C Γ → ∀ γ : O, Bound C γ (OrdinalNotation.nadd γ (OrdinalNotation.omegaPow α)) Γ :=
+  boundedness_junk (h.mono_lits trueArithLitsR_le_junkLitsR)
+
+/-- **`TI(≺)` has no cut-free `RA_∞`-derivation at any height**, even with the
+junk literals among the axioms. -/
+theorem not_derivable_TI_R_junk [WellFoundedLT O] [OrdinalNotation O] (C : CodedOrderR O)
+    (α : O) : ¬ OmegaDerivableR junkLitsR evInstR 0 α [evR (TIR C.prec)] := by
   intro h
-  have hB := boundedness h (fun ψ hψ => by
+  have hB := boundedness_junk h (fun ψ hψ => by
     simp only [List.mem_singleton] at hψ
     subst hψ
     exact InCe.ti) α
@@ -627,6 +638,16 @@ theorem not_derivable_TI_R [WellFoundedLT O] [OrdinalNotation O] (C : CodedOrder
   rcases hB with hg | ⟨ψ, hψ, -⟩
   · exact lt_irrefl _ (GoodR_TIR_iff.mp hg _)
   · simp at hψ
+
+/-- **`TI(≺)` has no cut-free `RA_∞`-derivation at any height.** -/
+theorem not_derivable_TI_R [WellFoundedLT O] [OrdinalNotation O] (C : CodedOrderR O) (α : O) :
+    ¬ OmegaDerivableR trueArithLitsR evInstR 0 α [evR (TIR C.prec)] := fun h =>
+  not_derivable_TI_R_junk C α (h.mono_lits trueArithLitsR_le_junkLitsR)
+
+/-- **The `Γ₀` instance**, with the junk literals. -/
+theorem not_derivable_TI_R_gamma0_junk (α : Gamma0Note) :
+    ¬ OmegaDerivableR junkLitsR evInstR 0 α [evR (TIR gamma0OrderR.prec)] :=
+  not_derivable_TI_R_junk gamma0OrderR α
 
 /-- **The `Γ₀` instance.**  Transfinite induction along the coded Veblen
 ordering of `gamma0OrderR` has no cut-free `RA_∞`-derivation at any height. -/

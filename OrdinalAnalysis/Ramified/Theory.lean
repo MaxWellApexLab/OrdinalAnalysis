@@ -64,11 +64,11 @@
   `RA Λ` puts *no* level restriction on its equality axioms or its induction
   scheme.  That is right for `RA Λ` itself, but wrong for `RAlt ν`, the theory
   of the sets of level `< ν`: `Ramified/Rank.lean` prices a level-`μ` set atom
-  at up to `ω·μ`, and predicative cut elimination consumes derivations whose
-  cut rank sits below `ω·ν` (`Rank.rank_lt_block_of_level : lvlOf φ < ν →
-  rank φ < ω·ν`).  If `RAlt ν` contained the congruence axiom of `∈̇_μ` for some
+  at up to `blkTop μ` (`ω·μ` at a finite `μ`), and predicative cut elimination consumes derivations whose
+  cut rank sits below `blkTop ν` (`Rank.rank_lt_blkTop_of_level : lvlOf φ < ν →
+  rank φ < blkTop ν`).  If `RAlt ν` contained the congruence axiom of `∈̇_μ` for some
   `μ ≥ ν`, or induction for a formula mentioning `∈̇_μ`, a derivation from
-  `RAlt ν` could legitimately cut on a formula of rank `≥ ω·ν`.
+  `RAlt ν` could legitimately cut on a formula of rank `≥ blkTop ν`.
 
   So `RAlt ν` intersects each unrestricted block of `RA Λ` with the level
   condition it needs: the equality axioms are kept only when their embedded
@@ -130,7 +130,7 @@ and then the subject `x`: under the last binder `#0 = x`, `#1 = c`, `#2 = p`,
 /-- The guard `G(c, p, s)` of the formula `A` at level `μ`, as an arithmetical
 semisentence with free slots `c`, `p`, `s`. -/
 def guardSS (μ : Lv) (A : Semiformula LRA ℕ 1) : Semisentence ℒₒᵣ 3 :=
-  Rew.subst ![(#0 : Semiterm ℒₒᵣ Empty 3), #1, #2, (μ : Semiterm ℒₒᵣ Empty 3),
+  Rew.subst ![(#0 : Semiterm ℒₒᵣ Empty 3), #1, #2, ((Encodable.encode μ : ℕ) : Semiterm ℒₒᵣ Empty 3),
     ((Encodable.encode A : ℕ) : Semiterm ℒₒᵣ Empty 3),
     (A.complexity : Semiterm ℒₒᵣ Empty 3)] ▹ guardDef.val
 
@@ -166,10 +166,10 @@ theorem lvlOf_lMap_toLRA {n : ℕ} : ∀ (φ : Semiformula ℒₒᵣ ℕ n),
     lvlOf (Semiformula.lMap toLRA φ) = 0 := by
   intro φ
   induction φ using Semiformula.rec' with
-  | hverum => rfl
-  | hfalsum => rfl
-  | hrel r v => rfl
-  | hnrel r v => rfl
+  | hverum => rw [lvlOf_def]; rfl
+  | hfalsum => rw [lvlOf_def]; rfl
+  | hrel r v => rw [lvlOf_def]; rfl
+  | hnrel r v => rw [lvlOf_def]; rfl
   | hand φ ψ ihφ ihψ => simp [LogicalConnective.HomClass.map_and, lvlOf_and, ihφ, ihψ]
   | hor φ ψ ihφ ihψ => simp [LogicalConnective.HomClass.map_or, lvlOf_or, ihφ, ihψ]
   | hall φ ih => simp [Semiformula.lMap_all, lvlOf_all, ih]
@@ -192,13 +192,13 @@ theorem lvlOf_instA (A : Semiformula LRA ℕ 1) : lvlOf (instA A) = lvlOf A := l
     lvlOf (nameOutP μ A) = μ := by
   rw [nameOutP, lvlOf_allClosure, nameOutMat, lvlOf_or, lvlOf_neg, lvlOf_guardR, lvlOf_all,
     lvlOf_or, lvlOf_nmemAt, lvlOf_instA, max_eq_left (lvlOf_le_of_shape hA)]
-  exact Nat.zero_max μ
+  exact max_eq_right (Gamma0Note.zero_le_note μ)
 
 @[simp] theorem lvlOf_nameInP {μ : Lv} {A : Semiformula LRA ℕ 1} (hA : Shape μ A) :
     lvlOf (nameInP μ A) = μ := by
   rw [nameInP, lvlOf_allClosure, nameInMat, lvlOf_or, lvlOf_neg, lvlOf_guardR, lvlOf_all,
     lvlOf_or, lvlOf_neg, lvlOf_memAt, lvlOf_instA, max_eq_right (lvlOf_le_of_shape hA)]
-  exact Nat.zero_max μ
+  exact max_eq_right (Gamma0Note.zero_le_note μ)
 
 /-- **The naming schema at the levels `Λ`.**  An *external* schema: one pair of
 instances per positive level `μ ∈ Λ` and per formula `A` of shape `μ`,
@@ -388,7 +388,7 @@ theorem lvlOf_emb_lt_of_mem_RAlt {ν : Lv} (hν : 1 ≤ ν) {σ : Sentence LRA} 
   · exact hlvl
   · obtain ⟨τ, -, rfl⟩ := h
     rw [← Semiformula.lMap_emb, lvlOf_lMap_toLRA]
-    exact hν
+    exact lt_of_lt_of_le Gamma0Note.zero_lt_one hν
   · rw [lvlOf_emb_univCl, lvlOf_succInd]
     exact hφ
   · obtain ⟨μ, A, hlt, -, hA, rfl | rfl⟩ := h

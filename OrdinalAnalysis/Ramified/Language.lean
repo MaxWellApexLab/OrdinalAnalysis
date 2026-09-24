@@ -13,7 +13,7 @@
   A "set of level `ν`" is then a *numeral* coding a predicator, a level-`ν` set
   quantifier is an ordinary number quantifier over codes — so the ω-rule already
   handles it — and the only new rules are the predicator rules (Pr).  Three
-  consequences worth naming, because they are what the prototype is testing:
+  consequences worth naming:
 
   * the level of a set atom is *read off the relation symbol*, so the "level of a
     formula" is a plain structural recursion (`Ramified/Code.lean`'s `lvlOf`) and
@@ -28,10 +28,11 @@
     builds `LX = ℒₒᵣ + XLang` with `XLang.Rel 1 := XRel`; here the fresh part has
     `Rel 1 := {X}` and `Rel 2 := Lv`.
 
-  `Lv := ℕ` for the prototype.  The real thing wants `Lv := Gamma0Note` (or a
-  segment of it); everything below except `RARel.enc`/`RARel.dec` and the two
-  `Encodable` instances is already level-type-agnostic, and those three need
-  only an `Encodable Lv`.
+  **The levels are ordinal notations**, `Lv := Gamma0Note`: the Veblen normal
+  forms below `Γ₀`.  The finite levels are `Gamma0Note.ofNat n`, and the
+  finite-level theory is the special case of the transfinite one.  The index of
+  a membership symbol is the Gödel number of its level
+  (`Ordinal/Veblen/Encodable.lean`).
 
   The `Encodable` instances are not decoration: D2's codes are Gödel numbers of
   `Semiformula LRA ℕ 1`, and Foundation's `Semiformula.encodable`
@@ -42,6 +43,7 @@
 import OrdinalAnalysis.Omega.Calculus
 import Foundation.FirstOrder.Arithmetic.Schemata
 import Mathlib.Tactic.FinCases
+import OrdinalAnalysis.Ordinal.Veblen.OmegaMul
 
 set_option autoImplicit false
 
@@ -53,11 +55,10 @@ open LO LO.FirstOrder
 
 /-! ### Levels
 
-The prototype's level type.  Every occurrence below is through `Lv`, so the
-swap to `Gamma0Note` (or an initial segment) is local. -/
+The levels are the ordinal notations below `Γ₀`. -/
 
-/-- The type of ramification levels. -/
-abbrev Lv : Type := ℕ
+/-- The type of ramification levels: Veblen normal forms. -/
+abbrev Lv : Type := Gamma0Note
 
 /-! ### The fresh relation symbols -/
 
@@ -83,18 +84,22 @@ instance instDecidableEq {k : ℕ} : DecidableEq (RARel k) := fun a b => by
 /-- The Gödel index of a relation symbol, within its arity. -/
 def enc : {k : ℕ} → RARel k → ℕ
   | _, .X => 0
-  | _, .mem ν => ν
+  | _, .mem ν => Encodable.encode ν
 
 /-- The inverse of `enc`, at a given arity. -/
 def dec : (k : ℕ) → ℕ → Option (RARel k)
   | 1, _ => some .X
-  | 2, n => some (.mem n)
+  | 2, n => (Encodable.decode n : Option Lv).map .mem
   | _, _ => none
 
 instance instEncodable (k : ℕ) : Encodable (RARel k) where
   encode := enc
   decode := dec k
-  encodek := by intro r; cases r <;> rfl
+  encodek := by
+    intro r
+    cases r with
+    | X => rfl
+    | mem ν => simp [enc, dec, Encodable.encodek]
 
 /-- **The level tag.**  `some ν` for the membership symbol of level `ν`, `none`
 for `X` — and, once lifted to `LRA.Rel`, `none` for every symbol of arithmetic.

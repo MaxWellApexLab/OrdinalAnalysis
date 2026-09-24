@@ -51,8 +51,8 @@
   stage, and the membership of a code is determined by recursion on (level,
   stage).  The same inequality is what makes the predicator rule (Pr) of
   `Ramified/Calculus.lean` lower the cut rank: `Ramified/Rank.lean` prices a
-  ground level-`μ` atom at `ω·(μ−1) ⊕ stage`, and the unfolding of `a` has rank
-  at most `ω·(μ−1) ⊕ (stage p + A.complexity) < ω·(μ−1) ⊕ s`.
+  ground level-`μ` atom at `blk μ ⊕ stage` (`blk μ = ω·(−1+μ)`), and the unfolding of `a` has rank
+  at most `blk μ ⊕ (stage p + A.complexity) < blk μ ⊕ s`.
 
   The invariant the rest of the development reads off a `Good` code is therefore
 
@@ -63,6 +63,7 @@
   level `< μ` are the special case `p = 0` (`code`, `good_code`).
 -/
 import OrdinalAnalysis.Ramified.Ground
+import Mathlib.Tactic.IrreducibleDef
 
 set_option autoImplicit false
 
@@ -74,55 +75,64 @@ open LO LO.FirstOrder
 
 /-! ### The level of a formula -/
 
+/-- The structural recursion behind `lvlOf`. -/
+def lvlOfRec {n : ℕ} : Semiformula LRA ℕ n → Lv
+  |  .rel r _ => (relLevel r).getD 0
+  | .nrel r _ => (relLevel r).getD 0
+  |         ⊤ => 0
+  |         ⊥ => 0
+  |     φ ⋏ ψ => max (lvlOfRec φ) (lvlOfRec ψ)
+  |     φ ⋎ ψ => max (lvlOfRec φ) (lvlOfRec ψ)
+  |      ∀¹ φ => lvlOfRec φ
+  |      ∃¹ φ => lvlOfRec φ
+
 /-- **The level of a formula**: the largest level of a set atom occurring in it,
 `0` if there is none.
 
 `0` therefore means "no set atoms, or set atoms only at level `0`".  Both
 readings are harmless for the only use, `lvlOf φ < ν`, which in either case says
-exactly "every set atom of `φ` has level `< ν`". -/
-def lvlOf {n : ℕ} : Semiformula LRA ℕ n → Lv
-  |  .rel r _ => (relLevel r).getD 0
-  | .nrel r _ => (relLevel r).getD 0
-  |         ⊤ => 0
-  |         ⊥ => 0
-  |     φ ⋏ ψ => max (lvlOf φ) (lvlOf ψ)
-  |     φ ⋎ ψ => max (lvlOf φ) (lvlOf ψ)
-  |      ∀¹ φ => lvlOf φ
-  |      ∃¹ φ => lvlOf φ
+exactly "every set atom of `φ` has level `< ν`".
+
+It is sealed: the level of a concrete formula is computed through the equations
+below, never by unfolding, because deciding `max` of notations by evaluation is
+exponential in the size of the formula. -/
+irreducible_def lvlOf {n : ℕ} (φ : Semiformula LRA ℕ n) : Lv := lvlOfRec φ
 
 section LvlSimp
 
 variable {n : ℕ}
 
 @[simp] theorem lvlOf_rel {k : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n) :
-    lvlOf (.rel r v : Semiformula LRA ℕ n) = (relLevel r).getD 0 := rfl
+    lvlOf (.rel r v : Semiformula LRA ℕ n) = (relLevel r).getD 0 := by rw [lvlOf_def]; rfl
 
 @[simp] theorem lvlOf_nrel {k : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n) :
-    lvlOf (.nrel r v : Semiformula LRA ℕ n) = (relLevel r).getD 0 := rfl
+    lvlOf (.nrel r v : Semiformula LRA ℕ n) = (relLevel r).getD 0 := by rw [lvlOf_def]; rfl
 
-@[simp] theorem lvlOf_verum : lvlOf (⊤ : Semiformula LRA ℕ n) = 0 := rfl
+@[simp] theorem lvlOf_verum : lvlOf (⊤ : Semiformula LRA ℕ n) = 0 := by rw [lvlOf_def]; rfl
 
-@[simp] theorem lvlOf_falsum : lvlOf (⊥ : Semiformula LRA ℕ n) = 0 := rfl
+@[simp] theorem lvlOf_falsum : lvlOf (⊥ : Semiformula LRA ℕ n) = 0 := by rw [lvlOf_def]; rfl
 
 @[simp] theorem lvlOf_and (φ ψ : Semiformula LRA ℕ n) :
-    lvlOf (φ ⋏ ψ) = max (lvlOf φ) (lvlOf ψ) := rfl
+    lvlOf (φ ⋏ ψ) = max (lvlOf φ) (lvlOf ψ) := by rw [lvlOf_def, lvlOf_def, lvlOf_def]; rfl
 
 @[simp] theorem lvlOf_or (φ ψ : Semiformula LRA ℕ n) :
-    lvlOf (φ ⋎ ψ) = max (lvlOf φ) (lvlOf ψ) := rfl
+    lvlOf (φ ⋎ ψ) = max (lvlOf φ) (lvlOf ψ) := by rw [lvlOf_def, lvlOf_def, lvlOf_def]; rfl
 
-@[simp] theorem lvlOf_all (φ : Semiformula LRA ℕ (n + 1)) : lvlOf (∀¹ φ) = lvlOf φ := rfl
+@[simp] theorem lvlOf_all (φ : Semiformula LRA ℕ (n + 1)) : lvlOf (∀¹ φ) = lvlOf φ := by
+  rw [lvlOf_def, lvlOf_def]; rfl
 
-@[simp] theorem lvlOf_exs (φ : Semiformula LRA ℕ (n + 1)) : lvlOf (∃¹ φ) = lvlOf φ := rfl
+@[simp] theorem lvlOf_exs (φ : Semiformula LRA ℕ (n + 1)) : lvlOf (∃¹ φ) = lvlOf φ := by
+  rw [lvlOf_def, lvlOf_def]; rfl
 
 /-- A set atom has exactly its own level. -/
 @[simp] theorem lvlOf_memAt (ν : Lv) (t s : Semiterm LRA ℕ n) :
-    lvlOf (memAt ν t s) = ν := rfl
+    lvlOf (memAt ν t s) = ν := by rw [lvlOf_def]; rfl
 
 @[simp] theorem lvlOf_nmemAt (ν : Lv) (t s : Semiterm LRA ℕ n) :
-    lvlOf (nmemAt ν t s) = ν := rfl
+    lvlOf (nmemAt ν t s) = ν := by rw [lvlOf_def]; rfl
 
 /-- `X(t)` is levelless. -/
-@[simp] theorem lvlOf_Xat (t : Semiterm LRA ℕ n) : lvlOf (Xat t) = 0 := rfl
+@[simp] theorem lvlOf_Xat (t : Semiterm LRA ℕ n) : lvlOf (Xat t) = 0 := by rw [lvlOf_def]; rfl
 
 end LvlSimp
 
@@ -210,9 +220,9 @@ end ShapeSimp
 theorem atomShape_level_le {μ : Lv} {k n : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n)
     (h : AtomShape μ r v) : (relLevel r).getD 0 ≤ μ := by
   rcases r with r | r
-  · exact Nat.zero_le _
+  · exact Gamma0Note.zero_le_note _
   · cases r with
-    | X => exact Nat.zero_le _
+    | X => exact Gamma0Note.zero_le_note _
     | mem κ =>
         rcases h with h | ⟨rfl, -⟩
         · exact le_of_lt h
@@ -222,14 +232,14 @@ theorem atomShape_level_le {μ : Lv} {k n : ℕ} (r : LRA.Rel k) (v : Fin k → 
 theorem lvlOf_le_of_shape {μ : Lv} {n : ℕ} {φ : Semiformula LRA ℕ n} (h : Shape μ φ) :
     lvlOf φ ≤ μ := by
   induction φ using Semiformula.rec' with
-  | hverum => exact Nat.zero_le _
-  | hfalsum => exact Nat.zero_le _
-  | hrel r v => exact atomShape_level_le r v h
-  | hnrel r v => exact atomShape_level_le r v h
-  | hand φ ψ ihφ ihψ => exact max_le (ihφ h.1) (ihψ h.2)
-  | hor φ ψ ihφ ihψ => exact max_le (ihφ h.1) (ihψ h.2)
-  | hall φ ih => exact ih h
-  | hexs φ ih => exact ih h
+  | hverum => rw [lvlOf_verum]; exact Gamma0Note.zero_le_note _
+  | hfalsum => rw [lvlOf_falsum]; exact Gamma0Note.zero_le_note _
+  | hrel r v => rw [lvlOf_rel]; exact atomShape_level_le r v h
+  | hnrel r v => rw [lvlOf_nrel]; exact atomShape_level_le r v h
+  | hand φ ψ ihφ ihψ => rw [lvlOf_and]; exact max_le (ihφ h.1) (ihψ h.2)
+  | hor φ ψ ihφ ihψ => rw [lvlOf_or]; exact max_le (ihφ h.1) (ihψ h.2)
+  | hall φ ih => rw [lvlOf_all]; exact ih h
+  | hexs φ ih => rw [lvlOf_exs]; exact ih h
 
 /-- An atom of level below `μ` has the right shape, whatever its arguments. -/
 theorem atomShape_of_level_lt {μ : Lv} {k n : ℕ} (r : LRA.Rel k) (v : Fin k → Semiterm LRA ℕ n)
@@ -247,16 +257,16 @@ theorem shape_of_lvlOf_lt {μ : Lv} {n : ℕ} {φ : Semiformula LRA ℕ n} (h : 
   induction φ using Semiformula.rec' with
   | hverum => trivial
   | hfalsum => trivial
-  | hrel r v => exact atomShape_of_level_lt r v h
-  | hnrel r v => exact atomShape_of_level_lt r v h
+  | hrel r v => rw [lvlOf_rel] at h; exact atomShape_of_level_lt r v h
+  | hnrel r v => rw [lvlOf_nrel] at h; exact atomShape_of_level_lt r v h
   | hand φ ψ ihφ ihψ =>
       simp only [lvlOf_and, max_lt_iff] at h
       exact ⟨ihφ h.1, ihψ h.2⟩
   | hor φ ψ ihφ ihψ =>
       simp only [lvlOf_or, max_lt_iff] at h
       exact ⟨ihφ h.1, ihψ h.2⟩
-  | hall φ ih => exact ih h
-  | hexs φ ih => exact ih h
+  | hall φ ih => rw [lvlOf_all] at h; exact ih h
+  | hexs φ ih => rw [lvlOf_exs] at h; exact ih h
 
 /-! ### The coding
 
@@ -264,11 +274,19 @@ theorem shape_of_lvlOf_lt {μ : Lv} {n : ℕ} {φ : Semiformula LRA ℕ n} (h : 
 which is why `Ramified/Language.lean` had to supply the `Encodable` instances
 for `LRA`. -/
 
-/-- The code with level `μ`, stage `s`, formula index `e` and parameter `p`. -/
-def mkCode (μ : Lv) (s e p : ℕ) : ℕ := Nat.pair μ (Nat.pair s (Nat.pair e p))
+/-- The code with raw level field `m`, stage `s`, formula index `e` and parameter `p`. -/
+def mkCodeN (m s e p : ℕ) : ℕ := Nat.pair m (Nat.pair s (Nat.pair e p))
 
-/-- The level of a code. -/
-def lvl (a : ℕ) : Lv := a.unpair.1
+/-- The code with level `μ`, stage `s`, formula index `e` and parameter `p`: the level
+field holds the Gödel number of `μ`. -/
+def mkCode (μ : Lv) (s e p : ℕ) : ℕ := mkCodeN (Encodable.encode μ) s e p
+
+theorem mkCode_eq (μ : Lv) (s e p : ℕ) : mkCode μ s e p = mkCodeN (Encodable.encode μ) s e p :=
+  rfl
+
+/-- The level of a code: the notation whose Gödel number is the level field, `0` if the
+field is not such a number. -/
+def lvl (a : ℕ) : Lv := (Encodable.decode a.unpair.1 : Option Lv).getD 0
 
 /-- **The stage of a number**, read as a code: its second field.  Total — every
 number has a stage — so that the stage condition can speak about an arbitrary
@@ -282,22 +300,22 @@ def fcode (a : ℕ) : ℕ := a.unpair.2.unpair.2.unpair.1
 def param (a : ℕ) : ℕ := a.unpair.2.unpair.2.unpair.2
 
 @[simp] theorem lvl_mkCode (μ : Lv) (s e p : ℕ) : lvl (mkCode μ s e p) = μ := by
-  simp [lvl, mkCode]
+  simp [lvl, mkCode, mkCodeN, Encodable.encodek]
 
 @[simp] theorem stage_mkCode (μ : Lv) (s e p : ℕ) : stage (mkCode μ s e p) = s := by
-  simp [stage, mkCode]
+  simp [stage, mkCode, mkCodeN]
 
 @[simp] theorem fcode_mkCode (μ : Lv) (s e p : ℕ) : fcode (mkCode μ s e p) = e := by
-  simp [fcode, mkCode]
+  simp [fcode, mkCode, mkCodeN]
 
 @[simp] theorem param_mkCode (μ : Lv) (s e p : ℕ) : param (mkCode μ s e p) = p := by
-  simp [param, mkCode]
+  simp [param, mkCode, mkCodeN]
 
 @[simp] theorem stage_zero : stage 0 = 0 := by simp [stage]
 
-/-- Every number is the code of its own fields. -/
-theorem mkCode_fields (a : ℕ) : mkCode (lvl a) (stage a) (fcode a) (param a) = a := by
-  simp [mkCode, lvl, stage, fcode, param]
+/-- Every number is the raw code of its own fields. -/
+theorem mkCodeN_fields (a : ℕ) : mkCodeN a.unpair.1 (stage a) (fcode a) (param a) = a := by
+  simp [mkCodeN, stage, fcode, param]
 
 /-- The formula of a code, if its index decodes. -/
 def formulaOpt (a : ℕ) : Option (Semiformula LRA ℕ 1) := Encodable.decode (fcode a)
@@ -385,7 +403,7 @@ theorem body_code {μ : Lv} {A : Semiformula LRA ℕ 1} (h : A.freeVariables = �
 
 /-- **Every level-correct formula has a `Good` parameter-free code.** -/
 theorem good_code {μ : Lv} {A : Semiformula LRA ℕ 1} (h : lvlOf A < μ) : Good (code μ A) :=
-  good_mkCode (lt_of_le_of_lt (Nat.zero_le _) h) (shape_of_lvlOf_lt h) (by simp)
+  good_mkCode (lt_of_le_of_lt (Gamma0Note.zero_le_note _) h) (shape_of_lvlOf_lt h) (by simp)
 
 /-- A `Good` code of level `μ` whose body is `A`, for every closed level-correct
 `A` — the parameter-free special case of the coding. -/

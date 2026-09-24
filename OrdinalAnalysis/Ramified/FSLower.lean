@@ -28,6 +28,13 @@
   companion upper half, not proved here), while no height or cut rank below
   `Γ₀` suffices for the whole order. Only the bound half is claimed in this
   file; the autonomy half is a separate, substantially larger argument.
+
+  The levels range over all notations below `Γ₀`, so the cut ranks in play are
+  genuinely transfinite.  `fs_lower_junk` states the bound for the calculus
+  whose atomic axioms include the junk literals (`Ramified/Literals.lean`'s
+  `junkLitsR`: a name that is not a `Good` code of a level denotes, at that
+  level, the empty set); `fs_lower` is its restriction to the arithmetic
+  literals.
 -/
 import OrdinalAnalysis.Ramified.Boundedness
 import OrdinalAnalysis.Ramified.PredicativeCutGeneral
@@ -38,12 +45,14 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-/-- **The bound half of Feferman-Schutte for `RA_∞`.**  No derivation of the
-semiformal ramified calculus, with cut rank `ρ` and height `h` both below
-`Γ₀`, proves transfinite induction along the whole coded Veblen ordering
-`gamma0OrderR` for the free predicate `X`. -/
-theorem fs_lower (ρ h : Gamma0Note) :
-    ¬ OmegaDerivableR trueArithLitsR evInstR ρ h [evR (TIR gamma0OrderR.prec)] := by
+/-- **The bound half of Feferman-Schutte for `RA_∞`, with the junk literals.**  No
+derivation of the semiformal ramified calculus whose atomic axioms are the true
+arithmetic literals together with the junk literals (every non-`Good` name at a
+level denotes the empty set), with cut rank `ρ` and height `h` both below `Γ₀`,
+proves transfinite induction along the whole coded Veblen ordering `gamma0OrderR`
+for the free predicate `X`. -/
+theorem fs_lower_junk (ρ h : Gamma0Note) :
+    ¬ OmegaDerivableR junkLitsR evInstR ρ h [evR (TIR gamma0OrderR.prec)] := by
   intro hder
   -- Raise the cut rank to a Veblen block strictly above `ρ`.
   set ξ : Gamma0Note := Gamma0Note.nadd ρ 1 with hξ_def
@@ -52,16 +61,24 @@ theorem fs_lower (ρ h : Gamma0Note) :
     lt_of_le_of_lt (Gamma0Note.le_omegaPow_self ρ)
       (Gamma0Note.omegaPow_lt_omegaPow (Gamma0Note.lt_nadd_one ρ))
   have hraised :
-      OmegaDerivableR trueArithLitsR evInstR (Gamma0Note.omegaPow ξ) h
+      OmegaDerivableR junkLitsR evInstR (Gamma0Note.omegaPow ξ) h
         [evR (TIR gamma0OrderR.prec)] :=
     hder.mono_rank hρlt.le
   -- Eliminate that rank block: cut-free at rank `0`, height `φ_ξ(h)`.
   have hcut :
-      OmegaDerivableR trueArithLitsR evInstR 0 (Gamma0Note.veblenStructure.veblen ξ h)
+      OmegaDerivableR junkLitsR evInstR 0 (Gamma0Note.veblenStructure.veblen ξ h)
         [evR (TIR gamma0OrderR.prec)] :=
-    OmegaDerivableR.predicativeCut_veblen memFree_trueArithLitsR hξ1 hraised
+    OmegaDerivableR.predicativeCut_veblen memFree_junkLitsR hξ1 hraised
   -- No cut-free derivation, at any height, proves `TI` along the whole order.
-  exact not_derivable_TI_R_gamma0 (Gamma0Note.veblenStructure.veblen ξ h) hcut
+  exact not_derivable_TI_R_gamma0_junk (Gamma0Note.veblenStructure.veblen ξ h) hcut
+
+/-- **The bound half of Feferman-Schutte for `RA_∞`.**  No derivation of the
+semiformal ramified calculus, with cut rank `ρ` and height `h` both below
+`Γ₀`, proves transfinite induction along the whole coded Veblen ordering
+`gamma0OrderR` for the free predicate `X`. -/
+theorem fs_lower (ρ h : Gamma0Note) :
+    ¬ OmegaDerivableR trueArithLitsR evInstR ρ h [evR (TIR gamma0OrderR.prec)] := fun hder =>
+  fs_lower_junk ρ h (hder.mono_lits trueArithLitsR_le_junkLitsR)
 
 end Ramified
 
