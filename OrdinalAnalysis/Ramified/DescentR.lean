@@ -16,6 +16,9 @@
   This is the only way the levels interact: each passage to a lower level
   applies `ε` once.  The levels are notations, so `κ` need not be the
   predecessor of `μ`.
+
+  At a notation `c` the descent reads `TI_μ(c̄) → TI_κ(ε̄_c)`
+  (`descent_code_provable`), since `Eps(ε̄_c, c̄)` holds.
 -/
 import OrdinalAnalysis.Ramified.EpsProgR
 
@@ -77,6 +80,32 @@ theorem descent_provable {ν μ κ : Lv} (h0 : 0 < κ) (hκ : κ < μ) (hμ : μ
       eval_tiMuR, eval_psiR]
     by_cases h : TImu μ b
     · exact Or.inr (descent_M hN h0 hκ hμ h)
+    · exact Or.inl h
+
+/-- **(D_{μ,κ}) at a notation**: `RAlt ν ⊢ TI_μ(c̄) → TI_κ(ε̄_c)` for every
+notation `c`, for `0 < κ < μ < ν`. -/
+theorem descent_code_provable {ν μ κ : Lv} (h0 : 0 < κ) (hκ : κ < μ) (hμ : μ < ν)
+    (c : Gamma0Note) :
+    RAlt ν ⊢ Semiformula.univCl
+      (∼((tiMuR μ)/[(numAtR (Gentzen.VNoteBridge.gamma0Code c) : Semiterm LRA ℕ 0)]) ⋎
+        (tiMuR κ)/[(numAtR (Gentzen.VNoteBridge.gamma0Code (Gamma0Note.epsilonNote c)) :
+          Semiterm LRA ℕ 0)]) := by
+  have hν : 1 ≤ ν := Gamma0Note.one_le_of_pos (lt_trans (lt_trans h0 hκ) hμ)
+  refine provable_of_eqModels hν ?_ ?_
+  · rw [lvlOf_emb_univCl, lvlOf_or, lvlOf_neg, lvlOf_subst₁, lvlOf_subst₁]
+    exact max_lt (lt_of_le_of_lt (lvlOf_tiMuR_le μ) hμ)
+      (lt_of_le_of_lt (lvlOf_tiMuR_le κ) (lt_trans hκ hμ))
+  · intro N _ sN _ hN
+    rw [models_iff_proposition]
+    intro f
+    show Semiformula.Eval (s := sN) ![] f
+      (∼((tiMuR μ)/[(numAtR (Gentzen.VNoteBridge.gamma0Code c) : Semiterm LRA ℕ 0)]) ⋎
+        (tiMuR κ)/[(numAtR (Gentzen.VNoteBridge.gamma0Code (Gamma0Note.epsilonNote c)) :
+          Semiterm LRA ℕ 0)])
+    rw [LogicalConnective.HomClass.map_or, LogicalConnective.HomClass.map_neg, eval_tiMuR_subst,
+      eval_tiMuR_subst, val_numAtR_model, val_numAtR_model]
+    by_cases h : TImu μ (numVal N (Gentzen.VNoteBridge.gamma0Code c))
+    · exact Or.inr (descent_M hN h0 hκ hμ h _ (epsM_code hN hν c))
     · exact Or.inl h
 
 end Ramified

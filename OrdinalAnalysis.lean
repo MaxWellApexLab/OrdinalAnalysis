@@ -166,6 +166,15 @@ import OrdinalAnalysis.Ramified.TowerR
 import OrdinalAnalysis.Ramified.EpsProgR
 import OrdinalAnalysis.Ramified.DescentR
 import OrdinalAnalysis.Ramified.UpperBound
+import OrdinalAnalysis.Ramified.CopyR
+import OrdinalAnalysis.Ramified.InfTools
+import OrdinalAnalysis.Ramified.SemiformalLower
+import OrdinalAnalysis.Ramified.EffLevel
+import OrdinalAnalysis.Ramified.DescentBeta
+import OrdinalAnalysis.Ramified.FefermanSchutte
+import OrdinalAnalysis.Ramified.SemiformalUpper
+import OrdinalAnalysis.Ordinal.Veblen.VeblenCover
+import OrdinalAnalysis.Ordinal.Veblen.FundSeq
 import OrdinalAnalysis.Ramified.LimitTheorem
 import OrdinalAnalysis.Ramified.FSLower
 import OrdinalAnalysis.Ramified.TransfiniteLower

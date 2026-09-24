@@ -974,3 +974,190 @@ info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutElimination_veblen' depends o
 
 /-- info: 'OrdinalAnalysis.Ramified.ramified_upper_bound_RA_univ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_upper_bound_RA_univ
+
+/-- info: 'OrdinalAnalysis.Ramified.descent_code_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descent_code_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.copy_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.copy_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.naming_param_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.naming_param_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.copy_naming_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.copy_naming_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiCopy_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiCopy_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiDown_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiDown_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiSucc_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiSucc_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiZero_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiZero_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiDown_code_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiDown_code_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiInst_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiInst_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiUptoSegR_downward_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiUptoSegR_downward_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.tiUptoSegR_downward' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiUptoSegR_downward
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.invAll' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.invAll
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.cutR' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.cutR
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.omegaRuleUniform' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.omegaRuleUniform
+
+/-- info: 'OrdinalAnalysis.Ramified.OmegaDerivableR.weakening' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.OmegaDerivableR.weakening
+
+/-- info: 'OrdinalAnalysis.Ramified.uniformHeight_of_provable_all_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.uniformHeight_of_provable_all_of
+
+/-- info: 'OrdinalAnalysis.Ramified.uniformHeight_of_provable_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.uniformHeight_of_provable_all
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_lower_omegaPow'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_lower_omegaPow'
+
+/-- info: 'OrdinalAnalysis.Ramified.ramified_lower_bound_omegaPow'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.ramified_lower_bound_omegaPow'
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.blk_omegaPow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.blk_omegaPow
+
+/--
+info: 'OrdinalAnalysis.Gamma0Note.zero_or_exists_pred_or_isSuccLimit' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.zero_or_exists_pred_or_isSuccLimit
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.succCover_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.succCover_zero
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.succCover_succ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.succCover_succ
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.limitCover_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.limitCover_zero
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.lt_lam' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.lt_lam
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.veblenNote_lt_veblenNote_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.veblenNote_lt_veblenNote_iff
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.iterate_omegaPow_lt_epsilonNote' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.iterate_omegaPow_lt_epsilonNote
+
+/-- info: 'OrdinalAnalysis.Ramified.lvlOf_effBody_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.lvlOf_effBody_lt
+
+/-- info: 'OrdinalAnalysis.Ramified.effBody_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.effBody_derivable
+
+/-- info: 'OrdinalAnalysis.Ramified.effBody_iff_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.effBody_iff_derivable
+
+/-- info: 'OrdinalAnalysis.Ramified.effBody_code_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.effBody_code_derivable
+
+/-- info: 'OrdinalAnalysis.Ramified.rank_evR_effIff_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.rank_evR_effIff_lt
+
+/-- info: 'OrdinalAnalysis.Ramified.good_code_effBodyAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.good_code_effBodyAt
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.fundSeq_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.fundSeq_lt
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.exists_lt_fundSeq_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.exists_lt_fundSeq_of_lt
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.iSup_repr_fundSeq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.iSup_repr_fundSeq
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.succCover_limit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.succCover_limit
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.limitCover_limit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.limitCover_limit
+
+/-- info: 'OrdinalAnalysis.Gamma0Note.limitCover_succ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gamma0Note.limitCover_succ
+
+/-- info: 'OrdinalAnalysis.lt_veblen_add_one_iff_of_isSuccLimit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.lt_veblen_add_one_iff_of_isSuccLimit
+
+/-- info: 'OrdinalAnalysis.Ramified.descentBeta' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descentBeta
+
+/-- info: 'OrdinalAnalysis.Ramified.descentBeta_one' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descentBeta_one
+
+/-- info: 'OrdinalAnalysis.Ramified.descentAt_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descentAt_all
+
+/-- info: 'OrdinalAnalysis.Ramified.descent_succ' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descent_succ
+
+/-- info: 'OrdinalAnalysis.Ramified.descent_limit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descent_limit
+
+/-- info: 'OrdinalAnalysis.Ramified.descent_two' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.descent_two
+
+/-- info: 'OrdinalAnalysis.Ramified.hgtD_lt_epsilon' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.hgtD_lt_epsilon
+
+/-- info: 'OrdinalAnalysis.Ramified.hgtD_lt_of_fixed' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.hgtD_lt_of_fixed
+
+/-- info: 'OrdinalAnalysis.Ramified.tiSeg_acc_provable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.tiSeg_acc_provable
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_stage0' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_stage0
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_step' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_step
+
+/-- info: 'OrdinalAnalysis.Ramified.aut_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.aut_all
+
+/-- info: 'OrdinalAnalysis.Ramified.feferman_schutte' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.feferman_schutte
+
+/-- info: 'OrdinalAnalysis.Ramified.feferman_schutte_bound_arith' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.feferman_schutte_bound_arith
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_lower_sharp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_lower_sharp
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_upper' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_upper
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_theorem
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_theorem_epsilon_one' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_theorem_epsilon_one
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_theorem_ofNat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_theorem_ofNat
+
+/-- info: 'OrdinalAnalysis.Ramified.sf_theorem_index' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.sf_theorem_index

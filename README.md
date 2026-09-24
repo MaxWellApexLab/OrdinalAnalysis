@@ -367,7 +367,52 @@ and nothing here should be read as that.
   first transfinite bounds are in `Ramified/TransfiniteLower.lean`: below level
   `ω^n` no derivation of cut rank below `ω^{n+1}` and height below `φ_{n+1}(0)`
   proves transfinite induction along the ordering restricted below `φ_{n+1}(0)`
-  (`sf_lower_omegaPow`).  The autonomy half is in progress.
+  (`sf_lower_omegaPow`, and `SemiformalLower.lean` at every index `γ`).
+
+## Feferman–Schütte: `Γ₀` for the semiformal ramified calculus
+
+`OrdinalAnalysis/Ramified/FefermanSchutte.lean`:
+
+```
+inductive Aut : Gamma0Note → Prop
+  | base {a} : a < ε₀ → Aut a
+  | step {λ a} : (∀ b, b < λ → Aut b) → SF λ λ a → Aut a
+
+feferman_schutte :
+  (∀ a : Gamma0Note, Aut a) ∧
+  ∀ ρ h : Gamma0Note, ¬ OmegaDerivableR junkLitsR evInstR ρ h [evR (TIR gamma0OrderR.prec)]
+```
+
+`SF λ H a` says that transfinite induction along the coded Veblen ordering
+restricted below `a`, for the free predicate `X`, has a derivation in `RA_∞`
+of cut rank below the block of the level `λ` and height below `H`.  A notation
+is *autonomous* when it is reached from `ε₀` by stages each of which uses only
+levels and heights below a notation all of whose predecessors were reached
+before.  The theorem says that every Veblen notation below `Γ₀` is autonomous,
+and that no derivation whose cut rank and height are notations below `Γ₀`
+proves transfinite induction along the whole ordering.  This is the
+Feferman–Schütte theorem in Schütte's semiformal formulation: the autonomous
+closure of ramified analysis is exactly `Γ₀`.
+
+The engine is the generalised descent (`DescentBeta.lean`): from transfinite
+induction at level `L + 1` up to `c` for all sets of that level, transfinite
+induction at level `L` up to `φ_{1+β}(c)`, where `L` ends in `ω^β`, at cut rank
+`ω·(L+1) + ω` and height below `ε_1`, for every Veblen index `β`.  It is built
+from the effective unfolding of a name (`EffLevel.lean`), the copy of a set to a
+higher level (`CopyR.lean`), the infinitary tools (`InfTools.lean`), the Veblen
+covers on the notations (`Ordinal/Veblen/VeblenCover.lean`) and the fundamental
+sequences of the Veblen normal form (`Ordinal/Veblen/FundSeq.lean`).
+
+At each principal level the analysis is exact (`SemiformalUpper.lean`,
+`sf_theorem`): for every index `γ ≥ 1`, with cut ranks below the block of the
+level `ω^γ`, transfinite induction along the ordering restricted below
+`φ_{1+γ}(0)` is derivable up to every notation below `φ_{1+γ}(0)` at heights
+below an explicit bound under `φ_{1+γ}(0)`, and is not derivable for the whole
+segment at any height below `φ_{1+γ}(0)`.
+
+Two things this is not: it is not `|ATR₀| = Γ₀`, and it is not a statement
+about a finitary theory.  A finitary ramified theory sees finitely many levels
+in any proof and stays at `φ_2(0)` (`LimitTheorem.lean`).
 
 * `ACA/OmegaJump.lean` and the `OmegaJump*` files: the theory `ACA⁺` — `ACA`
   with the axiom that every set has an ω-jump — its truth in the full ω-model
