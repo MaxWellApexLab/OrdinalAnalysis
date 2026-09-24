@@ -1442,3 +1442,22 @@ info: 'OrdinalAnalysis.InductiveDef.LowerBound.id1_lower_bound_of_embedding' dep
 
 /-- info: 'OrdinalAnalysis.InductiveDef.embedding_accForm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.InductiveDef.embedding_accForm
+
+/-- info: 'OrdinalAnalysis.InductiveDef.id1_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.InductiveDef.id1_theorem
+
+/-- info: 'OrdinalAnalysis.InductiveDef.UpperBound.id1_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.InductiveDef.UpperBound.id1_upper_bound
+
+/-- info: 'OrdinalAnalysis.InductiveDef.Lift.provable_of_models' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.InductiveDef.Lift.provable_of_models
+
+/--
+info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in #print axioms OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega
+
+/-- info: 'OrdinalAnalysis.InductiveDef.id1_theorem'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.InductiveDef.id1_theorem'

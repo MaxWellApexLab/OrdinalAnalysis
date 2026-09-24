@@ -424,12 +424,14 @@ in any proof and stays at `φ_2(0)` (`LimitTheorem.lean`).
   proper segment below `φ_2(0)`.  The non-provability half for `ACA⁺` is not
   here.
 
-## Bachmann–Howard: the bound half for `ID₁`
+## Bachmann–Howard: `|ID₁| = ϑ(ε_{Ω+1})`
 
-`OrdinalAnalysis/ID1/Theorem.lean`:
+`OrdinalAnalysis/ID1/Theorem2.lean`:
 
 ```
-id1_lower_bound : ¬ ID1Acc precC ⊢ tiFieldSentence
+id1_theorem :
+  (∀ a : ThetaNote, a < Ω → ID1Acc precC ⊢ tiUptoSentence a)
+  ∧ ¬ ID1Acc precC ⊢ tiFieldSentence
 ```
 
 `ID1Acc precC` is the theory of one inductive definition over `PA` with a free
@@ -438,7 +440,11 @@ operator `A(Y, x) :≡ ∀y (y ≺ x → Y y)` of the ordering `≺ = precC`, an
 `precC` is the ordering of the Rathjen–Weiermann `ϑ`-notation for the
 Bachmann–Howard ordinal, coded in arithmetic.  `tiFieldSentence` is
 `Prog(≺, X) → ∀x (x ≺ ⌜Ω⌝ → X x)`: transfinite induction for `X` along `≺`
-below `Ω`.  The theorem says that `ID₁` does not prove it.
+below `Ω`, and `tiUptoSentence a` is the same with `⌜a⌝` in place of `⌜Ω⌝`
+(`tiUptoSentence Ω = tiFieldSentence` by definition).  The theorem says that
+`ID₁` proves transfinite induction along `≺` below every notation below `Ω`,
+that is, below every ordinal below the Bachmann–Howard ordinal, and does not
+prove it along the whole of the field.
 
 The pieces, following Freund's notes on the ordinal analysis of `ID₁`
 (arXiv:2204.09321): the `ϑ`-notation as a syntactic linear order
@@ -455,11 +461,13 @@ infinitary calculus with the stage rules, the boundedness lemma and the
 collapsing theorem (`Calculus.lean`, `Boundedness.lean`, `Collapsing.lean`);
 cut reduction and elimination away from `Ω` (`Reduction.lean`,
 `Elimination.lean`); the embedding of `ID₁` (`Embed.lean` and the axiom
-files); and the stage semantics with its soundness, which refutes the
-collapsed derivation (`StageSemantics.lean`, `LowerBound.lean`).
-
-This is the bound half only: that `ID₁` proves transfinite induction below
-every notation below the Bachmann–Howard ordinal is not here yet.
+files); the stage semantics with its soundness, which refutes the collapsed
+derivation (`StageSemantics.lean`, `LowerBound.lean`); and, for the
+provability half, the well-ordering proof carried out inside an arbitrary
+model of `ID₁` — the accessible part is closed under the operations of the
+notation, Gentzen's jump on the exponent lists, and the main lemma for `ϑ`
+(`WellOrdering.lean`, `Lift.lean`, `Bridge.lean`, `UpperBound.lean`), which
+then becomes provability by completeness.
 
 ## Building
 

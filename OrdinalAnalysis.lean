@@ -237,3 +237,9 @@ import OrdinalAnalysis.ID1.AxiomsPA
 import OrdinalAnalysis.ID1.AxiomsID
 import OrdinalAnalysis.ID1.Embed
 import OrdinalAnalysis.ID1.Theorem
+import OrdinalAnalysis.ID1.Internal.JumpList
+import OrdinalAnalysis.ID1.Lift
+import OrdinalAnalysis.ID1.WellOrdering
+import OrdinalAnalysis.ID1.Bridge
+import OrdinalAnalysis.ID1.UpperBound
+import OrdinalAnalysis.ID1.Theorem2
