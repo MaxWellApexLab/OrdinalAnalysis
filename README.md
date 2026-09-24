@@ -424,6 +424,43 @@ in any proof and stays at `φ_2(0)` (`LimitTheorem.lean`).
   proper segment below `φ_2(0)`.  The non-provability half for `ACA⁺` is not
   here.
 
+## Bachmann–Howard: the bound half for `ID₁`
+
+`OrdinalAnalysis/ID1/Theorem.lean`:
+
+```
+id1_lower_bound : ¬ ID1Acc precC ⊢ tiFieldSentence
+```
+
+`ID1Acc precC` is the theory of one inductive definition over `PA` with a free
+predicate `X`: the closure axiom and the induction scheme for the accessibility
+operator `A(Y, x) :≡ ∀y (y ≺ x → Y y)` of the ordering `≺ = precC`, and
+`precC` is the ordering of the Rathjen–Weiermann `ϑ`-notation for the
+Bachmann–Howard ordinal, coded in arithmetic.  `tiFieldSentence` is
+`Prog(≺, X) → ∀x (x ≺ ⌜Ω⌝ → X x)`: transfinite induction for `X` along `≺`
+below `Ω`.  The theorem says that `ID₁` does not prove it.
+
+The pieces, following Freund's notes on the ordinal analysis of `ID₁`
+(arXiv:2204.09321): the `ϑ`-notation as a syntactic linear order
+(`Ordinal/Theta/{Basic,Order}.lean`), its arithmetic
+(`Arith.lean`, `Instance.lean`), its well-foundedness by the accessible-part
+argument (`WellFounded.lean` — as far as the surveys reach, the first
+machine-checked well-foundedness proof of a collapsing-function notation
+system reaching the Bachmann–Howard ordinal), the hull sets and operators
+(`Hull.lean`, `HullCofinal.lean`); the theory `ID₁` and its consistency by the
+least fixed point (`ID1/{Theory,Sound}.lean`); the coding of the notation in
+arithmetic with the order facts inside `IΣ₁` (`ID1/Internal/`); the stage
+language and rank (`Language.lean`, `Rank.lean`); the operator-controlled
+infinitary calculus with the stage rules, the boundedness lemma and the
+collapsing theorem (`Calculus.lean`, `Boundedness.lean`, `Collapsing.lean`);
+cut reduction and elimination away from `Ω` (`Reduction.lean`,
+`Elimination.lean`); the embedding of `ID₁` (`Embed.lean` and the axiom
+files); and the stage semantics with its soundness, which refutes the
+collapsed derivation (`StageSemantics.lean`, `LowerBound.lean`).
+
+This is the bound half only: that `ID₁` proves transfinite induction below
+every notation below the Bachmann–Howard ordinal is not here yet.
+
 ## Building
 
 ```
