@@ -1788,3 +1788,9 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.IDn.wForms_indAx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.IDn.wForms_indAx
+
+/-- info: 'OrdinalAnalysis.IDn.idseq_to_idn' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDn.idseq_to_idn
+
+/-- info: 'OrdinalAnalysis.IDn.idlt_analysis' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDn.idlt_analysis

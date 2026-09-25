@@ -376,3 +376,4 @@ import OrdinalAnalysis.IDn.AxiomsIDCases.indAx_claim
 import OrdinalAnalysis.IDn.AxiomsIDCases.indBody_inst
 import OrdinalAnalysis.IDn.EmbedHypsAll
 import OrdinalAnalysis.IDn.Final
+import OrdinalAnalysis.IDn.Retract

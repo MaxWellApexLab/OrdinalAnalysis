@@ -1,5 +1,6 @@
 import OrdinalAnalysis.IDn.EmbedHypsAll
 import OrdinalAnalysis.IDn.AxiomsIDCases.indBody_inst
+import OrdinalAnalysis.IDn.Retract
 
 /-!
 # The ordinal analysis of `ID_n`, with no hypotheses
@@ -40,5 +41,23 @@ theorem idn_analysis (hn : 0 < n) :
 theorem idn_lower_bound_unconditional (hn : 0 < n) :
     ¬ IDn n (WForms orderFormulas n) ⊢ tiUptoSentence orderFormulas (Fin n) (ThetaWNoteD.Omega 0) :=
   idn_lower_bound_final hn (wForms_indAx hn)
+
+/-- The `I_k`-induction axioms of the well-ordering forms, at every number of levels. -/
+theorem wForms_indAx_all :
+    ∀ (m : ℕ) (k : Fin m), PositiveIn k (WForms orderFormulas m k) →
+      (∀ j, XFreeL (WForms orderFormulas m j)) → ∀ F : Semiformula (LXIn m) ℕ 1,
+        AxDerivable (WForms orderFormulas m) (indAxAt k (WForms orderFormulas m k) F) :=
+  fun m k hA hX F => indAx_axiom k (WForms orderFormulas m) (wForms_levelBounded orderFormulas m) hA hX F
+
+/-- **`|ID_{<ω}| = ψ₀(Ω_ω)`**: `ID_{<ω}` (for the well-ordering operator forms) proves transfinite
+induction for `X` up to every countable notation, and does not prove it at `Ω₁`. -/
+theorem idlt_analysis :
+    (∀ a : ThetaWNoteD, a.1 < ThetaWTerm.Omega 0 →
+        IDlt (Upper.WFormsOmega orderFormulas) ⊢ tiUptoSentence orderFormulas ℕ a) ∧
+      ¬ IDlt (Upper.WFormsOmega orderFormulas) ⊢
+        tiUptoSentence orderFormulas ℕ (ThetaWNoteD.Omega 0) :=
+  idlt_theorem_final wForms_indAx_all
+    (idseq_to_idn (embedHyps_wForms Nat.zero_lt_one (wForms_indAx Nat.zero_lt_one))
+      (collapseCorollary Nat.zero_lt_one))
 
 end OrdinalAnalysis.IDn

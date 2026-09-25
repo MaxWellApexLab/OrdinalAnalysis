@@ -488,14 +488,11 @@ idn_lower_bound_unconditional (hn : 0 < n) :
   ¬ IDn n (WForms orderFormulas n) ⊢ tiUptoSentence orderFormulas (Fin n) (ThetaWNoteD.Omega 0)
 ```
 
-and `OrdinalAnalysis/IDn/Theorem2.lean` extends the two-sided theorem to the union over every
-finite level, at the cost of one further hypothesis explained below:
+and, in the same file, the two-sided theorem for the union over every finite level, again with
+no hypothesis:
 
 ```
-idlt_theorem
-    (hyps : ∀ m, 0 < m → EmbedHyps (WForms orderFormulas m))
-    (hcol : ∀ m (hm : 0 < m), CollapseCorollary (n := m) hm)
-    (htr : IDseqToIDn orderFormulas (ThetaWNoteD.Omega 0)) :
+idlt_analysis :
   (∀ a : ThetaWNoteD, a.1 < ThetaWTerm.Omega 0 →
       IDlt (Upper.WFormsOmega orderFormulas) ⊢ tiUptoSentence orderFormulas ℕ a) ∧
     ¬ IDlt (Upper.WFormsOmega orderFormulas) ⊢ tiUptoSentence orderFormulas ℕ (ThetaWNoteD.Omega 0)
@@ -574,14 +571,14 @@ at level `0` into non-provability of `TI` up to `c_n` itself, given `EmbedHyps` 
 chained with `embedHyps_wForms` and `wForms_indAx` above, that hypothesis is always available for
 the well-ordering forms, which is exactly `idn_analysis`'s route in `Final.lean`.
 
-`IDn/Theorem2.lean`'s `idlt_theorem` extends this to `IDlt`, but not for free: beyond `EmbedHyps`
-at every level, its lower half needs one further link, `IDseqToIDn` — a derivation from the
-finite fragment `IDseq m`, in the union language `LXIomega`, translated back into an honest
-`IDn m` derivation. `Union.lean`'s own docstring on `provable_IDlt_iff` records this translation
-as not built there. A proof is attempted in `IDn/Retract.lean` (`idseq_to_idn`, via a retraction
-`LXIω →ᵥ LXIn m`), but it is a work in progress and not yet part of the verified tree. So
-`idlt_theorem`'s two-sided result for `ID_{<ω}` stays conditional on `IDseqToIDn`, while its
-upper half alone, `idlt_upper_bound'` above, already holds outright.
+`IDn/Theorem2.lean`'s `idlt_theorem` extends this to `IDlt`: beyond `EmbedHyps` at every level,
+its lower half needs one further link, `IDseqToIDn` — a derivation from the finite fragment
+`IDseq m`, in the union language `LXIomega`, translated back into an honest `IDn m` derivation.
+`IDn/Retract.lean` proves it (`idseq_to_idn`): the language retraction `LXIω →ᵥ LXIn m` sending
+`I_j` to `I_{min(j, m−1)}` carries every proof from the fragment into `ID_m`, and the empty case
+`m = 0` is refuted through the lower bound for `ID_1`. `idlt_analysis` in `Final.lean` chains
+these, so the two-sided result for `ID_{<ω}` holds outright, as does its upper half alone,
+`idlt_upper_bound'` above.
 
 **Ordinal bookkeeping.** In Buchholz's `ψ`, `|ID_n| = ψ₀(ε_{Ω_n+1})` (Buchholz 1986, *A new
 system of proof-theoretic ordinal functions*, Theorem 3.7; Buchholz–Pohlers 1978); in the
