@@ -6,7 +6,7 @@
   the fresh predicate `X` alone.  The upper bound is proved over the larger
   theory `Epsilon1UpperBound.paLX₁ = paLX ∪ tiScheme₀`, where the induction is
   asserted for *every* formula, and it has to be: with the single `X`-instance
-  the upper bound is false .
+  the upper bound is false (design decision 4).
   A two-sided theorem needs both halves over the same theory, and the larger
   theory is the harder side of the lower bound, so it is the one to prove.
 

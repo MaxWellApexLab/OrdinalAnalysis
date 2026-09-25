@@ -44,8 +44,7 @@
   which needs `(Rew.subst w).comp (Rew.subst (indZeroSub n))
   = (Rew.subst ![zeroT]).comp (Rew.subst w).q` and its `indSuccSub` twin, and
   the corresponding identification for `compBody`, where the `(∃₂)` witness has
-  additionally to be pulled out of `ψ.bmap Fin.succ` after `free₁`.  See
-  the design notes.
+  additionally to be pulled out of `ψ.bmap Fin.succ` after `free₁`.
 
   Likewise **the rank bound** `rank φ ≤ ω + k` is not proved.  It needs
   `repr (NONote.succ a) = Order.succ (repr a)`, i.e. `repr` of the project's

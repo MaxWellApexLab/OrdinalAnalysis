@@ -8,8 +8,8 @@
 
   one axiom for each unary formula of `LX`, and not merely the single instance
   `TI₀` for the fresh predicate `X`.  The scheme is what the upper bound needs
-  (the single `X`-instance does not prove the ones for compound formulas — see
-  the design notes, design decision 4), so it is the theory the
+  (the single `X`-instance does not prove the ones for compound formulas —
+  design decision 4), so it is the theory the
   lower bound has to be run against too, and the lower bound's cut-away step
   demands a cut-free ω-derivation of every axiom at a height below `ε₁`.
 

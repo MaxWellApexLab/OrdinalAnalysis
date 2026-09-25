@@ -37,7 +37,7 @@
     in the repository. This is exactly the gap `gamma0_ramified_design.md` §3.1 names under
     `InternalVebCover`'s "limit levels open": "What is missing is a `PR.Construction` for
     the sequence-indexed iterate ... ≈ 300–500 lines, MED [risk]," flagged there as a
-    separately-scoped task. `succCover_limit_ordinal` and `limitCover_succ_ordinal` below
+    separate open problem. `succCover_limit_ordinal` and `limitCover_succ_ordinal` below
     state the true fact at the ordinal level (exactly what a fundamental-sequence assignment
     would need to feed into) and are documented as such; they are **not** restated with a
     `Gamma0Note` witness.
@@ -51,7 +51,7 @@
     so no syntactic extraction of `x` alone can supply a level strictly below `a` once
     `h > 0`. This is a genuine mathematical obstruction, not a formalisation gap.
 
-  So: the successor-level cover (task item (a)) is delivered in full for `h = 0`/`h`
+  So: the successor-level cover (item (a)) is delivered in full for `h = 0`/`h`
   successor, with the `h`-limit edge case at the ordinal level; the limit-level cover
   (item (b)) is delivered in full for `h = 0` — the case the note's own §1.3 "Assemblies"
   actually uses ("the trivial base works ... climb is not needed") — with `h`

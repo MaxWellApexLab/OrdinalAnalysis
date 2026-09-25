@@ -473,6 +473,130 @@ notation, Gentzen's jump on the exponent lists, and the main lemma for `ϑ`
 (`WellOrdering.lean`, `Lift.lean`, `Bridge.lean`, `UpperBound.lean`), which
 then becomes provability by completeness.
 
+## Buchholz–Pohlers: `|ID_n| = ψ₀(ε_{Ω_n+1})`, and `|ID_{<ω}|`
+
+`OrdinalAnalysis/IDn/Final.lean`, with no hypothesis beyond `0 < n`:
+
+```
+idn_analysis (hn : 0 < n) :
+  (∀ a : ThetaWNoteD, a < ThetaWNoteD.c n →
+      IDn n (WForms orderFormulas n) ⊢ tiUptoSentence orderFormulas (Fin n) a) ∧
+    ¬ IDn n (WForms orderFormulas n) ⊢
+      tiUptoSentence orderFormulas (Fin n) (ThetaWNoteD.c n)
+
+idn_lower_bound_unconditional (hn : 0 < n) :
+  ¬ IDn n (WForms orderFormulas n) ⊢ tiUptoSentence orderFormulas (Fin n) (ThetaWNoteD.Omega 0)
+```
+
+and `OrdinalAnalysis/IDn/Theorem2.lean` extends the two-sided theorem to the union over every
+finite level, at the cost of one further hypothesis explained below:
+
+```
+idlt_theorem
+    (hyps : ∀ m, 0 < m → EmbedHyps (WForms orderFormulas m))
+    (hcol : ∀ m (hm : 0 < m), CollapseCorollary (n := m) hm)
+    (htr : IDseqToIDn orderFormulas (ThetaWNoteD.Omega 0)) :
+  (∀ a : ThetaWNoteD, a.1 < ThetaWTerm.Omega 0 →
+      IDlt (Upper.WFormsOmega orderFormulas) ⊢ tiUptoSentence orderFormulas ℕ a) ∧
+    ¬ IDlt (Upper.WFormsOmega orderFormulas) ⊢ tiUptoSentence orderFormulas ℕ (ThetaWNoteD.Omega 0)
+```
+
+`IDn n A` (`IDn/Theory.lean`) is `n` simultaneous positive inductive definitions: a family of
+operator forms `A : Fin n → Semisentence (LXIn n) 1`, one level-bounded fixed point per index —
+`PositiveIn k (A k)` (`I_k` occurs only positively in its own form) and `LevelBounded k (A k)`
+(every `I_j`-atom of `A k`, either polarity, has `j ≤ k`) — with closure and induction axioms
+per level. `IDlt A` (`IDn/Union.lean`) is the union over `ι := ℕ`, built as a genuine colimit of
+the finite pieces `IDseq m ⊆ IDseq (m+1) ⊆ ⋯` pushed into the joint language `LXIomega`, not a
+shortcut definition. Standard-model soundness (`IDn/Sound.lean`'s `models_ID`, read at
+`ι := Fin n`) reads each `I_k` as the `k`-th iterated least fixed point and gives
+`IDn_consistent` for every positive, level-bounded family.
+
+`ThetaWNoteD` (`Ordinal/ThetaW/`) is the multi-level ϑ-notation carrying Wilken's domain
+condition: a term is admitted only when every subterm `ϑ_k ξ` satisfies `G_k(ξ) ≺* ξ` for the
+generator function of Wilken 2011 (*Ordinal arithmetic with simultaneously defined
+theta-functions*, Math. Log. Quart. 57, Definition 2.7 and Proposition 2.15). This is a genuine
+restriction, not a formality: `ThetaWNoteD.wellFoundedLT` (`WellFoundedD.lean`) holds for the
+domained order, while the same syntax without the domain guard, `ThetaWNote`, is *not*
+well-founded (`Descent.lean`'s `not_wellFoundedLT`, an explicit infinite descending sequence).
+`c n = ϑ₀(ϑ_n 0)` (`Dom.lean`) is the domained term for the intended value of `|ID_n|`. Above the
+raw system, `HullSingle.lean` proves the level-free hull operator is least (`theta_isLeastS`,
+Wilken's Proposition 3.9 at every level at once), and `HullDom.lean` derives the domain lemma the
+collapsing theorem needs from it (`dom_add_omegaPow`) while also recording where the audited
+approach breaks for the naively merged per-level operators (`not_dom_add_omegaPow_Hop`).
+
+The collapsing machinery is a genuine interface, not copied per station:
+`Ordinal/Collapsing/Interface.lean` separates the level-free operator algebra
+(`CollapsingNotation`, the Buchholz operators `H_α`) from the per-level data
+(`CollapsingLevel`: the domain of `ϑ_k`, `ϑ_k` itself, and the hull hypothesis the collapsing
+theorem consumes), with `ThetaInstance.lean`/`ThetaWInstance.lean` supplying the instances for
+`ID₁` and `ID_n` respectively.
+
+**The calculus and its cut elimination.** `IDn/Calculus.lean`'s `IDnDerivable A ρ H α Γ` is the
+multi-level operator-controlled infinitary calculus, indexed by a domained height and an
+operator `H`. `IDn/Boundedness.lean`, `IDn/Reduction.lean` and `IDn/Elimination.lean` give the
+boundedness lemma, the reduction lemma and ordinary elimination; `IDn/PredCut.lean`'s
+`predicative_cut_elim` is Buchholz's predicative cut elimination at every level (Buchholz 1992,
+*A simplified version of local predicativity*, Theorem 3.16: `H ⊢^α_{γ+ω^ρ} Γ ⇒ H ⊢^{φρα}_γ Γ`
+per level, assembled in `PredCutCases/`); `IDn/Collapsing/Theorem.lean`'s `collapse` is Buchholz's
+collapsing and impredicative cut elimination theorem (1992, Theorem 4.8), assembled from twelve
+rule cases carried over from the calculus. `IDn/StageSemantics.lean`'s `StageSem.sound` is the
+stage semantics that reads a collapsed derivation and refutes it, the multi-level analogue of the
+`ID₁` station's boundedness invariant.
+
+**The embedding, now fully discharged.** `IDn/Embed.lean`'s `embedding_theorem` is Freund's
+Theorem 6.5 per level (arXiv:2204.09321), replaying an `IDn n A`-proof into the infinitary
+calculus at height `Ω_n · 2 + m`, cut-free. It needs four axiom facts and one term-replacement
+fact, packaged as a hypothesis structure `EmbedHyps`, and all seven of its fields are proved on
+disk. `EmbedHypsAll.lean`'s `embedHyps_wForms` assembles six of them unconditionally from
+already-merged bridges — the equality and `𝗣𝗔⁻` axioms and the tautology lemma
+(`EmbedHypsLogic.lean`, `EmbedHypsTaut.lean`), the induction scheme (`EmbedHypsPA.lean`'s
+`embedHyps_induction_of_pa`), the head-term replacement (`EmbedHypsReplace.lean`), and the
+closure axioms via `closure_axiom` (`AxiomsIDCases/closure_derivable.lean`, Freund Proposition
+6.2) — and takes the seventh field, the `I_k`-induction axioms, as an explicit hypothesis shaped
+exactly like `indAx_axiom`'s statement. `IDn/Final.lean`'s `wForms_indAx` supplies that hypothesis
+for the well-ordering forms from `indAx_axiom` itself (`AxiomsIDCases/indBody_inst.lean`, Freund
+Proposition 6.4), closing the last field and making `idn_analysis` above hypothesis-free.
+
+The tautology field needs its height chosen with care. `IDn/AxiomsLogic.lean`'s `taut` (Freund
+Lemma 6.1) proves it at height `ω · rk ψ`; `IDn/TautAdditive.lean` shows this scaling is not a
+matter of convenience — the same field stated at the plain additive height `rk ψ` is refuted
+outright (`taut_additive_impossible`, at `ψ := ∀x.X(x)`), because the ω-rule's witness family
+must dominate every natural number at once and no finite successor height can do that.
+
+**The upper bound is unconditional.** `IDn/UpperFinal.lean`'s `idn_upper_bound'` and
+`idlt_upper_bound'` take no hypotheses beyond `0 < n` (the latter, none at all): the internal
+codes and order facts (`IDn/Internal/`) discharge every field the in-model level tower of
+`IDn/Theorem.lean` needs, so `IDn n` proves transfinite induction up to every `a ≺ c_n`, and
+`IDlt` up to every countable notation, outright. **The lower bound meets it exactly at `c_n`,
+also unconditionally**: `CollapseCorollarySharp.lean`'s `idn_lower_bound_sharp'` and
+`idn_theorem_sharp'` assemble the embedding, `m`-fold predicative cut elimination, and collapsing
+at level `0` into non-provability of `TI` up to `c_n` itself, given `EmbedHyps` as a hypothesis;
+chained with `embedHyps_wForms` and `wForms_indAx` above, that hypothesis is always available for
+the well-ordering forms, which is exactly `idn_analysis`'s route in `Final.lean`.
+
+`IDn/Theorem2.lean`'s `idlt_theorem` extends this to `IDlt`, but not for free: beyond `EmbedHyps`
+at every level, its lower half needs one further link, `IDseqToIDn` — a derivation from the
+finite fragment `IDseq m`, in the union language `LXIomega`, translated back into an honest
+`IDn m` derivation. `Union.lean`'s own docstring on `provable_IDlt_iff` records this translation
+as not built there. A proof is attempted in `IDn/Retract.lean` (`idseq_to_idn`, via a retraction
+`LXIω →ᵥ LXIn m`), but it is a work in progress and not yet part of the verified tree. So
+`idlt_theorem`'s two-sided result for `ID_{<ω}` stays conditional on `IDseqToIDn`, while its
+upper half alone, `idlt_upper_bound'` above, already holds outright.
+
+**Ordinal bookkeeping.** In Buchholz's `ψ`, `|ID_n| = ψ₀(ε_{Ω_n+1})` (Buchholz 1986, *A new
+system of proof-theoretic ordinal functions*, Theorem 3.7; Buchholz–Pohlers 1978); in the
+`ϑ`-notation used here, the same ordinal is `c_n = ϑ₀(ϑ_n 0)`, the identification with
+`ψ₀(ε_{Ω_n+1})` for `n ≥ 2` being in print in Weiermann–Wilken 2011. `|ID_{<ω}| = ψ₀(Ω_ω) =
+sup_n c_n`. `Π¹₁-CA₀` has the same ordinal as `ID_{<ω}` by its conservativity over it
+(Buchholz 1986, p. 203; Pohlers 1998, Fig. 1) — this last identification is cited here, not
+formalized.
+
+**Prior art.** As far as the surveys reach, no machine-checked ordinal analysis of `ID_n` for
+`n ≥ 2`, or of `ID_{<ω}`, exists in any proof assistant. The one adjacent result is
+koteitan's `pss-proof` (2026): a machine-checked well-foundedness proof, in Lean 4 and Isabelle,
+of Buchholz's notation `OT_B` below `ψ₀(Ω_ω)` — precisely the ordinal `|ID_{<ω}|` identifies here
+— with no ordinal analysis built on it.
+
 ## Building
 
 ```

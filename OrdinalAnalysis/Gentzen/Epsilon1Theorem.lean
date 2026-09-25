@@ -40,7 +40,8 @@
 
   The two halves were built over different theories and are joined here.  The
   upper bound (`Epsilon1UpperBound.lean`) needs the schema — with the single
-  `X`-instance it is false, by a counter-model — and the lower bound was
+  `X`-instance it is false, by the counter-model of
+  design decision 4 — and the lower bound was
   first proved (`Epsilon1LowerBound.lean`) over `insert TI₀ paLX`, the single
   instance.  `Epsilon1Scheme.lean` lifts the lower bound's cut-away step to the
   schema, by substituting an arbitrary unary formula for `X` in the one

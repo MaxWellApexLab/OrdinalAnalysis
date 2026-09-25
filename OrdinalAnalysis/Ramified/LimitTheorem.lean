@@ -57,8 +57,8 @@ order structure.
 
 `ACA/OmegaJumpUpperBound.lean` already has `phiTwoZero`/`repr_phiTwoZero`/
 `exists_lt_epsIter`; we restate the ordinal and its cofinality directly here
-instead of importing that (second-order) file, exactly as suggested by the task
-note. -/
+instead of importing that (second-order) file, exactly as suggested
+previously. -/
 
 /-- The notation for `φ_2(0)`, the first fixed point of `a ↦ ε_a`. -/
 def phiTwoZeroR : Gamma0Note := Gamma0Note.veblenNote (Gamma0Note.ofNat 2) 0
