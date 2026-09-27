@@ -1794,3 +1794,15 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.IDn.idlt_analysis' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.IDn.idlt_analysis
+
+/-! ### The order type of the coded ordering -/
+
+/-- info: 'OrdinalAnalysis.Gentzen.OrderType.precF_type_eq_epsilon0' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.OrderType.precF_type_eq_epsilon0
+
+/--
+info: 'OrdinalAnalysis.Gentzen.OrderType.gentzen_theorem_with_order_type' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+-/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.OrderType.gentzen_theorem_with_order_type

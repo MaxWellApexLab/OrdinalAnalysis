@@ -377,3 +377,4 @@ import OrdinalAnalysis.IDn.AxiomsIDCases.indBody_inst
 import OrdinalAnalysis.IDn.EmbedHypsAll
 import OrdinalAnalysis.IDn.Final
 import OrdinalAnalysis.IDn.Retract
+import OrdinalAnalysis.Gentzen.OrderType

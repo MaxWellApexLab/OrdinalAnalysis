@@ -65,3 +65,41 @@ theorem gentzen_theorem_with_order_type :
 - Done when the headline is `sorry`-free and the AxiomCheck pin passes.  Log below, then stop.
 
 ## Log
+
+### 2026-09-27 — done
+
+`OrdinalAnalysis/Gentzen/OrderType.lean` (new, 200 lines, `sorry`-free), imported at the end of
+`OrdinalAnalysis.lean`; two pins appended to `scripts/AxiomCheck.lean`.  `lake build` green
+(full build, not just the touched module) and `lake env lean scripts/AxiomCheck.lean` silent.
+
+Declarations, as frozen in the objective:
+
+* `Field`, `precF`, `codeIso : @RelIso NONote Field (· < ·) precF`, `precF_isWellOrder`,
+  `precF_type_eq_epsilon0 : Ordinal.type precF = ε₀`, and the corollary
+  `gentzen_theorem_with_order_type`.
+
+Route, as planned, with two simplifications worth recording.
+
+1. **Injectivity of `nonoteCode` came for free.** No `Nat.pair`-layout argument and nothing from
+   `NotationBridge` was needed: `precN_code_iff a b : precN (nonoteCode a) (nonoteCode b) ↔ a < b`
+   already forces it.  If `nonoteCode a = nonoteCode b` then rewriting turns `precN_code_of_lt` on
+   either strict side into `precN (nonoteCode a) (nonoteCode a)`, i.e. `a < a`; trichotomy on the
+   linear order `NONote` then leaves only `a = b` (`toField_injective`).
+2. **No `WellFoundedRank.lean` dependency.** The kreisel source computes the order type through a
+   rank function (`rk`, `orderType`), needed there because the carrier was `ℕ` with a *pulled-back*
+   order and only `ε₀ ≤ orderType` was wanted.  Here both bounds are wanted and `NONote.repr` is
+   available directly, so `range_NONote_repr` upgrades to an honest order iso
+   `reprIso : NONote ≃o Set.Iio ε₀` (`NONote`'s `≤` *is* `repr · ≤ repr ·` by definition, so
+   `map_rel_iff'` is `Iff.rfl`), and mathlib's `type_lt_Iio` finishes:
+   `typeLT NONote = ε₀` (`type_NONote_lt`).  Only the universe bookkeeping needs care —
+   `Set.Iio ε₀ : Type 1`, so `RelIso.ordinal_lift_type_eq` lands at
+   `lift.{1,0} (typeLT NONote) = lift.{0,1} (lift.{1,0} ε₀)`; one `simpa` collapses the double
+   lift and `Ordinal.lift_inj` descends.
+   So the copied block is just `log_omega0_lt_self`, `exists_NF_repr_eq`, `isSuccLimit_epsilon0`,
+   `repr_lt_epsilon0`, `range_NONote_repr` (credited in the file header).
+
+**One addition beyond the objective, for the audit surface:** `precF_iff_eval_precCode` shows that
+`precF` on the field is literally `precAt CodedNotation.precCode (numLX m) (numLX n)` evaluated in
+`stdLX P` — the exact spelling `gentzen_theorem`'s second conjunct is about — via
+`PrecStandard.eval_precAt_numeral`.  Without it a reader has to trace `precN` → `precDef` →
+`precCode = liftCode precDef` by hand to believe the ε₀ is about *Gentzen's* `≺`.
