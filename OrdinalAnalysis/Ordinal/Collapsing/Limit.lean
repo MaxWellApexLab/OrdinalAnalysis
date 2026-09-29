@@ -30,20 +30,7 @@ set_option autoImplicit false
 namespace OrdinalAnalysis
 namespace ThetaVNoteD
 
-/-- `a ≤ a + b`: monotonicity of `+` in the second argument from `a + 0 = a` and `0 ≤ b`. Missing
-from `Arith.lean` (only the symmetric `le_add_left : b ≤ a + b` is there); proved here from
-`add_le_add_left`, `bot_eq_zero`, `add_zero`, all already exported. -/
-theorem le_add_right (a b : ThetaVNoteD) : a ≤ a + b := by
-  have h := add_le_add_left a (bot_le : (⊥ : ThetaVNoteD) ≤ b)
-  rwa [bot_eq_zero, add_zero] at h
-
-/-- `Ω_ω` absorbs anything below it under `+`, exactly as `Ω_{k+1}` does one level down
-(`add_Omega_of_lt`) — both are fixed points of `ω^·` (`omegaPow_eq_self_iff`,
-`ThetaVTerm.isPrin_OmegaW`). -/
-theorem add_OmegaW_of_lt {x : ThetaVNoteD} (h : x < OmegaW) : x + OmegaW = OmegaW := by
-  have hfix : omegaPow OmegaW = OmegaW := omegaPow_eq_self_iff.mpr ThetaVTerm.isPrin_OmegaW
-  rw [← hfix]
-  exact add_omegaPow_of_lt (by rw [hfix]; exact h)
+-- `le_add_right` and `add_OmegaW_of_lt` live in `Ordinal/ThetaV/Arith.lean` (single copy).
 
 /-- §2.4's `add_Omega_OmegaW`, specialised to `ThetaVNoteD`: `Ω_k + Ω_ω = Ω_ω`. -/
 theorem add_Omega_OmegaW (k : ℕ) : Omega k + OmegaW = OmegaW :=

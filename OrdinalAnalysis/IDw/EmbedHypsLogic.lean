@@ -97,12 +97,7 @@ theorem add_eq_nadd_of_forall_le {a b : ThetaVNoteD}
   apply ext_entries
   rw [entries_add, entries_nadd, addL_eq_mergeL_of_forall_le a.entries b.entries h]
 
-/-- `nadd` is monotone in its left argument (via `nadd_comm` and `nadd_le_nadd_right`; only the
-right-argument version is in `Ordinal/ThetaW/Arith.lean`). -/
-theorem nadd_le_nadd_left {a a' : ThetaVNoteD} (b : ThetaVNoteD) (h : a ≤ a') :
-    nadd a b ≤ nadd a' b := by
-  rw [nadd_comm a b, nadd_comm a' b]
-  exact nadd_le_nadd_right b h
+-- `nadd_le_nadd_left` lives in `Ordinal/ThetaV/Arith.lean` (single copy).
 
 end ThetaVNoteD
 

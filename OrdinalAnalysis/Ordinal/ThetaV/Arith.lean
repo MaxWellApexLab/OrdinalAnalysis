@@ -609,6 +609,14 @@ theorem nadd_le_nadd_right (a : ThetaVNoteD) {b b' : ThetaVNoteD} (h : b ≤ b')
   · exact le_of_lt (nadd_lt_nadd_right a h)
   · exact le_rfl
 
+/-- `nadd` is monotone in its left argument (via `nadd_comm` and `nadd_le_nadd_right`). The single
+copy: `IDw/Rank.lean` (`nadd_le_nadd_left'`) and `IDw/EmbedHypsLogic.lean` used to prove it
+separately. -/
+theorem nadd_le_nadd_left {a a' : ThetaVNoteD} (b : ThetaVNoteD) (h : a ≤ a') :
+    nadd a b ≤ nadd a' b := by
+  rw [nadd_comm a b, nadd_comm a' b]
+  exact nadd_le_nadd_right b h
+
 theorem le_nadd_left (a b : ThetaVNoteD) : a ≤ nadd a b := by
   have h := nadd_le_nadd_right a (bot_le : (⊥ : ThetaVNoteD) ≤ b)
   rwa [bot_eq_zero, nadd_zero] at h
@@ -810,6 +818,22 @@ theorem omegaPow_eq_self_iff {a : ThetaVNoteD} : omegaPow a = a ↔ IsPrin a.1 :
     exact Subtype.ext (ofList_singleton_prin h)
 
 theorem omegaPow_Omega (k : ℕ) : omegaPow (Omega k) = Omega k := omegaPow_eq_self_iff.mpr trivial
+
+/-- `a ≤ a + b`: monotonicity of `+` in the second argument from `a + 0 = a` and `0 ≤ b`. Missing
+from the lemmas above (only the symmetric `le_add_left : b ≤ a + b` is there); proved from
+`add_le_add_left`, `bot_eq_zero`, `add_zero`. The single copy: `IDw/Rank.lean` and
+`Ordinal/Collapsing/Limit.lean` used to declare it separately. -/
+theorem le_add_right (a b : ThetaVNoteD) : a ≤ a + b := by
+  have h := add_le_add_left a (bot_le : (⊥ : ThetaVNoteD) ≤ b)
+  rwa [bot_eq_zero, add_zero] at h
+
+/-- `Ω_ω` absorbs anything below it under `+`, exactly as `Ω_{k+1}` does one level down
+(`add_Omega_of_lt`) — both are fixed points of `ω^·` (`omegaPow_eq_self_iff`,
+`ThetaVTerm.isPrin_OmegaW`). The single copy (see `le_add_right`). -/
+theorem add_OmegaW_of_lt {x : ThetaVNoteD} (h : x < OmegaW) : x + OmegaW = OmegaW := by
+  have hfix : omegaPow OmegaW = OmegaW := omegaPow_eq_self_iff.mpr ThetaVTerm.isPrin_OmegaW
+  rw [← hfix]
+  exact add_omegaPow_of_lt (by rw [hfix]; exact h)
 
 /-- Below a principal `P` are exactly the domain notations all of whose exponents are below
 `P`. -/

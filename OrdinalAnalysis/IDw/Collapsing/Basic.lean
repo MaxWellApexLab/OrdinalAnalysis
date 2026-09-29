@@ -20,7 +20,8 @@
     `Hg γ X`                  `H_γ[Θ]` with `k(Θ) = X`: `adjoin (HopS γ) X`
     `capSeq k b Γ`            the level-`k` cap `Γ^b` of a sequent
     the (𝒜1)–(𝒜4) facts       `hat_mem`, `dom_hat`, `psi_hat_mem`, `lt_psi_hat`, … (any `m : WithTop ℕ`)
-    `NiceS.rk_mem'`           `rk φ ∈ H(X)` for nice `H` (`Jlev` atoms have rank `Ω_ω` or `Ω_k + 1`)
+    `NiceS.rk_mem'`           `rk φ ∈ H(X)` for nice `H` (`Jlev` atoms have rank `Ω_ω` or `Ω_k + 1`);
+                              declared in `IDw/CalculusAux.lean`
     `sigmaW_subst`            `Σ(Ω_{k+1})` is invariant under `φ ↦ φ/[t]`
     `sigmaW_mono`             `Σ(Ω_{k+1}) ⊆ Σ(Ω_{p+1})` for `k ≤ p`
     `sigmaW_unfold_le`        `A(j̄, t; I_j^{≺g}, Jlev j)`, `j ≤ k`, and its negation are `Σ(Ω_{k+1})`
@@ -164,49 +165,7 @@ theorem muBarW_le_OmegaW (m : WithTop ℕ) : muBarW m ≤ ThetaVNoteD.OmegaW := 
   | top => exact le_rfl
   | coe m => exact le_of_lt (muBar_lt_OmegaW m)
 
-/-- **Freund, Exercise 5.5 (e), formula half, for `LIinfW`**: `rk φ ∈ H(X)` for a nice `H` once
-the values of `φ`'s stage parameters are in `H(X)`. The `Jlev ℓ` atoms (no parameters) have rank
-`Ω_ω` or `Ω_k + 1`, in every nice `H(X)` (`NiceS.OmegaW_mem`, `NiceS.omegaBelow_mem`,
-`NiceS.succ_mem`) — so, unlike the bare-`S` form `IDn.rk_mem_of_closed` (not ported, see
-`IDw/CalculusAux.lean`), the `NiceS` form holds verbatim. -/
-theorem _root_.OrdinalAnalysis.ThetaVNoteD.NiceS.rk_mem' {ξ : Type*} {m : ℕ}
-    {H : Set ThetaVNoteD → Set ThetaVNoteD} (hH : ThetaVNoteD.NiceS H) {X : Set ThetaVNoteD}
-    {φ : Semiformula LIinfW ξ m} (h : ∀ s ∈ params φ, s.val ∈ H X) : rk φ ∈ H X := by
-  have hmax : ∀ x y : ThetaVNoteD, x ∈ H X → y ∈ H X → max x y ∈ H X := fun x y hx hy => by
-    rcases le_total x y with hxy | hxy
-    · rw [max_eq_right hxy]; exact hy
-    · rw [max_eq_left hxy]; exact hx
-  have hJ : ∀ ℓ : WithTop ℕ, atomRkJlev ℓ ∈ H X := fun ℓ => by
-    induction ℓ using WithTop.recTopCoe with
-    | top => exact hH.OmegaW_mem
-    | coe k => exact hH.succ_mem (hH.omegaBelow_mem X k)
-  induction φ using Semiformula.rec' with
-  | hverum => rw [rk_verum]; exact hH.zero_mem
-  | hfalsum => rw [rk_falsum]; exact hH.zero_mem
-  | hrel r v =>
-    rw [rk_rel]
-    rcases r with r | r
-    · exact hH.zero_mem
-    · cases r with
-      | X => exact hH.zero_mem
-      | stage s => exact hH.atomRkStage_mem (h s rfl)
-      | jlev ℓ => exact hJ ℓ
-  | hnrel r v =>
-    rw [rk_nrel]
-    rcases r with r | r
-    · exact hH.zero_mem
-    · cases r with
-      | X => exact hH.zero_mem
-      | stage s => exact hH.atomRkStage_mem (h s rfl)
-      | jlev ℓ => exact hJ ℓ
-  | hand φ ψ ihφ ihψ =>
-    rw [rk_and]
-    exact hH.succ_mem (hmax _ _ (ihφ fun s hs => h s (Or.inl hs)) (ihψ fun s hs => h s (Or.inr hs)))
-  | hor φ ψ ihφ ihψ =>
-    rw [rk_or]
-    exact hH.succ_mem (hmax _ _ (ihφ fun s hs => h s (Or.inl hs)) (ihψ fun s hs => h s (Or.inr hs)))
-  | hall φ ih => rw [rk_all]; exact hH.succ_mem (ih h)
-  | hexs φ ih => rw [rk_exs]; exact hH.succ_mem (ih h)
+-- `NiceS.rk_mem'` (Freund, Exercise 5.5 (e), formula half) lives in `IDw/CalculusAux.lean`.
 
 /-! ### Membership, domain and comparison facts (Buchholz, Lemma 4.7 (𝒜1)–(𝒜4))
 

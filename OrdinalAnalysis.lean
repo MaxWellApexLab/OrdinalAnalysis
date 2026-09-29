@@ -504,3 +504,5 @@ import OrdinalAnalysis.IDw.CollapseCorollaryW
 import OrdinalAnalysis.IDw.LowerLt
 import OrdinalAnalysis.IDw.Final
 import OrdinalAnalysis.EvalWrap
+import OrdinalAnalysis.Ordinal.ONoteEpsilon0
+import OrdinalAnalysis.Gentzen.OrderType

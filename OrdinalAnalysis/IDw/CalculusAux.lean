@@ -487,6 +487,52 @@ theorem _root_.OrdinalAnalysis.ThetaVNoteD.NiceS.atomRkStage_mem
     {s : Stage} (hs : s.val ∈ H X) : atomRkStage s ∈ H X :=
   hH.add_mem (hH.omegaBelow_mem X s.lvl) (hH.omegaMul_mem hs)
 
+/-- **Freund, Exercise 5.5 (e), formula half, for `LIinfW`**: `rk φ ∈ H(X)` for a nice `H` once
+the values of `φ`'s stage parameters are in `H(X)`. The `Jlev ℓ` atoms (no parameters) have rank
+`Ω_ω` or `Ω_k + 1`, in every nice `H(X)` (`NiceS.OmegaW_mem`, `NiceS.omegaBelow_mem`,
+`NiceS.succ_mem`) — so, unlike the bare-`S` form `IDn.rk_mem_of_closed` (not ported, see above),
+the `NiceS` form holds verbatim.  **The single copy**: `NiceS.rk_memL` (`IDw/AxiomsLogic.lean`),
+`NiceS.rk_mem_of_noJlevTop` (`IDw/PredCutAux.lean`), `rk_mem_pa` (`IDw/AxiomsPA.lean`) and
+`rk_mem` (`IDw/TransferAux.lean`) are one-line consequences of it. -/
+theorem _root_.OrdinalAnalysis.ThetaVNoteD.NiceS.rk_mem' {ξ : Type*} {m : ℕ}
+    {H : Set ThetaVNoteD → Set ThetaVNoteD} (hH : ThetaVNoteD.NiceS H) {X : Set ThetaVNoteD}
+    {φ : Semiformula LIinfW ξ m} (h : ∀ s ∈ params φ, s.val ∈ H X) : rk φ ∈ H X := by
+  have hmax : ∀ x y : ThetaVNoteD, x ∈ H X → y ∈ H X → max x y ∈ H X := fun x y hx hy => by
+    rcases le_total x y with hxy | hxy
+    · rw [max_eq_right hxy]; exact hy
+    · rw [max_eq_left hxy]; exact hx
+  have hJ : ∀ ℓ : WithTop ℕ, atomRkJlev ℓ ∈ H X := fun ℓ => by
+    induction ℓ using WithTop.recTopCoe with
+    | top => exact hH.OmegaW_mem
+    | coe k => exact hH.succ_mem (hH.omegaBelow_mem X k)
+  induction φ using Semiformula.rec' with
+  | hverum => rw [rk_verum]; exact hH.zero_mem
+  | hfalsum => rw [rk_falsum]; exact hH.zero_mem
+  | hrel r v =>
+    rw [rk_rel]
+    rcases r with r | r
+    · exact hH.zero_mem
+    · cases r with
+      | X => exact hH.zero_mem
+      | stage s => exact hH.atomRkStage_mem (h s rfl)
+      | jlev ℓ => exact hJ ℓ
+  | hnrel r v =>
+    rw [rk_nrel]
+    rcases r with r | r
+    · exact hH.zero_mem
+    · cases r with
+      | X => exact hH.zero_mem
+      | stage s => exact hH.atomRkStage_mem (h s rfl)
+      | jlev ℓ => exact hJ ℓ
+  | hand φ ψ ihφ ihψ =>
+    rw [rk_and]
+    exact hH.succ_mem (hmax _ _ (ihφ fun s hs => h s (Or.inl hs)) (ihψ fun s hs => h s (Or.inr hs)))
+  | hor φ ψ ihφ ihψ =>
+    rw [rk_or]
+    exact hH.succ_mem (hmax _ _ (ihφ fun s hs => h s (Or.inl hs)) (ihψ fun s hs => h s (Or.inr hs)))
+  | hall φ ih => rw [rk_all]; exact hH.succ_mem (ih h)
+  | hexs φ ih => rw [rk_exs]; exact hH.succ_mem (ih h)
+
 end RankMem
 
 /-! ### The rank discipline of `jlev`/`njlev` (design §8.4 kill criterion)

@@ -2439,3 +2439,32 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.IDn.Upper.levelBounded_of_ind' does not depend on any axioms -/
 #guard_msgs in #print axioms OrdinalAnalysis.IDn.Upper.levelBounded_of_ind
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.nadd_le_nadd_left' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.nadd_le_nadd_left
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.le_add_right' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.le_add_right
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.add_OmegaW_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.add_OmegaW_of_lt
+
+/-- info: 'OrdinalAnalysis.ONoteEps.nf_repr_lt_epsilon0' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ONoteEps.nf_repr_lt_epsilon0
+
+/-- info: 'OrdinalAnalysis.ONoteEps.exists_nf_repr_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ONoteEps.exists_nf_repr_eq
+
+/-- info: 'OrdinalAnalysis.ONoteEps.type_lt_NONote' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ONoteEps.type_lt_NONote
+
+/-- info: 'OrdinalAnalysis.Gentzen.OrderType.type_precNF' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.OrderType.type_precNF
+
+/-- info: 'OrdinalAnalysis.Gentzen.OrderType.precNF_iff_eval_precAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.OrderType.precNF_iff_eval_precAt
+
+/-- info: 'OrdinalAnalysis.Gentzen.OrderType.gentzen_theorem_with_order_type' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Gentzen.OrderType.gentzen_theorem_with_order_type

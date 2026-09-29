@@ -41,6 +41,7 @@
   `ConsStmt` (BP78 Lemma 1, sums; Gentzen's jump on `D_k`), `MonoStmt` (BP78 Lemma 2,
   `J(j, ·) ⊆ J(k, ·)` for `j ≤ k`), `OmegaStmt` (BP78 Lemma 3, `Ω_{j+1} ∈ J(k, ·)` for `j < k`).
 -/
+import OrdinalAnalysis.IDw.UpperAuxCodes
 import OrdinalAnalysis.IDw.UpperAuxForms
 import OrdinalAnalysis.IDw.Internal.JumpList
 
@@ -61,27 +62,7 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 /-- **`E_j(g) ⊆ E_j(c)` for `g ∈ E_k(c)`, `j ≤ k`** (`ThetaVTerm.mem_E_of_mem_E`). -/
 lemma cw_iinE_trans {j k : V} (hjk : j ≤ k) :
-    ∀ c : V, ∀ g h, iinE k g c = 1 → iinE j h g = 1 → iinE j h c = 1 := by
-  intro c
-  induction c using ISigma1.pi1_order_induction
-  · definability
-  case ind c ih =>
-    intro g h hg hh
-    rcases code_cases c with rfl | ⟨i, rfl⟩ | ⟨i, a, rfl⟩ | ⟨x, t, rfl⟩ | hc
-    · simp at hg
-    · simp at hg
-    · by_cases hi : i ≤ k
-      · rw [iinE_theta_le_iff hi] at hg
-        rw [← hg]; exact hh
-      · have hki : k < i := not_le.mp hi
-        rw [iinE_tcTheta_of_lt hki] at hg
-        rw [iinE_tcTheta_of_lt (lt_of_le_of_lt hjk hki)]
-        exact ih a (arg_lt_tcTheta i a) g h hg hh
-    · rw [iinE_cons_iff] at hg ⊢
-      rcases hg with hg | hg
-      · exact Or.inl (ih x (hd_lt_tcCons x t) g h hg hh)
-      · exact Or.inr (ih t (tl_lt_tcCons x t) g h hg hh)
-    · rw [iinE_kind_four k g hc] at hg; simp at hg
+    ∀ c : V, ∀ g h, iinE k g c = 1 → iinE j h g = 1 → iinE j h c = 1 := iinE_trans hjk
 
 /-- **A coefficient of level `j` whose own level is `≤ k ≤ j` is a coefficient of level `k`**
 (`ThetaVTerm.mem_E_of_mem_E_of_le`). -/
@@ -138,55 +119,12 @@ lemma cw_iinE_of_iinG {j k : V} (hjk : j ≤ k) :
 
 /-- **`G_k` is transitive** (`ThetaVTerm.mem_G_of_mem_G`). -/
 lemma cw_iinG_trans (k : V) :
-    ∀ c : V, ∀ d y, iinG k d c = 1 → iinG k y d = 1 → iinG k y c = 1 := by
-  intro c
-  induction c using ISigma1.pi1_order_induction
-  · definability
-  case ind c ih =>
-    intro d y hd hy
-    rcases code_cases c with rfl | ⟨i, rfl⟩ | ⟨i, a, rfl⟩ | ⟨x, t, rfl⟩ | hc
-    · simp at hd
-    · simp at hd
-    · by_cases hi : k < i
-      · rw [iinG_theta_lt_iff hi] at hd ⊢
-        rcases hd with rfl | hd
-        · exact Or.inr hy
-        · exact Or.inr (ih a (arg_lt_tcTheta i a) d y hd hy)
-      · rw [iinG_tcTheta_of_le (not_lt.mp hi)] at hd; simp at hd
-    · rw [iinG_cons_iff] at hd ⊢
-      rcases hd with hd | hd
-      · exact Or.inl (ih x (hd_lt_tcCons x t) d y hd hy)
-      · exact Or.inr (ih t (tl_lt_tcCons x t) d y hd hy)
-    · rw [iinG_kind_four k d hc] at hd; simp at hd
+    ∀ c : V, ∀ d y, iinG k d c = 1 → iinG k y d = 1 → iinG k y c = 1 := iinG_trans k
 
 /-- **The argument of a coefficient `ϑ_i d ∈ E_i(c)` is in `G_k(c)` for `k < i`**
 (`ThetaVTerm.mem_G_of_mem_E`). -/
 lemma cw_iinG_of_iinE {k i : V} (hki : k < i) :
-    ∀ c : V, ∀ d, iinE i (tcTheta i d) c = 1 → iinG k d c = 1 := by
-  intro c
-  induction c using ISigma1.pi1_order_induction
-  · definability
-  case ind c ih =>
-    intro d hd
-    rcases code_cases c with rfl | ⟨i', rfl⟩ | ⟨i', a, rfl⟩ | ⟨x, t, rfl⟩ | hc
-    · simp at hd
-    · simp at hd
-    · by_cases hi' : i' ≤ i
-      · rw [iinE_theta_le_iff hi'] at hd
-        have hl : i = i' := by simpa using congrArg tcLev hd
-        have ha : d = a := by simpa using congrArg tcThetaArg hd
-        rw [iinG_theta_lt_iff (by rw [← hl]; exact hki)]
-        exact Or.inl ha
-      · have hii' : i < i' := not_le.mp hi'
-        rw [iinE_tcTheta_of_lt hii'] at hd
-        rw [iinG_theta_lt_iff (lt_trans hki hii')]
-        exact Or.inr (ih a (arg_lt_tcTheta i' a) d hd)
-    · rw [iinE_cons_iff] at hd
-      rw [iinG_cons_iff]
-      rcases hd with hd | hd
-      · exact Or.inl (ih x (hd_lt_tcCons x t) d hd)
-      · exact Or.inr (ih t (tl_lt_tcCons x t) d hd)
-    · rw [iinE_kind_four i _ hc] at hd; simp at hd
+    ∀ c : V, ∀ d, iinE i (tcTheta i d) c = 1 → iinG k d c = 1 := iinG_of_iinE hki
 
 lemma isNF_zero' : isNF (0 : V) := by simp [isNF, isNFb]
 

@@ -121,9 +121,10 @@ theorem ofNat_le_ofNat {p q : ℕ} (h : p ≤ q) : ofNat p ≤ ofNat q := by
   · exact le_of_lt (ofNat_lt_ofNat h)
   · exact le_refl _
 
+/-- Alias of `nadd_le_nadd_left` (`Ordinal/ThetaV/Arith.lean`), kept for its callers. -/
 theorem nadd_le_nadd_left' {a a' : ThetaVNoteD} (b : ThetaVNoteD) (h : a ≤ a') :
-    nadd a b ≤ nadd a' b := by
-  rw [nadd_comm a b, nadd_comm a' b]; exact nadd_le_nadd_right b h
+    nadd a b ≤ nadd a' b :=
+  nadd_le_nadd_left b h
 
 theorem succ_le_succ {a b : ThetaVNoteD} (h : a ≤ b) : succ a ≤ succ b :=
   nadd_le_nadd_left' one h
@@ -145,10 +146,6 @@ def OmegaBelow : ℕ → ThetaVNoteD
 
 theorem Omega_lt_Omega_iff {i j : ℕ} : Omega i < Omega j ↔ i < j := by
   rw [lt_iff]; exact ThetaVTerm.Omega_lt_Omega_iff i j
-
-theorem le_add_right (a b : ThetaVNoteD) : a ≤ a + b := by
-  conv_lhs => rw [← add_zero a]
-  exact add_le_add_left a (zero_le' b)
 
 /-- **`Ω_k ≺ Ω_{k+1}`.** -/
 theorem OmegaBelow_lt_Omega (k : ℕ) : OmegaBelow k < Omega k := by
@@ -225,11 +222,6 @@ theorem omegaMul_OmegaW : omegaMul OmegaW = OmegaW := omegaMul_prin ThetaVTerm.i
 /-- `Ω_ω` is a fixed point of `ω^·` (`IsPrin OmegaW`). -/
 theorem omegaPow_OmegaW : omegaPow OmegaW = OmegaW :=
   omegaPow_eq_self_iff.mpr ThetaVTerm.isPrin_OmegaW
-
-/-- **`α + Ω_ω = Ω_ω` whenever `α ≺ Ω_ω`.** -/
-theorem add_OmegaW_of_lt {x : ThetaVNoteD} (h : x < OmegaW) : x + OmegaW = OmegaW := by
-  rw [← omegaPow_OmegaW] at h ⊢
-  exact add_omegaPow_of_lt h
 
 end ThetaVNoteD
 

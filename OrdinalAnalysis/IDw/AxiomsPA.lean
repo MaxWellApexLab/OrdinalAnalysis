@@ -223,43 +223,13 @@ theorem freeVariables_subst_of_closed_pa (φ : Semiformula (LIinfW) ℕ 1) (hφ 
 
 `IDw.CalculusAux` does not port `NiceS.rk_mem` (its naive form is false for an arbitrary set
 `S`, see the header of that section); for a *nice operator* it is true, because every `Jlev` atom
-rank (`Ω_j + 1`, `Ω_ω`) lies in `H X` unconditionally. Proved here, for this file's use. -/
-
-theorem atomRk_mem_pa {H : Set ThetaVNoteD → Set ThetaVNoteD} (hH : ThetaVNoteD.NiceS H)
-    {X : Set ThetaVNoteD} {k : ℕ} (r : LIinfW.Rel k) (h : ∀ s ∈ relParams r, s.val ∈ H X) :
-    atomRk r ∈ H X := by
-  rcases r with r | r
-  · exact hH.zero_mem
-  · cases r with
-    | X => exact hH.zero_mem
-    | stage s => exact hH.atomRkStage_mem (h s rfl)
-    | jlev ℓ =>
-      induction ℓ using WithTop.recTopCoe with
-      | top => exact hH.OmegaW_mem
-      | coe j => exact hH.succ_mem (hH.omegaBelow_mem X j)
+rank (`Ω_j + 1`, `Ω_ω`) lies in `H X` unconditionally. That is `NiceS.rk_mem'`
+(`IDw/CalculusAux.lean`); `rk_mem_pa` is its explicit-`φ` form, kept for this file's callers. -/
 
 theorem rk_mem_pa {H : Set ThetaVNoteD → Set ThetaVNoteD} (hH : ThetaVNoteD.NiceS H)
     {X : Set ThetaVNoteD} {ξ : Type*} {m : ℕ} (φ : Semiformula (LIinfW) ξ m)
-    (h : ∀ s ∈ params φ, s.val ∈ H X) : rk φ ∈ H X := by
-  induction φ using Semiformula.rec' with
-  | hverum => rw [rk_verum]; exact hH.zero_mem
-  | hfalsum => rw [rk_falsum]; exact hH.zero_mem
-  | hrel r v => rw [rk_rel]; exact atomRk_mem_pa hH r h
-  | hnrel r v => rw [rk_nrel]; exact atomRk_mem_pa hH r h
-  | hand φ ψ ihφ ihψ =>
-    rw [rk_and]
-    refine hH.succ_mem ?_
-    rcases max_choice (rk φ) (rk ψ) with e | e <;> rw [e]
-    · exact ihφ fun s hs => h s (Or.inl hs)
-    · exact ihψ fun s hs => h s (Or.inr hs)
-  | hor φ ψ ihφ ihψ =>
-    rw [rk_or]
-    refine hH.succ_mem ?_
-    rcases max_choice (rk φ) (rk ψ) with e | e <;> rw [e]
-    · exact ihφ fun s hs => h s (Or.inl hs)
-    · exact ihψ fun s hs => h s (Or.inr hs)
-  | hall φ ih => rw [rk_all]; exact hH.succ_mem (ih h)
-  | hexs φ ih => rw [rk_exs]; exact hH.succ_mem (ih h)
+    (h : ∀ s ∈ params φ, s.val ∈ H X) : rk φ ∈ H X :=
+  hH.rk_mem' h
 
 variable (AxDerivable : (Semisentence LForm 2) → Sentence (LXJ) → Prop)
 

@@ -132,46 +132,8 @@ open LO LO.FirstOrder
 form `IDn.rk_mem_of_closed` is false with `Jlev` atoms, see `IDw/CalculusAux.lean`.) -/
 theorem _root_.OrdinalAnalysis.ThetaVNoteD.NiceS.rk_memL {K : Set ThetaVNoteD → Set ThetaVNoteD}
     (hK : ThetaVNoteD.NiceS K) {X : Set ThetaVNoteD} {ξ : Type*} {m : ℕ}
-    {φ : Semiformula (LIinfW) ξ m} (h : ∀ s ∈ params φ, s.val ∈ K X) : rk φ ∈ K X := by
-  induction φ using Semiformula.rec' with
-  | hverum => rw [rk_verum]; exact hK.zero_mem
-  | hfalsum => rw [rk_falsum]; exact hK.zero_mem
-  | hrel r v =>
-    rw [rk_rel]
-    rcases r with r | r
-    · exact hK.zero_mem
-    · cases r with
-      | X => exact hK.zero_mem
-      | stage s => exact hK.atomRkStage_mem (h s (Set.mem_singleton s))
-      | jlev ℓ =>
-        induction ℓ using WithTop.recTopCoe with
-        | top => exact hK.OmegaW_mem
-        | coe k => exact hK.succ_mem (hK.omegaBelow_mem X k)
-  | hnrel r v =>
-    rw [rk_nrel]
-    rcases r with r | r
-    · exact hK.zero_mem
-    · cases r with
-      | X => exact hK.zero_mem
-      | stage s => exact hK.atomRkStage_mem (h s (Set.mem_singleton s))
-      | jlev ℓ =>
-        induction ℓ using WithTop.recTopCoe with
-        | top => exact hK.OmegaW_mem
-        | coe k => exact hK.succ_mem (hK.omegaBelow_mem X k)
-  | hand φ ψ ihφ ihψ =>
-    rw [rk_and]
-    refine hK.succ_mem ?_
-    rcases max_choice (rk φ) (rk ψ) with e | e <;> rw [e]
-    · exact ihφ fun s hs => h s (Or.inl hs)
-    · exact ihψ fun s hs => h s (Or.inr hs)
-  | hor φ ψ ihφ ihψ =>
-    rw [rk_or]
-    refine hK.succ_mem ?_
-    rcases max_choice (rk φ) (rk ψ) with e | e <;> rw [e]
-    · exact ihφ fun s hs => h s (Or.inl hs)
-    · exact ihψ fun s hs => h s (Or.inr hs)
-  | hall φ ih => rw [rk_all]; exact hK.succ_mem (ih h)
-  | hexs φ ih => rw [rk_exs]; exact hK.succ_mem (ih h)
+    {φ : Semiformula (LIinfW) ξ m} (h : ∀ s ∈ params φ, s.val ∈ K X) : rk φ ∈ K X :=
+  hK.rk_mem' h
 
 /-! ### Structural helpers -/
 
