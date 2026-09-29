@@ -594,6 +594,64 @@ koteitan's `pss-proof` (2026): a machine-checked well-foundedness proof, in Lean
 of Buchholz's notation `OT_B` below `ψ₀(Ω_ω)` — precisely the ordinal `|ID_{<ω}|` identifies here
 — with no ordinal analysis built on it.
 
+## Buchholz–Pohlers at the limit: `|ID_ω| = ψ₀(ε_{Ω_ω+1})`
+
+`OrdinalAnalysis/IDw/Final.lean`, with no hypothesis:
+
+```
+idw_analysis :
+  (∀ a : ThetaVNoteD, a < ThetaVNoteD.Omega 0 →
+      IDw WFormWc ⊢ tiUptoSentence orderFormulas a) ∧
+    ¬ IDw WFormWc ⊢ tiUptoSentence orderFormulas (ThetaVNoteD.Omega 0)
+```
+
+`IDw A` (`IDw/Theory.lean`) is the uniform formulation: one binary predicate `J(y, x)` and one
+positive operator form `A(x, y)` with two place-holders, `P` for the level being defined and `Q`
+for the levels below it, closure and induction axioms quantified over the level `y`. Its
+standard-model soundness (`IDw/Sound.lean`'s `models_IDw`, `IDw_consistent`) reads `J` as the
+ℕ-indexed chain of least fixed points; `IDw/SlotCheck.lean` pins the `x`/`y` slots with a form
+whose fixed point a swapped slot would change.
+
+**The notation.** `ThetaVNoteD` (`Ordinal/ThetaV/`) adds one constant `Ω_ω` above every `Ω_k` to
+the domained multi-level ϑ-notation. Well-foundedness at the limit (`ThetaV/WellFoundedV.lean`) is
+the Buchholz–Pohlers all-levels main lemma, one induction on terms covering every level at once.
+`Ordinal/Collapsing/Limit.lean`'s `CollapsingLimit` extends the collapsing interface by the facts
+about `Ω_ω` the cut elimination consumes.
+
+**The calculus** (`IDw/Calculus.lean`) has levels `k : ℕ` and one new atom family `Jlev ℓ`
+(`ℓ : WithTop ℕ`, `Jlev ⊤` = `J`) with two rules, one-disjunct and at-most-one-conjunct. Ranks
+put `Jlev ⊤` at exactly `Ω_ω`; reduction for a cut on `Jlev ℓ` reduces to a cut on the level
+predicate below it (`reduction_jlev`), and elimination brings `Ω_ω + m` down to `Ω_ω`
+(`elimination_OmegaW`). The collapsing induction runs over `WithTop ℕ` (`IDw/Collapsing/`):
+fourteen rule cases, the limit appearing only in the cut case, where a cut rank below `Ω_ω`
+lies below some `Ω_{p+1}` and the main induction hypothesis is used at `p < ⊤`.
+`collapseW` (`IDw/Collapsing/Final.lean`) needs only positivity of the form.
+
+**The embedding** (`IDw/Embed.lean`, rank `Ω_ω + m`, height `Ω_ω · 2 + r`) is hypothesis-free:
+`IDw/EmbedHypsAll.lean`'s `embedHyps A : EmbedHyps A` proves every field, including the closure
+and induction axioms. Those are new constructions, not transcriptions: each instance at `y = k̄`
+is built cut-free, rule by rule, through the transfer lemmas between `J(k̄, ·)` and the level-`k`
+stage predicate (`IDw/Transfer.lean`) and a congruence between the level-`k` unfolding of the
+form and its embedded finitary instance (`IDw/TransferCong.lean`), closed by the ω-rule over
+all levels.
+
+**The upper bound** (`IDw/UpperFinal.lean`'s `idw_upper_bound`) is Buchholz–Pohlers 1978 with the
+level internal to the model. In a model of `IDw`, levels can be nonstandard, so the `ID_n` route
+of one Lean recursion per level is impossible; instead the accessible-part form carries the level
+as an argument (`IDw/UpperAuxForms.lean`), and the main lemma (`IDw/WellOrderingW.lean`'s
+`W_theta`) is proved once by an order induction on codes that covers every internal level. The
+Gentzen jumps then give `ϑ₀(ω_m(Ω_ω + 1)) ∈ J(0, ·)` for every `m`
+(`IDw/WellOrderingTau.lean`), and these towers are cofinal below `Ω₁` (`exists_lt_tower`).
+
+**The lower bound** (`IDw/CollapseCorollaryW.lean`'s `idw_lower_bound`) needs no top-level
+predicative elimination, since `Ω_ω` is not regular: embed, eliminate down to rank `Ω_ω`,
+collapse at level `0`, bound, and refute by the stage semantics (`IDw/StageSemantics.lean`, `Jlev`
+read through the full stage sets). `IDw/LowerLt.lean` extends it to every `a ≥ Ω₁`.
+
+**Ordinal bookkeeping.** `|ID_ω| = ψ₀(ε_{Ω_ω+1})` (Buchholz–Pohlers 1978; Buchholz 1986); it is the
+supremum of the notations below `Ω₁` here, cofinally `ϑ₀(ω_m(Ω_ω + 1))`. `ID_ω` has the same
+ordinal as `Π¹₁-CA + BI` and `KPl` (Pohlers 1998) — cited, not formalized.
+
 ## Building
 
 ```

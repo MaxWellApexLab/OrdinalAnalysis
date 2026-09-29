@@ -1794,3 +1794,630 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.IDn.idlt_analysis' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.IDn.idlt_analysis
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.wellFoundedLT' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.wellFoundedLT
+
+/-- info: 'OrdinalAnalysis.ThetaVNote.not_wellFoundedLT' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNote.not_wellFoundedLT
+
+/-- info: 'OrdinalAnalysis.ThetaVTerm.W_theta' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVTerm.W_theta
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.ofW_lt_thetaOmegaW_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.ofW_lt_thetaOmegaW_zero
+
+/-- info: 'OrdinalAnalysis.IDw.IDw' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDw
+
+/-- info: 'OrdinalAnalysis.IDw.closureAxJ' depends on axioms: [propext] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.closureAxJ
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.tagPDef' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.tagPDef
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.dom_add' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.dom_add
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.dom_omegaPow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.dom_omegaPow
+
+/-- info: 'OrdinalAnalysis.IDw.sigmaW_unfoldW_of_ne_top' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.sigmaW_unfoldW_of_ne_top
+
+/-- info: 'OrdinalAnalysis.IDw.embed_Jat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embed_Jat
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.succ_le_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.succ_le_of_lt
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.ordinalNotation' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.ordinalNotation
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.dom_phi_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.dom_phi_of_lt
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.phi_lt_phi_right' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.phi_lt_phi_right
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.phi_lt_phi_of_lt_left' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.phi_lt_phi_of_lt_left
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.lt_phi_right_self' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.lt_phi_right_self
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.theta_isLeastS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.theta_isLeastS
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.theta_mem_HopS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.theta_mem_HopS
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.OmegaW_mem_HopS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.OmegaW_mem_HopS
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.theta_OmegaW_mem_HopS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.theta_OmegaW_mem_HopS
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.theta_lt_theta_of_mem_HopS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.theta_lt_theta_of_mem_HopS
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.HopS_nice' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.HopS_nice
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.G_le_of_mem_HopS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.G_le_of_mem_HopS
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.dom_add_omegaPow' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.dom_add_omegaPow
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.theta_add_omegaPow_mem_HopS' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.theta_add_omegaPow_mem_HopS
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.HullHypGe.union_singleton' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.HullHypGe.union_singleton
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.dom_add_omegaPow_ge' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.dom_add_omegaPow_ge
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.isTerm_mc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.isTerm_mc
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iinE_mc_mc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iinE_mc_mc
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iinG_mc_mc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iinG_mc_mc
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.isTerm_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.isTerm_iff
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.code_decode' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.code_decode
+
+/-- info: 'OrdinalAnalysis.Notn.thetaVCN' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Notn.thetaVCN
+
+/-- info: 'OrdinalAnalysis.Notn.thetaVLevel' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Notn.thetaVLevel
+
+/-- info: 'OrdinalAnalysis.Notn.thetaVTower' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Notn.thetaVTower
+
+/-- info: 'OrdinalAnalysis.Notn.thetaVLimit' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Notn.thetaVLimit
+
+/-- info: 'OrdinalAnalysis.IDw.rk_IOmegaAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_IOmegaAt
+
+/-- info: 'OrdinalAnalysis.IDw.rk_capAt_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_capAt_le
+
+/-- info: 'OrdinalAnalysis.IDw.rk_unfold_le' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_unfold_le
+
+/-- info: 'OrdinalAnalysis.IDw.rk_unfold_lt_stageAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_unfold_lt_stageAt
+
+/-- info: 'OrdinalAnalysis.IDw.rk_lt_Omega_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_lt_Omega_iff
+
+/-- info: 'OrdinalAnalysis.IDw.rk_lt_OmegaW_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_lt_OmegaW_iff
+
+/-- info: 'OrdinalAnalysis.IDw.rk_embed_le_OmegaW_add_ofNat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_embed_le_OmegaW_add_ofNat
+
+/-- info: 'OrdinalAnalysis.IDw.params_formAtW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.params_formAtW
+
+/-- info: 'OrdinalAnalysis.IDw.params_unfoldW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.params_unfoldW
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.eval_thDomDef_mc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.eval_thDomDef_mc
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.standard_lt_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.standard_lt_iff
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.standard_nf_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.standard_nf_iff
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.standard_dom_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.standard_dom_iff
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.slotCheck_iltb_Omega_lt_OmegaW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.slotCheck_iltb_Omega_lt_OmegaW
+
+/-- info: 'OrdinalAnalysis.IDw.models_IDw' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.models_IDw
+
+/-- info: 'OrdinalAnalysis.IDw.IDw_unprovable_bot' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDw_unprovable_bot
+
+/-- info: 'OrdinalAnalysis.IDw.IDw_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDw_consistent
+
+/-- info: 'OrdinalAnalysis.IDw.slotCheck_Jat_reads_its_own_column' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.slotCheck_Jat_reads_its_own_column
+
+/-- info: 'OrdinalAnalysis.IDw.slotA_J_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.slotA_J_iff
+
+/-- info: 'OrdinalAnalysis.IDw.slotA_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.slotA_consistent
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iltb_trans' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iltb_trans
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iltb_irrefl' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iltb_irrefl
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iltb_trichotomy_nf' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iltb_trichotomy_nf
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.isTerm_of_isNF' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.isTerm_of_isNF
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.domOk_iff_bdd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.domOk_iff_bdd
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.isDom_of_iinE' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.isDom_of_iinE
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iinE_finite' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iinE_finite
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.isNF_shape' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.isNF_shape
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iltb_expList_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iltb_expList_iff
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.iltb_iapp_iapp' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.iltb_iapp_iapp
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.mono_rank' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.mono_rank
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.mono_height' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.mono_height
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.weaken' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.weaken
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.inv_njlev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.inv_njlev
+
+/-- info: 'OrdinalAnalysis.IDw.rk_IOmegaAt_lt_jlevAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_IOmegaAt_lt_jlevAt
+
+/-- info: 'OrdinalAnalysis.IDw.rk_nIOmegaAt_lt_njlevAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_nIOmegaAt_lt_njlevAt
+
+/-- info: 'OrdinalAnalysis.IDw.smoke_jlev_zero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.smoke_jlev_zero
+
+/-- info: 'OrdinalAnalysis.IDw.smoke_jlev_lt_two_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.smoke_jlev_lt_two_lt
+
+/-- info: 'OrdinalAnalysis.IDw.smoke_jlev_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.smoke_jlev_all
+
+/-- info: 'OrdinalAnalysis.IDw.smoke_njlev_empty' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.smoke_njlev_empty
+
+/-- info: 'OrdinalAnalysis.IDw.smoke_njlev_prem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.smoke_njlev_prem
+
+/-- info: 'OrdinalAnalysis.IDw.boundedness' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.boundedness
+
+/-- info: 'OrdinalAnalysis.IDw.boundedness_seq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.boundedness_seq
+
+/-- info: 'OrdinalAnalysis.IDw.boundedness_height' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.boundedness_height
+
+/-- info: 'OrdinalAnalysis.IDw.boundedness_unfold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.boundedness_unfold
+
+/-- info: 'OrdinalAnalysis.IDw.neg_stage_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.neg_stage_bound
+
+/-- info: 'OrdinalAnalysis.IDw.capAt_unfoldW_top' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.capAt_unfoldW_top
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.replace' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.replace
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.replace_head' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.replace_head
+
+/-- info: 'OrdinalAnalysis.IDw.sim_unfold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.sim_unfold
+
+/-- info: 'OrdinalAnalysis.IDw.embK_Jat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embK_Jat
+
+/-- info: 'OrdinalAnalysis.IDw.embK_subst' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embK_subst
+
+/-- info: 'OrdinalAnalysis.IDw.numSubst_subst' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.numSubst_subst
+
+/-- info: 'OrdinalAnalysis.IDw.params_embK' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.params_embK
+
+/-- info: 'OrdinalAnalysis.IDw.tr_emb' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.tr_emb
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.le_omegaPow_red' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.le_omegaPow_red
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.reduction' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.reduction
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.reduction_jlev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.reduction_jlev
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.elimination' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.elimination
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.elimination_iter' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.elimination_iter
+
+/-- info: 'OrdinalAnalysis.IDw.IDwDerivable.elimination_OmegaW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.IDwDerivable.elimination_OmegaW
+
+/-- info: 'OrdinalAnalysis.IDw.predCut_aux' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.predCut_aux
+
+/-- info: 'OrdinalAnalysis.IDw.predCut_aux_case_jlev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.predCut_aux_case_jlev
+
+/-- info: 'OrdinalAnalysis.IDw.predCut_aux_case_njlev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.predCut_aux_case_njlev
+
+/-- info: 'OrdinalAnalysis.IDw.rk_mem_of_closed_noJlevTop' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_mem_of_closed_noJlevTop
+
+/-- info: 'OrdinalAnalysis.ThetaVNoteD.NiceS.rk_mem_of_noJlevTop' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaVNoteD.NiceS.rk_mem_of_noJlevTop
+
+/-- info: 'OrdinalAnalysis.IDw.Lift.provable_of_models' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Lift.provable_of_models
+
+/-- info: 'OrdinalAnalysis.IDw.Lift.jmem_of_form' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Lift.jmem_of_form
+
+/-- info: 'OrdinalAnalysis.IDw.Lift.ind_formula' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Lift.ind_formula
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.InternalOrderFacts.fld_OmegaW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.InternalOrderFacts.fld_OmegaW
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.eval_iltDef' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.eval_iltDef
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.eval_lt_iff_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.eval_lt_iff_lt
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.fld_surj' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.fld_surj
+
+/-- info: 'OrdinalAnalysis.IDw.embedding_theorem' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embedding_theorem
+
+/-- info: 'OrdinalAnalysis.IDw.embedding_theorem_xfree' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embedding_theorem_xfree
+
+/-- info: 'OrdinalAnalysis.IDw.rk_le_OmegaW_add_ofNat' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_le_OmegaW_add_ofNat
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.orderAxioms_coded' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.orderAxioms_coded
+
+/-- info: 'OrdinalAnalysis.IDw.Internal.codedOrderFacts' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Internal.codedOrderFacts
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.exists_lt_tower' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.exists_lt_tower
+
+/-- info: 'OrdinalAnalysis.IDw.induction_axiom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.induction_axiom
+
+/-- info: 'OrdinalAnalysis.IDw.succIndI_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.succIndI_derivable
+
+/-- info: 'OrdinalAnalysis.IDw.rk_mem_pa' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rk_mem_pa
+
+/-- info: 'OrdinalAnalysis.IDw.embedHyps_induction_of_pa' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embedHyps_induction_of_pa
+
+/-- info: 'OrdinalAnalysis.IDw.StageSem.mem_stageSetN_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.StageSem.mem_stageSetN_iff
+
+/-- info: 'OrdinalAnalysis.IDw.StageSem.trueSN_jlevAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.StageSem.trueSN_jlevAt
+
+/-- info: 'OrdinalAnalysis.IDw.StageSem.sound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.StageSem.sound
+
+/-- info: 'OrdinalAnalysis.IDw.opShape_unfold' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.opShape_unfold
+
+/-- info: 'OrdinalAnalysis.IDw.params_plugI' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.params_plugI
+
+/-- info: 'OrdinalAnalysis.IDw.plugI_rel' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.plugI_rel
+
+/-- info: 'OrdinalAnalysis.IDw.rew_plugI_num' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.rew_plugI_num
+
+/-- info: 'OrdinalAnalysis.IDw.unfold_top_eq' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.unfold_top_eq
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.claim_of_cases' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.claim_of_cases
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_top' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_top
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_zero_top' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_zero_top
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_zero_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_zero_bound
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_cut' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_cut
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapseHyps_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapseHyps_of
+
+/-- info: 'OrdinalAnalysis.IDw.taut' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.taut
+
+/-- info: 'OrdinalAnalysis.IDw.taut_jlev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.taut_jlev
+
+/-- info: 'OrdinalAnalysis.IDw.omega_complete' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.omega_complete
+
+/-- info: 'OrdinalAnalysis.IDw.paMinus_axiom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.paMinus_axiom
+
+/-- info: 'OrdinalAnalysis.IDw.relExtJ_axiom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.relExtJ_axiom
+
+/-- info: 'OrdinalAnalysis.IDw.eq_axiom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.eq_axiom
+
+/-- info: 'OrdinalAnalysis.IDw.taut_additive_impossible' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.taut_additive_impossible
+
+/-- info: 'OrdinalAnalysis.IDw.embedHyps_taut_of_al' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embedHyps_taut_of_al
+
+/-- info: 'OrdinalAnalysis.IDw.embedHypsLogicPart' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embedHypsLogicPart
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.taut' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.taut
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.identity_IOmega' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.identity_IOmega
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer1' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer1
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer2' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer2
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer3' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer3
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer4' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer4
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.cong_derivable' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.cong_derivable
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer5_fwd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer5_fwd
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer5_bwd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer5_bwd
+
+/-- info: 'OrdinalAnalysis.IDw.predicative_cut_elim' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.predicative_cut_elim
+
+/-- info: 'OrdinalAnalysis.IDw.collapseHyps_predCut' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.collapseHyps_predCut
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_literal' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_literal
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_verum' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_verum
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_idX' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_idX
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_and' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_and
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_orL' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_orL
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_orR' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_orR
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_all' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_all
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_exs' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_exs
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_stage' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_stage
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_nstage' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_nstage
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.positiveP_WFormWc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.positiveP_WFormWc
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.eval_WFormW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.eval_WFormW
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_theta' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_theta
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_mono' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_mono
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_theta_of_TI' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_theta_of_TI
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_fix' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_fix
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_jlev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_jlev
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapse_case_njlev' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapse_case_njlev
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapseCases' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapseCases
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapseW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapseW
+
+/-- info: 'OrdinalAnalysis.IDw.Collapsing.collapseW_zero_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Collapsing.collapseW_zero_bound
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.lt_Omega_self_of_lt_OmegaW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.lt_Omega_self_of_lt_OmegaW
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.mmW_OmegaW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.mmW_OmegaW
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.Q_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.Q_iff
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.ti_Q' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.ti_Q
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.ti_M_OmegaW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.ti_M_OmegaW
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.WModel.of_models' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.WModel.of_models
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.dfn_JFW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.dfn_JFW
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.jump_prog' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.jump_prog
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.holds_of_jump' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.holds_of_jump
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_cons' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_cons
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_theta'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_theta'
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_theta_of_TI'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_theta_of_TI'
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_Omega'' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_Omega'
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.eval_tiUpto' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.eval_tiUpto
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.ti_tau' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.ti_tau
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.W_theta_tau' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.W_theta_tau
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.mc_omegaTower' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.mc_omegaTower
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.upper_bound
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.idw_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.idw_upper_bound
+
+/-- info: 'OrdinalAnalysis.IDw.Upper.idw_upper_bound_term' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Upper.idw_upper_bound_term
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.cong_AAt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.cong_AAt
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.cong_unfold_fwd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.cong_unfold_fwd
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.cong_unfold_bwd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.cong_unfold_bwd
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer_unfold_fwd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer_unfold_fwd
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.transfer_unfold_bwd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.transfer_unfold_bwd
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.embInst_closure' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.embInst_closure
+
+/-- info: 'OrdinalAnalysis.IDw.Transfer.closure_axiom_inst' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.Transfer.closure_axiom_inst
+
+/-- info: 'OrdinalAnalysis.IDw.embedHyps_closure_axiom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embedHyps_closure_axiom
+
+/-- info: 'OrdinalAnalysis.IDw.embedHyps_indAx_axiom' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.embedHyps_indAx_axiom
+
+/-- info: 'OrdinalAnalysis.IDw.idw_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.idw_lower_bound
+
+/-- info: 'OrdinalAnalysis.IDw.idw_lower_bound_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.idw_lower_bound_of
+
+/-- info: 'OrdinalAnalysis.IDw.collapseCorollaryW' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.collapseCorollaryW
+
+/-- info: 'OrdinalAnalysis.IDw.idw_analysis' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.idw_analysis
