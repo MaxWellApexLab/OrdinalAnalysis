@@ -15,6 +15,7 @@
 -/
 import OrdinalAnalysis.Gentzen.InternalVNoteJump
 import OrdinalAnalysis.Gentzen.CodedVeblen
+import OrdinalAnalysis.Gentzen.JumpTransport
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -215,16 +216,8 @@ private lemma map_iterZero_body :
             (“#0 = #2” : Semiformula ℒₒᵣ ℕ 3))) =
       (∀¹ ∀¹ ∀¹
         (∼(iterAt iterCode₁ #0 #2 #1 ((0 : ℕ) : Semiterm LX ℕ 3)) ⋎
-          (“#0 = #2” : Semiformula LX ℕ 3))) := by
-  simp [arithIterAt, iterAt, iterCode₁, liftCode,
-    Semiformula.lMap_subst]
-  constructor
-  · rw [lMap_zero]
-  · simp [Semiformula.Operator.operator,
-      Semiformula.Operator.Eq.sentence_eq, toLX]
-    apply funext
-    rw [Fin.forall_fin_two]
-    exact ⟨rfl, rfl⟩
+          (“#0 = #2” : Semiformula LX ℕ 3))) :=
+  JumpTransport.map_iterZero_gen safeIter₁Def
 
 private lemma map_iterSucc_body :
     Semiformula.lMap toLX
@@ -234,20 +227,16 @@ private lemma map_iterSucc_body :
       (∀¹ ∀¹ ∀¹ ∀¹
         (∼(iterAt iterCode₁ #0 #3 #2 (‘(#1 + 1)’ : Semiterm LX ℕ 4)) ⋎
           (∃¹ (iterAt iterCode₁ #0 #4 #3 #2 ⋏
-            addAt addCode₁ #1 #0 #3)))) := by
-  simp [arithIterAt, arithAddAt, iterAt, addAt, addCode₁,
-    iterCode₁, liftCode, Semiformula.lMap_subst]
-  rw [lMap_succ_four]
+            addAt addCode₁ #1 #0 #3)))) :=
+  JumpTransport.map_iterSucc_gen safeIter₁Def safeIadd₁Def
 
 private lemma map_noPredZero_body :
     Semiformula.lMap toLX
         (∀¹ ∼(arithPrecAt (#0 : Semiterm ℒₒᵣ ℕ 1)
           ((0 : ℕ) : Semiterm ℒₒᵣ ℕ 1))) =
       (∀¹ ∼(precAt precCode₁ (#0 : Semiterm LX ℕ 1)
-        ((0 : ℕ) : Semiterm LX ℕ 1))) := by
-  simp [arithPrecAt, precAt, precCode₁, liftCode,
-    Semiformula.lMap_subst]
-  rw [lMap_zero]
+        ((0 : ℕ) : Semiterm LX ℕ 1))) :=
+  JumpTransport.map_noPredZero_gen precDef₁
 
 private lemma map_zeroAdd_body :
     Semiformula.lMap toLX
@@ -273,13 +262,8 @@ lemma models_iterZero_iff_arithmetic {M : Type*} [Nonempty M]
 lemma models_iterSucc_iff_arithmetic {M : Type*} [Nonempty M]
     [sLX : Structure LX M] :
     M↓[LX] ⊧ iterSuccStatement addCode₁ iterCode₁ ↔
-      (sLX.lMap toLX).toStruc ⊧ arithmeticIterSuccStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
-  rw [models_iff, models_iff]
-  simp only [iterSuccStatement, arithmeticIterSuccStatement,
-    Semiformula.eval_univCl]
-  rw [← map_iterSucc_body]
-  simp [Semiformula.eval_lMap]
+      (sLX.lMap toLX).toStruc ⊧ arithmeticIterSuccStatement :=
+  JumpTransport.models_iterSucc_gen safeIter₁Def safeIadd₁Def
 
 lemma models_noPredZero_iff_arithmetic {M : Type*} [Nonempty M]
     [sLX : Structure LX M] :

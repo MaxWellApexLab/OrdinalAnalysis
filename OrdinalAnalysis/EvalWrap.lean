@@ -30,6 +30,24 @@ theorem eval_wrap3 (d : 𝚺₁.Semisentence 4) (f : V → V → V → V) [h : �
     (.mkSigma “k g a. !d 1 k g a” : 𝚺₁.Semisentence 3).val.Evalb ![k, g, a] ↔ f k g a = 1 := by
   simp [h.iff, eq_comm]
 
+
+/-- Successor step of a finite-iteration `PR` construction whose step function is the abstract
+`𝚺₁`-function `f` (defined by `d`): the blueprint formula is `“y ih k b w. !d y ih w”`. -/
+theorem iterSucc_defined_wrap (d : 𝚺₁.Semisentence 3) (f : V → V → V)
+    [h : 𝚺₁-Function₂ f via d] :
+    𝚺₁.DefinedFunction (fun v : Fin 4 → V ↦ f (v 0) (v 3))
+      (.mkSigma “y ih k b w. !d y ih w” : 𝚺₁.Semisentence 5) := .mk fun v ↦ by
+  simp [h.iff]
+
+/-- Successor step of a finite-tower `PR` construction (one parameter) whose step function is
+the abstract `𝚺₁`-function `f` (defined by `d`): the blueprint formula is
+`“y ih k c. !d y ih”`. -/
+theorem towerSucc_defined_wrap (d : 𝚺₁.Semisentence 2) (f : V → V)
+    [h : 𝚺₁-Function₁ f via d] :
+    𝚺₁.DefinedFunction (fun v : Fin 3 → V ↦ f (v 0))
+      (.mkSigma “y ih k c. !d y ih” : 𝚺₁.Semisentence 4) := .mk fun v ↦ by
+  simp [h.iff]
+
 end Model
 
 end OrdinalAnalysis

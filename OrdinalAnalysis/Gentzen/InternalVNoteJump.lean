@@ -22,6 +22,7 @@
     of `JumpArithmetic`, one notation system up.
 -/
 import OrdinalAnalysis.Gentzen.InternalVNoteOrder
+import OrdinalAnalysis.EvalWrap
 
 set_option autoImplicit false
 set_option maxHeartbeats 2000000
@@ -818,8 +819,7 @@ noncomputable def safeIter₁Construction {V : Type*} [ORingStructure V]
   zero := fun v ↦ v 0
   succ := fun v _ ih ↦ safeIadd₁ ih (v 1)
   zero_defined := .mk fun v ↦ by simp [safeIter₁Blueprint]
-  succ_defined := .mk fun v ↦ by
-    simp [safeIter₁Blueprint, safeIadd₁_defined.iff]
+  succ_defined := OrdinalAnalysis.iterSucc_defined_wrap safeIadd₁Def safeIadd₁
 
 /-- Result-first graph of `k` successive safe additions of `w` to `b`. -/
 def safeIter₁Def : 𝚺₁.Semisentence 4 :=

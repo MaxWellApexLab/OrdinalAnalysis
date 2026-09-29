@@ -2468,3 +2468,45 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
  Classical.choice,
  Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.Gentzen.OrderType.gentzen_theorem_with_order_type
+
+/-- info: 'OrdinalAnalysis.KPi.relAt_of_isDelta0' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.relAt_of_isDelta0
+
+/-- info: 'OrdinalAnalysis.KPi.relAt_sepBody' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.relAt_sepBody
+
+/-- info: 'OrdinalAnalysis.KPi.holds_extAx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.holds_extAx
+
+/-- info: 'OrdinalAnalysis.KPi.holds_sepAx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.holds_sepAx
+
+/-- info: 'OrdinalAnalysis.KPi.holds_colAx' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.holds_colAx
+
+/-- info: 'OrdinalAnalysis.KPi.Ord.B92_4_4a' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Ord.B92_4_4a
+
+/-- info: 'OrdinalAnalysis.KPi.Ord.B92_4_4d' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Ord.B92_4_4d
+
+/-- info: 'OrdinalAnalysis.KPi.Ord.B92_4_5a' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Ord.B92_4_5a
+
+/-- info: 'OrdinalAnalysis.KPi.Ord.B92_4_5b' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Ord.B92_4_5b
+
+/-- info: 'OrdinalAnalysis.KPi.Ord.B92_4_5f' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Ord.B92_4_5f
+
+/-- info: 'OrdinalAnalysis.KPi.Ord.B92_4_5g' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Ord.B92_4_5g
+
+/-- info: 'OrdinalAnalysis.KPi.Ord.kpiOrd_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Ord.kpiOrd_lt
+
+/-- info: 'OrdinalAnalysis.iterSucc_defined_wrap' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.iterSucc_defined_wrap
+
+/-- info: 'OrdinalAnalysis.towerSucc_defined_wrap' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.towerSucc_defined_wrap

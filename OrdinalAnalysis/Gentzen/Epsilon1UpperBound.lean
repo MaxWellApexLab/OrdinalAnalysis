@@ -324,6 +324,30 @@ noncomputable def succStatement : Sentence LX :=
         (“#0 = !!((gamma0Code (epsilonNote 0) : ℕ) : Semiterm LX ℕ 1)” :
           Semiformula LX ℕ 1)))).univCl
 
+/-- The `lMap` transport of the successor-step statement, for an abstract `Σ₁` definition `π`
+of the order (so that the kernel never unfolds the concrete formula of `precDef₁`). -/
+private lemma map_succ_gen (π : 𝚺₁.Semisentence 2) (c₁ c₂ : ℕ) :
+    Semiformula.lMap toLX
+        (∀¹ (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 1), (c₁ : Semiterm ℒₒᵣ ℕ 1)] ▹
+              Rewriting.emb π.val) ⋎
+          ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 1), (c₂ : Semiterm ℒₒᵣ ℕ 1)] ▹
+              Rewriting.emb π.val) ⋎
+            (“#0 = !!(c₂ : Semiterm ℒₒᵣ ℕ 1)” : Semiformula ℒₒᵣ ℕ 1)))) =
+      (∀¹ (∼(precAt (liftCode π) (#0 : Semiterm LX ℕ 1) (c₁ : Semiterm LX ℕ 1)) ⋎
+          (precAt (liftCode π) (#0 : Semiterm LX ℕ 1) (c₂ : Semiterm LX ℕ 1) ⋎
+            (“#0 = !!(c₂ : Semiterm LX ℕ 1)” : Semiformula LX ℕ 1)))) := by
+  simp [precAt, liftCode, Semiformula.lMap_subst]
+  refine ⟨?_, ?_, ?_⟩
+  · rw [lMap_numeral]
+  · rw [lMap_numeral]
+  · simp [Semiformula.Operator.operator, Semiformula.Operator.Eq.sentence_eq, toLX]
+    apply funext
+    rw [Fin.forall_fin_two]
+    constructor
+    · simp [Function.comp_def]
+    · simp [Function.comp_def]
+      exact lMap_numeral _
+
 private lemma map_succ_body :
     Semiformula.lMap toLX
         (∀¹ (∼(arithPrecAt (#0 : Semiterm ℒₒᵣ ℕ 1)
@@ -337,28 +361,33 @@ private lemma map_succ_body :
           (precAt precCode₁ (#0 : Semiterm LX ℕ 1)
             ((gamma0Code (epsilonNote 0) : ℕ) : Semiterm LX ℕ 1) ⋎
             (“#0 = !!((gamma0Code (epsilonNote 0) : ℕ) : Semiterm LX ℕ 1)” :
-              Semiformula LX ℕ 1)))) := by
-  simp [arithPrecAt, precAt, precCode₁, liftCode, Semiformula.lMap_subst]
-  refine ⟨?_, ?_, ?_⟩
-  · rw [lMap_numeral]
-  · rw [lMap_numeral]
-  · simp [Semiformula.Operator.operator, Semiformula.Operator.Eq.sentence_eq, toLX]
-    apply funext
-    rw [Fin.forall_fin_two]
-    constructor
-    · simp [Function.comp_def]
-    · simp [Function.comp_def]
-      exact lMap_numeral _
+              Semiformula LX ℕ 1)))) :=
+  map_succ_gen precDef₁ (gamma0Code eps0succ) (gamma0Code (epsilonNote 0))
+
+private lemma models_succ_gen {M : Type*} [Nonempty M]
+    [sLX : Structure LX M] (π : 𝚺₁.Semisentence 2) (c₁ c₂ : ℕ) :
+    M↓[LX] ⊧ ((∀¹ (∼(precAt (liftCode π) (#0 : Semiterm LX ℕ 1) (c₁ : Semiterm LX ℕ 1)) ⋎
+          (precAt (liftCode π) (#0 : Semiterm LX ℕ 1) (c₂ : Semiterm LX ℕ 1) ⋎
+            (“#0 = !!(c₂ : Semiterm LX ℕ 1)” : Semiformula LX ℕ 1)))).univCl :
+        Sentence LX) ↔
+      (sLX.lMap toLX).toStruc ⊧
+        ((∀¹ (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 1), (c₁ : Semiterm ℒₒᵣ ℕ 1)] ▹
+              Rewriting.emb π.val) ⋎
+          ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 1), (c₂ : Semiterm ℒₒᵣ ℕ 1)] ▹
+              Rewriting.emb π.val) ⋎
+            (“#0 = !!(c₂ : Semiterm ℒₒᵣ ℕ 1)” : Semiformula ℒₒᵣ ℕ 1)))).univCl :
+          ArithmeticSentence) := by
+  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  rw [models_iff, models_iff]
+  simp only [Semiformula.eval_univCl]
+  rw [← map_succ_gen]
+  simp [Semiformula.eval_lMap]
 
 lemma models_succ_iff_arithmetic {M : Type*} [Nonempty M]
     [sLX : Structure LX M] :
     M↓[LX] ⊧ succStatement ↔
-      (sLX.lMap toLX).toStruc ⊧ arithmeticSuccStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
-  rw [models_iff, models_iff]
-  simp only [succStatement, arithmeticSuccStatement, Semiformula.eval_univCl]
-  rw [← map_succ_body]
-  simp [Semiformula.eval_lMap]
+      (sLX.lMap toLX).toStruc ⊧ arithmeticSuccStatement :=
+  models_succ_gen precDef₁ (gamma0Code eps0succ) (gamma0Code (epsilonNote 0))
 
 theorem concrete_succ : paLX ⊢ succStatement := by
   apply paLX_of_peano_semantic
