@@ -1,6 +1,7 @@
 /- Source: OrdinalAnalysis\IDn\Internal\Codes.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
 import OrdinalAnalysis.IDw.Internal.CovTable
+import OrdinalAnalysis.EvalWrap
 import OrdinalAnalysis.Ordinal.ThetaV.Dom
 /-
   Arithmetic coding of the multi-level ϑ-notation (`ThetaVTerm`), generalizing
@@ -877,7 +878,7 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
   simp [thLenDef, ilen_defined.iff]
 
 @[simp] theorem eval_thInEDef (k g a : V) : thInEDef.val.Evalb ![k, g, a] ↔ iinE k g a = 1 := by
-  simp [thInEDef, iinE_defined.iff, eq_comm]
+  exact OrdinalAnalysis.eval_wrap3 iinEDef iinE k g a
 
 @[simp] theorem eval_thGDef (k x a : V) : thGDef.val.Evalb ![k, x, a] ↔ iinG k x a = 1 := by
   simp [thGDef, iinG_defined.iff, eq_comm]

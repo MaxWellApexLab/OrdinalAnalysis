@@ -35,6 +35,7 @@
   of every level `j < y` lie in `J(j, ·)`** — BP78's `W_u` and `M_u`, for an internal level `y`.
 -/
 import OrdinalAnalysis.IDw.Theory
+import OrdinalAnalysis.EvalWrap
 import OrdinalAnalysis.IDw.Internal.Order
 import Mathlib.Tactic.FinCases
 
@@ -509,7 +510,7 @@ def AccW (k : N) (P : N → Prop) (x : N) : Prop :=
 
 omit [s : Structure LXJ N] in
 theorem eval_iltDefW (x y : N) : iltDefW.val.Evalb ![x, y] ↔ iltb x y = 1 := by
-  simp [iltDefW, iltb_defined.iff, eq_comm]
+  exact OrdinalAnalysis.eval_wrap2 iltbDef iltb x y
 
 theorem dcR_c_iff (y x : N) : DcR (lowJ y) thNFDef thDomDef y x ↔ DkW y x := by
   unfold DcR DkW FldR fldW lowJ

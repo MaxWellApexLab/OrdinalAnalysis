@@ -122,6 +122,33 @@ theorem prog_thetaX (hclos : Semiformula.Eval (s := s) ![] Empty.elim (closureAx
   rw [mc_Omega_zero] at this
   exact this ⟨hfz, hfΩ, (lt_iff_iltb _ _).mpr hzΩ⟩
 
+omit [ArithStd N] in
+/-- **The reading of `X` by an abstract formula `θ`**: the free predicate of `xStruc s θ` is `θ`.
+(Kept for an abstract `θ`, so that a kernel never has to see `θ`'s structure when it is
+instantiated at the large formula `thetaX`.) -/
+theorem xmem_xStruc_iff (θ : Semisentence LXJ 1) (y : N) :
+    Lift.Xmem (s := xStruc s θ) y ↔ Semiformula.Eval (s := s) ![y] Empty.elim θ := Iff.rfl
+
+omit [ArithStd N] in
+/-- **`TI_{Ω₁}(≺, X)` in `xStruc s θ`, and `Prog(≺, θ)`, give `θ` below `Ω₁`**, for an abstract
+formula `θ`. -/
+theorem below_of_ti_xStruc (θ : Semisentence LXJ 1) (hS : s.lMap toLXJ = Arithmetic.standardModel N)
+    (h1 : Semiformula.Eval (s := xStruc s θ) ![] Empty.elim
+      (tiUptoSentence orderFormulas (ThetaVNoteD.Omega 0)))
+    (hprog : ∀ x : N, (∀ y, orderFormulas.fld y → orderFormulas.fld x → orderFormulas.lt y x →
+        Semiformula.Eval (s := s) ![y] Empty.elim θ) →
+      Semiformula.Eval (s := s) ![x] Empty.elim θ) :
+    ∀ x : N, orderFormulas.fld x ∧ orderFormulas.fld (mc (V := N) (ThetaVTerm.Omega 0)) ∧
+        orderFormulas.lt x (mc (V := N) (ThetaVTerm.Omega 0)) →
+      Semiformula.Eval (s := s) ![x] Empty.elim θ := by
+  have h2 := (@eval_tiUpto orderFormulas N _ (xStruc s θ)
+    (@ArithStd.mk N _ (xStruc s θ) (xStruc_arithStd s θ hS)) ‹N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁›
+    (ThetaVNoteD.Omega 0)).mp h1
+  intro x hx
+  exact (xmem_xStruc_iff θ x).mp
+    (h2 (fun z hz => (xmem_xStruc_iff θ z).mpr
+      (hprog z fun y a b c => (xmem_xStruc_iff θ y).mp (hz y a b c))) x hx)
+
 /-- **`TI_{Ω₁}(≺, X)` gives `∀x (x ≺ ⌜Ω₁⌝ → J(0, x))`** (the analogue of
 `IDn.provable_fieldInI0_of_ti`): in every arithmetically standard model of `IDw WFormWc` the
 free predicate may be read by `θ` (`eval_of_provable_xStruc`); `Prog(≺, θ)` holds
@@ -136,10 +163,8 @@ theorem provable_fieldInJ0_of_ti
   have hS : s.lMap toLXJ = Arithmetic.standardModel N := ArithStd.lMap_eq
   have hIS : N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁ := Lift.models_iSigma₁ WFormWc
   have h1 := eval_of_provable_xStruc s thetaX WFormWc hS hM h
-  have h2 := (@eval_tiUpto orderFormulas N _ (xStruc s thetaX)
-    (@ArithStd.mk N _ (xStruc s thetaX) (xStruc_arithStd s thetaX hS)) hIS (ThetaVNoteD.Omega 0)).mp h1
   have hprog := prog_thetaX (s := s) (hM _ (closureAxJ_mem_IDw WFormWc))
-  have h3 := h2 hprog
+  have h3 := below_of_ti_xStruc thetaX hS h1 hprog
   refine (Semiformula.eval_all (s := s)).mpr fun x => ?_
   have e : (x :> ![] : Fin 1 → N) = ![x] := rfl
   rw [e, eval_thetaX]

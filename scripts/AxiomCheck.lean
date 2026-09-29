@@ -2421,3 +2421,21 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.IDw.idw_analysis' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.IDw.idw_analysis
+
+/-- info: 'OrdinalAnalysis.eval_wrap2' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.eval_wrap2
+
+/-- info: 'OrdinalAnalysis.eval_wrap3' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.eval_wrap3
+
+/-- info: 'OrdinalAnalysis.IDw.below_of_ti_xStruc' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDw.below_of_ti_xStruc
+
+/-- info: 'OrdinalAnalysis.IDn.noXN_of_ind' does not depend on any axioms -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDn.noXN_of_ind
+
+/-- info: 'OrdinalAnalysis.IDn.Upper.positiveIn_of_ind' does not depend on any axioms -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDn.Upper.positiveIn_of_ind
+
+/-- info: 'OrdinalAnalysis.IDn.Upper.levelBounded_of_ind' does not depend on any axioms -/
+#guard_msgs in #print axioms OrdinalAnalysis.IDn.Upper.levelBounded_of_ind

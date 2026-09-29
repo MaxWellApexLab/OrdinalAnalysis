@@ -15,6 +15,7 @@
   * `idlt_upper_bound_of_trans hT : ∀ a ≺ Ω₁, IDlt (WFormsOmega orderFormulas) ⊢ TI_a(≺, X)`.
 -/
 import OrdinalAnalysis.IDn.Theorem
+import OrdinalAnalysis.EvalWrap
 import OrdinalAnalysis.IDn.Internal.Order
 import OrdinalAnalysis.ID1.Internal.JumpList
 
@@ -79,7 +80,7 @@ instance isSLW_definable (Γ) (m : ℕ) : Γ-[m + 1]-Predicate (IsSLW : V → Pr
   unfold IsSLW; definability
 
 theorem eval_iltDef (x y : V) : iltDef.val.Evalb ![x, y] ↔ iltb x y = 1 := by
-  simp [iltDef, iltb_defined.iff, eq_comm]
+  exact OrdinalAnalysis.eval_wrap2 iltbDef iltb x y
 
 theorem eval_slWDef (s : V) : slWDef.val.Evalb ![s] ↔ IsSLW s := by
   simp [slWDef, IsSLW, nfA_defined.iff, sumK_defined.iff, isDom, isDomb_defined.iff, eq_comm]

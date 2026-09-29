@@ -1,6 +1,7 @@
 /- Source: OrdinalAnalysis\IDn\InternalFacts.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega; the order-formula part only). -/
 
 import OrdinalAnalysis.IDw.UpperAux
+import OrdinalAnalysis.EvalWrap
 import OrdinalAnalysis.IDw.Internal.Order
 
 /-
@@ -40,7 +41,7 @@ section Model
 variable {V : Type} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 theorem eval_iltDef (x y : V) : iltDef.val.Evalb ![x, y] ↔ iltb x y = 1 := by
-  simp [iltDef, iltb_defined.iff, eq_comm]
+  exact OrdinalAnalysis.eval_wrap2 iltbDef iltb x y
 
 end Model
 

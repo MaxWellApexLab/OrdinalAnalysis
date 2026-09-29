@@ -11,6 +11,7 @@
 -/
 import OrdinalAnalysis.IDn.Internal.JumpList
 import OrdinalAnalysis.IDn.UpperAux
+import OrdinalAnalysis.EvalWrap
 
 set_option autoImplicit false
 
@@ -27,7 +28,7 @@ section Model
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 @[simp] theorem eval_thLtDef (x y : V) : thLtDef.val.Evalb ![x, y] ↔ iltb x y = 1 := by
-  simp [thLtDef, iltb_defined.iff, eq_comm]
+  exact OrdinalAnalysis.eval_wrap2 iltbDef iltb x y
 
 @[simp] theorem eval_isSLDef (s : V) : isSLDef.val.Evalb ![s] ↔ isSL s := by
   simp [isSLDef, isSL, isDom, sumK_defined.iff, nfA_defined.iff, isDomb_defined.iff, eq_comm]

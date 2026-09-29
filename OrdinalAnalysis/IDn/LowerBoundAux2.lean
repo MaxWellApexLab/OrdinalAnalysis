@@ -51,20 +51,133 @@ def fieldInI0 (F : OrderFormulas) (n : ℕ) (hn : 0 < n) (a : ThetaWNoteD) : Sen
 
 /-! ### The well-ordering forms mention no `X` -/
 
+/-- `X`-freeness as an *inductive* predicate, mirroring the clauses of `NoXN`. It exists only to
+prove the two concrete-formula theorems below: a proof by structural recursion on the form index
+puts the `Semiformula.rec` "below" towers of `NoXN` on the concrete form into the proof term,
+which the second kernel (nanoda) cannot compare (`LXIn n` against `LXIN (Fin n)`); the
+constructors of an inductive predicate leave nothing to unfold. -/
+inductive NoXNInd {ξ : Type*} : {m : ℕ} → Semiformula (LXIn n) ξ m → Prop
+  | verum {m : ℕ} : NoXNInd (Semiformula.verum : Semiformula (LXIn n) ξ m)
+  | falsum {m : ℕ} : NoXNInd (Semiformula.falsum : Semiformula (LXIn n) ξ m)
+  | relA {m k : ℕ} (r : Language.oRing.Rel k) (v : Fin k → Semiterm (LXIn n) ξ m) :
+      NoXNInd (Semiformula.rel (Sum.inl r) v)
+  | relI {m : ℕ} (i : Fin n) (v : Fin 1 → Semiterm (LXIn n) ξ m) :
+      NoXNInd (Semiformula.rel (Sum.inr (IXRelN.I i)) v)
+  | nrelA {m k : ℕ} (r : Language.oRing.Rel k) (v : Fin k → Semiterm (LXIn n) ξ m) :
+      NoXNInd (Semiformula.nrel (Sum.inl r) v)
+  | nrelI {m : ℕ} (i : Fin n) (v : Fin 1 → Semiterm (LXIn n) ξ m) :
+      NoXNInd (Semiformula.nrel (Sum.inr (IXRelN.I i)) v)
+  | and {m : ℕ} {φ ψ : Semiformula (LXIn n) ξ m} : NoXNInd φ → NoXNInd ψ → NoXNInd (φ ⋏ ψ)
+  | or {m : ℕ} {φ ψ : Semiformula (LXIn n) ξ m} : NoXNInd φ → NoXNInd ψ → NoXNInd (φ ⋎ ψ)
+  | all {m : ℕ} {φ : Semiformula (LXIn n) ξ (m + 1)} : NoXNInd φ → NoXNInd (∀¹ φ)
+  | exs {m : ℕ} {φ : Semiformula (LXIn n) ξ (m + 1)} : NoXNInd φ → NoXNInd (∃¹ φ)
+
+section NoXNInd
+
+variable {ξ : Type*}
+
+/-- **The generic lemma**: the inductive predicate implies `NoXN` (proved by induction on the
+inductive, with a variable formula). -/
+theorem noXN_of_ind {m : ℕ} {φ : Semiformula (LXIn n) ξ m} (h : NoXNInd φ) : NoXN φ := by
+  induction h with
+  | verum => exact trivial
+  | falsum => exact trivial
+  | relA r v => exact trivial
+  | relI i v => exact trivial
+  | nrelA r v => exact trivial
+  | nrelI i v => exact trivial
+  | and _ _ ih1 ih2 => exact ⟨ih1, ih2⟩
+  | or _ _ ih1 ih2 => exact ⟨ih1, ih2⟩
+  | all _ ih => exact ih
+  | exs _ ih => exact ih
+
+theorem noXNInd_neg {m : ℕ} {φ : Semiformula (LXIn n) ξ m} (h : NoXNInd φ) : NoXNInd (∼φ) := by
+  induction h with
+  | verum => exact NoXNInd.falsum
+  | falsum => exact NoXNInd.verum
+  | relA r v => exact NoXNInd.nrelA r v
+  | relI i v => exact NoXNInd.nrelI i v
+  | nrelA r v => exact NoXNInd.relA r v
+  | nrelI i v => exact NoXNInd.relI i v
+  | and _ _ ih1 ih2 => exact NoXNInd.or ih1 ih2
+  | or _ _ ih1 ih2 => exact NoXNInd.and ih1 ih2
+  | all _ ih => exact NoXNInd.exs ih
+  | exs _ ih => exact NoXNInd.all ih
+
+theorem noXNInd_imp {m : ℕ} {φ ψ : Semiformula (LXIn n) ξ m} (h₁ : NoXNInd φ) (h₂ : NoXNInd ψ) :
+    NoXNInd (φ 🡒 ψ) :=
+  NoXNInd.or (noXNInd_neg h₁) h₂
+
+theorem noXNInd_lMap_toLXIN {m : ℕ} (φ : Semiformula ℒₒᵣ ξ m) :
+    NoXNInd (Semiformula.lMap (toLXIN (Fin n)) φ) := by
+  induction φ with
+  | verum => exact NoXNInd.verum
+  | falsum => exact NoXNInd.falsum
+  | rel r v => exact NoXNInd.relA r _
+  | nrel r v => exact NoXNInd.nrelA r _
+  | and _ _ ih1 ih2 => exact NoXNInd.and ih1 ih2
+  | or _ _ ih1 ih2 => exact NoXNInd.or ih1 ih2
+  | all _ ih => exact NoXNInd.all ih
+  | exs _ ih => exact NoXNInd.exs ih
+
+theorem noXNInd_Iat {m : ℕ} (k : Fin n) (t : Semiterm (LXIn n) ξ m) : NoXNInd (Iat k t) :=
+  NoXNInd.relI k _
+
+theorem noXNInd_rew {ξ₂ : Type*} {m₁ : ℕ} {φ : Semiformula (LXIn n) ξ m₁} (h : NoXNInd φ) :
+    ∀ {m₂ : ℕ} (ω : Rew (LXIn n) ξ m₁ ξ₂ m₂), NoXNInd (ω ▹ φ) := by
+  induction h with
+  | verum => intro m₂ ω; exact NoXNInd.verum
+  | falsum => intro m₂ ω; exact NoXNInd.falsum
+  | relA r v => intro m₂ ω; exact NoXNInd.relA r _
+  | relI i v => intro m₂ ω; exact NoXNInd.relI i _
+  | nrelA r v => intro m₂ ω; exact NoXNInd.nrelA r _
+  | nrelI i v => intro m₂ ω; exact NoXNInd.nrelI i _
+  | and _ _ ih1 ih2 =>
+    intro m₂ ω
+    rw [LogicalConnective.HomClass.map_and]
+    exact NoXNInd.and (ih1 ω) (ih2 ω)
+  | or _ _ ih1 ih2 =>
+    intro m₂ ω
+    rw [LogicalConnective.HomClass.map_or]
+    exact NoXNInd.or (ih1 ω) (ih2 ω)
+  | all _ ih =>
+    intro m₂ ω
+    rw [Rewriting.app_all]
+    exact NoXNInd.all (ih ω.q)
+  | exs _ ih =>
+    intro m₂ ω
+    rw [Rewriting.app_exs]
+    exact NoXNInd.exs (ih ω.q)
+
+theorem noXNInd_DF (F : OrderFormulas) (hn : 0 < n) (j : ℕ) :
+    NoXNInd (DF F (ixFin hn) j : Semisentence (LXIn n) 1) := by
+  induction j with
+  | zero => exact noXNInd_lMap_toLXIN _
+  | succ j ih =>
+    exact NoXNInd.and ih (NoXNInd.all (noXNInd_imp (noXNInd_lMap_toLXIN _) (noXNInd_Iat _ _)))
+
+theorem noXNInd_wForm (F : OrderFormulas) (hn : 0 < n) (k : ℕ) :
+    NoXNInd (wForm F (ixFin hn) k : Semisentence (LXIn n) 1) := by
+  cases k with
+  | zero => exact NoXNInd.all (noXNInd_imp (noXNInd_lMap_toLXIN _) (noXNInd_Iat _ _))
+  | succ k =>
+    exact NoXNInd.and (noXNInd_DF F hn (k + 1))
+      (NoXNInd.and (noXNInd_lMap_toLXIN _)
+        (NoXNInd.all (noXNInd_imp
+          (NoXNInd.and (noXNInd_rew (noXNInd_DF F hn (k + 1)) _) (noXNInd_lMap_toLXIN _))
+          (noXNInd_Iat _ _))))
+
+end NoXNInd
+
 /-- `DF` (for the specific level map `ixFin hn` used by `WForms`) mentions no `X`. -/
 theorem noXN_DF (F : OrderFormulas) (hn : 0 < n) :
-    ∀ j : ℕ, NoXN (DF F (ixFin hn) j : Semisentence (LXIn n) 1)
-  | 0 => noXN_lMap_toLXIN _
-  | j + 1 => ⟨noXN_DF F hn j, (noXN_imp _ _).mpr ⟨noXN_lMap_toLXIN _, noXN_Iat _ _⟩⟩
+    ∀ j : ℕ, NoXN (DF F (ixFin hn) j : Semisentence (LXIn n) 1) :=
+  fun j => noXN_of_ind (noXNInd_DF F hn j)
 
 /-- `wForm` (for the specific level map `ixFin hn` used by `WForms`) mentions no `X`. -/
 theorem noXN_wForm (F : OrderFormulas) (hn : 0 < n) :
-    ∀ k : ℕ, NoXN (wForm F (ixFin hn) k : Semisentence (LXIn n) 1)
-  | 0 => (noXN_imp _ _).mpr ⟨noXN_lMap_toLXIN _, noXN_Iat _ _⟩
-  | k + 1 =>
-    ⟨noXN_DF F hn (k + 1), noXN_lMap_toLXIN _,
-      (noXN_imp _ _).mpr ⟨⟨(noXN_rew _ _).mpr (noXN_DF F hn (k + 1)),
-        noXN_lMap_toLXIN _⟩, noXN_Iat _ _⟩⟩
+    ∀ k : ℕ, NoXN (wForm F (ixFin hn) k : Semisentence (LXIn n) 1) :=
+  fun k => noXN_of_ind (noXNInd_wForm F hn k)
 
 variable (F : OrderFormulas)
 

@@ -503,3 +503,4 @@ import OrdinalAnalysis.IDw.LowerBound
 import OrdinalAnalysis.IDw.CollapseCorollaryW
 import OrdinalAnalysis.IDw.LowerLt
 import OrdinalAnalysis.IDw.Final
+import OrdinalAnalysis.EvalWrap
