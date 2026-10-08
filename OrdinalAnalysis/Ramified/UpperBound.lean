@@ -177,10 +177,16 @@ theorem eval_Xat_model {n : ℕ} (t : Semiterm LRA ℕ n) (e : Fin n → M) (f :
   rw [h]
   rfl
 
+/-- Generic in the arithmetical formula `σ`, so that the kernel never unfolds the evaluation
+of a large concrete formula. -/
+theorem eval_lMap_toLRA_emb {k : ℕ} (σ : ArithmeticSemisentence k) (v : Fin k → M) (f : ℕ → M) :
+    Semiformula.Eval (s := s) v f (Semiformula.lMap toLRA (Rewriting.emb σ)) ↔ arEval σ v := by
+  rw [Semiformula.eval_lMap]
+  exact Semiformula.eval_emb (s := s.lMap toLRA) σ
+
 theorem eval_precCode₁R_model (y x : M) (f : ℕ → M) :
-    Semiformula.Eval (s := s) ![y, x] f precCode₁R ↔ precM y x := by
-  rw [precCode₁R, Semiformula.eval_lMap]
-  exact Semiformula.eval_emb (s := s.lMap toLRA) _
+    Semiformula.Eval (s := s) ![y, x] f precCode₁R ↔ precM y x :=
+  eval_lMap_toLRA_emb precDef₁.val ![y, x] f
 
 theorem eval_precAt_model (prec : Semiformula LRA ℕ 2) {n : ℕ} (y x : Semiterm LRA ℕ n)
     (e : Fin n → M) (f : ℕ → M) :

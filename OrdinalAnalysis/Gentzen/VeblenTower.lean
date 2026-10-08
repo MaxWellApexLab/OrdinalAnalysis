@@ -16,6 +16,7 @@
   through an ω-power edge, which is what `CodedVeblenJump.jumpB₁` climbs.
 -/
 import OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
+import OrdinalAnalysis.EvalWrap
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -45,8 +46,7 @@ noncomputable def towerConstruction {V : Type*} [ORingStructure V]
   zero := fun v ↦ v 0
   succ := fun _ _ ih ↦ iomegaPow ih
   zero_defined := .mk fun v ↦ by simp [towerBlueprint]
-  succ_defined := .mk fun v ↦ by
-    simp [towerBlueprint, iomegaPow_defined.iff]
+  succ_defined := OrdinalAnalysis.towerSucc_defined_wrap iomegaPowDef iomegaPow
 
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
@@ -227,15 +227,19 @@ private lemma lMap_succ_three :
   · simp [Function.comp_def]
     exact Matrix.empty_eq _
 
-private lemma map_towerZero_body :
+/-! The transport lemmas are proved once for abstract `Σ₁` definitions (`τ`, `ω`), so that the
+kernel never unfolds the concrete formulas. -/
+
+private lemma map_towerZero_gen (τ : 𝚺₁.Semisentence 3) :
     Semiformula.lMap toLX
         (∀¹ ∀¹
-          (∼(arithTowerAt #0 ((0 : ℕ) : Semiterm ℒₒᵣ ℕ 2) #1) ⋎
+          (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 2), ((0 : ℕ) : Semiterm ℒₒᵣ ℕ 2), #1] ▹
+              Rewriting.emb τ.val) ⋎
             (“#0 = #1” : Semiformula ℒₒᵣ ℕ 2))) =
       (∀¹ ∀¹
-        (∼(towerAt towerCode₁ #0 ((0 : ℕ) : Semiterm LX ℕ 2) #1) ⋎
+        (∼(towerAt (liftCode τ) #0 ((0 : ℕ) : Semiterm LX ℕ 2) #1) ⋎
           (“#0 = #1” : Semiformula LX ℕ 2))) := by
-  simp [arithTowerAt, towerAt, towerCode₁, liftCode, Semiformula.lMap_subst]
+  simp [towerAt, liftCode, Semiformula.lMap_subst]
   constructor
   · rw [lMap_zero]
   · simp [Semiformula.Operator.operator,
@@ -243,6 +247,60 @@ private lemma map_towerZero_body :
     apply funext
     rw [Fin.forall_fin_two]
     exact ⟨rfl, rfl⟩
+
+private lemma map_towerSucc_gen (τ : 𝚺₁.Semisentence 3) (ω : 𝚺₁.Semisentence 2) :
+    Semiformula.lMap toLX
+        (∀¹ ∀¹ ∀¹
+          (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), (‘(#1 + 1)’ : Semiterm ℒₒᵣ ℕ 3), #2] ▹
+              Rewriting.emb τ.val) ⋎
+            (∃¹ ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 4), #2, #3] ▹ Rewriting.emb τ.val) ⋏
+              (Rew.subst ![(#1 : Semiterm ℒₒᵣ ℕ 4), #0] ▹ Rewriting.emb ω.val))))) =
+      (∀¹ ∀¹ ∀¹
+        (∼(towerAt (liftCode τ) #0 (‘(#1 + 1)’ : Semiterm LX ℕ 3) #2) ⋎
+          (∃¹ (towerAt (liftCode τ) #0 #2 #3 ⋏
+            omegaPowAt (liftCode ω) #1 #0)))) := by
+  simp [towerAt, omegaPowAt, liftCode, Semiformula.lMap_subst]
+  rw [lMap_succ_three]
+
+private lemma models_towerZero_gen {M : Type*} [Nonempty M]
+    [sLX : Structure LX M] (τ : 𝚺₁.Semisentence 3) :
+    M↓[LX] ⊧ towerZeroStatement (liftCode τ) ↔
+      (sLX.lMap toLX).toStruc ⊧
+        ((∀¹ ∀¹
+          (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 2), ((0 : ℕ) : Semiterm ℒₒᵣ ℕ 2), #1] ▹
+              Rewriting.emb τ.val) ⋎
+            (“#0 = #1” : Semiformula ℒₒᵣ ℕ 2))).univCl : Sentence ℒₒᵣ) := by
+  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  rw [models_iff, models_iff]
+  simp only [towerZeroStatement, Semiformula.eval_univCl]
+  rw [← map_towerZero_gen]
+  simp [Semiformula.eval_lMap]
+
+private lemma models_towerSucc_gen {M : Type*} [Nonempty M]
+    [sLX : Structure LX M] (τ : 𝚺₁.Semisentence 3) (ω : 𝚺₁.Semisentence 2) :
+    M↓[LX] ⊧ towerSuccStatement (liftCode ω) (liftCode τ) ↔
+      (sLX.lMap toLX).toStruc ⊧
+        ((∀¹ ∀¹ ∀¹
+          (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), (‘(#1 + 1)’ : Semiterm ℒₒᵣ ℕ 3), #2] ▹
+              Rewriting.emb τ.val) ⋎
+            (∃¹ ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 4), #2, #3] ▹ Rewriting.emb τ.val) ⋏
+              (Rew.subst ![(#1 : Semiterm ℒₒᵣ ℕ 4), #0] ▹ Rewriting.emb ω.val))))).univCl :
+          Sentence ℒₒᵣ) := by
+  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  rw [models_iff, models_iff]
+  simp only [towerSuccStatement, Semiformula.eval_univCl]
+  rw [← map_towerSucc_gen]
+  simp [Semiformula.eval_lMap]
+
+private lemma map_towerZero_body :
+    Semiformula.lMap toLX
+        (∀¹ ∀¹
+          (∼(arithTowerAt #0 ((0 : ℕ) : Semiterm ℒₒᵣ ℕ 2) #1) ⋎
+            (“#0 = #1” : Semiformula ℒₒᵣ ℕ 2))) =
+      (∀¹ ∀¹
+        (∼(towerAt towerCode₁ #0 ((0 : ℕ) : Semiterm LX ℕ 2) #1) ⋎
+          (“#0 = #1” : Semiformula LX ℕ 2))) :=
+  map_towerZero_gen towerDef₁
 
 private lemma map_towerSucc_body :
     Semiformula.lMap toLX
@@ -252,32 +310,20 @@ private lemma map_towerSucc_body :
       (∀¹ ∀¹ ∀¹
         (∼(towerAt towerCode₁ #0 (‘(#1 + 1)’ : Semiterm LX ℕ 3) #2) ⋎
           (∃¹ (towerAt towerCode₁ #0 #2 #3 ⋏
-            omegaPowAt omegaPowCode₁ #1 #0)))) := by
-  simp [arithTowerAt, arithOmegaPowAt, towerAt, omegaPowAt, towerCode₁,
-    omegaPowCode₁, liftCode, Semiformula.lMap_subst]
-  rw [lMap_succ_three]
+            omegaPowAt omegaPowCode₁ #1 #0)))) :=
+  map_towerSucc_gen towerDef₁ omegaPowDef₁
 
 lemma models_towerZero_iff_arithmetic {M : Type*} [Nonempty M]
     [sLX : Structure LX M] :
     M↓[LX] ⊧ towerZeroStatement towerCode₁ ↔
-      (sLX.lMap toLX).toStruc ⊧ arithmeticTowerZeroStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
-  rw [models_iff, models_iff]
-  simp only [towerZeroStatement, arithmeticTowerZeroStatement,
-    Semiformula.eval_univCl]
-  rw [← map_towerZero_body]
-  simp [Semiformula.eval_lMap]
+      (sLX.lMap toLX).toStruc ⊧ arithmeticTowerZeroStatement :=
+  models_towerZero_gen towerDef₁
 
 lemma models_towerSucc_iff_arithmetic {M : Type*} [Nonempty M]
     [sLX : Structure LX M] :
     M↓[LX] ⊧ towerSuccStatement omegaPowCode₁ towerCode₁ ↔
-      (sLX.lMap toLX).toStruc ⊧ arithmeticTowerSuccStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
-  rw [models_iff, models_iff]
-  simp only [towerSuccStatement, arithmeticTowerSuccStatement,
-    Semiformula.eval_univCl]
-  rw [← map_towerSucc_body]
-  simp [Semiformula.eval_lMap]
+      (sLX.lMap toLX).toStruc ⊧ arithmeticTowerSuccStatement :=
+  models_towerSucc_gen towerDef₁ omegaPowDef₁
 
 /-- **The zero step of the internal tower, in `PA[X]`.** -/
 theorem concrete_towerZero : paLX ⊢ towerZeroStatement towerCode₁ := by

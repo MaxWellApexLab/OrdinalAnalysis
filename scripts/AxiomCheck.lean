@@ -2510,3 +2510,33 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.towerSucc_defined_wrap' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.towerSucc_defined_wrap
+
+/-- info: 'OrdinalAnalysis.KPi.RS.child_rk_lt' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.child_rk_lt
+
+/-- info: 'OrdinalAnalysis.KPi.RS.RSTrue_neg' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.RSTrue_neg
+
+/-- info: 'OrdinalAnalysis.KPi.RS.truth_lemma_regular' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.truth_lemma_regular
+
+/-- info: 'OrdinalAnalysis.KPi.RS.termReg_of_regular' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.termReg_of_regular
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_tnd' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_tnd
+
+/-- info: 'OrdinalAnalysis.KPi.RS.Star.mono_sigma' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.Star.mono_sigma
+
+/-- info: 'OrdinalAnalysis.KPi.RS.sim_rename' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.sim_rename
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_neq_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_neq_of
+
+/-- info: 'OrdinalAnalysis.ACA.neg_goodBSO' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ACA.neg_goodBSO
+
+/-- info: 'OrdinalAnalysis.Ramified.eval_lMap_toLRA_emb' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Ramified.eval_lMap_toLRA_emb

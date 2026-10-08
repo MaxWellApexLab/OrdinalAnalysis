@@ -213,30 +213,44 @@ theorem freeVariables_towerAt {n : ℕ} {u k c : Semiterm LX ℕ n}
 @[simp] theorem freeVariables_XatZero {n : ℕ} :
     (Xat (#0 : Semiterm LX ℕ (n + 1))).freeVariables = ∅ := by simp
 
+/-- The jump of a closed formula, along closed order/addition/ω-power graphs, is closed.
+Proved for abstract graphs, so that the kernel never unfolds `freeVariables` on the concrete
+large formulas. -/
+theorem freeVariables_jump {p : Semiformula LX ℕ 2} {ad : Semiformula LX ℕ 3}
+    {om : Semiformula LX ℕ 2} {ψ : Semiformula LX ℕ 1}
+    (hp : p.freeVariables = ∅) (had : ad.freeVariables = ∅) (hom : om.freeVariables = ∅)
+    (hψ : ψ.freeVariables = ∅) :
+    (jump p ad om ψ).freeVariables = ∅ := by
+  have h1 : (omegaPowAt om (#1 : Semiterm LX ℕ 4)
+      (#3 : Semiterm LX ℕ 4)).freeVariables = ∅ :=
+    LowerSyntax.freeVariables_rew_eq_empty _ hom (fun i => by
+      fin_cases i
+      · simp
+      · simp)
+  have h2 : (addAt ad (#0 : Semiterm LX ℕ 4) #2 #1).freeVariables = ∅ :=
+    LowerSyntax.freeVariables_rew_eq_empty _ had (fun i => by
+      fin_cases i
+      · simp
+      · simp
+      · simp)
+  have h3 : (belowAt p ψ (#2 : Semiterm LX ℕ 4)).freeVariables = ∅ :=
+    freeVariables_belowAt hp hψ (by simp)
+  have h4 : (belowAt p ψ (#0 : Semiterm LX ℕ 4)).freeVariables = ∅ :=
+    freeVariables_belowAt hp hψ (by simp)
+  show (∀¹ ∀¹ ∀¹
+    (∼(omegaPowAt om (#1 : Semiterm LX ℕ 4)
+        (Rew.bShift (Rew.bShift (Rew.bShift (#0 : Semiterm LX ℕ 1))))) ⋎
+      (∼(addAt ad #0 #2 #1) ⋎
+        (∼(belowAt p ψ #2) ⋎ belowAt p ψ #0)))).freeVariables = ∅
+  simp [h1, h2, h3, h4]
+
 /-- **The jump of `X` is a closed formula.**  Needed both for `rew_tiUptoAt` at
 the jump and for the `univCl`-unwrapping of `jumpBStatement`. -/
 @[simp] theorem freeVariables_jumpX :
     (jump precCode₁ addCode₁ omegaPowCode₁
-      (Xat (#0 : Semiterm LX ℕ 1))).freeVariables = ∅ := by
-  have hX : (Xat (#0 : Semiterm LX ℕ 1)).freeVariables = ∅ := by simp
-  have h1 : (omegaPowAt omegaPowCode₁ (#1 : Semiterm LX ℕ 4)
-      (#3 : Semiterm LX ℕ 4)).freeVariables = ∅ :=
-    freeVariables_omegaPowAt (by simp) (by simp)
-  have h2 : (addAt addCode₁ (#0 : Semiterm LX ℕ 4) #2 #1).freeVariables = ∅ :=
-    freeVariables_addAt (by simp) (by simp) (by simp)
-  have h3 : (belowAt precCode₁ (Xat (#0 : Semiterm LX ℕ 1))
-      (#2 : Semiterm LX ℕ 4)).freeVariables = ∅ :=
-    freeVariables_belowAt freeVariables_precCode₁ hX (by simp)
-  have h4 : (belowAt precCode₁ (Xat (#0 : Semiterm LX ℕ 1))
-      (#0 : Semiterm LX ℕ 4)).freeVariables = ∅ :=
-    freeVariables_belowAt freeVariables_precCode₁ hX (by simp)
-  show (∀¹ ∀¹ ∀¹
-    (∼(omegaPowAt omegaPowCode₁ (#1 : Semiterm LX ℕ 4)
-        (Rew.bShift (Rew.bShift (Rew.bShift (#0 : Semiterm LX ℕ 1))))) ⋎
-      (∼(addAt addCode₁ #0 #2 #1) ⋎
-        (∼(belowAt precCode₁ (Xat (#0 : Semiterm LX ℕ 1)) #2) ⋎
-          belowAt precCode₁ (Xat (#0 : Semiterm LX ℕ 1)) #0)))).freeVariables = ∅
-  simp [h1, h2, h3, h4]
+      (Xat (#0 : Semiterm LX ℕ 1))).freeVariables = ∅ :=
+  freeVariables_jump freeVariables_precCode₁ freeVariables_addCode₁
+    freeVariables_omegaPowCode₁ (by simp)
 
 /-! ### `univCl` is a typing wrapper -/
 
@@ -909,7 +923,22 @@ theorem towerStepTI_inst (tu tk tc : FirstOrder.Semiterm LX ℕ 0) :
         (q_hf (hf_subst _)),
       rew_tiJSO (ω := (FirstOrder.Rew.subst ![tu, tk, tc]).q) (q_hb (hb_subst _))
         (q_hf (hf_subst _))]
-    simp [FirstOrder.Rew.q_subst]
+    -- the term-level substitutions only: a full `simp` here also pushes `∼` through the
+    -- quantifier, which nanoda cannot check on the large lifted codes
+    have t0 : (FirstOrder.Rew.subst ![tu, tk, tc] : FirstOrder.Rew LX ℕ 3 ℕ 0)
+        (#0 : FirstOrder.Semiterm LX ℕ 3) = tu := by simp
+    have t2 : (FirstOrder.Rew.subst ![tu, tk, tc] : FirstOrder.Rew LX ℕ 3 ℕ 0)
+        (#2 : FirstOrder.Semiterm LX ℕ 3) = tc := by simp
+    have q0 : (FirstOrder.Rew.subst ![tu, tk, tc] : FirstOrder.Rew LX ℕ 3 ℕ 0).q
+        (#0 : FirstOrder.Semiterm LX ℕ 4) = (#0 : FirstOrder.Semiterm LX ℕ 1) := by
+      simp [FirstOrder.Rew.q_subst]
+    have q2 : (FirstOrder.Rew.subst ![tu, tk, tc] : FirstOrder.Rew LX ℕ 3 ℕ 0).q
+        (#2 : FirstOrder.Semiterm LX ℕ 4) = FirstOrder.Rew.bShift tk := by
+      simp [FirstOrder.Rew.q_subst]
+    have q3 : (FirstOrder.Rew.subst ![tu, tk, tc] : FirstOrder.Rew LX ℕ 3 ℕ 0).q
+        (#3 : FirstOrder.Semiterm LX ℕ 4) = FirstOrder.Rew.bShift tc := by
+      simp [FirstOrder.Rew.q_subst]
+    rw [t0, t2, q0, q2, q3]
   rwa [e] at h
 
 /-! ### The base case -/

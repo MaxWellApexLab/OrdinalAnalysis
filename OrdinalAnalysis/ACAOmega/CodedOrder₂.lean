@@ -508,6 +508,12 @@ def precSeg₀ (a : Gamma0Note) : FirstOrder.Semiformula ℒₒᵣ ℕ 2 :=
     ![(#1 : FirstOrder.Semiterm ℒₒᵣ ℕ 2),
       (numAt (VNoteBridge.gamma0Code (epsilonNote a)) : FirstOrder.Semiterm ℒₒᵣ ℕ 2)] ▹ precFO₁)
 
+/-- Generic in both conjuncts, so that the kernel never has to unfold `freeVariables` on the
+large concrete formula `precFO₁` (a structural recursion, blow-up for nanoda). -/
+theorem freeVariables_and_empty {φ ψ : FirstOrder.Semiformula ℒₒᵣ ℕ 2}
+    (hφ : φ.freeVariables = ∅) (hψ : ψ.freeVariables = ∅) : (φ ⋏ ψ).freeVariables = ∅ := by
+  simp [hφ, hψ]
+
 theorem freeVariables_precSeg₀ (a : Gamma0Note) : (precSeg₀ a).freeVariables = ∅ := by
   have h : (FirstOrder.Rew.subst
       ![(#1 : FirstOrder.Semiterm ℒₒᵣ ℕ 2),
@@ -517,7 +523,7 @@ theorem freeVariables_precSeg₀ (a : Gamma0Note) : (precSeg₀ a).freeVariables
     refine Fin.forall_fin_two.mpr ⟨by simp, ?_⟩
     simp only [FirstOrder.Rew.subst_bvar, Matrix.cons_val_one, Matrix.cons_val_fin_one]
     simp [numAt]
-  simp [precSeg₀, h]
+  exact freeVariables_and_empty freeVariables_precFO₁ h
 
 theorem eval_precSeg₀ (a : Gamma0Note) (m n : ℕ) (f : ℕ → ℕ) :
     FirstOrder.Semiformula.Eval (M := ℕ) ![m, n] f (precSeg₀ a) ↔ precNSeg a m n := by

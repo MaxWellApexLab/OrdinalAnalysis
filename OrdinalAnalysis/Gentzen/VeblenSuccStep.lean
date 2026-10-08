@@ -138,6 +138,56 @@ theorem arithmetic_succGeneral : 𝗜𝚺₁ ⊢ arithmeticSuccGeneralStatement 
 
 /-! ## Transport to `PA[X]` -/
 
+/-- The `lMap` transport of the general successor step, for abstract `Σ₁` definitions of the
+guard (`β`), the addition graph (`α`) and the order (`π`), and an abstract numeral (`c`): the
+kernel never unfolds the concrete formulas. -/
+private lemma map_succGeneral_gen (β : 𝚺₁.Semisentence 1) (α : 𝚺₁.Semisentence 3)
+    (π : 𝚺₁.Semisentence 2) (c : ℕ) :
+    Semiformula.lMap toLX
+        (∀¹ ∀¹ ∀¹
+          (∼(Rew.subst ![(#2 : Semiterm ℒₒᵣ ℕ 3)] ▹ Rewriting.emb β.val) ⋎
+            (∼(Rew.subst ![(#1 : Semiterm ℒₒᵣ ℕ 3), #2, (c : Semiterm ℒₒᵣ ℕ 3)] ▹
+                Rewriting.emb α.val) ⋎
+              (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), #1] ▹ Rewriting.emb π.val) ⋎
+                ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), #2] ▹ Rewriting.emb π.val) ⋎
+                  (“#0 = #2” : Semiformula ℒₒᵣ ℕ 3)))))) =
+      (∀¹ ∀¹ ∀¹
+        (∼(formulaAt (liftCode β) (#2 : Semiterm LX ℕ 3)) ⋎
+          (∼(addAt (liftCode α) #1 #2 (c : Semiterm LX ℕ 3)) ⋎
+            (∼(precAt (liftCode π) #0 #1) ⋎
+              (precAt (liftCode π) #0 #2 ⋎
+                (“#0 = #2” : Semiformula LX ℕ 3)))))) := by
+  simp [formulaAt, addAt, precAt, liftCode, Semiformula.lMap_subst]
+  refine ⟨?_, ?_⟩
+  · rw [lMap_numeral c]
+  · simp [Semiformula.Operator.operator,
+      Semiformula.Operator.Eq.sentence_eq, toLX]
+    apply funext
+    rw [Fin.forall_fin_two]
+    exact ⟨rfl, rfl⟩
+
+private lemma models_succGeneral_gen {M : Type*} [Nonempty M]
+    [sLX : Structure LX M] (β : 𝚺₁.Semisentence 1) (α : 𝚺₁.Semisentence 3)
+    (π : 𝚺₁.Semisentence 2) (c : ℕ) :
+    M↓[LX] ⊧ ((∀¹ ∀¹ ∀¹
+        (∼(formulaAt (liftCode β) (#2 : Semiterm LX ℕ 3)) ⋎
+          (∼(addAt (liftCode α) #1 #2 (c : Semiterm LX ℕ 3)) ⋎
+            (∼(precAt (liftCode π) #0 #1) ⋎
+              (precAt (liftCode π) #0 #2 ⋎
+                (“#0 = #2” : Semiformula LX ℕ 3)))))).univCl : Sentence LX) ↔
+      (sLX.lMap toLX).toStruc ⊧ ((∀¹ ∀¹ ∀¹
+          (∼(Rew.subst ![(#2 : Semiterm ℒₒᵣ ℕ 3)] ▹ Rewriting.emb β.val) ⋎
+            (∼(Rew.subst ![(#1 : Semiterm ℒₒᵣ ℕ 3), #2, (c : Semiterm ℒₒᵣ ℕ 3)] ▹
+                Rewriting.emb α.val) ⋎
+              (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), #1] ▹ Rewriting.emb π.val) ⋎
+                ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), #2] ▹ Rewriting.emb π.val) ⋎
+                  (“#0 = #2” : Semiformula ℒₒᵣ ℕ 3)))))).univCl : ArithmeticSentence) := by
+  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  rw [models_iff, models_iff]
+  simp only [Semiformula.eval_univCl]
+  rw [← map_succGeneral_gen]
+  simp [Semiformula.eval_lMap]
+
 private lemma map_succGeneral_body :
     Semiformula.lMap toLX
         (∀¹ ∀¹ ∀¹
@@ -151,27 +201,14 @@ private lemma map_succGeneral_body :
           (∼(addAt addCode₁ #1 #2 ((gamma0Code 1 : ℕ) : Semiterm LX ℕ 3)) ⋎
             (∼(precAt precCode₁ #0 #1) ⋎
               (precAt precCode₁ #0 #2 ⋎
-                (“#0 = #2” : Semiformula LX ℕ 3)))))) := by
-  simp [arithBaseAt, arithAddAt, arithPrecAt, formulaAt, addAt, precAt,
-    baseCode₁, addCode₁, precCode₁, liftCode, Semiformula.lMap_subst]
-  refine ⟨?_, ?_⟩
-  · rw [lMap_numeral (gamma0Code 1)]
-  · simp [Semiformula.Operator.operator,
-      Semiformula.Operator.Eq.sentence_eq, toLX]
-    apply funext
-    rw [Fin.forall_fin_two]
-    exact ⟨rfl, rfl⟩
+                (“#0 = #2” : Semiformula LX ℕ 3)))))) :=
+  map_succGeneral_gen baseDef₁ safeIadd₁Def precDef₁ (gamma0Code 1)
 
 lemma models_succGeneral_iff_arithmetic {M : Type*} [Nonempty M]
     [sLX : Structure LX M] :
     M↓[LX] ⊧ succGeneralStatement ↔
-      (sLX.lMap toLX).toStruc ⊧ arithmeticSuccGeneralStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
-  rw [models_iff, models_iff]
-  simp only [succGeneralStatement, arithmeticSuccGeneralStatement,
-    Semiformula.eval_univCl]
-  rw [← map_succGeneral_body]
-  simp [Semiformula.eval_lMap]
+      (sLX.lMap toLX).toStruc ⊧ arithmeticSuccGeneralStatement :=
+  models_succGeneral_gen baseDef₁ safeIadd₁Def precDef₁ (gamma0Code 1)
 
 /-- **The successor step of `Epsilon1UpperBound` with the `ε₀` numeral replaced by a
 variable.** -/

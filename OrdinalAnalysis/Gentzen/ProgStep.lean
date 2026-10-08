@@ -292,6 +292,31 @@ noncomputable def progCoverBody : Semiformula LX ℕ 3 :=
 
 noncomputable def progCoverStatement : Sentence LX := (∀¹ ∀¹ ∀¹ progCoverBody).univCl
 
+/-- Positive reading of `progHypBody` (proved in this form so that the kernel never has to unfold
+the negation of the large concrete block). -/
+theorem eval_progHypBody {M : Type*} [Structure LX M] (f : ℕ → M) (a b c : M) :
+    Semiformula.Eval ![a, b, c] f progHypBody ↔
+      ∀ s, Semiformula.Eval ![s, c] f goodBody →
+        ∀ n w, Semiformula.Eval ![w, n, s] f towerCode₁ →
+          Semiformula.Eval ![a, w] f precCode₁ → Idiom.Xrel M a := by
+  simp only [progHypBody, hypBodyAt]
+  simp
+  constructor
+  · intro h s hs n w ht hp
+    rcases h s n w with h | h | h | h
+    · exact (h hs).elim
+    · exact (h ht).elim
+    · exact (h hp).elim
+    · exact h
+  · intro h s n w
+    by_cases hs : Semiformula.Eval ![s, c] f goodBody
+    · by_cases ht : Semiformula.Eval ![w, n, s] f towerCode₁
+      · by_cases hp : Semiformula.Eval ![a, w] f precCode₁
+        · exact Or.inr (Or.inr (Or.inr (h s hs n w ht hp)))
+        · exact Or.inr (Or.inr (Or.inl hp))
+      · exact Or.inr (Or.inl ht)
+    · exact Or.inl hs
+
 theorem concrete_progCover : paLX ⊢ progCoverStatement := by
   classical
   apply Theory.Proof.complete.{0, 0}
@@ -305,7 +330,7 @@ theorem concrete_progCover : paLX ⊢ progCoverStatement := by
       (∼(precAt precCode₁ (#0 : Semiterm LX ℕ 3) #1) ⋎
         (∼progHypBody ⋎ Xat (#0 : Semiterm LX ℕ 3))))).univCl
   rw [models_iff]
-  simp [progHypBody, hypBodyAt]
+  simp [eval_progHypBody]
   intro f g u x
   by_cases hX : Idiom.Xrel M x
   · exact Or.inr (Or.inr (Or.inr hX))

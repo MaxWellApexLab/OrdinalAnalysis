@@ -521,3 +521,12 @@ import OrdinalAnalysis.KPi.Ord.Hull
 import OrdinalAnalysis.KPi.Ord.Sanity
 import OrdinalAnalysis.KPi.Ord.Main
 import OrdinalAnalysis.Gentzen.JumpTransport
+import OrdinalAnalysis.KPi.RS.Defs
+import OrdinalAnalysis.KPi.RS.Rank
+import OrdinalAnalysis.KPi.RS.Truth
+import OrdinalAnalysis.KPi.RS.Infty
+import OrdinalAnalysis.KPi.RS.Card
+import OrdinalAnalysis.KPi.RS.StarDefs
+import OrdinalAnalysis.KPi.RS.StarBasic
+import OrdinalAnalysis.KPi.RS.StarSim
+import OrdinalAnalysis.KPi.RS.StarLemmas

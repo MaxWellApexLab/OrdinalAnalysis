@@ -9,6 +9,47 @@ returns exactly `[propext, Classical.choice, Quot.sound]`.
 
 ---
 
+## Verification
+
+What has been checked, and by what.
+
+1. **Lean's kernel, whole environment.** Every headline theorem is checked by Lean's
+   kernel when the library is built, and the compiled environment is replayed from
+   scratch by `leanchecker --fresh OrdinalAnalysis`, which re-checks every declaration
+   of the whole environment.
+2. **An independent kernel.** Every headline export is accepted by
+   [nanoda](https://github.com/ammkrn/nanoda_lib), an independent implementation of
+   Lean's kernel. The twelve exports are `gentzen_theorem`,
+   `gentzen_theorem_with_order_type`, `epsilon1_theorem`, `aca_theorem`,
+   `ramified_theorem`, `ramified_theorem_univ`, `feferman_schutte`, `sf_theorem`,
+   `id1_theorem`, `idn_analysis`, `idlt_analysis` and `idw_analysis`; each is
+   exported with `lean4export` together with its whole dependency closure.
+3. **Comparator.** `idw_analysis`, `idn_analysis` and `idlt_analysis` pass
+   [Comparator](https://github.com/leanprover/comparator) with both kernels: the
+   statements are identical to the ones in the challenge file, the proofs use no
+   axioms beyond `propext`, `Classical.choice` and `Quot.sound`, and both Lean's
+   kernel and nanoda accept them.
+4. **Scope.** These checks certify the proofs of the stated theorems. They do not
+   certify that the definitions faithfully capture the intended theories and
+   notations (for instance that `IDw` is the theory `ID_ω`, or that `precCode` is
+   the ordering of the Cantor normal forms). That is a matter of reading the files
+   that hold the definitions:
+
+| Station | Definitions the statements are about |
+|---|---|
+| Gentzen, `PA` has ordinal `ε₀` (`gentzen_theorem`, `gentzen_theorem_with_order_type`) | `Gentzen/Setup.lean` (the language, `paLX`, `TI`), `Gentzen/CodedNotation.lean` (`precCode`), `Gentzen/Order.lean` (`closedTI`), `Gentzen/UpperBound.lean` (`notationTerm`), `Gentzen/OrderType.lean` (`precNF`) |
+| `PA + TI(ε₀)` has ordinal `ε₁` (`epsilon1_theorem`) | the above, with `Gentzen/Epsilon1Order.lean` and `Gentzen/Epsilon1UpperBound.lean` (`paLX₁`, `closedTI₁`) |
+| `ACA` has ordinal `ε_{ε₀}` (`aca_theorem`) | `ACA/LK.lean` (`Provable`, `ACA`), `ACA/TI.lean` (`TIsegSO`, `tiUptoSegSO`), `Ordinal/Veblen/Gamma0Note.lean` |
+| ramified analysis (`ramified_theorem`, `ramified_theorem_univ`) | `Ramified/Language.lean`, `Ramified/Theory.lean` (`RAlt`), `Ramified/CodedOrderR.lean` (`TIR`), `Ramified/UpperBound.lean` (`precBelowR`, `tiUptoSegR`), `Ramified/SegOrder.lean` |
+| Feferman–Schütte, semiformal (`feferman_schutte`, `sf_theorem`) | `Ramified/Calculus.lean` (`OmegaDerivableR`), `Ramified/Literals.lean`, `Ramified/Evaluate.lean`, `Ramified/FefermanSchutte.lean` (`Aut`), `Ramified/CodedOrderR.lean` (`gamma0OrderR`), `Ramified/DescentBeta.lean` (`hgtD`) |
+| Bachmann–Howard, `ID₁` (`id1_theorem`) | `ID1/Theory.lean` (`ID1Acc`), `ID1/UpperBound.lean`, `ID1/LowerBound.lean`, `ID1/Internal/Codes.lean` (`precC`), `Ordinal/Theta/Basic.lean` (`ThetaNote`) |
+| `ID_n` and `ID_{<ω}` (`idn_analysis`, `idlt_analysis`) | `IDn/Theory.lean` (`IDn`), `IDn/Union.lean` (`IDlt`), `IDn/UpperAuxForms.lean` (`WForms`), `IDn/UpperBound.lean` (`tiUptoSentence`), `IDn/InternalFacts.lean` (`orderFormulas`), `Ordinal/ThetaW/Dom.lean` (`ThetaWNoteD`) |
+| `ID_ω` (`idw_analysis`) | `IDw/Theory.lean` (`IDw`), `IDw/UpperAuxForms.lean` (`WFormWc`), `IDw/TISentence.lean` (`tiUptoSentence`), `IDw/InternalFacts.lean` (`orderFormulas`), `Ordinal/ThetaV/Dom.lean` (`ThetaVNoteD`) |
+
+All paths are relative to `OrdinalAnalysis/`.
+
+---
+
 ## What is here
 
 ### Ordinal notations

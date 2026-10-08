@@ -1210,6 +1210,17 @@ theorem rew_goodInner (hb : ∀ i, unTerm (ω #i) = ω' #i) (hf : ∀ x, unTerm 
 
 end RewGood
 
+/-- Negation of the second branch of `Good`, as the two universal quantifiers over
+`goodBNegBody`.  Proved here (a `simp` with only abstract formulas) so that `goodAllTI` never has
+to make the kernel unify `∼(goodBSO s g)` with `∀¹ ∀¹ (goodBNegBody ..)` by unfolding the
+negation on the concrete order formulas. -/
+theorem neg_goodBSO {n : ℕ} (s g : FirstOrder.Semiterm LX ℕ n) :
+    ∼(goodBSO s g) =
+      ∀¹ (∀¹ (goodBNegBody (FirstOrder.Rew.bShift (FirstOrder.Rew.bShift s))
+        (FirstOrder.Rew.bShift (FirstOrder.Rew.bShift g))
+        (#0 : FirstOrder.Semiterm LX ℕ (n + 2)) (#1))) := by
+  simp [goodBSO, goodBNegBody]
+
 /-- **`Good(s,g)` and `Below(ψ₀,g)` give `∀²X TI(≺₁,s,X)`.**  This is the whole
 case split of the cover, and the only place `Below(ψ₀, g)` is consumed. -/
 theorem goodAllTI : Provable ACA goodAll := by
@@ -1434,6 +1445,7 @@ theorem goodAllTI : Provable ACA goodAll := by
         norm_num
       rw [hfree, hsh]
       exact hall1
+    rw [neg_goodBSO]
     exact hall2
   have hsplit : PSeq ACA [∼(goodSO (&0 : FirstOrder.Semiterm LX ℕ 0) (&1)),
       allTI (&0 : FirstOrder.Semiterm LX ℕ 0),
@@ -1682,6 +1694,11 @@ theorem progCover_inst (tg tu tx : FirstOrder.Semiterm LX ℕ 0) :
 
 /-! ### (Prog) -/
 
+/-- `∼∀¹ φ = ∃¹ ∼φ` for an abstract second-order formula (a definitional unfolding of `∼`).
+Proved for a variable `φ`, so that the kernel never has to compute `∼` on a large concrete
+formula to decide it. -/
+theorem SO_neg_all {n : ℕ} (φ : Semiproposition ℒₒᵣ 0 (n + 1)) : ∼(∀¹ φ) = ∃¹ (∼φ) := rfl
+
 /-- **(Prog).**  `ACA ⊢ Prog(≺₁, ψ₀)`: the `Π¹₁` formula
 `ψ₀(g) :≡ ∀u (Eps(u,g) → ∀²X TI(≺₁,u,X))` is `≺₁`-progressive.
 
@@ -1841,8 +1858,7 @@ theorem epsProg : Provable ACA (progPsi : Proposition ℒₒᵣ) := by
                   ∃¹ (∼(∼(precSOv (#0 : FirstOrder.Semiterm LX ℕ 1)
                       (FirstOrder.Rew.bShift (&0 : FirstOrder.Semiterm LX ℕ 0))) ⋎
                     xSO (#0 : FirstOrder.Semiterm LX ℕ 1))) := by
-                rw [belowSOX_eq]
-                rfl
+                rw [belowSOX_eq, SO_neg_all]
               rw [hb]
               refine PSeq.exs₁ (&3 : FirstOrder.Semiterm ℒₒᵣ ℕ 0) ?_
               have e5 : (FirstOrder.Rew.subst ![(&3 : FirstOrder.Semiterm ℒₒᵣ ℕ 0)] ▹
