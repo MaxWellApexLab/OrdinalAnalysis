@@ -498,7 +498,8 @@ Buchholz's notation `OT_B` below `ψ₀(Ω_ω)`, in Lean 4 and Isabelle, exists 
 koteitan's `pss-proof` (2026), so this is not the first such proof — what is
 new here, as far as the surveys reach, is the ordinal analysis built on it),
 the hull sets and operators
-(`Hull.lean`, `HullCofinal.lean`); the theory `ID₁` and its consistency by the
+(`Hull.lean`, `HullCofinal.lean`); `ϑ 0` as the notation's own `ε₀`, the least fixed point of its
+`ω^·` and the supremum of the ω-tower over `0` (`EpsilonZero.lean`); the theory `ID₁` and its consistency by the
 least fixed point (`ID1/{Theory,Sound}.lean`); the coding of the notation in
 arithmetic with the order facts inside `IΣ₁` (`ID1/Internal/`); the stage
 language and rank (`Language.lean`, `Rank.lean`); the operator-controlled

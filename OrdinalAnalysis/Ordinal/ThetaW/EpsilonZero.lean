@@ -7,10 +7,13 @@
   two facts that make `ϑ₀ 0` the notation's own `ε₀`, stated against the notation's order and
   its own `omegaPow`, with no reading into `Ordinal`:
 
-  * `isLeast_epsilonZero`: `ϑ₀ 0` is the *least* fixed point of `omegaPow`.  Every other
-    principal term is `Ω_j`, `ϑ_j β` with `j > 0`, or `ϑ₀ β` with `β ≠ 0`, and each of these
-    lies above `ϑ₀ 0` by a clause of the raw term order (`theta_lt_Omega_iff`,
-    `theta_lt_theta_of_lt_level`, `theta_lt_theta_of_lt`).  Well-foundedness is not used.
+  * `isLeast_epsilonZero`: `ϑ₀ 0` is the *least* fixed point of `omegaPow`.  It rests on the
+    raw-term form `ThetaWTerm.theta_zero_zero_le_of_ofList_eq` (every term `t` with
+    `ofList [t] = t` satisfies `ϑ₀ 0 ≤ t`, no normal-form or domain hypothesis): such a `t` is
+    `Ω_j`, `ϑ_j β` with `j > 0`, or `ϑ₀ β`, and each of these lies at or above `ϑ₀ 0` by a
+    clause of the raw term order (`theta_lt_Omega_iff`, `theta_lt_theta_of_lt_level`,
+    `theta_lt_theta_of_lt`).  Well-foundedness is not used, and the raw form uses no
+    `Classical.choice`.
   * `exists_lt_omegaTower_of_lt_epsilonZero`: every notation below `ϑ₀ 0` lies below
     `ω_m(0)` for some `m` (`omegaTower`, `HullCofinal.lean`), and conversely every `ω_m(0)`
     lies below `ϑ₀ 0` (`omegaTower_zero_lt_epsilonZero`).  The proof is induction on the term
@@ -23,6 +26,33 @@ import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
 set_option autoImplicit false
 
 namespace OrdinalAnalysis
+
+namespace ThetaWTerm
+
+/-- Raw form of leastness: every term that `ofList [·]` fixes lies at or above `ϑ₀ 0`. -/
+theorem theta_zero_zero_le_of_ofList_eq {t : ThetaWTerm} (h : ofList [t] = t) :
+    theta 0 zero ≤ t := by
+  cases t with
+  | Omega j => exact Or.inl ((theta_lt_Omega_iff 0 j _).mpr (Nat.zero_le j))
+  | theta j b =>
+    rcases Nat.eq_zero_or_pos j with rfl | hj
+    · by_cases hb : b = sum []
+      · subst hb; exact Or.inr rfl
+      · left
+        apply theta_lt_theta_of_lt (nil_lt_of_ne hb)
+        intro g hg
+        simp at hg
+    · exact Or.inl (theta_lt_theta_of_lt_level _ _ hj)
+  | sum xs =>
+    exfalso
+    have hof : ofList [sum xs] = sum [sum xs] := rfl
+    rw [hof] at h
+    injection h with h
+    have := congrArg sizeOf h
+    simp at this
+    omega
+
+end ThetaWTerm
 
 namespace ThetaWNoteD
 
@@ -50,23 +80,8 @@ theorem omegaPow_epsilonZero : omegaPow epsilonZero = epsilonZero :=
 
 /-- Every fixed point of `omegaPow` lies at or above `ϑ₀ 0`. -/
 theorem epsilonZero_le_of_omegaPow_eq {a : ThetaWNoteD} (h : omegaPow a = a) :
-    epsilonZero ≤ a := by
-  have hp : ThetaWTerm.IsPrin a.1 := omegaPow_eq_self_iff.mp h
-  rw [le_iff]
-  obtain ⟨t, hnf, hdom⟩ := a
-  show ThetaWTerm.theta 0 ThetaWTerm.zero ≤ t
-  cases t with
-  | Omega j => exact Or.inl ((ThetaWTerm.theta_lt_Omega_iff 0 j _).mpr (Nat.zero_le j))
-  | theta j b =>
-    rcases Nat.eq_zero_or_pos j with rfl | hj
-    · by_cases hb : b = ThetaWTerm.sum []
-      · subst hb; exact Or.inr rfl
-      · left
-        apply ThetaWTerm.theta_lt_theta_of_lt (ThetaWTerm.nil_lt_of_ne hb)
-        intro g hg
-        simp at hg
-    · exact Or.inl (ThetaWTerm.theta_lt_theta_of_lt_level _ _ hj)
-  | sum xs => exact absurd hp id
+    epsilonZero ≤ a :=
+  le_iff.mpr (ThetaWTerm.theta_zero_zero_le_of_ofList_eq (congrArg Subtype.val h))
 
 /-- **`ϑ₀ 0` is the least fixed point of `ω^·`.** -/
 theorem isLeast_epsilonZero : IsLeast {a : ThetaWNoteD | omegaPow a = a} epsilonZero :=

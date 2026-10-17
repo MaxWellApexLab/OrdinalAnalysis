@@ -1483,6 +1483,18 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 /-- info: 'OrdinalAnalysis.ThetaWNoteD.lt_epsilonZero_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.ThetaWNoteD.lt_epsilonZero_iff
 
+/-- info: 'OrdinalAnalysis.ThetaNote.isLeast_epsilonZero' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaNote.isLeast_epsilonZero
+
+/-- info: 'OrdinalAnalysis.ThetaNote.lt_epsilonZero_iff' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaNote.lt_epsilonZero_iff
+
+/-- info: 'OrdinalAnalysis.ThetaWTerm.theta_zero_zero_le_of_ofList_eq' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaWTerm.theta_zero_zero_le_of_ofList_eq
+
+/-- info: 'OrdinalAnalysis.ThetaTerm.theta_zero_le_of_ofList_eq' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.ThetaTerm.theta_zero_le_of_ofList_eq
+
 /-- info: 'OrdinalAnalysis.ThetaWNoteD.dom_add' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.ThetaWNoteD.dom_add
 
