@@ -209,6 +209,7 @@ import OrdinalAnalysis.Ordinal.Theta.Instance
 import OrdinalAnalysis.Ordinal.Theta.WellFounded
 import OrdinalAnalysis.Ordinal.Theta.Hull
 import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+import OrdinalAnalysis.Ordinal.Theta.EpsilonZero
 import OrdinalAnalysis.ID1.Language
 import OrdinalAnalysis.ID1.Rank
 import OrdinalAnalysis.ID1.Internal.CovTable
@@ -361,6 +362,7 @@ import OrdinalAnalysis.IDn.AxiomsIDCases.xFreeI_predOf
 import OrdinalAnalysis.IDn.CollapseCorollary
 import OrdinalAnalysis.IDn.EmbedHypsReplace
 import OrdinalAnalysis.Ordinal.ThetaW.TowerCofinal
+import OrdinalAnalysis.Ordinal.ThetaW.EpsilonZero
 import OrdinalAnalysis.IDn.LowerSharp
 import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_subst_numI
 import OrdinalAnalysis.IDn.TautAdditive

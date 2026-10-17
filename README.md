@@ -498,8 +498,10 @@ Buchholz's notation `OT_B` below `ψ₀(Ω_ω)`, in Lean 4 and Isabelle, exists 
 koteitan's `pss-proof` (2026), so this is not the first such proof — what is
 new here, as far as the surveys reach, is the ordinal analysis built on it),
 the hull sets and operators
-(`Hull.lean`, `HullCofinal.lean`); the theory `ID₁` and its consistency by the
-least fixed point (`ID1/{Theory,Sound}.lean`); the coding of the notation in
+(`Hull.lean`, `HullCofinal.lean`); `ϑ 0` as the least fixed point of `ω^·` and
+the supremum of the ω-tower over `0` (`EpsilonZero.lean`); the theory `ID₁` and
+its consistency by the least fixed point (`ID1/{Theory,Sound}.lean`); the
+coding of the notation in
 arithmetic with the order facts inside `IΣ₁` (`ID1/Internal/`); the stage
 language and rank (`Language.lean`, `Rank.lean`); the operator-controlled
 infinitary calculus with the stage rules, the boundedness lemma and the
@@ -556,7 +558,9 @@ theta-functions*, Math. Log. Quart. 57, Definition 2.7 and Proposition 2.15). Th
 restriction, not a formality: `ThetaWNoteD.wellFoundedLT` (`WellFoundedD.lean`) holds for the
 domained order, while the same syntax without the domain guard, `ThetaWNote`, is *not*
 well-founded (`Descent.lean`'s `not_wellFoundedLT`, an explicit infinite descending sequence).
-`c n = ϑ₀(ϑ_n 0)` (`Dom.lean`) is the domained term for the intended value of `|ID_n|`. Above the
+`c n = ϑ₀(ϑ_n 0)` (`Dom.lean`) is the domained term for the intended value of `|ID_n|`.
+`EpsilonZero.lean` shows that `ϑ₀ 0` is the least fixed point of the notation's `ω^·`
+(`isLeast_epsilonZero`) and the supremum of the ω-tower over `0` (`lt_epsilonZero_iff`). Above the
 raw system, `HullSingle.lean` proves the level-free hull operator is least (`theta_isLeastS`,
 Wilken's Proposition 3.9 at every level at once), and `HullDom.lean` derives the domain lemma the
 collapsing theorem needs from it (`dom_add_omegaPow`) while also recording where the audited
