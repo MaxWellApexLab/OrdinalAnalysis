@@ -65,7 +65,12 @@
     prefix — both namespaces export a `Rew` and leaving the prefix off invites
     the elaborator to pick the wrong one silently.
 -/
-import OrdinalAnalysis.ACAOmega.Evaluate
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Evaluate
+
+@[expose] public section
 
 set_option autoImplicit false
 

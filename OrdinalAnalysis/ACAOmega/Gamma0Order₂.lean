@@ -23,8 +23,13 @@
   `Boundedness₂.lean`'s `not_derivable_TI₂` is generic in `[OrdinalNotation O]`; callers
   supply it with `letI := Gamma0Note.VeblenBelow.ordinalNotation a b ha`.
 -/
-import OrdinalAnalysis.ACAOmega.Boundedness₂
-import OrdinalAnalysis.Ordinal.Veblen.VeblenBelow
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Boundedness₂
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenBelow
+
+@[expose] public section
 
 set_option autoImplicit false
 

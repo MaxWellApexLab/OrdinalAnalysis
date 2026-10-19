@@ -11,7 +11,12 @@
   downward closure and the induction scheme of level `0`; completeness
   (`Lift.provable_of_models`) turns truth in the standard models into provability.
 -/
-import OrdinalAnalysis.IDw.UpperBound
+
+module
+
+public import OrdinalAnalysis.IDw.UpperBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

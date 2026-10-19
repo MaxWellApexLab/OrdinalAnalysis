@@ -20,11 +20,16 @@
   `def` the elaborator unfolds the entire formula when it meets the
   complexity, and hangs.
 -/
-import OrdinalAnalysis.Gentzen.Climb
-import OrdinalAnalysis.Gentzen.CodedVeblen
-import OrdinalAnalysis.Omega.HeightMap
-import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
-import OrdinalAnalysis.Ordinal.Veblen.OfNONote
+
+module
+
+public import OrdinalAnalysis.Gentzen.Climb
+public import OrdinalAnalysis.Gentzen.CodedVeblen
+public import OrdinalAnalysis.Omega.HeightMap
+public import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
+public import OrdinalAnalysis.Ordinal.Veblen.OfNONote
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 400000

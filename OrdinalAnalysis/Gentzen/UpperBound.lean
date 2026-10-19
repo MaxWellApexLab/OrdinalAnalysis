@@ -6,10 +6,15 @@
   standard code.  The quantification over notations is deliberately in Lean's
   metalanguage: there is no single PA proof asserting all of these instances.
 -/
-import OrdinalAnalysis.Gentzen.OmegaTower
-import OrdinalAnalysis.Gentzen.NotationBridge
-import OrdinalAnalysis.Gentzen.Order
-import OrdinalAnalysis.Gentzen.Cofinality
+
+module
+
+public import OrdinalAnalysis.Gentzen.OmegaTower
+public import OrdinalAnalysis.Gentzen.NotationBridge
+public import OrdinalAnalysis.Gentzen.Order
+public import OrdinalAnalysis.Gentzen.Cofinality
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -29,7 +34,7 @@ open OrdinalAnalysis.Gentzen.Cofinality
 noncomputable def notationTerm (a : NONote) : Semiterm LX ℕ 0 :=
   ((nonoteCode a : ℕ) : Semiterm LX ℕ 0)
 
-private def arithPrecAt {n : ℕ}
+def arithPrecAt {n : ℕ}
     (a b : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![a, b] ▹ Rewriting.emb precDef.val
 

@@ -26,9 +26,14 @@
   `N` itself (Foundation's `Language.Definable`); such a formula becomes an instance of the
   axiom schemes by numbering its finitely many free variables (`exists_nat_formula`).
 -/
-import OrdinalAnalysis.ID1.Theory
-import OrdinalAnalysis.ID1.Internal.Codes
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.ID1.Theory
+public import OrdinalAnalysis.ID1.Internal.Codes
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -33,10 +33,15 @@
     `idw_lower_bound_of`                     **the lower bound at `Ω₁`**, given `EmbedHyps` and the corollary
                                             (`idw_lower_bound`, `IDw/CollapseCorollaryW.lean`: no hypothesis)
 -/
-import OrdinalAnalysis.IDw.LowerBoundAux2
-import OrdinalAnalysis.IDw.Embed
-import OrdinalAnalysis.IDw.Transfer
-import OrdinalAnalysis.IDw.Collapsing.Basic
+
+module
+
+public import OrdinalAnalysis.IDw.LowerBoundAux2
+public import OrdinalAnalysis.IDw.Embed
+public import OrdinalAnalysis.IDw.Transfer
+public import OrdinalAnalysis.IDw.Collapsing.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

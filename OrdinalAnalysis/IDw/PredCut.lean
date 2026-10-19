@@ -26,8 +26,13 @@
   `k : ℕ`, `j : ℕ` (no `Fin n`); `noOmega_muBar` is `IDw`'s; `CollapseHyps A` from `positive`
   is `IDw/Collapsing/Hyps.lean`'s `collapseHyps` (this file does not import `Theorem.lean`).
 -/
-import OrdinalAnalysis.IDw.PredCutCases.Main
-import OrdinalAnalysis.IDw.Collapsing.Basic
+
+module
+
+public import OrdinalAnalysis.IDw.PredCutCases.Main
+public import OrdinalAnalysis.IDw.Collapsing.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

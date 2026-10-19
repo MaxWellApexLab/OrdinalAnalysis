@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\UpperAux.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.UpperAuxCodes
-import OrdinalAnalysis.Ordinal.ThetaV.Dom
+module
+
+public import OrdinalAnalysis.IDw.UpperAuxCodes
+public import OrdinalAnalysis.Ordinal.ThetaV.Dom
+
 /-
   The internal order of the multi-level ϑ-notation as a hypothesis: `InternalOrderFacts`.
 
@@ -27,6 +30,8 @@ import OrdinalAnalysis.Ordinal.ThetaV.Dom
   codes (`nf_cases`), exponent lists of normal codes (`sl_itoL`), and the two small order
   lemmas below `⟨β⟩` and below `Ω_{i+1} + 1` (`lt_single_cases`, `lt_Omega_succ_cases`).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

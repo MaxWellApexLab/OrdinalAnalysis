@@ -52,13 +52,18 @@
     `unTerm (numeral k) = numeral k` (`Gentzen.lMap_toLX_numeral`).  So both
     halves of `|ACA| = ε_{ε₀}` speak about one sentence.
 -/
-import OrdinalAnalysis.ACAOmega.SchemeAxioms₂
-import OrdinalAnalysis.ACAOmega.RankBound
-import OrdinalAnalysis.ACAOmega.Embed₂
-import OrdinalAnalysis.ACAOmega.Boundedness₂
-import OrdinalAnalysis.ACA.TI
-import OrdinalAnalysis.Ordinal.BelowDerivation
-import OrdinalAnalysis.Ordinal.NONoteSucc
+
+module
+
+public import OrdinalAnalysis.ACAOmega.SchemeAxioms₂
+public import OrdinalAnalysis.ACAOmega.RankBound
+public import OrdinalAnalysis.ACAOmega.Embed₂
+public import OrdinalAnalysis.ACAOmega.Boundedness₂
+public import OrdinalAnalysis.ACA.TI
+public import OrdinalAnalysis.Ordinal.BelowDerivation
+public import OrdinalAnalysis.Ordinal.NONoteSucc
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -57,9 +57,14 @@
     `TIupto₂_derivable_at`, `TIupto₂_derivable`, `TIupto₂_derivable_lt`
                                      **the new axiom, below `Γ₀`**
 -/
-import OrdinalAnalysis.ACAOmega.SubstX₂
-import OrdinalAnalysis.ACAOmega.OmegaTruth₂
-import OrdinalAnalysis.ACAOmega.Gamma0Order₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.SubstX₂
+public import OrdinalAnalysis.ACAOmega.OmegaTruth₂
+public import OrdinalAnalysis.ACAOmega.Gamma0Order₂
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 400000

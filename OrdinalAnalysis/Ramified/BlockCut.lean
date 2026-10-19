@@ -22,7 +22,12 @@
   `φ_ν`; see the boundedness and upper-bound files for the ordinals of the
   theories.
 -/
-import OrdinalAnalysis.Ramified.PredicativeCutGeneral
+
+module
+
+public import OrdinalAnalysis.Ramified.PredicativeCutGeneral
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -33,8 +33,13 @@
     and below `Ω`, so `ξ ∈ M`), hence `Ω ∈ W`, and every term above `Ω` is a sum of shorter
     terms, hence in `W`.
 -/
-import OrdinalAnalysis.Ordinal.Theta.Instance
-import Mathlib.SetTheory.Ordinal.Basic
+
+module
+
+public import OrdinalAnalysis.Ordinal.Theta.Instance
+public import Mathlib.SetTheory.Ordinal.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -12,7 +12,12 @@
   * normality and the domain condition pass to the members of `E_k` and of `G_k`
     (`isNF_of_iinE`, `isDom_of_iinE`, `isNF_of_iinG`, `isDom_of_iinG`).
 -/
-import OrdinalAnalysis.IDn.Internal.OrderT
+
+module
+
+public import OrdinalAnalysis.IDn.Internal.OrderT
+
+@[expose] public section
 
 set_option autoImplicit false
 

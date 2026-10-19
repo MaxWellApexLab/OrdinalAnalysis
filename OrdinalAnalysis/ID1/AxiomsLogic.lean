@@ -33,8 +33,13 @@
     `allClosure_derivable`                             the universal closure, by the ω-rule
     `IFreeL`, `paMinus_axiom`, `eq_axiom`, `relExtI_derivable`
 -/
-import OrdinalAnalysis.ID1.NumSubst
-import OrdinalAnalysis.ID1.Sound
+
+module
+
+public import OrdinalAnalysis.ID1.NumSubst
+public import OrdinalAnalysis.ID1.Sound
+
+@[expose] public section
 
 set_option autoImplicit false
 

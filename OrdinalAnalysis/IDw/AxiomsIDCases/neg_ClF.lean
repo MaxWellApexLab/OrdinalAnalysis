@@ -1,6 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsIDCases\neg_ClF.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

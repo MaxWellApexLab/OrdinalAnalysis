@@ -1,4 +1,7 @@
-import OrdinalAnalysis.IDw.TransferAux
+module
+
+public import OrdinalAnalysis.IDw.TransferAux
+
 /-
   The transfer lemmas of the uniform embedding of `IDw A` into `IDwDerivable`: they move between
   the full binary atom `Jlev ⊤` and the level-`k` atoms `I_k`, `Jlev k`.
@@ -33,6 +36,8 @@ import OrdinalAnalysis.IDw.TransferAux
     `Cong`, `cong_derivable`                     the monotone congruence lemma (Exercise 6.3)
     `OkFwd`, `OkBwd`, `transfer5_fwd`, `transfer5_bwd`
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

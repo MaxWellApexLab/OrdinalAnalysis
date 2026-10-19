@@ -16,7 +16,12 @@
   X-free arithmetic formulas transported into `LX`; the generic theorem keeps
   them as `LX` formulas only so that it does not commit to one representation.
 -/
-import OrdinalAnalysis.Gentzen.Jump
+
+module
+
+public import OrdinalAnalysis.Gentzen.Jump
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 
@@ -31,7 +36,7 @@ def iterAt (iterCode : Semiformula LX ℕ 4) {n : ℕ}
     (z b w k : Semiterm LX ℕ n) : Semiformula LX ℕ n :=
   Rew.subst ![z, b, w, k] ▹ iterCode
 
-private def shiftTwice {n : ℕ}
+def shiftTwice {n : ℕ}
     (φ : Semiformula LX ℕ n) : Semiformula LX ℕ n :=
   Rew.shift ▹ (Rew.shift ▹ φ)
 
@@ -41,7 +46,7 @@ The induction formula saying that every endpoint of a `k`-step iteration from
 the parameters `b` and `w` while preserving every free parameter of the graph
 and formula codes.
 -/
-private def iterBelowFormula (prec : Semiformula LX ℕ 2)
+def iterBelowFormula (prec : Semiformula LX ℕ 2)
     (iterCode : Semiformula LX ℕ 4) (φ : Semiformula LX ℕ 1) :
     Semiformula LX ℕ 1 :=
   ∀¹

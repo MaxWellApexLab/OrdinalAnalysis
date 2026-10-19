@@ -43,8 +43,13 @@
   `PredBound`, `Chain` and `cutElimination_chain` are restated over `Gamma0Note`
   rather than `NONote`; nothing about them changes.
 -/
-import OrdinalAnalysis.Ramified.Literals
-import OrdinalAnalysis.Ramified.ReductionProbe
+
+module
+
+public import OrdinalAnalysis.Ramified.Literals
+public import OrdinalAnalysis.Ramified.ReductionProbe
+
+@[expose] public section
 
 set_option autoImplicit false
 

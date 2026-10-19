@@ -35,7 +35,12 @@
   `tiUptoSegR b' a` (for `a < b ≤ b'`) is needed: the outer bound of `upper_M`'s
   conclusion was never tied to its internal machinery in the first place.
 -/
-import OrdinalAnalysis.Ramified.UpperBound
+
+module
+
+public import OrdinalAnalysis.Ramified.UpperBound
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSimpArgs false

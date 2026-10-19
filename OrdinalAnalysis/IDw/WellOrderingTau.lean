@@ -16,8 +16,13 @@
   * `ti_jump` (T3c): Gentzen's jump over `M = ClsW (fun _ => True)`;
   * `ti_tau`, `W_theta_tau`: `TI[M, τ_m]`, and `ϑ₀(τ_m) ∈ J(0, ·)` (`W_theta_of_TI'`).
 -/
-import OrdinalAnalysis.IDw.WellOrderingJump
-import OrdinalAnalysis.IDw.WellOrderingTI
+
+module
+
+public import OrdinalAnalysis.IDw.WellOrderingJump
+public import OrdinalAnalysis.IDw.WellOrderingTI
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

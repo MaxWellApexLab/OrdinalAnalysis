@@ -1,8 +1,12 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsIDCases\plugI_rel.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

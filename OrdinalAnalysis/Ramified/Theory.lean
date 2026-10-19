@@ -80,7 +80,12 @@
   `rank_evR_emb_lt_of_mem_RAlt`.  `RAlt ν` is a strict subset of
   `RA {μ | μ < ν}` (`RAlt_subset_RA`).
 -/
-import OrdinalAnalysis.Ramified.Guard
+
+module
+
+public import OrdinalAnalysis.Ramified.Guard
+
+@[expose] public section
 
 set_option autoImplicit false
 

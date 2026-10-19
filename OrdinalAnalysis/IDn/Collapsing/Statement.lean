@@ -61,7 +61,12 @@
   (`γ = 0`, `Θ = ∅`) and `collapse_zero_bound` (followed by boundedness at level `k`, the steps
   4–5 of the lower bound, design note §2.7).
 -/
-import OrdinalAnalysis.IDn.Collapsing.Basic
+
+module
+
+public import OrdinalAnalysis.IDn.Collapsing.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

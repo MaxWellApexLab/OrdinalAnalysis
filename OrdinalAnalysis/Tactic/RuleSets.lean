@@ -11,8 +11,13 @@
   rules to a set (`Dom.lean`, `Order.lean`) and by `Test.lean`, which calls the tactics built
   from them.
 -/
-import Aesop
-import Mathlib.Tactic.Attr.Register
+
+module
+
+public import Aesop
+public import Mathlib.Tactic.Attr.Register
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -33,7 +33,12 @@
   `Ordinal.derivFamily_add_one` and `Ordinal.lt_nfpFamily_iff`; it is a general fact about
   `Ordinal.veblen` and belongs next to `Ordinal.veblen_of_ne_zero` in mathlib.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.VeblenCover
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenCover
+
+@[expose] public section
 
 set_option autoImplicit false
 

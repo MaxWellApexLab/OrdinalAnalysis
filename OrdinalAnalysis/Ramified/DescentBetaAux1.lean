@@ -9,7 +9,12 @@
     already the inverted sequent; every other rule is rebuilt around the
     inverted premises.
 -/
-import OrdinalAnalysis.Ramified.InfTools
+
+module
+
+public import OrdinalAnalysis.Ramified.InfTools
+
+@[expose] public section
 
 set_option autoImplicit false
 

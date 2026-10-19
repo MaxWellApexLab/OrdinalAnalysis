@@ -8,8 +8,13 @@
   rule.  The natural sum is essential — ordinary ordinal addition is not
   commutative, so it would let one premise of a cut absorb the other.
 -/
-import OrdinalAnalysis.Ordinal.NaturalSum
-import OrdinalAnalysis.Proof.CutRank
+
+module
+
+public import OrdinalAnalysis.Ordinal.NaturalSum
+public import OrdinalAnalysis.Proof.CutRank
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

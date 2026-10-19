@@ -8,8 +8,13 @@
   `ti_M_OmegaW`: the direction `M ∩ Ω_ω ⊆ Q` uses `W_of_E`, which uses it.  `ti_Q` needs only
   `W_mono`.
 -/
-import OrdinalAnalysis.IDw.WellOrderingW
-import OrdinalAnalysis.IDw.Lift
+
+module
+
+public import OrdinalAnalysis.IDw.WellOrderingW
+public import OrdinalAnalysis.IDw.Lift
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

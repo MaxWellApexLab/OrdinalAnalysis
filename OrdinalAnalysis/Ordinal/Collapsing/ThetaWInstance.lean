@@ -24,10 +24,15 @@
   from `ThetaW/Hull.lean`'s own dependent `thetaD k a hdom`, which lives in a different,
   untouched namespace and is never opened here) are still defined fresh, exactly as before.
 -/
-import OrdinalAnalysis.Ordinal.Collapsing.Interface
-import OrdinalAnalysis.Ordinal.ThetaW.Instance
-import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
-import OrdinalAnalysis.Ordinal.ThetaW.HullDom
+
+module
+
+public import OrdinalAnalysis.Ordinal.Collapsing.Interface
+public import OrdinalAnalysis.Ordinal.ThetaW.Instance
+public import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
+public import OrdinalAnalysis.Ordinal.ThetaW.HullDom
+
+@[expose] public section
 
 set_option autoImplicit false
 

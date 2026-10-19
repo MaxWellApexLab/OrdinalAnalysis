@@ -27,7 +27,12 @@
                                      orderFormulas (Fin n) a`, for every `a` at which the
                                      monotonicity implication is provable
 -/
-import OrdinalAnalysis.IDn.LowerBound
+
+module
+
+public import OrdinalAnalysis.IDn.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

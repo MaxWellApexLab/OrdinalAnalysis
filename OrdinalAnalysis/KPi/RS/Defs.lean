@@ -1,6 +1,8 @@
-import Mathlib.Data.Fin.VecNotation
-import Mathlib.SetTheory.Ordinal.Arithmetic
-import Mathlib.SetTheory.Cardinal.Regular
+module
+
+public import Mathlib.Data.Fin.VecNotation
+public import Mathlib.SetTheory.Ordinal.Arithmetic
+public import Mathlib.SetTheory.Cardinal.Regular
 
 /-!
 # The RS calculus of Buchholz 1992 (B92), part 1: terms, sentences, rank, junctor
@@ -20,6 +22,8 @@ B92 = W. Buchholz, "A simplified version of local predicativity" (1992), Section
 All ordinals are `Ordinal.{1}`, so the syntactic types live in `Type 2`.  The language `L_Ad` itself
 (Foundation formulas) is `OrdinalAnalysis.KPi.LAd`; the RS calculus works with its own `D0`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -20,10 +20,15 @@
     `Toolkit.lean`'s `specSets` and `Translate.lean`'s `subst₁_toSOAtB`.  This is
     the whole point of `toSOAtB`'s bound-set-slot count.
 -/
-import OrdinalAnalysis.ACA.Combinators
-import OrdinalAnalysis.ACA.Congruence
-import OrdinalAnalysis.ACA.LiftInduction
-import OrdinalAnalysis.ACA.Translate
+
+module
+
+public import OrdinalAnalysis.ACA.Combinators
+public import OrdinalAnalysis.ACA.Congruence
+public import OrdinalAnalysis.ACA.LiftInduction
+public import OrdinalAnalysis.ACA.Translate
+
+@[expose] public section
 
 set_option autoImplicit false
 

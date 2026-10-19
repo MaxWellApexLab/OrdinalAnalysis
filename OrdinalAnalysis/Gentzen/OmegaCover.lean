@@ -5,7 +5,12 @@
   bounded order induction on the common-prefix decomposition of Cantor normal
   forms; no external ordinal arithmetic is imported into the arithmetization.
 -/
-import OrdinalAnalysis.Gentzen.JumpArithmetic
+
+module
+
+public import OrdinalAnalysis.Gentzen.JumpArithmetic
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -370,19 +375,19 @@ lemma safeIter_omegaBlock_succ (b d k : V) (hb : isNF b) (hd : isNF d) :
 
 /-! ### Pure-arithmetic omega-cover statement -/
 
-private def arithAddAt {n : ℕ}
+def arithAddAt {n : ℕ}
     (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, x, y] ▹ Rewriting.emb safeIaddDef.val
 
-private def arithIterAt {n : ℕ}
+def arithIterAt {n : ℕ}
     (z b w k : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, b, w, k] ▹ Rewriting.emb safeIterDef.val
 
-private def arithPrecAt {n : ℕ}
+def arithPrecAt {n : ℕ}
     (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb precDef.val
 
-private def arithOmegaPowAt {n : ℕ}
+def arithOmegaPowAt {n : ℕ}
     (z a : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, a] ▹ Rewriting.emb omegaPowDef.val
 

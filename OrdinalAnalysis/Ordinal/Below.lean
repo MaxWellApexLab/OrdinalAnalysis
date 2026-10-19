@@ -11,7 +11,12 @@
   the operations of the class.  Every ε-number is such a bound, and so is
   every `φ_a(0)` and `Γ₀`; this file is the one construction they all use.
 -/
-import OrdinalAnalysis.Ordinal.Notation
+
+module
+
+public import OrdinalAnalysis.Ordinal.Notation
+
+@[expose] public section
 
 set_option autoImplicit false
 

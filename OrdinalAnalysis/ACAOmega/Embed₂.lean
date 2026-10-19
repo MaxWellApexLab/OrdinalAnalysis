@@ -63,8 +63,13 @@
   every axiom) to `NumSubst₂.NumClosed₂`, which is no likely a one-line lemma
   and is out of scope here; see the checkpoint notes.
 -/
-import OrdinalAnalysis.ACAOmega.CutRank₂
-import OrdinalAnalysis.ACAOmega.NumSubst₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.CutRank₂
+public import OrdinalAnalysis.ACAOmega.NumSubst₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

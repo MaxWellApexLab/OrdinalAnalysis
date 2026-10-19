@@ -32,10 +32,15 @@
   syntax by `Translate.lean`'s `toSOAtB`, exactly as the rest of `ACA/` treats
   every use of the jump.
 -/
-import OrdinalAnalysis.ACA.Toolkit
-import OrdinalAnalysis.ACA.Translate
-import OrdinalAnalysis.Gentzen.CodedVeblenJump
-import OrdinalAnalysis.Gentzen.CodedVeblen
+
+module
+
+public import OrdinalAnalysis.ACA.Toolkit
+public import OrdinalAnalysis.ACA.Translate
+public import OrdinalAnalysis.Gentzen.CodedVeblenJump
+public import OrdinalAnalysis.Gentzen.CodedVeblen
+
+@[expose] public section
 
 set_option autoImplicit false
 

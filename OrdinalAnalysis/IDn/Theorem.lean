@@ -14,8 +14,13 @@
     `wForms_levelBounded`), so `IDn n (WForms F n)` and `IDlt (WFormsOmega F)` are consistent
     (`Sound.IDn_consistent`, `Union.IDlt_consistent`), for any formulas `F`.
 -/
-import OrdinalAnalysis.IDn.UpperBound
-import OrdinalAnalysis.IDn.Union
+
+module
+
+public import OrdinalAnalysis.IDn.UpperBound
+public import OrdinalAnalysis.IDn.Union
+
+@[expose] public section
 
 set_option autoImplicit false
 

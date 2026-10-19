@@ -42,7 +42,12 @@
   give this for free — a set atom *is* a literal — and it is the exact analogue
   of `StandardLX.lean`'s `trueArithLits_xfree`.
 -/
-import OrdinalAnalysis.Ramified.Calculus
+
+module
+
+public import OrdinalAnalysis.Ramified.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

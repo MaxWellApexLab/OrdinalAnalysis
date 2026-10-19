@@ -17,8 +17,13 @@
   route, while not ruled out mathematically, would need a lifting of `paLX`'s
   induction axioms into `ACA₀` through arithmetical comprehension and set induction).
 -/
-import OrdinalAnalysis.ACA.OmegaJump
-import OrdinalAnalysis.ACA.Lift
+
+module
+
+public import OrdinalAnalysis.ACA.OmegaJump
+public import OrdinalAnalysis.ACA.Lift
+
+@[expose] public section
 
 set_option autoImplicit false
 

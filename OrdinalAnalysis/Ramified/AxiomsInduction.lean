@@ -58,7 +58,12 @@
                                      a numeral assignment passes through `succInd`
     `induction_axiom_derivable`     **Step 3/4** — every induction axiom of `RA Λ`
 -/
-import OrdinalAnalysis.Ramified.AxiomsLogic
+
+module
+
+public import OrdinalAnalysis.Ramified.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 

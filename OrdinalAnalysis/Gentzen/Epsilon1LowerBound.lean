@@ -29,11 +29,16 @@
   "no derivation of the empty sequent" lemmas of that file are stated there
   for `NONote` heights, so they are restated here for an arbitrary system.
 -/
-import OrdinalAnalysis.Gentzen.CutAxioms
-import OrdinalAnalysis.Ordinal.BelowDerivation
-import OrdinalAnalysis.Gentzen.Epsilon1Axiom
-import OrdinalAnalysis.Gentzen.Epsilon1Order
-import OrdinalAnalysis.Gentzen.LowerBound
+
+module
+
+public import OrdinalAnalysis.Gentzen.CutAxioms
+public import OrdinalAnalysis.Ordinal.BelowDerivation
+public import OrdinalAnalysis.Gentzen.Epsilon1Axiom
+public import OrdinalAnalysis.Gentzen.Epsilon1Order
+public import OrdinalAnalysis.Gentzen.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -30,12 +30,17 @@
 
   Decoding treats a zero coefficient as garbage and returns `0`.
 -/
-import Mathlib.SetTheory.Ordinal.Notation
-import Mathlib.Data.Nat.Pairing
-import Mathlib.Logic.Encodable.Basic
-import Mathlib.Tactic.FinCases
-import OrdinalAnalysis.Gentzen.NotationBridge
-import OrdinalAnalysis.Gentzen.Setup
+
+module
+
+public import Mathlib.SetTheory.Ordinal.Notation
+public import Mathlib.Data.Nat.Pairing
+public import Mathlib.Logic.Encodable.Basic
+public import Mathlib.Tactic.FinCases
+public import OrdinalAnalysis.Gentzen.NotationBridge
+public import OrdinalAnalysis.Gentzen.Setup
+
+@[expose] public section
 
 set_option autoImplicit false
 

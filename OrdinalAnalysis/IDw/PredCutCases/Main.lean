@@ -1,19 +1,24 @@
 /- Source: OrdinalAnalysis\IDn\PredCutCases\Main.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.PredCutCases.CaseLiteral
-import OrdinalAnalysis.IDw.PredCutCases.CaseVerum
-import OrdinalAnalysis.IDw.PredCutCases.CaseIdX
-import OrdinalAnalysis.IDw.PredCutCases.CaseAnd
-import OrdinalAnalysis.IDw.PredCutCases.CaseOrL
-import OrdinalAnalysis.IDw.PredCutCases.CaseOrR
-import OrdinalAnalysis.IDw.PredCutCases.CaseAll
-import OrdinalAnalysis.IDw.PredCutCases.CaseExs
-import OrdinalAnalysis.IDw.PredCutCases.CaseStage
-import OrdinalAnalysis.IDw.PredCutCases.CaseNstage
-import OrdinalAnalysis.IDw.PredCutCases.CaseFix
-import OrdinalAnalysis.IDw.PredCutCases.CaseJlev
-import OrdinalAnalysis.IDw.PredCutCases.CaseNJlev
-import OrdinalAnalysis.IDw.PredCutCases.CaseCut
+module
+
+public import OrdinalAnalysis.IDw.PredCutCases.CaseLiteral
+public import OrdinalAnalysis.IDw.PredCutCases.CaseVerum
+public import OrdinalAnalysis.IDw.PredCutCases.CaseIdX
+public import OrdinalAnalysis.IDw.PredCutCases.CaseAnd
+public import OrdinalAnalysis.IDw.PredCutCases.CaseOrL
+public import OrdinalAnalysis.IDw.PredCutCases.CaseOrR
+public import OrdinalAnalysis.IDw.PredCutCases.CaseAll
+public import OrdinalAnalysis.IDw.PredCutCases.CaseExs
+public import OrdinalAnalysis.IDw.PredCutCases.CaseStage
+public import OrdinalAnalysis.IDw.PredCutCases.CaseNstage
+public import OrdinalAnalysis.IDw.PredCutCases.CaseFix
+public import OrdinalAnalysis.IDw.PredCutCases.CaseJlev
+public import OrdinalAnalysis.IDw.PredCutCases.CaseNJlev
+public import OrdinalAnalysis.IDw.PredCutCases.CaseCut
+
+@[expose] public section
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis

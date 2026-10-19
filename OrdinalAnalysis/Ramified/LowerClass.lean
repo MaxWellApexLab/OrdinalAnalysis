@@ -46,7 +46,12 @@
   `rw`/`simp`, so every such fact is proved by a `congrArg`/`show` argument
   instead.
 -/
-import OrdinalAnalysis.Ramified.CodedOrderR
+
+module
+
+public import OrdinalAnalysis.Ramified.CodedOrderR
+
+@[expose] public section
 
 set_option autoImplicit false
 

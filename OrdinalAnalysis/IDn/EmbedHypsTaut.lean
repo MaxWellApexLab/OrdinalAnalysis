@@ -18,8 +18,13 @@
 
     `embedHyps_taut`   the bridge, `IDn.AxiomsLogic.taut` specialised to the field's exact shape
 -/
-import OrdinalAnalysis.IDn.Embed
-import OrdinalAnalysis.IDn.AxiomsLogic
+
+module
+
+public import OrdinalAnalysis.IDn.Embed
+public import OrdinalAnalysis.IDn.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 

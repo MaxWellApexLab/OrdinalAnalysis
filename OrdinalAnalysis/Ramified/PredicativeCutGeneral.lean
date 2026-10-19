@@ -51,8 +51,13 @@
     at level `e` (`descend`), at a cost `φ_e^m(α)` that `φ_ξ(β)` absorbs because
     `φ_ξ(β)` is a fixed point of `φ_e`.
 -/
-import OrdinalAnalysis.Ramified.PredicativeCut
-import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+
+module
+
+public import OrdinalAnalysis.Ramified.PredicativeCut
+public import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+
+@[expose] public section
 
 set_option autoImplicit false
 

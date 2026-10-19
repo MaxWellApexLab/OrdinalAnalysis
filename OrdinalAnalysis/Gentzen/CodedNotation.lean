@@ -4,8 +4,13 @@
   language and only then transported to LX, so the fresh predicate cannot
   occur in the notation layer.
 -/
-import OrdinalAnalysis.Gentzen.InternalONote
-import OrdinalAnalysis.Gentzen.JumpProgressive
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalONote
+public import OrdinalAnalysis.Gentzen.JumpProgressive
+
+@[expose] public section
 
 set_option autoImplicit false
 

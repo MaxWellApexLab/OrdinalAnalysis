@@ -29,10 +29,15 @@
   `α = ϑ₀ 0 ≺ β = Ω₁ ≺ Ω₂` one has `E₁(α) = {ϑ₀ 0}` and `E₁(β) = ∅`); they lie below `Ω_k`,
   hence below every `ϑ_k`-term, so they never matter in the clause at level `k`.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Basic
-import Mathlib.Data.List.Lex
-import Mathlib.Order.Basic
-import Mathlib.Order.BoundedOrder.Basic
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Basic
+public import Mathlib.Data.List.Lex
+public import Mathlib.Order.Basic
+public import Mathlib.Order.BoundedOrder.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

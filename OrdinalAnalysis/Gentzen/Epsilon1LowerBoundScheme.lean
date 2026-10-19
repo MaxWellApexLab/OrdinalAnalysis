@@ -15,8 +15,13 @@
   `Epsilon1Scheme.scheme_axiom_derivable` supplies that for the new axioms, so
   the proof below is `Epsilon1LowerBound`'s with one case of `hax` replaced.
 -/
-import OrdinalAnalysis.Gentzen.Epsilon1LowerBound
-import OrdinalAnalysis.Gentzen.Epsilon1Scheme
+
+module
+
+public import OrdinalAnalysis.Gentzen.Epsilon1LowerBound
+public import OrdinalAnalysis.Gentzen.Epsilon1Scheme
+
+@[expose] public section
 
 set_option autoImplicit false
 

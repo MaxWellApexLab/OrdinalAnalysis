@@ -27,7 +27,12 @@
     `omegaMul_nadd`                       `ω · (α ⊕ β) = ω · α ⊕ ω · β`
     `induction_axiom`                     **every induction axiom**
 -/
-import OrdinalAnalysis.ID1.AxiomsLogic
+
+module
+
+public import OrdinalAnalysis.ID1.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 

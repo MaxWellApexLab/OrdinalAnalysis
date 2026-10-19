@@ -48,8 +48,13 @@
     `omega_zero_le`                                       `Ω₁ ⪯ Ω_{k+1}` for every level `k`
     `sound`                                                **the truth lemma**
 -/
-import OrdinalAnalysis.IDn.Calculus
-import OrdinalAnalysis.IDn.Sound
+
+module
+
+public import OrdinalAnalysis.IDn.Calculus
+public import OrdinalAnalysis.IDn.Sound
+
+@[expose] public section
 
 set_option autoImplicit false
 

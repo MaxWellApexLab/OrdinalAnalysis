@@ -10,7 +10,12 @@
 
   and nothing weaker will do.
 -/
-import OrdinalAnalysis.Ordinal.NaturalSum
+
+module
+
+public import OrdinalAnalysis.Ordinal.NaturalSum
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

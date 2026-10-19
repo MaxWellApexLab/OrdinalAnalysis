@@ -16,7 +16,12 @@
 
   The second part provides `0/1`-valued boolean connectives with `Σ₀` graphs.
 -/
-import OrdinalAnalysis.Gentzen.InternalONote
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalONote
+
+@[expose] public section
 
 set_option autoImplicit false
 

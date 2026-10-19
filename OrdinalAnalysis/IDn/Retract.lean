@@ -46,8 +46,13 @@
     `idseq_lMap_subset`, `retraction_step`              the retraction, assembled
     `idseq_to_idn`                                      **`IDseqToIDn orderFormulas (Omega 0)`**
 -/
-import OrdinalAnalysis.IDn.Theorem2
-import OrdinalAnalysis.IDn.UpperFormsFacts
+
+module
+
+public import OrdinalAnalysis.IDn.Theorem2
+public import OrdinalAnalysis.IDn.UpperFormsFacts
+
+@[expose] public section
 
 set_option autoImplicit false
 

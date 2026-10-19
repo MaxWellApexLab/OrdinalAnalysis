@@ -10,7 +10,12 @@
   `cutRank d` is `0` when `d` uses no cut, and otherwise one more than the
   complexity of the most complex cut formula in `d`.
 -/
-import Foundation.FirstOrder.Basic.CutFree
+
+module
+
+public import Foundation.FirstOrder.Basic.CutFree
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

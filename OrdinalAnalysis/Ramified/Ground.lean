@@ -12,7 +12,12 @@
 
   `Ramified/Evaluate.lean` builds the closed-term evaluator on top of this file.
 -/
-import OrdinalAnalysis.Ramified.Language
+
+module
+
+public import OrdinalAnalysis.Ramified.Language
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

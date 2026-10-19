@@ -34,9 +34,14 @@
   `NONote`.  Every ordinal step it takes — `lt_succ`, `lt_succ_of_le`,
   `le_nadd_left`, `le_nadd_right` — is a lemma of the class.
 -/
-import OrdinalAnalysis.Proof.Bridge
-import OrdinalAnalysis.Gentzen.EvInst
-import OrdinalAnalysis.Gentzen.NumSubst
+
+module
+
+public import OrdinalAnalysis.Proof.Bridge
+public import OrdinalAnalysis.Gentzen.EvInst
+public import OrdinalAnalysis.Gentzen.NumSubst
+
+@[expose] public section
 
 set_option autoImplicit false
 

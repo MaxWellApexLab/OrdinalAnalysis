@@ -34,7 +34,12 @@
   `∃²`) and `Z` at slot `1` (bound by the outer `∀²`).  The truth of the axiom in the
   full ω-model is `ACA/OmegaJumpSound.lean`.
 -/
-import OrdinalAnalysis.ACA.OmegaJumpDepth
+
+module
+
+public import OrdinalAnalysis.ACA.OmegaJumpDepth
+
+@[expose] public section
 
 set_option autoImplicit false
 

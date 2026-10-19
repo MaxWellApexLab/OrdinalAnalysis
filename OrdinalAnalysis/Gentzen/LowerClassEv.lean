@@ -41,9 +41,14 @@
     *selectively*: a wholesale `open` would make the bare name `numLX`
     ambiguous.
 -/
-import OrdinalAnalysis.Gentzen.LowerClass
-import OrdinalAnalysis.Gentzen.EvInst
-import OrdinalAnalysis.Gentzen.PrecStandard
+
+module
+
+public import OrdinalAnalysis.Gentzen.LowerClass
+public import OrdinalAnalysis.Gentzen.EvInst
+public import OrdinalAnalysis.Gentzen.PrecStandard
+
+@[expose] public section
 
 set_option autoImplicit false
 

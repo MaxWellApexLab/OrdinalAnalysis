@@ -43,8 +43,13 @@
   `φ_ω(0)` and the rest of the family are the same theorem at another `a`: all
   `vebSeg_lower_bound` asks of `a` is `1 < a`.
 -/
-import OrdinalAnalysis.ACAOmega.Gamma0Theorem
-import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Gamma0Theorem
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+@[expose] public section
 
 set_option autoImplicit false
 

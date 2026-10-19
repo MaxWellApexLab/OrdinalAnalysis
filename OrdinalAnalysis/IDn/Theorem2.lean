@@ -40,9 +40,14 @@
     `IDseqToIDn`                         the one further open link `idlt_theorem` needs
     `idlt_theorem`                       both halves, for `IDlt`
 -/
-import OrdinalAnalysis.IDn.LowerLt
-import OrdinalAnalysis.IDn.UpperFinal
-import OrdinalAnalysis.IDn.Union
+
+module
+
+public import OrdinalAnalysis.IDn.LowerLt
+public import OrdinalAnalysis.IDn.UpperFinal
+public import OrdinalAnalysis.IDn.Union
+
+@[expose] public section
 
 set_option autoImplicit false
 

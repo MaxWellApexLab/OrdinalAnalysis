@@ -22,9 +22,14 @@
      fed by `OrderT.lean`'s `isTerm_of_isNF` (a code satisfying `isNF` is in particular a code
      satisfying `isTerm`, so `isTerm_surj` applies to it).
 -/
-import OrdinalAnalysis.IDn.InternalFacts
-import OrdinalAnalysis.IDn.Internal.OrderT
-import OrdinalAnalysis.IDn.Internal.Standard
+
+module
+
+public import OrdinalAnalysis.IDn.InternalFacts
+public import OrdinalAnalysis.IDn.Internal.OrderT
+public import OrdinalAnalysis.IDn.Internal.Standard
+
+@[expose] public section
 
 set_option autoImplicit false
 

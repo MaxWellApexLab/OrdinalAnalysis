@@ -1,6 +1,8 @@
-import OrdinalAnalysis.IDn.EmbedHypsAll
-import OrdinalAnalysis.IDn.AxiomsIDCases.indBody_inst
-import OrdinalAnalysis.IDn.Retract
+module
+
+public import OrdinalAnalysis.IDn.EmbedHypsAll
+public import OrdinalAnalysis.IDn.AxiomsIDCases.indBody_inst
+public import OrdinalAnalysis.IDn.Retract
 
 /-!
 # The ordinal analysis of `ID_n`, with no hypotheses
@@ -10,6 +12,8 @@ The embedding hypotheses of `IDn/Embed.lean` are all discharged: the last field,
 well-ordering forms are positive and level-bounded, so the two-sided theorem at
 `c_n = ϑ₀(ϑ_n 0)` holds outright.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.Ord.Lemma45
+module
+
+public import OrdinalAnalysis.KPi.Ord.Lemma45
 
 /-!
 # Buchholz 1992, Def 3.5 / 4.3 (operators `H_γ`), Lemma 4.6 and Lemma 4.7 ((A1)-(A4))
@@ -10,6 +12,8 @@ abstracted to `K`.
 * `Hop_niceOp` (4.6a), `Hop_veblen` (4.6b), `Hop_psi` (4.6c), `Hop_Om` (4.6d), `Hop_mono` (4.6e);
 * `Ombar`, `Kbar`, `AA` (`𝒜(Θ; γ, κ, μ)`), and `A1`-`A4` (Lemma 4.7).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -12,9 +12,14 @@
   `LowerClass`/`LowerClassEv`/`Boundedness`/`LowerBound` — generic over a coded ordering since
   the `coded-order` merge — can be run on the Veblen notations without further syntax work.
 -/
-import OrdinalAnalysis.Gentzen.VNoteBridge
-import OrdinalAnalysis.Gentzen.CodedOrder
-import OrdinalAnalysis.Gentzen.OmegaTruth
+
+module
+
+public import OrdinalAnalysis.Gentzen.VNoteBridge
+public import OrdinalAnalysis.Gentzen.CodedOrder
+public import OrdinalAnalysis.Gentzen.OmegaTruth
+
+@[expose] public section
 
 set_option autoImplicit false
 

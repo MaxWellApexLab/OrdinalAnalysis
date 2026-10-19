@@ -70,8 +70,13 @@
     `capAt`                                             `φ ↦ φ^β` at level `k`, identity on `Jlev`
     `sigmaW_unfoldW_of_ne_top`, `sigmaW_unfoldW_top`     the `L`-stage `sigmaW_unfoldW` probe (§8.3)
 -/
-import OrdinalAnalysis.IDw.Theory
-import OrdinalAnalysis.Ordinal.ThetaV.Dom
+
+module
+
+public import OrdinalAnalysis.IDw.Theory
+public import OrdinalAnalysis.Ordinal.ThetaV.Dom
+
+@[expose] public section
 
 set_option autoImplicit false
 

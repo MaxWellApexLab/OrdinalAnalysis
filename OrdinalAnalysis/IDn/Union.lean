@@ -41,7 +41,12 @@
     `IDlt_consistent`                                       **consistency**
     `IDseq_subset_IDlt`, `provable_IDlt_iff`                **the union/expansion theorem**
 -/
-import OrdinalAnalysis.IDn.Sound
+
+module
+
+public import OrdinalAnalysis.IDn.Sound
+
+@[expose] public section
 
 set_option autoImplicit false
 

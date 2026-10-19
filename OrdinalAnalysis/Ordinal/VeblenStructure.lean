@@ -25,8 +25,13 @@
   merely a bound the calculus stays under (the pitfall notes: `a < ω ^ a` is false at fixed
   points, and `φ` is not strictly monotone in its first argument).
 -/
-import OrdinalAnalysis.Ordinal.Notation
-import OrdinalAnalysis.ACAOmega.SecondCut
+
+module
+
+public import OrdinalAnalysis.Ordinal.Notation
+public import OrdinalAnalysis.ACAOmega.SecondCut
+
+@[expose] public section
 
 set_option autoImplicit false
 

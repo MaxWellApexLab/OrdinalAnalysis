@@ -19,7 +19,12 @@
   the collapses of level `> m` in `α` are below `α`, as in Buchholz's normal form for `D_v b`
   (all arguments of collapses of level `≥ v` inside `b` are below `b`).
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Order
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Order
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -26,8 +26,13 @@
   ("`evApp` sees a rewriting only through `evSub`"), because the two composites
   are equal only up to one extra `evSub … #0`.
 -/
-import OrdinalAnalysis.ACAOmega.Evaluate
-import OrdinalAnalysis.ACAOmega.Reduction
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Evaluate
+public import OrdinalAnalysis.ACAOmega.Reduction
+
+@[expose] public section
 
 set_option autoImplicit false
 

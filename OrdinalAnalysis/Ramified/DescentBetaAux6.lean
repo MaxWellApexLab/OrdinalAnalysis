@@ -22,7 +22,12 @@
     `φ_a(γ)`, and `Acc_L(u)` is introduced by `accIntro`, whose premises are the
     instances.  Then Step 2 (`step2`) and `Veb(φ_a(c), a, c)`.
 -/
-import OrdinalAnalysis.Ramified.DescentBetaAux5
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBetaAux5
+
+@[expose] public section
 
 set_option autoImplicit false
 

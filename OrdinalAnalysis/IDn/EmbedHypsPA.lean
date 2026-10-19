@@ -40,8 +40,13 @@ every other assembled `IDn` result (`IDn/LowerBoundAux2.lean`'s `lvl0`, `IDn/The
 witness `k : Fin n` (equivalently `0 < n`) supplied at the point `EmbedHyps A` is *assembled*;
 `embedHyps_induction_of_pa` below takes it as an explicit parameter for that reason, one level
 before the field itself, rather than leaving it as a silent `sorry`-shaped hole. -/
-import OrdinalAnalysis.IDn.AxiomsPA
-import OrdinalAnalysis.IDn.Embed
+
+module
+
+public import OrdinalAnalysis.IDn.AxiomsPA
+public import OrdinalAnalysis.IDn.Embed
+
+@[expose] public section
 
 set_option autoImplicit false
 

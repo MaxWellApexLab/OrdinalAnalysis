@@ -43,7 +43,12 @@
     `Ad3Base`                     the instances `ψ` over which `Ad.3` ranges
     `KPi`                         the theory (one constructor per axiom / schema)
 -/
-import OrdinalAnalysis.KPi.Delta0
+
+module
+
+public import OrdinalAnalysis.KPi.Delta0
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.dupNamespace false

@@ -13,8 +13,13 @@
   The last two are packaged as coded orderings (`Gentzen.CodedOrder`) on `ThetaNote` and on
   the notations below `Ω`, with the formulas transported into the language `LX`.
 -/
-import OrdinalAnalysis.ID1.Internal.Codes
-import OrdinalAnalysis.Gentzen.CodedOrder
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.Codes
+public import OrdinalAnalysis.Gentzen.CodedOrder
+
+@[expose] public section
 
 set_option autoImplicit false
 

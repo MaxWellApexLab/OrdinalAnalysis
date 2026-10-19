@@ -16,8 +16,13 @@
   `gamma0Order` already has, plus `a.2 : a.1 < ε₁` for the elements of the
   segment.
 -/
-import OrdinalAnalysis.Gentzen.CodedVeblen
-import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
+
+module
+
+public import OrdinalAnalysis.Gentzen.CodedVeblen
+public import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -38,9 +38,14 @@
   `aesop`'s rule set does, so it is not included in `dom_tac`'s search — a user wanting to try
   it directly still can (`by grind [ThetaWTerm.dom_theta_iff, ...]`).
 -/
-import OrdinalAnalysis.Tactic.RuleSets
-import OrdinalAnalysis.Ordinal.ThetaW.Veblen
-import OrdinalAnalysis.Ordinal.ThetaW.Instance
+
+module
+
+public import OrdinalAnalysis.Tactic.RuleSets
+public import OrdinalAnalysis.Ordinal.ThetaW.Veblen
+public import OrdinalAnalysis.Ordinal.ThetaW.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

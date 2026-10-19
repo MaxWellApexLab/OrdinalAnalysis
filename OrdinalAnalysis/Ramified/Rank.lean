@@ -56,8 +56,13 @@
   is at most the largest atom rank plus the complexity), and its two
   consequences `rank_le_blkTop_lvlOf_nadd` and `rank_body_lt_memRank`.
 -/
-import OrdinalAnalysis.Ramified.Code
-import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+
+module
+
+public import OrdinalAnalysis.Ramified.Code
+public import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+
+@[expose] public section
 
 set_option autoImplicit false
 

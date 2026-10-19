@@ -31,7 +31,12 @@
   As in `Ramified/TowerR.lean`, everything is proved in a model of `RAlt ν` with
   true equality and turned into provability by `provable_of_eqModels`.
 -/
-import OrdinalAnalysis.Ramified.TowerR
+
+module
+
+public import OrdinalAnalysis.Ramified.TowerR
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSimpArgs false

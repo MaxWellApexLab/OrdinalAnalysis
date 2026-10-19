@@ -11,7 +11,12 @@
     from below, and `ω^P = P` (`iomegaPow_of_prin`);
   * normal forms are preserved by `ω^·`; `0` is neutral for both sums.
 -/
-import OrdinalAnalysis.ID1.Internal.Arith
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.Arith
+
+@[expose] public section
 
 set_option autoImplicit false
 

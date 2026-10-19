@@ -13,7 +13,12 @@
   (`accZeroD`, vacuously: nothing lies below `0`) and `Acc_μ(e) → Acc_μ(e ⊕ 1)`
   (`succD`: below `e ⊕ 1` lie `e` and what lies below `e`), both by `accIntro`.
 -/
-import OrdinalAnalysis.Ramified.DescentBetaAux4
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBetaAux4
+
+@[expose] public section
 
 set_option autoImplicit false
 

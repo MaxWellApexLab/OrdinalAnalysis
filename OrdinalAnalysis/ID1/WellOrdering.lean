@@ -37,9 +37,14 @@
     `ξ ∈ M` with `ξ ≺ α`, then `ϑα ∈ W` (`W_theta`), by induction on the codes below `ϑα`.
   * Hence `ϑ(τ_n) ∈ W` for every standard `n` (`W_theta_tau`).
 -/
-import OrdinalAnalysis.ID1.Lift
-import OrdinalAnalysis.ID1.Internal.JumpList
-import OrdinalAnalysis.ID1.Internal.ArithE
+
+module
+
+public import OrdinalAnalysis.ID1.Lift
+public import OrdinalAnalysis.ID1.Internal.JumpList
+public import OrdinalAnalysis.ID1.Internal.ArithE
+
+@[expose] public section
 
 set_option autoImplicit false
 

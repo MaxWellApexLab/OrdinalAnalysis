@@ -1,6 +1,10 @@
-import OrdinalAnalysis.Proof.Substitution
-import OrdinalAnalysis.Proof.Inversion
-import OrdinalAnalysis.Proof.InversionAll
+module
+
+public import OrdinalAnalysis.Proof.Substitution
+public import OrdinalAnalysis.Proof.Inversion
+public import OrdinalAnalysis.Proof.InversionAll
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 open LO LO.FirstOrder LO.FirstOrder.Derivation

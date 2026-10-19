@@ -27,8 +27,13 @@
     `negHeadStage`, `nstageAt_inj`, `stageAt_inj`                   head-symbol lemmas
     `ThetaWNoteD.NiceS.rk_mem`, `rk_mem_params`                     Exercise 5.5 (e), formula half
 -/
-import OrdinalAnalysis.IDn.Rank
-import OrdinalAnalysis.Ordinal.ThetaW.HullDom
+
+module
+
+public import OrdinalAnalysis.IDn.Rank
+public import OrdinalAnalysis.Ordinal.ThetaW.HullDom
+
+@[expose] public section
 
 set_option autoImplicit false
 

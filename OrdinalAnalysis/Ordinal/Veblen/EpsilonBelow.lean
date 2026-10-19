@@ -2,8 +2,13 @@
   Every ε-number is a closed bound: the notations below `ε_a` form a
   notation system, `Below (epsilonNote a)`.
 -/
-import OrdinalAnalysis.Ordinal.Below
-import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+module
+
+public import OrdinalAnalysis.Ordinal.Below
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -22,7 +22,12 @@
   The bound is the whole content of the ordinal analysis, so the two results are
   not interchangeable.
 -/
-import OrdinalAnalysis.Proof.Elimination
+
+module
+
+public import OrdinalAnalysis.Proof.Elimination
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

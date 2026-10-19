@@ -18,10 +18,15 @@
   tower (`Ordinal.lt_nfp_iff` at `ε₁ = nfp (ω ^ ·) (ε₀ + 1)`).  Downward closure of
   transfinite induction along a transitive ordering finishes.
 -/
-import OrdinalAnalysis.Gentzen.CodedVeblenJump
-import OrdinalAnalysis.Gentzen.OmegaTower
-import OrdinalAnalysis.Gentzen.Order
-import OrdinalAnalysis.Ordinal.Veblen.Epsilon
+
+module
+
+public import OrdinalAnalysis.Gentzen.CodedVeblenJump
+public import OrdinalAnalysis.Gentzen.OmegaTower
+public import OrdinalAnalysis.Gentzen.Order
+public import OrdinalAnalysis.Ordinal.Veblen.Epsilon
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -122,7 +127,7 @@ theorem paLX₁_ti_eps0 (φ : Semiformula LX ℕ 1) :
 
 /-! ## Standard-code comparisons in `PA[X]` -/
 
-private def arithPrecAt {n : ℕ}
+def arithPrecAt {n : ℕ}
     (a b : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![a, b] ▹ Rewriting.emb precDef₁.val
 
@@ -488,7 +493,7 @@ lemma iomegaPow_etower (n : ℕ) :
     iomegaPow (gamma0ModelCode (V := V) (etower n)) = gamma0ModelCode (V := V) (etower (n + 1)) := by
   rw [iomegaPow_of_not_fix (fixIndic_etower_ne_one n), modelCode_etower_succ]
 
-private def arithOmegaPowAt {n : ℕ}
+def arithOmegaPowAt {n : ℕ}
     (z a : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, a] ▹ Rewriting.emb omegaPowDef₁.val
 

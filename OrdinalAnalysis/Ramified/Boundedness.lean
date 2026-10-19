@@ -40,8 +40,13 @@
     instance in scope, so `rank φ < (0 : Gamma0Note)` is refuted directly
     from `Gamma0Note.repr` landing in `Ordinal`, where `0` already is `⊥`.
 -/
-import OrdinalAnalysis.Ramified.LowerClass
-import OrdinalAnalysis.Gentzen.Boundedness
+
+module
+
+public import OrdinalAnalysis.Ramified.LowerClass
+public import OrdinalAnalysis.Gentzen.Boundedness
+
+@[expose] public section
 
 set_option autoImplicit false
 

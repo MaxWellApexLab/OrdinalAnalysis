@@ -32,7 +32,12 @@
                                 arithmetic operations
     `toy`                       the theorem
 -/
-import OrdinalAnalysis.Gentzen.Idiom
+
+module
+
+public import OrdinalAnalysis.Gentzen.Idiom
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -9,8 +9,13 @@
   (ii')) this gives, for a standard notation `a ≺ Ω`, a standard `n` with `⌜a⌝ ≺ ϑ(τ_n)`
   inside `V` (`exists_lt_theta_tau`).
 -/
-import OrdinalAnalysis.ID1.WellOrdering
-import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+
+module
+
+public import OrdinalAnalysis.ID1.WellOrdering
+public import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+
+@[expose] public section
 
 set_option autoImplicit false
 

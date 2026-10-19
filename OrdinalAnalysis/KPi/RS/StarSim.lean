@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.RS.StarBasic
+module
+
+public import OrdinalAnalysis.KPi.RS.StarBasic
 
 /-!
 # The RS calculus, part 7: identification of sentences that differ only in their presentation
@@ -10,6 +12,8 @@ sentence has several representatives (variables renamed, atoms with permuted env
 derivation along `Sim`:  if every member of `Δ` has a `Sim`-partner in `Δ'`, then `⊢* Δ ⇒ ⊢* Δ'`.
 -/
 
+@[expose] public section
+
 open Ordinal
 
 set_option autoImplicit false
@@ -17,16 +21,6 @@ set_option autoImplicit false
 namespace OrdinalAnalysis.KPi.RS
 
 variable {R : Set Ordinal.{1}}
-
-/-- `A` and `B` have corresponding junctors (same kind, same `k`, matching members and `k`-labels). -/
-inductive Sim (R : Set Ordinal.{1}) : RSS → RSS → Prop
-  | mk {A B : RSS} (hor : (expand R A).isOr = (expand R B).isOr) (hk : A.k = B.k)
-      (f : (expand R A).J → (expand R B).J)
-      (hf : ∀ j, Sim R ((expand R A).child j) ((expand R B).child (f j)))
-      (hfk : ∀ j, (expand R B).ks (f j) = (expand R A).ks j)
-      (g : (expand R B).J → (expand R A).J)
-      (hg : ∀ j, Sim R ((expand R A).child (g j)) ((expand R B).child j))
-      (hgk : ∀ j, (expand R A).ks (g j) = (expand R B).ks j) : Sim R A B
 
 theorem Sim.refl (A : RSS) : Sim R A A := by
   refine rk_ind (P := fun A => Sim R A A) (fun A ih => ?_) A
@@ -101,11 +95,11 @@ theorem Star.sim_aux {σ : Ordinal.{1}} {Δ : Set RSS} (h : Star R σ Δ) :
     intro hσ
     subst hσ
     exact absurd hr (not_lt_of_ge zero_le)
-  | @ref κ S hκ Γ σ hσ0 =>
+  | @ref κ S hκ Γ σ hσ0 X hX =>
     intro hσ
     subst hσ
     exact absurd hσ0 (lt_irrefl _)
-  | @found α n A ρ Γ σ hσ0 =>
+  | @found α n A ρ Γ σ hσ0 X Y hX hY =>
     intro hσ
     subst hσ
     exact absurd hσ0 (lt_irrefl _)

@@ -19,7 +19,12 @@
   two comparisons used at the start of the tower of jumps: below `ω^β` (`iltb_single_cases`)
   and below `Ω + 1` (`iltb_omega_succ_cases`).
 -/
-import OrdinalAnalysis.ID1.Internal.ArithLaws
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.ArithLaws
+
+@[expose] public section
 
 set_option autoImplicit false
 

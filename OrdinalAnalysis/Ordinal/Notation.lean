@@ -34,8 +34,13 @@
   notation layer, not to the bridge, and keeping them here is what lets
   `Ordinal/` be free of any dependency on `Proof/`.
 -/
-import OrdinalAnalysis.Ordinal.OmegaPow
-import OrdinalAnalysis.Ordinal.NaturalSumAssoc
+
+module
+
+public import OrdinalAnalysis.Ordinal.OmegaPow
+public import OrdinalAnalysis.Ordinal.NaturalSumAssoc
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

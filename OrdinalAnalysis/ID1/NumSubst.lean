@@ -35,7 +35,12 @@
     `numSubst_shift`, `numSubst_subst`, `numSubst_eq_self`, `freeVariables_numSubst`
     `tr`                                   `φ ↦ (embK φ)` under the assignment `f`
 -/
-import OrdinalAnalysis.ID1.Evaluate
+
+module
+
+public import OrdinalAnalysis.ID1.Evaluate
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -14,10 +14,15 @@
   * `idn_upper_bound_of_trans hT n hn : ∀ a ≺ c_n, IDn n (WForms orderFormulas n) ⊢ TI_a(≺, X)`;
   * `idlt_upper_bound_of_trans hT : ∀ a ≺ Ω₁, IDlt (WFormsOmega orderFormulas) ⊢ TI_a(≺, X)`.
 -/
-import OrdinalAnalysis.IDn.Theorem
-import OrdinalAnalysis.EvalWrap
-import OrdinalAnalysis.IDn.Internal.Order
-import OrdinalAnalysis.ID1.Internal.JumpList
+
+module
+
+public import OrdinalAnalysis.IDn.Theorem
+public import OrdinalAnalysis.EvalWrap
+public import OrdinalAnalysis.IDn.Internal.Order
+public import OrdinalAnalysis.ID1.Internal.JumpList
+
+@[expose] public section
 
 set_option autoImplicit false
 

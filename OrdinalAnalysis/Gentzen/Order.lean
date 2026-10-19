@@ -2,7 +2,12 @@
   Transitivity of the arithmetized notation order and downward closure of
   transfinite induction.
 -/
-import OrdinalAnalysis.Gentzen.CodedNotation
+
+module
+
+public import OrdinalAnalysis.Gentzen.CodedNotation
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -22,7 +27,7 @@ private lemma icmp_transitive {a b c : V}
     b (le_trans (le_max_left _ _) (le_max_right _ _))
     c (le_trans (le_max_right _ _) (le_max_right _ _)) hab hbc
 
-private def arithPrecAt {n : ℕ}
+def arithPrecAt {n : ℕ}
     (a b : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![a, b] ▹ Rewriting.emb precDef.val
 

@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\Evaluate.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
 /-
   Closed terms and their values in the infinitary calculus of `ID_ω`: one binary inductively
   defined predicate `J`, stage predicates `I_k^{≺α}` and `Jlev ℓ`, levels `k : ℕ`.
@@ -57,6 +60,8 @@ import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
     `sim_subst_closed`, `sim_subst_numI`     `ψ(s) ~ ψ(t)` for closed `s`, `t` of equal value
     `IDwDerivable.replace`, `replace_head`   **term replacement**
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

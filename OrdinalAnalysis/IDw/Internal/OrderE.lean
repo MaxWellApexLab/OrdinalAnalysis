@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Internal\OrderE.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.OrderT
+module
+
+public import OrdinalAnalysis.IDw.Internal.OrderT
+
 /-
   The coefficient sets `E_k` and the argument sets `G_k` of the coded multi-level ϑ-notation
   inside models of `IΣ₁` (the one-level template is `ID1/Internal/OrderE.lean`).
@@ -15,6 +18,8 @@ import OrdinalAnalysis.IDw.Internal.OrderT
   * normality and the domain condition pass to the members of `E_k` and of `G_k`
     (`isNF_of_iinE`, `isDom_of_iinE`, `isNF_of_iinG`, `isDom_of_iinG`).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

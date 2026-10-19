@@ -53,11 +53,16 @@
     `acaΓ_consistent`       `ACAΓ ⊬ ⊥`
     `gamma0_theorem`        **the two halves together**
 -/
-import OrdinalAnalysis.ACAOmega.AxiomsTI₂
-import OrdinalAnalysis.ACAOmega.RankBound
-import OrdinalAnalysis.ACAOmega.Embed₂
-import OrdinalAnalysis.ACAOmega.LowerBound₂
-import OrdinalAnalysis.ACA.Toolkit
+
+module
+
+public import OrdinalAnalysis.ACAOmega.AxiomsTI₂
+public import OrdinalAnalysis.ACAOmega.RankBound
+public import OrdinalAnalysis.ACAOmega.Embed₂
+public import OrdinalAnalysis.ACAOmega.LowerBound₂
+public import OrdinalAnalysis.ACA.Toolkit
+
+@[expose] public section
 
 set_option autoImplicit false
 

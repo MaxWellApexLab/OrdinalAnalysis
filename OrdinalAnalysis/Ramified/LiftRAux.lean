@@ -26,9 +26,14 @@
   `comprM` is comprehension with a same-level parameter
   (`Ramified/Comprehension.lean`) read in `M`.
 -/
-import OrdinalAnalysis.Ramified.LiftR
-import OrdinalAnalysis.Gentzen.ProgStep
-import OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
+
+module
+
+public import OrdinalAnalysis.Ramified.LiftR
+public import OrdinalAnalysis.Gentzen.ProgStep
+public import OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSimpArgs false

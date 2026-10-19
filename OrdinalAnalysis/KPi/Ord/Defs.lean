@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Buchholz 1992, Def 4.1: the ordinals `I`, `Ω_σ` and the class `R`
@@ -13,6 +15,8 @@ The least weakly inaccessible ordinal `Iord` (B92's `I`) exists in `Ordinal.{1}`
 * `Rset`      : `R = {I} ∪ {Ω_{σ+1} | σ < I}`;
 * `IsRU κ`    : `κ` is a regular uncountable initial ordinal (every `κ ∈ R` is one).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

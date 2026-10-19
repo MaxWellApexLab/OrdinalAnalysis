@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.RS.Truth
+module
+
+public import OrdinalAnalysis.KPi.RS.Truth
 
 /-!
 # The RS calculus, part 4: `RS^inf` (B92 Def 3.1) and the Truth Lemma 3.2
@@ -11,6 +13,8 @@ import OrdinalAnalysis.KPi.RS.Truth
   below `kappa`; the only property of `R` used in Sigma-reflection.
 * `truth_lemma`        : `|-^a_r Gamma` implies that some member of `Gamma` is true (B92 Lemma 3.2).
 -/
+
+@[expose] public section
 
 open Ordinal
 

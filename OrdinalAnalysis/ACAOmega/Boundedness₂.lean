@@ -35,7 +35,12 @@
 
   Everything else is the first-order proof, line for line.
 -/
-import OrdinalAnalysis.ACAOmega.LowerClass₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.LowerClass₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

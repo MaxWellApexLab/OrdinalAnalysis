@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.Ord.Hull
+module
+
+public import OrdinalAnalysis.KPi.Ord.Hull
 
 /-!
 # Sanity statements for the ordinal notation system of B92 §4
@@ -7,6 +9,8 @@ import OrdinalAnalysis.KPi.Ord.Hull
 The remaining statements are direct consequences of Lemma 4.5 (a), (i), (c) and check the definitions
 against expected values (`ψ_κ α < κ`, monotonicity, `φ`-closure, `ε₀ ≤ ψ_{Ω₁}(0)`).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

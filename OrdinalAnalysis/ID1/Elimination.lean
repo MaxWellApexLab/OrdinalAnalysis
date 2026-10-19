@@ -43,7 +43,12 @@
     `theta_omegaTower_lt`           the bound `ϑη ≺ ϑ(ω_k(Ω + 1))`
     `corollary_7_2`                 Corollary 7.2, from cut rank `Ω + m`
 -/
-import OrdinalAnalysis.ID1.Reduction
+
+module
+
+public import OrdinalAnalysis.ID1.Reduction
+
+@[expose] public section
 
 set_option autoImplicit false
 

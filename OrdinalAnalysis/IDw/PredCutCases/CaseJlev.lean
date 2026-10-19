@@ -1,4 +1,8 @@
-import OrdinalAnalysis.IDw.PredCutAux
+module
+
+public import OrdinalAnalysis.IDw.PredCutAux
+
+@[expose] public section
 
 set_option autoImplicit false
 

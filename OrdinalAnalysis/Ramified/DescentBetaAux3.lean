@@ -15,11 +15,16 @@
   (`VNoteBridge.isNF₁_surj`), the internal comparison is the order of the
   notations, and the internal Veblen function computes `veblenNote` on codes.
 -/
-import OrdinalAnalysis.Ramified.DescentBetaAux2
-import OrdinalAnalysis.Ramified.CopyR
-import OrdinalAnalysis.Ramified.EffLevel
-import OrdinalAnalysis.Gentzen.InternalVeblenCode
-import OrdinalAnalysis.Gentzen.ProgStep
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBetaAux2
+public import OrdinalAnalysis.Ramified.CopyR
+public import OrdinalAnalysis.Ramified.EffLevel
+public import OrdinalAnalysis.Gentzen.InternalVeblenCode
+public import OrdinalAnalysis.Gentzen.ProgStep
+
+@[expose] public section
 
 set_option autoImplicit false
 

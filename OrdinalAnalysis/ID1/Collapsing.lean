@@ -40,7 +40,12 @@
   is not a subderivation (the negative premise after Exercise 6.6).  Here it is
   well-founded induction on `β` in `ThetaNote` (`WellFoundedLT`).
 -/
-import OrdinalAnalysis.ID1.Boundedness
+
+module
+
+public import OrdinalAnalysis.ID1.Boundedness
+
+@[expose] public section
 
 set_option autoImplicit false
 

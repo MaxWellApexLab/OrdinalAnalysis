@@ -19,8 +19,13 @@
   proves transfinite induction along every proper initial segment of the countable part of the
   ϑ-order, and not along the whole of it.
 -/
-import OrdinalAnalysis.ID1.UpperBound
-import OrdinalAnalysis.ID1.Theorem
+
+module
+
+public import OrdinalAnalysis.ID1.UpperBound
+public import OrdinalAnalysis.ID1.Theorem
+
+@[expose] public section
 
 set_option autoImplicit false
 

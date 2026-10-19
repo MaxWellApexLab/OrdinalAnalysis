@@ -31,7 +31,12 @@
   the numerals are closed terms, which `free`, `shift` and `bShift` all leave
   alone.
 -/
-import OrdinalAnalysis.Ramified.Rank
+
+module
+
+public import OrdinalAnalysis.Ramified.Rank
+
+@[expose] public section
 
 set_option autoImplicit false
 

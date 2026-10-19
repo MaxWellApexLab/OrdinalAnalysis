@@ -51,7 +51,12 @@
     for `a = 0` because `φ_0(b) = ω^b`, and for `a ≠ 0` because `φ_a(b)` is then
     an ε-number).
 -/
-import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

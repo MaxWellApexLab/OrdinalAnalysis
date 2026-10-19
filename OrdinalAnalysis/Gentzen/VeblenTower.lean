@@ -15,8 +15,13 @@
   that induction consumes: a zero-step tower is its base, and a successor-step tower factors
   through an ω-power edge, which is what `CodedVeblenJump.jumpB₁` climbs.
 -/
-import OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
-import OrdinalAnalysis.EvalWrap
+
+module
+
+public import OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
+public import OrdinalAnalysis.EvalWrap
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -171,11 +176,11 @@ theorem models_towerSuccStatement {M : Type*} [Nonempty M] [Structure LX M]
 
 /-! ## The pure-arithmetic statements -/
 
-private def arithTowerAt {n : ℕ}
+def arithTowerAt {n : ℕ}
     (u k c : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![u, k, c] ▹ Rewriting.emb towerDef₁.val
 
-private def arithOmegaPowAt {n : ℕ}
+def arithOmegaPowAt {n : ℕ}
     (z a : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, a] ▹ Rewriting.emb omegaPowDef₁.val
 

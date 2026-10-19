@@ -36,7 +36,12 @@
     domain term is in `Mall`, by induction on the length.
   Hence **`WellFoundedLT ThetaVNoteD`**, for all levels and `Ω_ω` at once.
 -/
-import OrdinalAnalysis.Ordinal.ThetaV.Dom
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaV.Dom
+
+@[expose] public section
 
 set_option autoImplicit false
 

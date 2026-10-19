@@ -7,7 +7,12 @@
   module is deliberately X-free; the Gentzen layer later maps its arithmetic
   formulas into the language LX.
 -/
-import Foundation.FirstOrder.Arithmetic.HFS
+
+module
+
+public import Foundation.FirstOrder.Arithmetic.HFS
+
+@[expose] public section
 
 namespace OrdinalAnalysis.Gentzen.InternalONote
 

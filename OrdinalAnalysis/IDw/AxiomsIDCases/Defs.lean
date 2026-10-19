@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsIDCases\Defs.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.NumSubst
-import OrdinalAnalysis.IDw.Sound
+module
+
+public import OrdinalAnalysis.IDw.NumSubst
+public import OrdinalAnalysis.IDw.Sound
+
 /- Source: OrdinalAnalysis\ID1\AxiomsID.lean (one-level `Omega`/`Stage` generalised to level `k : ℕ`). -/
 
 /-
@@ -55,6 +58,8 @@ import OrdinalAnalysis.IDw.Sound
     `closure_derivable`, `closure_axiom`            **Proposition 6.2**
     `indAx_claim`, `indAx_derivable`, `indAx_axiom` **Proposition 6.4**
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

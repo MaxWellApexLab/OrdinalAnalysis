@@ -77,7 +77,12 @@
     `closureAxJ`, `indAxJ`                                      the two axioms
     `paLXJ`, `IDw`                                              the theory, with membership lemmas
 -/
-import Foundation.FirstOrder.Arithmetic.Schemata
+
+module
+
+public import Foundation.FirstOrder.Arithmetic.Schemata
+
+@[expose] public section
 
 set_option autoImplicit false
 

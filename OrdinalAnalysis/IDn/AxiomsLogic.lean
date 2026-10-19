@@ -37,9 +37,14 @@
     `allClosure_derivable`                             the universal closure, by the ω-rule
     `IFreeL`, `paMinus_axiom`, `eq_axiom`, `relExtI_derivable`
 -/
-import OrdinalAnalysis.IDn.Evaluate
-import OrdinalAnalysis.IDn.NumSubst
-import OrdinalAnalysis.IDn.Sound
+
+module
+
+public import OrdinalAnalysis.IDn.Evaluate
+public import OrdinalAnalysis.IDn.NumSubst
+public import OrdinalAnalysis.IDn.Sound
+
+@[expose] public section
 
 set_option autoImplicit false
 

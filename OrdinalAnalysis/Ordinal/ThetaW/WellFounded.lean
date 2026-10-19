@@ -45,7 +45,12 @@
   * Every term below `Ω₁` is in `W₀` (induction on the length), so every two-level term is in
     `D₀`, and `D₀ ⊆ W₀` by the well-foundedness of `≺` restricted to `D₀`.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Exponents
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Exponents
+
+@[expose] public section
 
 set_option autoImplicit false
 

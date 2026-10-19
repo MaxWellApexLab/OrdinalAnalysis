@@ -13,8 +13,13 @@
   have been proved in `PA[X]`, transfinite induction for the jump up to `a`
   yields transfinite induction for the original predicate up to `omega ^ a`.
 -/
-import OrdinalAnalysis.Gentzen.Setup
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.Gentzen.Setup
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

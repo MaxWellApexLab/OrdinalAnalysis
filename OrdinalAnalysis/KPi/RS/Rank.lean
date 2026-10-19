@@ -1,6 +1,8 @@
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.FinCases
-import OrdinalAnalysis.KPi.RS.Defs
+module
+
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.FinCases
+public import OrdinalAnalysis.KPi.RS.Defs
 
 /-!
 # The RS calculus, part 2: rank facts and B92 Lemma 1.9 (b)
@@ -11,6 +13,8 @@ through `rk c` (`rkD_dom`), the rank of a term satisfies `rk t < omega * (|t| + 
 `omega * b <= rk t` for `b` in `k t` (`PT.K`).  Further B92 numbers: `rk_eqS` is (5), `rk_memInst_lt`
 is (3), `RSS.rk_neg` is Lemma 1.9 (e).
 -/
+
+@[expose] public section
 
 open Ordinal
 

@@ -17,8 +17,13 @@
   every notation below `ω + (k+1)` is at most `ω + k`, because `ω + (k+1)` is
   the successor of `ω + k`.
 -/
-import OrdinalAnalysis.ACAOmega.EvProvider
-import OrdinalAnalysis.ACAOmega.SecondCut
+
+module
+
+public import OrdinalAnalysis.ACAOmega.EvProvider
+public import OrdinalAnalysis.ACAOmega.SecondCut
+
+@[expose] public section
 
 set_option autoImplicit false
 

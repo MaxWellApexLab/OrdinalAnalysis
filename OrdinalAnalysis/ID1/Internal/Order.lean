@@ -19,7 +19,12 @@
     `iall_iff`, `iex_iff` (the two quantifier flags of the table mean what they say),
     `lt_theta_of_iinE` (`E(α) ≺ ϑ α`).
 -/
-import OrdinalAnalysis.ID1.Internal.Codes
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.Codes
+
+@[expose] public section
 
 set_option autoImplicit false
 

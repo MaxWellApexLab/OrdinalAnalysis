@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.Ord.Omega
+module
+
+public import OrdinalAnalysis.KPi.Ord.Omega
 
 /-!
 # Buchholz 1992, Lemma 4.5 (a)-(i)
@@ -8,6 +10,8 @@ import OrdinalAnalysis.KPi.Ord.Omega
 (e) `nice_C` (Cantor normal form exponents, see `CNF.lean`);
 (f) `psi_Om_lt`, `psiK_between`;  (g) `Om_psiI`;  (h) `mem_of_between`;  (i) `psiK_mono`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -10,8 +10,13 @@
   derivation, show the cut-reduction steps strictly decrease it, and read off
   `|PA| = ε₀`.
 -/
-import Foundation.FirstOrder.Basic.CutFree
-import Mathlib.SetTheory.Ordinal.Notation
+
+module
+
+public import Foundation.FirstOrder.Basic.CutFree
+public import Mathlib.SetTheory.Ordinal.Notation
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 end OrdinalAnalysis

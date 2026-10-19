@@ -30,10 +30,15 @@
     `eval_of_mem_IDw_xStruc`                          **every axiom of `IDw A` holds in `xStruc s θ`**
     `eval_of_provable_xStruc`                         **and hence every theorem**
 -/
-import OrdinalAnalysis.IDw.Lift
-import OrdinalAnalysis.IDw.UpperAuxForms
-import OrdinalAnalysis.IDw.Evaluate
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.IDw.Lift
+public import OrdinalAnalysis.IDw.UpperAuxForms
+public import OrdinalAnalysis.IDw.Evaluate
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

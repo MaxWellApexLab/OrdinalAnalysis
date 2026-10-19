@@ -48,7 +48,12 @@
   lost: it is recovered one `Provable`-level `spec₂` application away (at the
   arithmetical witness `#0 ∈& 0`), which is `Toolkit.lean`'s job, not this file's.
 -/
-import OrdinalAnalysis.ACA.Syntax
+
+module
+
+public import OrdinalAnalysis.ACA.Syntax
+
+@[expose] public section
 
 set_option autoImplicit false
 

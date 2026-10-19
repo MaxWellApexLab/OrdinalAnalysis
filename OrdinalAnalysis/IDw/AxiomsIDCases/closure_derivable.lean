@@ -4,9 +4,13 @@
    (`Transfer.transfer5_bwd`), the rule (Fix) at `I_k` and the rule (jlev) back to `Jlev ⊤`
    -- all cut-free. -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.closure_inst
-import OrdinalAnalysis.IDw.Transfer
-import OrdinalAnalysis.IDw.Embed
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.closure_inst
+public import OrdinalAnalysis.IDw.Transfer
+public import OrdinalAnalysis.IDw.Embed
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

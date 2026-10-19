@@ -40,8 +40,13 @@
   * Every term lies below some `Ω_{n+1}`, so every normal domain term is accessible:
     **`WellFoundedLT ThetaWNoteD`**, for all levels at once.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Dom
-import OrdinalAnalysis.Ordinal.ThetaW.WellFounded
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Dom
+public import OrdinalAnalysis.Ordinal.ThetaW.WellFounded
+
+@[expose] public section
 
 set_option autoImplicit false
 

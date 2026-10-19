@@ -33,11 +33,16 @@
     `mem_opA_zero_iff`                           the operator of level `0`, read in `ℕ`
     `codeAt0_mem_stageSetN_iff`                  **the accessible part at level `0`**
 -/
-import OrdinalAnalysis.IDw.LowerBoundAux
-import OrdinalAnalysis.IDw.StageSemantics
-import OrdinalAnalysis.IDw.TISentence
-import OrdinalAnalysis.IDw.Internal.OrderBridge
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.IDw.LowerBoundAux
+public import OrdinalAnalysis.IDw.StageSemantics
+public import OrdinalAnalysis.IDw.TISentence
+public import OrdinalAnalysis.IDw.Internal.OrderBridge
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

@@ -29,8 +29,13 @@
   `cutRank`/`ordN` are on the finitary `Derivation`; Lean's equation compiler
   handles the indexing by `Γ` the same way there.
 -/
-import OrdinalAnalysis.ACA.LK
-import OrdinalAnalysis.Ordinal.Notation
+
+module
+
+public import OrdinalAnalysis.ACA.LK
+public import OrdinalAnalysis.Ordinal.Notation
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -60,8 +60,13 @@
     `IDerivable.inv_all`, `inv_nstage`              Exercise 7.1 (a), inversion
     `ThetaNote.Nice.rk_mem`, `rk_mem_params`        Exercise 5.5 (e), formula half
 -/
-import OrdinalAnalysis.ID1.Rank
-import OrdinalAnalysis.Ordinal.Theta.Hull
+
+module
+
+public import OrdinalAnalysis.ID1.Rank
+public import OrdinalAnalysis.Ordinal.Theta.Hull
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -13,7 +13,12 @@
   the ordinary coded sum `e + 1`, so the step is stated with the addition graph `addCode₁` and
   the closed numeral for the code of `1`, with no new arithmetic function.
 -/
-import OrdinalAnalysis.Gentzen.VeblenTower
+
+module
+
+public import OrdinalAnalysis.Gentzen.VeblenTower
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -83,13 +88,13 @@ noncomputable def succGeneralStatement : Sentence LX :=
           (precAt precCode₁ #0 #2 ⋎
             (“#0 = #2” : Semiformula LX ℕ 3)))))).univCl
 
-private def arithBaseAt {n : ℕ} (e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithBaseAt {n : ℕ} (e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![e] ▹ Rewriting.emb baseDef₁.val
 
-private def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, x, y] ▹ Rewriting.emb safeIadd₁Def.val
 
-private def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb precDef₁.val
 
 noncomputable def arithmeticSuccGeneralStatement : ArithmeticSentence :=

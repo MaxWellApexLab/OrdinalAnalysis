@@ -12,7 +12,12 @@
   `Ordinal.lt_epsilon_zero` says the tower is cofinal in `ε₀`.  Everything is generic in the
   induction formula `φ`, which is what the parametric lifting of the ACA bridge consumes.
 -/
-import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
+
+module
+
+public import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -173,7 +178,7 @@ lemma iomegaPow_vtower (n : ℕ) :
 
 /-! ## The tower edges in `PA[X]` -/
 
-private def arithOmegaPowAt {n : ℕ}
+def arithOmegaPowAt {n : ℕ}
     (z a : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, a] ▹ Rewriting.emb omegaPowDef₁.val
 

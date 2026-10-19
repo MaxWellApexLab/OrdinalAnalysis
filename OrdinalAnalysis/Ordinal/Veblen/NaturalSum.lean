@@ -28,7 +28,12 @@
   different terms, and one of them is not a normal form.  So `VNote.nadd_comm` carries `NF`
   hypotheses, unlike `OrdinalAnalysis.nadd_comm` on `ONote`.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.Gamma0Note
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.Gamma0Note
+
+@[expose] public section
 
 set_option autoImplicit false
 

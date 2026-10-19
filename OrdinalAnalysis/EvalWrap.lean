@@ -1,4 +1,7 @@
-import OrdinalAnalysis.Gentzen.InternalONote
+module
+
+public import OrdinalAnalysis.Gentzen.InternalONote
+
 /-
   Generic evaluation lemmas for the `Semisentence` wrappers `.mkSigma “x y. !d 1 x y”` of a
   `𝚺₁`-defined function.
@@ -10,6 +13,8 @@ import OrdinalAnalysis.Gentzen.InternalONote
   and each concrete lemma is an instance whose only kernel obligation is delta-unfolding the
   wrapper definition.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

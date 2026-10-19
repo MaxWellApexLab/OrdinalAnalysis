@@ -12,9 +12,14 @@
   global instance (`ThetaV/WellFoundedV.wellFoundedLT`), so the registration is completed in one
   line.
 -/
-import OrdinalAnalysis.Ordinal.Notation
-import OrdinalAnalysis.Ordinal.ThetaV.Arith
-import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
+module
+
+public import OrdinalAnalysis.Ordinal.Notation
+public import OrdinalAnalysis.Ordinal.ThetaV.Arith
+public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
+@[expose] public section
 
 set_option autoImplicit false
 

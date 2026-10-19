@@ -50,9 +50,14 @@
   application of `φ_1` (`Ramified/BlockCut.lean`).  `exists_blkTop_bound` is the
   list form, the analogue of `RankBound.exists_omegaAdd_bound`.
 -/
-import OrdinalAnalysis.Proof.Bridge
-import OrdinalAnalysis.Ramified.Evaluate
-import OrdinalAnalysis.Ramified.NumSubst
+
+module
+
+public import OrdinalAnalysis.Proof.Bridge
+public import OrdinalAnalysis.Ramified.Evaluate
+public import OrdinalAnalysis.Ramified.NumSubst
+
+@[expose] public section
 
 set_option autoImplicit false
 

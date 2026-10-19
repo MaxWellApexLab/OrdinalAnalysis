@@ -19,8 +19,13 @@
   `ϑ₀(τ_m) ∈ I_0` (`WellOrdering.W_theta_tau`), every `x ≺ ⌜a⌝` is in `I_0`; the induction
   scheme of `I_0` at `X` turns `Prog(≺, X)` into `I_0 ⊆ X`.
 -/
-import OrdinalAnalysis.IDn.WellOrdering
-import OrdinalAnalysis.IDn.UpperAuxCof
+
+module
+
+public import OrdinalAnalysis.IDn.WellOrdering
+public import OrdinalAnalysis.IDn.UpperAuxCof
+
+@[expose] public section
 
 set_option autoImplicit false
 

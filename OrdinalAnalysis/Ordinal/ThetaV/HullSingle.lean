@@ -45,9 +45,14 @@
     `x = Ω_ω` via the former; no new machinery, only the observation that it applies.
   `HullDom.lean` proves the domain lemma `dom_add_omegaPow` on top of this file.
 -/
-import OrdinalAnalysis.Ordinal.ThetaV.Veblen
-import Mathlib.Order.Bounds.Defs
-import Mathlib.Data.Set.Lattice
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaV.Veblen
+public import Mathlib.Order.Bounds.Defs
+public import Mathlib.Data.Set.Lattice
+
+@[expose] public section
 
 set_option autoImplicit false
 

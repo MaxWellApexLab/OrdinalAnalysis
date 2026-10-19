@@ -44,8 +44,13 @@
     `cut_axioms`                          cutting away the axioms
     `embedding_theorem`                  **Theorem 6.5**, per level (`Omega (n-1)` = `Ω_n` in place of `Omega`)
 -/
-import OrdinalAnalysis.IDn.NumSubst
-import OrdinalAnalysis.IDn.ReductionAux
+
+module
+
+public import OrdinalAnalysis.IDn.NumSubst
+public import OrdinalAnalysis.IDn.ReductionAux
+
+@[expose] public section
 
 set_option autoImplicit false
 

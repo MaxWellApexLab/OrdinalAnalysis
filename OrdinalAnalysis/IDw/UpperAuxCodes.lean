@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\UpperAuxCodes.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.Codes
+module
+
+public import OrdinalAnalysis.IDw.Internal.Codes
+
 /-
   Order-free facts about the internal codes of the multi-level ϑ-notation, inside every model
   of `IΣ₁`, used by the well-ordering proof of `IDw/WellOrdering.lean`.
@@ -19,6 +22,8 @@ import OrdinalAnalysis.IDw.Internal.Codes
     `iinG_of_iinE`: the argument `d` of a level-`k` coefficient `ϑ_k d ∈ E_k(c)` is in
     `G_i(c)` for every `i < k`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

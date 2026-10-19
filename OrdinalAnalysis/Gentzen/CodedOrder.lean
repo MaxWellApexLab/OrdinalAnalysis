@@ -40,7 +40,12 @@
     `NONote` in `PrecStandard.lean`; it is true in any linear order, and the
     boundedness lemma needs it at `O`.
 -/
-import OrdinalAnalysis.Gentzen.PrecStandard
+
+module
+
+public import OrdinalAnalysis.Gentzen.PrecStandard
+
+@[expose] public section
 
 set_option autoImplicit false
 

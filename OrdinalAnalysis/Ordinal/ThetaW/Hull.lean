@@ -61,9 +61,14 @@
   `Dom (theta 3 α)` fails, with no `Hop`/`HullHyp`-only argument found to exclude this shape of
   `α`.  Both the per-level design and the `a, b < Omega k` bound below are therefore kept as is.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Veblen
-import Mathlib.Order.Bounds.Defs
-import Mathlib.Data.Set.Lattice
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Veblen
+public import Mathlib.Order.Bounds.Defs
+public import Mathlib.Data.Set.Lattice
+
+@[expose] public section
 
 set_option autoImplicit false
 

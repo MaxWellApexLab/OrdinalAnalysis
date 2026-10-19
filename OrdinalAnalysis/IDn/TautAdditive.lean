@@ -53,7 +53,12 @@
 
   No `sorry`, no new axiom, no `native_decide`, no `partial def`; `autoImplicit false`.
 -/
-import OrdinalAnalysis.IDn.AxiomsLogic
+
+module
+
+public import OrdinalAnalysis.IDn.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 

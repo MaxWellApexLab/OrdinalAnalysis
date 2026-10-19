@@ -13,8 +13,13 @@
   `toSOAtB_allClosure`, `toSOAtB_rew` at `Rew.fixitr 0 m`, `toSOAtB_succInd`,
   `rew_indBodyC`).
 -/
-import OrdinalAnalysis.ACA.Combinators
-import OrdinalAnalysis.ACA.Translate
+
+module
+
+public import OrdinalAnalysis.ACA.Combinators
+public import OrdinalAnalysis.ACA.Translate
+
+@[expose] public section
 
 set_option autoImplicit false
 

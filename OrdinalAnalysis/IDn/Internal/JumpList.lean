@@ -19,7 +19,12 @@
   * `isNF_isDom_tcCons_iff`: a sum code is a normal domain code iff it is a descending list and
     not a one-entry list with a principal entry.
 -/
-import OrdinalAnalysis.IDn.Internal.OrderE
+
+module
+
+public import OrdinalAnalysis.IDn.Internal.OrderE
+
+@[expose] public section
 
 set_option autoImplicit false
 

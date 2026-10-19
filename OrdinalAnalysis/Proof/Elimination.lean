@@ -18,8 +18,13 @@
   also the retroactive justification for the reduction lemma's doubling: any
   natural-sum slack is invisible here.
 -/
-import OrdinalAnalysis.Proof.Reduction
-import OrdinalAnalysis.Ordinal.OmegaPow
+
+module
+
+public import OrdinalAnalysis.Proof.Reduction
+public import OrdinalAnalysis.Ordinal.OmegaPow
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

@@ -40,8 +40,13 @@
   (`Theory.lean`), `evR` preserves the level, and `Rank.lean`'s
   `rank_lt_blkTop_of_level` turns "level below `ν`" into "rank below `blkTop ν`".
 -/
-import OrdinalAnalysis.Ramified.Theory
-import OrdinalAnalysis.Ramified.AxiomsLogic
+
+module
+
+public import OrdinalAnalysis.Ramified.Theory
+public import OrdinalAnalysis.Ramified.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -24,9 +24,14 @@
   the axiom is evaluated as `∀Z ∃Y`, the inner `∃²` binding the slot `0` read by
   `yWit2`.
 -/
-import OrdinalAnalysis.ACA.OmegaJumpInduction
-import OrdinalAnalysis.ACA.Standard
-import OrdinalAnalysis.Gentzen.StandardLX
+
+module
+
+public import OrdinalAnalysis.ACA.OmegaJumpInduction
+public import OrdinalAnalysis.ACA.Standard
+public import OrdinalAnalysis.Gentzen.StandardLX
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -24,7 +24,12 @@
 
   The laws are proved syntactically, from the order of Definition 3.1 alone.
 -/
-import OrdinalAnalysis.Ordinal.Theta.Order
+
+module
+
+public import OrdinalAnalysis.Ordinal.Theta.Order
+
+@[expose] public section
 
 set_option autoImplicit false
 

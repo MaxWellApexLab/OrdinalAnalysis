@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Boundedness.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Calculus
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+
 /-
   Boundedness in the multi-level operator-controlled calculus `ID_{<ω}^∞`, at every level.
 
@@ -39,6 +42,8 @@ import OrdinalAnalysis.IDw.Calculus
 
   Both results need of the operator only that it is an operator (monotone).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

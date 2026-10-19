@@ -68,8 +68,13 @@
     ∀-inversion, to feed a family of numeral instances at a common height into
     a further application of the ω-rule.
 -/
-import OrdinalAnalysis.Ramified.LowerBound
-import OrdinalAnalysis.Ramified.Reduction
+
+module
+
+public import OrdinalAnalysis.Ramified.LowerBound
+public import OrdinalAnalysis.Ramified.Reduction
+
+@[expose] public section
 
 set_option autoImplicit false
 

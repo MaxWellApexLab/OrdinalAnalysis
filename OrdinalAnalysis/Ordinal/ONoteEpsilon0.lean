@@ -12,8 +12,13 @@
   * `nonoteIsoIio`: the resulting order isomorphism `NONote ≃o Set.Iio ε₀`.
   * `type_lt_NONote`: the order type of `NONote` is `ε₀`.
 -/
-import Mathlib.SetTheory.Ordinal.Notation
-import Mathlib.SetTheory.Ordinal.Veblen
+
+module
+
+public import Mathlib.SetTheory.Ordinal.Notation
+public import Mathlib.SetTheory.Ordinal.Veblen
+
+@[expose] public section
 
 set_option autoImplicit false
 

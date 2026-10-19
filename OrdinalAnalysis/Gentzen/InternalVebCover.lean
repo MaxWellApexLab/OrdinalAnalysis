@@ -71,7 +71,12 @@
   `φ_{w_{k-1}}(…φ_{w_0}(c)…)` as a `PR.Construction` together with the fact that extending `w`
   on the right does not change the earlier stages; both are routine but were not built here.
 -/
-import OrdinalAnalysis.Gentzen.InternalVeblenSurj
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalVeblenSurj
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1600000

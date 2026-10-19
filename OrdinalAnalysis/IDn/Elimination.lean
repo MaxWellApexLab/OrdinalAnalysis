@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\ID1\Elimination.lean (one-level `Omega`/`Stage` generalised to level `k : Fin n`). -/
 
-import OrdinalAnalysis.IDn.Reduction
+module
+
+public import OrdinalAnalysis.IDn.Reduction
+
 /-
   Cut elimination for cut ranks other than `Ω_k` (any level `k`), Freund's Exercise 7.1 (c).
 
@@ -54,6 +57,8 @@ import OrdinalAnalysis.IDn.Reduction
     `IDnDerivable.elim_aux_of_hredCut`, `.elimination_of_hredCut`, `.elimination_iter_of_hredCut`
                                     the same, generic in an abstract reduction-lemma hypothesis
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

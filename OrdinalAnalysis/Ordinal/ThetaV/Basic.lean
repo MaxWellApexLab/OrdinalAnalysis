@@ -23,7 +23,12 @@
   computed with fuel, `ltbF (l α + l β + 1)`, a structural recursion, so that closed comparisons
   (and `NF`, `Dom`) are decided by `decide`.  `ltbF_eq` identifies the two.
 -/
-import Mathlib.Data.List.Basic
+
+module
+
+public import Mathlib.Data.List.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

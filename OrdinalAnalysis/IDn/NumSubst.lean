@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\ID1\NumSubst.lean (one-level `Omega`/`Stage` generalised to level `k : Fin n`). -/
 
-import OrdinalAnalysis.IDn.Calculus
-import OrdinalAnalysis.IDn.Evaluate
+module
+
+public import OrdinalAnalysis.IDn.Calculus
+public import OrdinalAnalysis.IDn.Evaluate
+
 /-
   The translation of `(LXIn n)` into `(LIinfN n)`, and numeral substitutions.
 
@@ -39,6 +42,8 @@ import OrdinalAnalysis.IDn.Evaluate
     `numSubst_shift`, `numSubst_subst`, `numSubst_eq_self`, `freeVariables_numSubst`
     `tr`                                   `φ ↦ (embK φ)` under the assignment `f`
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

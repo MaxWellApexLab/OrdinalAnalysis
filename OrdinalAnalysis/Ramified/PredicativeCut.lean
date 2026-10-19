@@ -74,8 +74,13 @@
   `Ordinal/` file about the rank notation, and it should be written there rather
   than here.
 -/
-import OrdinalAnalysis.Ramified.Reduction
-import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+module
+
+public import OrdinalAnalysis.Ramified.Reduction
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+@[expose] public section
 
 set_option autoImplicit false
 

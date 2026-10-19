@@ -23,8 +23,13 @@
                                     `TiMonotoneProvable a`
     `idw_lower_bound_of_le`         **`IDw WFormWc ⊬ TI_a` for every `a ≥ Ω₁`**
 -/
-import OrdinalAnalysis.IDw.LowerBound
-import OrdinalAnalysis.IDw.CollapseCorollaryW
+
+module
+
+public import OrdinalAnalysis.IDw.LowerBound
+public import OrdinalAnalysis.IDw.CollapseCorollaryW
+
+@[expose] public section
 
 set_option autoImplicit false
 

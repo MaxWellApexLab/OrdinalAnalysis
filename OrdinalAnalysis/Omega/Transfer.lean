@@ -14,7 +14,12 @@
   the map by one of the listed properties, and nothing about ordinals or ranks
   changes.
 -/
-import OrdinalAnalysis.Omega.Calculus
+
+module
+
+public import OrdinalAnalysis.Omega.Calculus
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

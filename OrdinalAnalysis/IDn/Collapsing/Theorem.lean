@@ -18,19 +18,24 @@
   whose statements were written to match those fields exactly (see the doc comments there);
   only `positive`, `levelBounded`, `predCut` remain as hypotheses to build a `CollapseHyps`.
 -/
-import OrdinalAnalysis.IDn.Collapsing.CaseFix
-import OrdinalAnalysis.IDn.Collapsing.CaseCut
-import OrdinalAnalysis.IDn.Collapsing.CaseStage
-import OrdinalAnalysis.IDn.Collapsing.CaseLiteral
-import OrdinalAnalysis.IDn.Collapsing.CaseVerum
-import OrdinalAnalysis.IDn.Collapsing.CaseIdX
-import OrdinalAnalysis.IDn.Collapsing.CaseAnd
-import OrdinalAnalysis.IDn.Collapsing.CaseOrL
-import OrdinalAnalysis.IDn.Collapsing.CaseOrR
-import OrdinalAnalysis.IDn.Collapsing.CaseAll
-import OrdinalAnalysis.IDn.Collapsing.CaseExs
-import OrdinalAnalysis.IDn.Collapsing.CaseNstage
-import OrdinalAnalysis.IDn.Boundedness
+
+module
+
+public import OrdinalAnalysis.IDn.Collapsing.CaseFix
+public import OrdinalAnalysis.IDn.Collapsing.CaseCut
+public import OrdinalAnalysis.IDn.Collapsing.CaseStage
+public import OrdinalAnalysis.IDn.Collapsing.CaseLiteral
+public import OrdinalAnalysis.IDn.Collapsing.CaseVerum
+public import OrdinalAnalysis.IDn.Collapsing.CaseIdX
+public import OrdinalAnalysis.IDn.Collapsing.CaseAnd
+public import OrdinalAnalysis.IDn.Collapsing.CaseOrL
+public import OrdinalAnalysis.IDn.Collapsing.CaseOrR
+public import OrdinalAnalysis.IDn.Collapsing.CaseAll
+public import OrdinalAnalysis.IDn.Collapsing.CaseExs
+public import OrdinalAnalysis.IDn.Collapsing.CaseNstage
+public import OrdinalAnalysis.IDn.Boundedness
+
+@[expose] public section
 
 set_option autoImplicit false
 

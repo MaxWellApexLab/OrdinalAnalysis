@@ -30,7 +30,12 @@
     thing and should reinstate the parameter at that point.  Nothing here
     depends on the choice: the axioms are `X`- and `∈̇`-free by construction.
 -/
-import OrdinalAnalysis.Ramified.Calculus
+
+module
+
+public import OrdinalAnalysis.Ramified.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

@@ -1,4 +1,7 @@
-import OrdinalAnalysis.IDw.Collapsing.Statement
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+
 /-
   Theorem 4.8 for `ID_ω` (`Statement.lean`), all `m : WithTop ℕ`, the case of the clause (njlev):
   (V) for `¬Jlev ℓ (s,t)`, a conjunction with at most one conjunct `¬I_{val s} t` (new in
@@ -22,6 +25,8 @@ import OrdinalAnalysis.IDw.Collapsing.Statement
 
   The statement is `Statement.lean`'s field `CollapseCases.njlev`, verbatim.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

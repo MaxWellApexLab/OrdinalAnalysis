@@ -18,7 +18,12 @@
   by `column_{k+1} Y`, eliminating the jump construction from the externally
   visible statement of the successor step.
 -/
-import OrdinalAnalysis.ACA.OmegaJumpTower
+
+module
+
+public import OrdinalAnalysis.ACA.OmegaJumpTower
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -28,7 +28,12 @@
   Both results need of the operator only that it is an operator (monotone), for the
   premises of (V) at `¬I^{≺γ}`, which carry the operator `H[{γ}]`.
 -/
-import OrdinalAnalysis.ID1.Calculus
+
+module
+
+public import OrdinalAnalysis.ID1.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

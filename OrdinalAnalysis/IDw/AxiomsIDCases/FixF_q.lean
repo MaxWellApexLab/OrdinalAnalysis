@@ -1,10 +1,14 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsIDCases\FixF_q.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_rel
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_neg
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_rel
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_neg
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.RS.Infty
+module
+
+public import OrdinalAnalysis.KPi.RS.Infty
 
 /-!
 # The RS calculus, part 5: the system `RS*` (B92 Definitions 2.1--2.3)
@@ -19,6 +21,8 @@ Sequents are *sets* of RS-sentences (as in the spike and in `RS^∞`, B92 Def. 3
 derivation gives a set derivation by forgetting multiplicities; the calculus here is what the later
 stages use.
 -/
+
+@[expose] public section
 
 open Ordinal
 
@@ -132,6 +136,20 @@ def foundE (α : Ordinal.{1}) {n : ℕ} (A : D0 (n + 1)) : D0 n :=
 def foundU (α : Ordinal.{1}) {n : ℕ} (A : D0 (n + 1)) : D0 n :=
   .ball (.lev α) A
 
+/-! ### identification of sentences that differ only in their presentation -/
+
+/-- `A` and `B` have corresponding junctors (same kind, same `k`, matching members and `k`-labels).
+It is defined before `Star` because the axiom schemes `(Ref)*`, `(Found)*` are stated up to `Sim`
+(B92 identifies sentences up to presentation). -/
+inductive Sim (R : Set Ordinal.{1}) : RSS → RSS → Prop
+  | mk {A B : RSS} (hor : (expand R A).isOr = (expand R B).isOr) (hk : A.k = B.k)
+      (f : (expand R A).J → (expand R B).J)
+      (hf : ∀ j, Sim R ((expand R A).child j) ((expand R B).child (f j)))
+      (hfk : ∀ j, (expand R B).ks (f j) = (expand R A).ks j)
+      (g : (expand R B).J → (expand R A).J)
+      (hg : ∀ j, Sim R ((expand R A).child (g j)) ((expand R B).child j))
+      (hgk : ∀ j, (expand R A).ks (g j) = (expand R B).ks j) : Sim R A B
+
 /-! ### `RS*` -/
 
 /-- `⊢*_σ Γ` (B92 Def 2.2/2.3). -/
@@ -150,11 +168,12 @@ inductive Star (R : Set Ordinal.{1}) : Ordinal.{1} → Set RSS → Prop
       (hr : (RSS.base B ρ).rk < σ) :
       Star R σ (insert (RSS.base (D0.or (D0.nad i) B) ρ) Γ)
   | ref {κ : Ordinal.{1}} (S : SigmaData κ) (hκ : κ ∈ R) {Γ : Set RSS} {σ : Ordinal.{1}}
-      (hσ : 0 < σ) :
-      Star R σ (insert (RSS.or S.sentence.neg S.refl) Γ)
+      (hσ : 0 < σ) {X : RSS} (hX : Sim R X (RSS.or S.sentence.neg S.refl)) :
+      Star R σ (insert X Γ)
   | found (α : Ordinal.{1}) {n : ℕ} (A : D0 (n + 1)) (ρ : Fin n → T) {Γ : Set RSS}
-      {σ : Ordinal.{1}} (hσ : 0 < σ) :
-      Star R σ (insert (RSS.base (foundE α A) ρ) (insert (RSS.base (foundU α A) ρ) Γ))
+      {σ : Ordinal.{1}} (hσ : 0 < σ) {X Y : RSS} (hX : Sim R X (RSS.base (foundE α A) ρ))
+      (hY : Sim R Y (RSS.base (foundU α A) ρ)) :
+      Star R σ (insert X (insert Y Γ))
 
 variable {R : Set Ordinal.{1}}
 
@@ -182,16 +201,16 @@ theorem Star.mono {σ : Ordinal.{1}} {Γ : Set RSS} (h : Star R σ Γ) : ∀ {Δ
     have hΓ : Γ ⊆ Δ := fun x hx => hΔ (Set.mem_insert_of_mem _ hx)
     have := Star.ad (Γ := Δ) B ρ (fun κ => ih κ (Set.insert_subset_insert hΓ)) hr
     rwa [Set.insert_eq_of_mem hAΔ] at this
-  | @ref κ S hκ Γ σ hσ =>
+  | @ref κ S hκ Γ σ hσ X hX =>
     intro Δ hΔ
-    have hAΔ : RSS.or S.sentence.neg S.refl ∈ Δ := hΔ (Set.mem_insert _ _)
-    have := Star.ref (R := R) (Γ := Δ) (σ := σ) S hκ hσ
+    have hAΔ : X ∈ Δ := hΔ (Set.mem_insert _ _)
+    have := Star.ref (R := R) (Γ := Δ) (σ := σ) S hκ hσ hX
     rwa [Set.insert_eq_of_mem hAΔ] at this
-  | @found α n A ρ Γ σ hσ =>
+  | @found α n A ρ Γ σ hσ X Y hX hY =>
     intro Δ hΔ
-    have h1 : RSS.base (foundE α A) ρ ∈ Δ := hΔ (Set.mem_insert _ _)
-    have h2 : RSS.base (foundU α A) ρ ∈ Δ := hΔ (Set.mem_insert_of_mem _ (Set.mem_insert _ _))
-    have := Star.found (R := R) (Γ := Δ) (σ := σ) α A ρ hσ
+    have h1 : X ∈ Δ := hΔ (Set.mem_insert _ _)
+    have h2 : Y ∈ Δ := hΔ (Set.mem_insert_of_mem _ (Set.mem_insert _ _))
+    have := Star.found (R := R) (Γ := Δ) (σ := σ) α A ρ hσ hX hY
     rwa [Set.insert_eq_of_mem h2, Set.insert_eq_of_mem h1] at this
 
 /-- monotonicity in the bound `σ`. -/
@@ -201,8 +220,8 @@ theorem Star.mono_sigma {σ σ' : Ordinal.{1}} {Γ : Set RSS} (h : Star R σ Γ)
   | all hA h ih => exact Star.all hA (fun j => ih j hσ)
   | ex js hfin hA hk h ih => exact Star.ex js hfin hA hk (ih hσ)
   | ad B ρ h hr ih => exact Star.ad B ρ (fun κ => ih κ hσ) (lt_of_lt_of_le hr hσ)
-  | ref S hκ hσ0 => exact Star.ref S hκ (lt_of_lt_of_le hσ0 hσ)
-  | found α A ρ hσ0 => exact Star.found α A ρ (lt_of_lt_of_le hσ0 hσ)
+  | ref S hκ hσ0 hX => exact Star.ref S hκ (lt_of_lt_of_le hσ0 hσ) hX
+  | found α A ρ hσ0 hX hY => exact Star.found α A ρ (lt_of_lt_of_le hσ0 hσ) hX hY
 
 /-! ### ambient-set forms of the rules -/
 

@@ -24,8 +24,13 @@
     `taut_and`, `taut_all`, `taut_stage`,
     `taut_jlev`, `taut`                          Lemma 6.1
 -/
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
+@[expose] public section
 
 set_option autoImplicit false
 

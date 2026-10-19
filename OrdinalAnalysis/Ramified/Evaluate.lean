@@ -46,7 +46,12 @@
   `evInstR` exists at all: `Instantiation.complexity_nf` is the wrong law once
   cuts are ranked by an ordinal.
 -/
-import OrdinalAnalysis.Ramified.Literals
+
+module
+
+public import OrdinalAnalysis.Ramified.Literals
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

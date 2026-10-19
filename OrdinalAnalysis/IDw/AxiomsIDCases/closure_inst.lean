@@ -1,12 +1,16 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsIDCases\closure_inst.lean (level `k : Fin n` generalised to `k : ℕ`,
    ID_n -> ID_omega; the level-`k` instance is now the *embedded* closure body, see below). -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDw.Transfer
-import OrdinalAnalysis.IDw.TransferCong
-import OrdinalAnalysis.IDw.NumSubst
-import OrdinalAnalysis.IDw.AxiomsLogic
-import OrdinalAnalysis.IDw.Embed
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDw.Transfer
+public import OrdinalAnalysis.IDw.TransferCong
+public import OrdinalAnalysis.IDw.NumSubst
+public import OrdinalAnalysis.IDw.AxiomsLogic
+public import OrdinalAnalysis.IDw.Embed
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

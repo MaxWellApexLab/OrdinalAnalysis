@@ -16,8 +16,13 @@
       `below`, `Prog`, `TI`, `TIupto` — the bridge from Lean-level statements
       `∀ x : M, P x` to object-language sentences.
 -/
-import OrdinalAnalysis.Gentzen.Setup
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.Gentzen.Setup
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 

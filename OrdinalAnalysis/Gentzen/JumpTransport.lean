@@ -8,7 +8,12 @@
   abstract `Σ₁` definition (`σ`, `α`, `π`), and each concrete lemma is an instance whose
   only kernel obligation is delta-unfolding the wrappers.
 -/
-import OrdinalAnalysis.Gentzen.CodedNotation
+
+module
+
+public import OrdinalAnalysis.Gentzen.CodedNotation
+
+@[expose] public section
 
 set_option autoImplicit false
 

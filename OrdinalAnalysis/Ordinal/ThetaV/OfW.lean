@@ -7,9 +7,14 @@
   part lies below `ϑ₀(Ω_ω)`: the countable part of the old notation (intended order type
   `ψ₀(Ω_ω)`) is a proper initial segment of the countable part of the new one.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Dom
-import OrdinalAnalysis.Ordinal.ThetaV.Dom
-import Mathlib.Order.Hom.Basic
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Dom
+public import OrdinalAnalysis.Ordinal.ThetaV.Dom
+public import Mathlib.Order.Hom.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

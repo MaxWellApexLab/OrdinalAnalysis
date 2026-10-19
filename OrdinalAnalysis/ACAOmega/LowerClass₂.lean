@@ -43,7 +43,12 @@
     shapes have a negation that is not in the class at all, which is what the
     six `not_inCe₂_*` lemmas below say.
 -/
-import OrdinalAnalysis.ACAOmega.CodedOrder₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.CodedOrder₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

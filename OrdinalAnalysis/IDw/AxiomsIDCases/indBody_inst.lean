@@ -3,9 +3,13 @@
    Theorem 6.5, uniform version: the ω-rule over `y = k̄`, the per-level derivation from
    `indAx_claim`, and the universal closure over the free variables of `F`. -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.indAx_claim
-import OrdinalAnalysis.IDw.EmbedHypsLogic
-import OrdinalAnalysis.IDw.TransferCong
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.indAx_claim
+public import OrdinalAnalysis.IDw.EmbedHypsLogic
+public import OrdinalAnalysis.IDw.TransferCong
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

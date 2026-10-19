@@ -20,7 +20,12 @@
   The tower shapes (`omegaW_add_one_val`, `omegaTower_succ_val`) are what the bridge from the
   towers to their codes (`mc_omegaTower` in `IDn/UpperBound.lean`) rewrites with.
 -/
-import OrdinalAnalysis.IDw.ReductionAux
+
+module
+
+public import OrdinalAnalysis.IDw.ReductionAux
+
+@[expose] public section
 
 set_option autoImplicit false
 

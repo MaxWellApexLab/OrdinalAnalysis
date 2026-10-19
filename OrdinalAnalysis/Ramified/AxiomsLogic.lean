@@ -79,8 +79,13 @@
     `relExtMem_derivable`              `relExt (∈̇_ν)`, for an arbitrary `ν`
     `eq_axiom_derivable`               **the `𝗘𝗤 LRA` half**
 -/
-import OrdinalAnalysis.Ramified.Evaluate
-import OrdinalAnalysis.Ramified.NumSubst
+
+module
+
+public import OrdinalAnalysis.Ramified.Evaluate
+public import OrdinalAnalysis.Ramified.NumSubst
+
+@[expose] public section
 
 set_option autoImplicit false
 

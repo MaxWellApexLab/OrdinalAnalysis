@@ -29,7 +29,12 @@
     `subsetAt`, `eqAt`, `tranAt`, `infiniteAt`     B92's abbreviations `u ⊆ v`, `u = v`,
                                                    `tran(u)`, `infinite(u)` (p.3)
 -/
-import Foundation.FirstOrder.Basic
+
+module
+
+public import Foundation.FirstOrder.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

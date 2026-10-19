@@ -12,9 +12,14 @@
   `ACA/Syntax.lean`'s `TISO` (over `precDef`) is the `ACA₀` warm-up and is left
   untouched.
 -/
-import OrdinalAnalysis.ACA.Translate
-import OrdinalAnalysis.Gentzen.EpsilonSegmentOrder
-import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
+
+module
+
+public import OrdinalAnalysis.ACA.Translate
+public import OrdinalAnalysis.Gentzen.EpsilonSegmentOrder
+public import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

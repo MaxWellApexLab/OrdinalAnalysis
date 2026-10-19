@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Collapsing\CaseNstage.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Collapsing.Statement
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+
 /-
   Theorem 4.8 for `ID_n` (`Statement.lean`), the case of the clause (V) for `¬I_j^{≺a} t` at any
   level `j` — proved (no `sorry`).
@@ -24,6 +27,8 @@ import OrdinalAnalysis.IDw.Collapsing.Statement
 
   The statement is `Cases.lean`'s `collapse_case_nstage`, verbatim.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -4,8 +4,13 @@
   `collapseHyps_predCut` supplies the latter.  So the final collapsing theorem needs only
   `PositiveP A` (and the fourteen `CollapseCases`).
 -/
-import OrdinalAnalysis.IDw.Collapsing.Theorem
-import OrdinalAnalysis.IDw.PredCut
+
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Theorem
+public import OrdinalAnalysis.IDw.PredCut
+
+@[expose] public section
 
 set_option autoImplicit false
 

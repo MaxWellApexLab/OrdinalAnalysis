@@ -60,7 +60,12 @@
     `TI` along the segment below `φ_{γ ⊕ 1}(0)`, any `γ ≥ 1`.  Sound but, as in
     `TransfiniteLower.lean`, not claimed to be attained for the finitary theory.
 -/
-import OrdinalAnalysis.Ramified.TransfiniteLower
+
+module
+
+public import OrdinalAnalysis.Ramified.TransfiniteLower
+
+@[expose] public section
 
 set_option autoImplicit false
 

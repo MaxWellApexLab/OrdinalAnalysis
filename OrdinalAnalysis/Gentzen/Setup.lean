@@ -39,8 +39,13 @@
     exactly the content of the lower bound.  So the theorem to be proved is a
     Lean *function* from notations to derivations, not a derivation.
 -/
-import Foundation.FirstOrder.Arithmetic.Schemata
-import OrdinalAnalysis.Ordinal.OmegaPow
+
+module
+
+public import Foundation.FirstOrder.Arithmetic.Schemata
+public import OrdinalAnalysis.Ordinal.OmegaPow
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

@@ -45,8 +45,13 @@
     `ID1_consistent`                      **consistency**
     `lfpA_accForm`, `models_ID1Acc`, `ID1Acc_consistent`
 -/
-import OrdinalAnalysis.ID1.Theory
-import Mathlib.Order.FixedPoints
+
+module
+
+public import OrdinalAnalysis.ID1.Theory
+public import Mathlib.Order.FixedPoints
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

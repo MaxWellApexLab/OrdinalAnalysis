@@ -1,4 +1,7 @@
-import OrdinalAnalysis.IDw.Collapsing.Statement
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+
 /-
   Theorem 4.8 for `ID_ω` (`Statement.lean`), all `m : WithTop ℕ`, the case of the clause (jlev):
   (W) for `Jlev ℓ (s,t)`, the one relevant disjunct `I_{val s} t` (new in `ID_ω`; modelled on
@@ -17,6 +20,8 @@ import OrdinalAnalysis.IDw.Collapsing.Statement
 
   The statement is `Statement.lean`'s field `CollapseCases.jlev`, verbatim.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

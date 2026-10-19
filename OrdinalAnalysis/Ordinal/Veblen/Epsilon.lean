@@ -13,7 +13,12 @@
   height type above `ε₀`: `Γ₀` is closed under `α ↦ ε_α`, so no side condition is ever
   needed.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.NaturalSum
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.NaturalSum
+
+@[expose] public section
 
 set_option autoImplicit false
 

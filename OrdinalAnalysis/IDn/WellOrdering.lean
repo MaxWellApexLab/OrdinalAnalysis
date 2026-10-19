@@ -32,7 +32,12 @@
     (`W_theta_C`).
   * At level `0` and `α = τ`: **`ϑ₀(τ_m) ∈ W 0`** for every standard `m` (`W_theta_tau`).
 -/
-import OrdinalAnalysis.IDn.UpperAuxForms
+
+module
+
+public import OrdinalAnalysis.IDn.UpperAuxForms
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

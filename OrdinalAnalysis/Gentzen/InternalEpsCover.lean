@@ -26,7 +26,12 @@
   which no ε-number is), giving the promised base-`0` form: **every normal code below `ε₀` is
   below some `ω_n(1)`**.
 -/
-import OrdinalAnalysis.Gentzen.VeblenSuccStep
+
+module
+
+public import OrdinalAnalysis.Gentzen.VeblenSuccStep
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1600000
@@ -246,22 +251,22 @@ noncomputable def coverStatement : Sentence LX :=
               (towerAt towerCode₁ #0 #1 #2 ⋏
                 precAt precCode₁ #4 #0))))))).univCl
 
-private def arithNfAt {n : ℕ} (x : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithNfAt {n : ℕ} (x : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x] ▹ Rewriting.emb nfDef₁.val
 
-private def arithBaseAt {n : ℕ} (e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithBaseAt {n : ℕ} (e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![e] ▹ Rewriting.emb baseDef₁.val
 
-private def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb precDef₁.val
 
-private def arithLeqAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithLeqAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb leqDef₁.val
 
-private def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, x, y] ▹ Rewriting.emb safeIadd₁Def.val
 
-private def arithTowerAt {n : ℕ}
+def arithTowerAt {n : ℕ}
     (u k c : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![u, k, c] ▹ Rewriting.emb towerDef₁.val
 

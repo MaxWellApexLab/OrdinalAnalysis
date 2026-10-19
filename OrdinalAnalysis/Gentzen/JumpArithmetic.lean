@@ -7,9 +7,14 @@
   IΣ₁.  Normal-form restrictions remain confined to the notation relations
   used by the jump itself.
 -/
-import OrdinalAnalysis.Gentzen.CodedNotation
-import OrdinalAnalysis.EvalWrap
-import OrdinalAnalysis.Gentzen.JumpTransport
+
+module
+
+public import OrdinalAnalysis.Gentzen.CodedNotation
+public import OrdinalAnalysis.EvalWrap
+public import OrdinalAnalysis.Gentzen.JumpTransport
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -77,13 +82,13 @@ def safeIterCode : Semiformula LX ℕ 4 := liftCode safeIterDef
 
 /-! ### Pure-arithmetic closed statements -/
 
-private def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, x, y] ▹ Rewriting.emb safeIaddDef.val
 
-private def arithIterAt {n : ℕ} (z b w k : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithIterAt {n : ℕ} (z b w k : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, b, w, k] ▹ Rewriting.emb safeIterDef.val
 
-private def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb precDef.val
 
 /-- Arithmetic version of the zero-step law. -/

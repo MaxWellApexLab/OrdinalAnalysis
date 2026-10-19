@@ -31,9 +31,14 @@
   * induction along the numbers for every such predicate (`succ_induction_definable`,
     `order_induction_definable`).
 -/
-import OrdinalAnalysis.IDw.Theory
-import OrdinalAnalysis.IDw.Sound
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.IDw.Theory
+public import OrdinalAnalysis.IDw.Sound
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 

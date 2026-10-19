@@ -19,10 +19,15 @@
   collapse works at the limit (`IDw/Collapsing/CaseCut.lean` treats the cut of rank below `Ω_ω` for
   every `m : WithTop ℕ`).
 -/
-import OrdinalAnalysis.IDw.LowerBound
-import OrdinalAnalysis.IDw.Elimination
-import OrdinalAnalysis.IDw.Collapsing.Final
-import OrdinalAnalysis.IDw.EmbedHypsAll
+
+module
+
+public import OrdinalAnalysis.IDw.LowerBound
+public import OrdinalAnalysis.IDw.Elimination
+public import OrdinalAnalysis.IDw.Collapsing.Final
+public import OrdinalAnalysis.IDw.EmbedHypsAll
+
+@[expose] public section
 
 set_option autoImplicit false
 

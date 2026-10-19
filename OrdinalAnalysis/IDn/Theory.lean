@@ -48,7 +48,12 @@
     `closureAxAt`, `indAxAt`                                    the two axioms of level `k`
     `paLXIN`, `idAxiomsAt`, `ID`, `IDn`                          the theories, with membership lemmas
 -/
-import Foundation.FirstOrder.Arithmetic.Schemata
+
+module
+
+public import Foundation.FirstOrder.Arithmetic.Schemata
+
+@[expose] public section
 
 set_option autoImplicit false
 

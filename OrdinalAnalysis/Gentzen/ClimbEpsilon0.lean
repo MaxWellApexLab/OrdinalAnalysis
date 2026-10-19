@@ -7,8 +7,13 @@
   both sides of a true `k ≺ n` are codes (`CodeSurj.precN_dom`, which is
   where surjectivity of the coding onto the internal normal forms enters).
 -/
-import OrdinalAnalysis.Gentzen.Climb
-import OrdinalAnalysis.Gentzen.CodeSurj
+
+module
+
+public import OrdinalAnalysis.Gentzen.Climb
+public import OrdinalAnalysis.Gentzen.CodeSurj
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 400000

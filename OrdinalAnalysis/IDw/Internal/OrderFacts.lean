@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\Internal\OrderFacts.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.JumpList
-import OrdinalAnalysis.IDw.UpperAux
+module
+
+public import OrdinalAnalysis.IDw.Internal.JumpList
+public import OrdinalAnalysis.IDw.UpperAux
+
 /-
   The internal order facts of the multi-level ϑ-notation, discharged: an instance of the
   hypothesis structure `IDw.Upper.InternalOrderFacts` of `IDw/UpperAux.lean`.
@@ -14,6 +17,8 @@ import OrdinalAnalysis.IDw.UpperAux
   (`orderAxioms_coded`); the seven `Ω_ω` fields are `iltb_tcOmega_tcOmegaW` and its
   companions of `Order.lean`, and `iltb_cons_prin`/`iltb_prin_cons` at kind `4`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

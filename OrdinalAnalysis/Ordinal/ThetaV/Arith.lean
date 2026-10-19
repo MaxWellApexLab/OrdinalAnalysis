@@ -36,8 +36,13 @@
   already does for `c n` and `theta0Omega n`).  `Veblen.lean` supplies the domain side condition
   for the one new principal-adjacent term it needs, `φ_k`.
 -/
-import OrdinalAnalysis.Ordinal.ThetaV.Dom
-import Mathlib.Data.List.Perm.Subperm
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaV.Dom
+public import Mathlib.Data.List.Perm.Subperm
+
+@[expose] public section
 
 set_option autoImplicit false
 

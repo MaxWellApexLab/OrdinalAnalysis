@@ -33,9 +33,14 @@
   The limit facts (`ThetaVNoteD.exists_Omega_of_lt_OmegaW`, the `CollapsingLimit` window fact
   used by `CaseCut` at `m = ⊤`) come from `Ordinal/Collapsing/Limit.lean`.
 -/
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.Ordinal.Collapsing.ThetaVInstance
-import OrdinalAnalysis.Ordinal.Collapsing.Limit
+
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.Ordinal.Collapsing.ThetaVInstance
+public import OrdinalAnalysis.Ordinal.Collapsing.Limit
+
+@[expose] public section
 
 set_option autoImplicit false
 

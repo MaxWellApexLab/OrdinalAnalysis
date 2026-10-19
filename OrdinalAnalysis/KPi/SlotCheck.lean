@@ -17,7 +17,12 @@
        `x = ![x]`, `(x,y) = ![x,y]`, parameters `f : ℕ → M`.  (Negative control done by hand:
        swapping `![x, y]` to `![y, x]` in `holds_colAx` makes the proof fail.)
 -/
-import OrdinalAnalysis.KPi.Theory
+
+module
+
+public import OrdinalAnalysis.KPi.Theory
+
+@[expose] public section
 
 set_option autoImplicit false
 

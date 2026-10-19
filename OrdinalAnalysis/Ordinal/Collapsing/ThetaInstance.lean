@@ -9,9 +9,14 @@
   `ThetaNote.HullHyp.lt_theta` — from the generic fields of `Collapsing/Interface.lean` by
   unfolding the instance.
 -/
-import OrdinalAnalysis.Ordinal.Collapsing.Interface
-import OrdinalAnalysis.ID1.Language
-import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+
+module
+
+public import OrdinalAnalysis.Ordinal.Collapsing.Interface
+public import OrdinalAnalysis.ID1.Language
+public import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+
+@[expose] public section
 
 set_option autoImplicit false
 

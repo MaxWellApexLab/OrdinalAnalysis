@@ -15,7 +15,12 @@
 
   No level bound or domain condition is needed.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+
+@[expose] public section
 
 set_option autoImplicit false
 

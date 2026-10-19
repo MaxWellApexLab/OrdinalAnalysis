@@ -1,4 +1,7 @@
-import OrdinalAnalysis.IDw.Collapsing.Statement
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+
 /-
   Theorem 4.8 for `ID_ω` (`Statement.lean`), all `m : WithTop ℕ` (transcribed from `IDn/Collapsing/CaseAnd.lean`), the case of the clause (V) for `φ ∧ ψ` — proved
   (no `sorry`).
@@ -16,6 +19,8 @@ import OrdinalAnalysis.IDw.Collapsing.Statement
 
   The statement is `Cases.lean`'s `collapse_case_and`, verbatim.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

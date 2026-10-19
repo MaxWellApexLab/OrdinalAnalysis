@@ -18,8 +18,13 @@ turns this into the height bound `axDerivable_of_le_of_pa` needs.
 the embedding is level-free (`embT := lMap embedW`), the parameter is gone from `AxiomsPA`, and
 `embedHyps_induction_of_pa` takes neither `k` nor the `XFreeL (A j)` hypothesis (`IDw`'s operator
 form is one `A : FormJ` without `X`). -/
-import OrdinalAnalysis.IDw.AxiomsPA
-import OrdinalAnalysis.IDw.Embed
+
+module
+
+public import OrdinalAnalysis.IDw.AxiomsPA
+public import OrdinalAnalysis.IDw.Embed
+
+@[expose] public section
 
 set_option autoImplicit false
 

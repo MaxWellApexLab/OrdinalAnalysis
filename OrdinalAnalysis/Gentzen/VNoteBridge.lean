@@ -17,9 +17,14 @@
   is a normal form — which is exactly what the syntactic fixed-point test of
   `VNote.repr_lt_veblen_of_test` / `VNote.veblen_repr_eq_of_test` is for.
 -/
-import OrdinalAnalysis.Gentzen.InternalVNote
-import OrdinalAnalysis.Gentzen.NotationBridge
-import OrdinalAnalysis.Ordinal.Veblen.Gamma0Note
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalVNote
+public import OrdinalAnalysis.Gentzen.NotationBridge
+public import OrdinalAnalysis.Ordinal.Veblen.Gamma0Note
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 2000000

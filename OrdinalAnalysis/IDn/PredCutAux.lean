@@ -28,10 +28,15 @@
                         (the hypothesis `CollapseHyps.predCut` carries).
   * `noOmega_muBar`     `[Ω_s + 1, Ω_{s+1})` contains no `Ω_j`.
 -/
-import OrdinalAnalysis.IDn.Elimination
-import OrdinalAnalysis.IDn.Collapsing.Basic
-import OrdinalAnalysis.Ordinal.ThetaW.VeblenOrder2
-import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
+
+module
+
+public import OrdinalAnalysis.IDn.Elimination
+public import OrdinalAnalysis.IDn.Collapsing.Basic
+public import OrdinalAnalysis.Ordinal.ThetaW.VeblenOrder2
+public import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
+
+@[expose] public section
 
 set_option autoImplicit false
 

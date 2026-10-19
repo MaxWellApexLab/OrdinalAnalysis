@@ -10,7 +10,12 @@
   lexicographic order of the exponent lists (`ofList_lt_ofList`).  The coefficient sets and
   the level bound of `ofList xs` are the unions over the entries.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Order
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Order
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -31,8 +31,13 @@
   is needed (and, being general, occasionally rewrites a `LevLT` goal into something `omega`
   cannot see through, e.g. under `theta_lt_theta_iff`'s `E_k`-clause).
 -/
-import OrdinalAnalysis.Tactic.RuleSets
-import OrdinalAnalysis.Ordinal.ThetaW.Instance
+
+module
+
+public import OrdinalAnalysis.Tactic.RuleSets
+public import OrdinalAnalysis.Ordinal.ThetaW.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

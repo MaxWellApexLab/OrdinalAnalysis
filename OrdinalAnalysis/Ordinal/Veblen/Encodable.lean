@@ -12,8 +12,13 @@
   comparison, decided by `cmp` (`repr_lt_iff`).  So `NF` is decidable (`nfb_iff`), and
   `Gamma0Note`, a subtype of `VNote`, inherits an `Encodable` instance.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.Instance
-import Mathlib.Logic.Encodable.Basic
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+public import Mathlib.Logic.Encodable.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

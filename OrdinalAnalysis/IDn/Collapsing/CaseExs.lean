@@ -17,7 +17,12 @@
 
   The statement is `Cases.lean`'s `collapse_case_exs`, verbatim.
 -/
-import OrdinalAnalysis.IDn.Collapsing.Statement
+
+module
+
+public import OrdinalAnalysis.IDn.Collapsing.Statement
+
+@[expose] public section
 
 set_option autoImplicit false
 

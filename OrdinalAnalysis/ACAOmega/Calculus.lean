@@ -48,8 +48,13 @@
     normalise the fresh subformulas" map, whose laws are the evaluator's
     congruence laws (not done here).
 -/
-import OrdinalAnalysis.ACA.Syntax
-import OrdinalAnalysis.Ordinal.Notation
+
+module
+
+public import OrdinalAnalysis.ACA.Syntax
+public import OrdinalAnalysis.Ordinal.Notation
+
+@[expose] public section
 
 set_option autoImplicit false
 

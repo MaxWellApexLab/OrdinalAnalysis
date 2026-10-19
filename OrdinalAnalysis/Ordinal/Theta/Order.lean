@@ -29,11 +29,16 @@
   This yields `LinearOrder ThetaTerm` and, by restriction, `LinearOrder ThetaNote`.  The file
   ends with Exercise 3.2(c)–(e) for normal terms and the basic compatibility lemmas.
 -/
-import OrdinalAnalysis.Ordinal.Theta.Basic
-import Mathlib.Data.List.Lex
-import Mathlib.Data.List.Perm.Subperm
-import Mathlib.Data.List.FinRange
-import Mathlib.Order.Basic
+
+module
+
+public import OrdinalAnalysis.Ordinal.Theta.Basic
+public import Mathlib.Data.List.Lex
+public import Mathlib.Data.List.Perm.Subperm
+public import Mathlib.Data.List.FinRange
+public import Mathlib.Order.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

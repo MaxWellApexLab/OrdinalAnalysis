@@ -43,8 +43,13 @@
   successor of Definition 5.2 is the generic `OrdinalNotation.succ` (`rk_and_succ`, …), so
   the height and rank bookkeeping of the generic calculus applies verbatim.
 -/
-import OrdinalAnalysis.ID1.Language
-import OrdinalAnalysis.Ordinal.Theta.WellFounded
+
+module
+
+public import OrdinalAnalysis.ID1.Language
+public import OrdinalAnalysis.Ordinal.Theta.WellFounded
+
+@[expose] public section
 
 set_option autoImplicit false
 

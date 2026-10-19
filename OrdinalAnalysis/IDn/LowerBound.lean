@@ -44,9 +44,14 @@
                                        hypotheses
     `idn_lower_bound`                 the lower bound at the bound `Omega 0`
 -/
-import OrdinalAnalysis.IDn.LowerBoundAux2
-import OrdinalAnalysis.IDn.Embed
-import OrdinalAnalysis.IDn.Collapsing.Theorem
+
+module
+
+public import OrdinalAnalysis.IDn.LowerBoundAux2
+public import OrdinalAnalysis.IDn.Embed
+public import OrdinalAnalysis.IDn.Collapsing.Theorem
+
+@[expose] public section
 
 set_option autoImplicit false
 

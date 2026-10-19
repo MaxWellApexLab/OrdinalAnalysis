@@ -22,8 +22,13 @@
   codes (`nf_cases`), exponent lists of normal codes (`sl_itoL`), and the two small order
   lemmas below `⟨β⟩` and below `Ω_{i+1} + 1` (`lt_single_cases`, `lt_Omega_succ_cases`).
 -/
-import OrdinalAnalysis.IDn.UpperAuxCodes
-import OrdinalAnalysis.Ordinal.ThetaW.Dom
+
+module
+
+public import OrdinalAnalysis.IDn.UpperAuxCodes
+public import OrdinalAnalysis.Ordinal.ThetaW.Dom
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,4 +1,7 @@
-import OrdinalAnalysis.IDw.Collapsing.Statement
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+
 /-
   Theorem 4.8 for `ID_ω` (`Statement.lean`), all `m : WithTop ℕ` (transcribed from `IDn/Collapsing/CaseVerum.lean`), the case of the clause (V) for `⊤` (the empty
   conjunction) — proved (no `sorry`).
@@ -14,6 +17,8 @@ import OrdinalAnalysis.IDw.Collapsing.Statement
 
   The statement is `Cases.lean`'s `collapse_case_verum`, verbatim.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

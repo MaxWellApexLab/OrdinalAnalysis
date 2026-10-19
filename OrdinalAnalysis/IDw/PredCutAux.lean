@@ -1,9 +1,12 @@
 /- Source: OrdinalAnalysis\IDn\PredCutAux.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.Ordinal.ThetaV.HullSingle
-import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder2
-import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.Ordinal.ThetaV.HullSingle
+public import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder2
+public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
 /-
   Shared context of predicative cut elimination for `ID_ω` (`IDw/PredCut.lean`, Buchholz 1992
   Theorem 3.16 per level): the total Veblen function `phiN`, the closure condition `PhiClosed`,
@@ -34,6 +37,8 @@ import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
                         (the hypothesis `CollapseHyps.predCut` carries).
   * `noOmega_muBar`     `[Ω_s + 1, Ω_{s+1})` contains no `Ω_j`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

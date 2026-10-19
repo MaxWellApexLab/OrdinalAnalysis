@@ -15,7 +15,12 @@
   Nothing here adds a `Derivation` constructor — 2e replays the primitive
   constructors of `LK.lean`, and this file must not add to their number.
 -/
-import OrdinalAnalysis.ACA.Toolkit
+
+module
+
+public import OrdinalAnalysis.ACA.Toolkit
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -21,8 +21,13 @@
     `rk_eq_Omega_cases`       the formulas of rank `Ω_{p+1}`: `±I_p t`, `±I_{p+1}^{≺0} t`
     `drop_stage_zero`         the empty disjunction `I_j^{≺0} t` can be dropped from a sequent
 -/
-import OrdinalAnalysis.IDn.Calculus
-import OrdinalAnalysis.Ordinal.Collapsing.ThetaWInstance
+
+module
+
+public import OrdinalAnalysis.IDn.Calculus
+public import OrdinalAnalysis.Ordinal.Collapsing.ThetaWInstance
+
+@[expose] public section
 
 set_option autoImplicit false
 

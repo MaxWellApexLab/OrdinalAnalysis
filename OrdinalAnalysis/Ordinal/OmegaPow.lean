@@ -13,7 +13,12 @@
   `nadd_nfBelow`, proved when the natural sum was defined.  Sandwiching those
   three facts is the whole argument.
 -/
-import OrdinalAnalysis.Ordinal.NONatSum
+
+module
+
+public import OrdinalAnalysis.Ordinal.NONatSum
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

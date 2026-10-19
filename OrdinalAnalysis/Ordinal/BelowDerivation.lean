@@ -23,8 +23,13 @@
   subtype `{o // o < ε}` and instance search then cannot find the
   `OrdinalNotation` instance, which is declared on the `def` `Below ε`.
 -/
-import OrdinalAnalysis.Ordinal.Below
-import OrdinalAnalysis.Omega.Calculus
+
+module
+
+public import OrdinalAnalysis.Ordinal.Below
+public import OrdinalAnalysis.Omega.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

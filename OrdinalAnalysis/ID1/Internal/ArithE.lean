@@ -12,7 +12,12 @@
 
   `iadd_iomegaPow_tail` writes a normal sum `⟨α₀, α₁, …⟩` as `ω^α₀ + ⟨α₁, …⟩`.
 -/
-import OrdinalAnalysis.ID1.Internal.ArithLaws
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.ArithLaws
+
+@[expose] public section
 
 set_option autoImplicit false
 

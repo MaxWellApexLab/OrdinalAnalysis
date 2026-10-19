@@ -1,13 +1,17 @@
-import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_or
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_rel
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_neg
-import OrdinalAnalysis.IDn.AxiomsIDCases.FixF_q
-import OrdinalAnalysis.IDn.AxiomsIDCases.predOf_rew
-import OrdinalAnalysis.IDn.AxiomsIDCases.NumF_q
-import OrdinalAnalysis.IDn.AxiomsIDCases.rew_plugI_num
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_lMap_top
+module
+
+public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_or
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_rel
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_neg
+public import OrdinalAnalysis.IDn.AxiomsIDCases.FixF_q
+public import OrdinalAnalysis.IDn.AxiomsIDCases.predOf_rew
+public import OrdinalAnalysis.IDn.AxiomsIDCases.NumF_q
+public import OrdinalAnalysis.IDn.AxiomsIDCases.rew_plugI_num
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_lMap_top
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

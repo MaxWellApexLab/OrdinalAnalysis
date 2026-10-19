@@ -1,532 +1,559 @@
-import OrdinalAnalysis.Basic
-import OrdinalAnalysis.Ordinal.NaturalSum
-import OrdinalAnalysis.Ordinal.NaturalSumMono
-import OrdinalAnalysis.Ordinal.NONatSum
-import OrdinalAnalysis.Ordinal.OmegaPow
-import OrdinalAnalysis.Ordinal.Notation
-import OrdinalAnalysis.Proof.CutRank
-import OrdinalAnalysis.Proof.Ordinal
-import OrdinalAnalysis.Proof.Bounded
-import OrdinalAnalysis.Proof.Weakening
-import OrdinalAnalysis.Proof.Inversion
-import OrdinalAnalysis.Proof.Substitution
-import OrdinalAnalysis.Proof.InversionAll
-import OrdinalAnalysis.Proof.Reduction
-import OrdinalAnalysis.Proof.Elimination
-import OrdinalAnalysis.Proof.CutElimination
-import OrdinalAnalysis.Proof.Bridge
-import OrdinalAnalysis.Ordinal.NaturalSumAssoc
-import OrdinalAnalysis.Proof.InversionAllFull
-import OrdinalAnalysis.Omega.Calculus
-import OrdinalAnalysis.Omega.Reduction
-import OrdinalAnalysis.Gentzen.Setup
-import OrdinalAnalysis.Gentzen.Jump
-import OrdinalAnalysis.Gentzen.JumpProgressive
-import OrdinalAnalysis.Gentzen.InternalONote
-import OrdinalAnalysis.Gentzen.CodedNotation
-import OrdinalAnalysis.Gentzen.JumpArithmetic
-import OrdinalAnalysis.Gentzen.OmegaCover
-import OrdinalAnalysis.Gentzen.OmegaTower
-import OrdinalAnalysis.Gentzen.NotationBridge
-import OrdinalAnalysis.Gentzen.Order
-import OrdinalAnalysis.Gentzen.Cofinality
-import OrdinalAnalysis.Gentzen.UpperBound
-import OrdinalAnalysis.Gentzen.Idiom
-import OrdinalAnalysis.Gentzen.Code
-import OrdinalAnalysis.Gentzen.ToyOmega
-import OrdinalAnalysis.Gentzen.LowerSyntax
-import OrdinalAnalysis.Gentzen.StandardLX
-import OrdinalAnalysis.Gentzen.PrecStandard
-import OrdinalAnalysis.Gentzen.LowerClass
-import OrdinalAnalysis.Gentzen.Evaluate
-import OrdinalAnalysis.Gentzen.OmegaTruth
-import OrdinalAnalysis.Omega.Transfer
-import OrdinalAnalysis.Gentzen.NumSubst
-import OrdinalAnalysis.Gentzen.EvInst
-import OrdinalAnalysis.Gentzen.Embed
-import OrdinalAnalysis.Omega.Identity
-import OrdinalAnalysis.Gentzen.LowerClassEv
-import OrdinalAnalysis.Gentzen.Boundedness
-import OrdinalAnalysis.Gentzen.AxiomsInduction
-import OrdinalAnalysis.Gentzen.AxiomsLogic
-import OrdinalAnalysis.Gentzen.LowerBound
-import OrdinalAnalysis.Gentzen.GentzenTheorem
-import OrdinalAnalysis.Gentzen.Consistency
-import OrdinalAnalysis.Ordinal.Veblen.Basic
-import OrdinalAnalysis.Ordinal.Veblen.Cmp
-import OrdinalAnalysis.Ordinal.Veblen.Gamma0Note
-import OrdinalAnalysis.Ordinal.Veblen.NaturalSum
-import OrdinalAnalysis.Ordinal.Veblen.Epsilon
-import OrdinalAnalysis.Ordinal.Veblen.Instance
-import OrdinalAnalysis.Ordinal.Veblen.OfNONote
-import OrdinalAnalysis.Gentzen.CodeSurj
-import OrdinalAnalysis.ACA.Syntax
-import OrdinalAnalysis.ACA.LK
-import OrdinalAnalysis.ACA.Standard
-import OrdinalAnalysis.Ordinal.Veblen.NaturalSumAssoc
-import OrdinalAnalysis.Gentzen.InternalVNote
-import OrdinalAnalysis.Gentzen.VNoteBridge
-import OrdinalAnalysis.Gentzen.CodedVeblen
-import OrdinalAnalysis.Omega.HeightMap
-import OrdinalAnalysis.Ordinal.Below
-import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
-import OrdinalAnalysis.Gentzen.Climb
-import OrdinalAnalysis.Gentzen.ClimbEpsilon0
-import OrdinalAnalysis.Gentzen.CutAxioms
-import OrdinalAnalysis.Ordinal.BelowDerivation
-import OrdinalAnalysis.Gentzen.ClimbVeblen
-import OrdinalAnalysis.Gentzen.Epsilon1Axiom
-import OrdinalAnalysis.Gentzen.Epsilon1Order
-import OrdinalAnalysis.Gentzen.Epsilon1LowerBound
-import OrdinalAnalysis.Gentzen.InternalVNoteOrder
-import OrdinalAnalysis.Gentzen.InternalVNoteJump
-import OrdinalAnalysis.Gentzen.CodedVeblenJump
-import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
-import OrdinalAnalysis.ACAOmega.Calculus
-import OrdinalAnalysis.ACAOmega.Reduction
-import OrdinalAnalysis.ACAOmega.SecondCut
-import OrdinalAnalysis.Gentzen.EpsilonSegmentOrder
-import OrdinalAnalysis.Gentzen.SubstX
-import OrdinalAnalysis.Gentzen.Epsilon1Scheme
-import OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme
-import OrdinalAnalysis.Gentzen.Epsilon1Theorem
-import OrdinalAnalysis.ACAOmega.Evaluate
-import OrdinalAnalysis.ACAOmega.EvProvider
-import OrdinalAnalysis.ACAOmega.SecondCutEv
-import OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
-import OrdinalAnalysis.Gentzen.VeblenTower
-import OrdinalAnalysis.Gentzen.VeblenSuccStep
-import OrdinalAnalysis.Gentzen.InternalEpsCover
-import OrdinalAnalysis.Gentzen.InternalEpsMono
-import OrdinalAnalysis.Gentzen.InternalEpsMonoCode
-import OrdinalAnalysis.ACAOmega.CodedOrder₂
-import OrdinalAnalysis.ACAOmega.LowerClass₂
-import OrdinalAnalysis.ACAOmega.Boundedness₂
-import OrdinalAnalysis.ACA.Toolkit
-import OrdinalAnalysis.ACA.TI
-import OrdinalAnalysis.ACAOmega.NumSubst₂
-import OrdinalAnalysis.ACAOmega.CutRank₂
-import OrdinalAnalysis.ACAOmega.Embed₂
-import OrdinalAnalysis.ACAOmega.OmegaTruth₂
-import OrdinalAnalysis.ACAOmega.AxiomsLogic₂
-import OrdinalAnalysis.ACAOmega.AxiomsInduction₂
-import OrdinalAnalysis.ACAOmega.Axioms₂
-import OrdinalAnalysis.ACA.Translate
-import OrdinalAnalysis.Ordinal.NONoteSucc
-import OrdinalAnalysis.ACAOmega.RankBound
-import OrdinalAnalysis.Ordinal.VeblenStructure
-import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
-import OrdinalAnalysis.ACAOmega.SchemeAxioms₂
-import OrdinalAnalysis.ACAOmega.LowerBound₂
-import OrdinalAnalysis.ACAOmega.ACATheorem
-import OrdinalAnalysis.ACA.Combinators
-import OrdinalAnalysis.ACA.Lift
-import OrdinalAnalysis.Ordinal.Veblen.VeblenBelow
-import OrdinalAnalysis.ACAOmega.Gamma0Order₂
-import OrdinalAnalysis.ACAOmega.SubstX₂
-import OrdinalAnalysis.ACAOmega.Climb₂
-import OrdinalAnalysis.ACA.LiftInduction
-import OrdinalAnalysis.ACA.Congruence
-import OrdinalAnalysis.ACA.LiftTI
-import OrdinalAnalysis.Ramified.Language
-import OrdinalAnalysis.Ramified.Ground
-import OrdinalAnalysis.Ramified.Code
-import OrdinalAnalysis.Ramified.Guard
-import OrdinalAnalysis.Ramified.Rank
-import OrdinalAnalysis.Ramified.Calculus
-import OrdinalAnalysis.Ramified.ReductionProbe
-import OrdinalAnalysis.ACA.TIGamma
-import OrdinalAnalysis.ACAOmega.AxiomsTI₂
-import OrdinalAnalysis.ACAOmega.Gamma0Theorem
-import OrdinalAnalysis.ACAOmega.Gamma0Segment
-import OrdinalAnalysis.ACA.Lifted
-import OrdinalAnalysis.Gentzen.ProgStep
-import OrdinalAnalysis.ACA.EpsProg
-import OrdinalAnalysis.ACA.UpperBound
-import OrdinalAnalysis.ACA.OmegaJump
-import OrdinalAnalysis.ACA.OmegaJumpTower
-import OrdinalAnalysis.ACA.OmegaJumpExt
-import OrdinalAnalysis.ACA.OmegaJumpDepth
-import OrdinalAnalysis.ACA.OmegaJumpInduction
-import OrdinalAnalysis.ACA.OmegaJumpProg
-import OrdinalAnalysis.ACA.OmegaJumpUpperBound
-import OrdinalAnalysis.ACA.OmegaJumpSound
-import OrdinalAnalysis.Gentzen.InternalVeblen
-import OrdinalAnalysis.Ramified.Literals
-import OrdinalAnalysis.Ramified.Reduction
-import OrdinalAnalysis.Ramified.PredicativeCut
-import OrdinalAnalysis.Ordinal.Veblen.RankSegments
-import OrdinalAnalysis.Ramified.PredicativeCutGeneral
-import OrdinalAnalysis.Ramified.BlockCut
-import OrdinalAnalysis.Ramified.SegOrder
-import OrdinalAnalysis.Ramified.LowerBound
-import OrdinalAnalysis.Ramified.LiftRAux
-import OrdinalAnalysis.Ramified.LiftR
-import OrdinalAnalysis.Ramified.TowerR
-import OrdinalAnalysis.Ramified.EpsProgR
-import OrdinalAnalysis.Ramified.DescentR
-import OrdinalAnalysis.Ramified.UpperBound
-import OrdinalAnalysis.Ramified.CopyR
-import OrdinalAnalysis.Ramified.InfTools
-import OrdinalAnalysis.Ramified.SemiformalLower
-import OrdinalAnalysis.Ramified.EffLevel
-import OrdinalAnalysis.Ramified.DescentBeta
-import OrdinalAnalysis.Ramified.FefermanSchutte
-import OrdinalAnalysis.Ramified.SemiformalUpper
-import OrdinalAnalysis.Ordinal.Veblen.VeblenCover
-import OrdinalAnalysis.Ordinal.Veblen.FundSeq
-import OrdinalAnalysis.Ramified.LimitTheorem
-import OrdinalAnalysis.Ramified.FSLower
-import OrdinalAnalysis.Ramified.TransfiniteLower
-import OrdinalAnalysis.Ordinal.Veblen.Encodable
-import OrdinalAnalysis.Ordinal.Veblen.OmegaMul
-import OrdinalAnalysis.Ramified.NamingAxioms
-import OrdinalAnalysis.Ramified.Comprehension
-import OrdinalAnalysis.Ramified.CutAxioms
-import OrdinalAnalysis.Ramified.CodedOrderR
-import OrdinalAnalysis.Ramified.LowerClass
-import OrdinalAnalysis.Ramified.Boundedness
-import OrdinalAnalysis.Ramified.AxiomsLogic
-import OrdinalAnalysis.Ramified.AxiomsInduction
-import OrdinalAnalysis.Ramified.Axioms
-import OrdinalAnalysis.Ramified.SegOrder
-import OrdinalAnalysis.Ramified.LowerBound
-import OrdinalAnalysis.Gentzen.InternalVeblenSurj
-import OrdinalAnalysis.Gentzen.InternalVebCover
-import OrdinalAnalysis.Gentzen.InternalVeblenCode
-import OrdinalAnalysis.ACA.TowerInduction
-import OrdinalAnalysis.ACA.SegmentBridge
-import OrdinalAnalysis.Ramified.Evaluate
-import OrdinalAnalysis.Ramified.NumSubst
-import OrdinalAnalysis.Ramified.Theory
-import OrdinalAnalysis.Ramified.Embed
-import OrdinalAnalysis.ID1.Theory
-import OrdinalAnalysis.ID1.Sound
-import OrdinalAnalysis.Ordinal.Theta.Basic
-import OrdinalAnalysis.Ordinal.Theta.Order
-import OrdinalAnalysis.Ordinal.Theta.Arith
-import OrdinalAnalysis.Ordinal.Theta.Instance
-import OrdinalAnalysis.Ordinal.Theta.WellFounded
-import OrdinalAnalysis.Ordinal.Theta.Hull
-import OrdinalAnalysis.Ordinal.Theta.HullCofinal
-import OrdinalAnalysis.ID1.Language
-import OrdinalAnalysis.ID1.Rank
-import OrdinalAnalysis.ID1.Internal.CovTable
-import OrdinalAnalysis.ID1.Internal.Codes
-import OrdinalAnalysis.ID1.Internal.Standard
-import OrdinalAnalysis.ID1.Calculus
-import OrdinalAnalysis.ID1.Boundedness
-import OrdinalAnalysis.ID1.Collapsing
-import OrdinalAnalysis.ID1.ReductionAux
-import OrdinalAnalysis.ID1.Reduction
-import OrdinalAnalysis.ID1.Elimination
-import OrdinalAnalysis.ID1.Internal.Order
-import OrdinalAnalysis.ID1.Internal.OrderE
-import OrdinalAnalysis.ID1.Internal.Arith
-import OrdinalAnalysis.ID1.Internal.ArithBridge
-import OrdinalAnalysis.ID1.Internal.ArithFormulas
-import OrdinalAnalysis.ID1.Internal.ArithLaws
-import OrdinalAnalysis.ID1.Internal.ArithE
-import OrdinalAnalysis.ID1.Internal.ArithMul
-import OrdinalAnalysis.ID1.StageSemantics
-import OrdinalAnalysis.ID1.LowerBound
-import OrdinalAnalysis.ID1.Evaluate
-import OrdinalAnalysis.ID1.NumSubst
-import OrdinalAnalysis.ID1.AxiomsLogic
-import OrdinalAnalysis.ID1.AxiomsPA
-import OrdinalAnalysis.ID1.AxiomsID
-import OrdinalAnalysis.ID1.Embed
-import OrdinalAnalysis.ID1.Theorem
-import OrdinalAnalysis.ID1.Internal.JumpList
-import OrdinalAnalysis.ID1.Lift
-import OrdinalAnalysis.ID1.WellOrdering
-import OrdinalAnalysis.ID1.Bridge
-import OrdinalAnalysis.ID1.UpperBound
-import OrdinalAnalysis.ID1.Theorem2
-import OrdinalAnalysis.Ordinal.ThetaW.Basic
-import OrdinalAnalysis.Ordinal.ThetaW.Order
-import OrdinalAnalysis.Ordinal.ThetaW.Exponents
-import OrdinalAnalysis.Ordinal.ThetaW.WellFounded
-import OrdinalAnalysis.Ordinal.ThetaW.Descent
-import OrdinalAnalysis.Ordinal.ThetaW.Dom
-import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
-import OrdinalAnalysis.Ordinal.ThetaW.Arith
-import OrdinalAnalysis.Ordinal.ThetaW.Instance
-import OrdinalAnalysis.Ordinal.ThetaW.Veblen
-import OrdinalAnalysis.IDn.Theory
-import OrdinalAnalysis.IDn.Sound
-import OrdinalAnalysis.IDn.Union
-import OrdinalAnalysis.IDn.Language
-import OrdinalAnalysis.IDn.Rank
-import OrdinalAnalysis.IDn.Internal.CovTable
-import OrdinalAnalysis.IDn.Internal.Codes
-import OrdinalAnalysis.IDn.Internal.Standard
-import OrdinalAnalysis.Ordinal.ThetaW.Hull
-import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
-import OrdinalAnalysis.Tactic.RuleSets
-import OrdinalAnalysis.Tactic.Dom
-import OrdinalAnalysis.Tactic.Order
-import OrdinalAnalysis.Tactic.Notation
-import OrdinalAnalysis.Tactic.Sanity
-import OrdinalAnalysis.Tactic.Test
-import OrdinalAnalysis.Ordinal.ThetaW.HullSingle
-import OrdinalAnalysis.Ordinal.ThetaW.HullDom
-import OrdinalAnalysis.Ordinal.Collapsing.Interface
-import OrdinalAnalysis.Ordinal.Collapsing.ThetaInstance
-import OrdinalAnalysis.Ordinal.Collapsing.ThetaWInstance
-import OrdinalAnalysis.IDn.Internal.Order
-import OrdinalAnalysis.IDn.CalculusAux
-import OrdinalAnalysis.IDn.Calculus
-import OrdinalAnalysis.IDn.ReductionAux
-import OrdinalAnalysis.IDn.Reduction
-import OrdinalAnalysis.IDn.Collapsing.Basic
-import OrdinalAnalysis.IDn.Boundedness
-import OrdinalAnalysis.Ordinal.ThetaW.VeblenOrder
-import OrdinalAnalysis.IDn.Internal.OrderT
-import OrdinalAnalysis.IDn.Internal.OrderE
-import OrdinalAnalysis.IDn.Internal.JumpList
-import OrdinalAnalysis.IDn.Elimination
-import OrdinalAnalysis.IDn.NumSubst
-import OrdinalAnalysis.Ordinal.ThetaW.ArithSucc
-import OrdinalAnalysis.Ordinal.ThetaW.VeblenOrder2
-import OrdinalAnalysis.IDn.Collapsing.CaseAll
-import OrdinalAnalysis.IDn.Collapsing.CaseAnd
-import OrdinalAnalysis.IDn.Collapsing.CaseCut
-import OrdinalAnalysis.IDn.Collapsing.CaseExs
-import OrdinalAnalysis.IDn.Collapsing.CaseFix
-import OrdinalAnalysis.IDn.Collapsing.CaseIdX
-import OrdinalAnalysis.IDn.Collapsing.CaseLiteral
-import OrdinalAnalysis.IDn.Collapsing.CaseNstage
-import OrdinalAnalysis.IDn.Collapsing.CaseOrL
-import OrdinalAnalysis.IDn.Collapsing.CaseOrR
-import OrdinalAnalysis.IDn.Collapsing.CaseStage
-import OrdinalAnalysis.IDn.Collapsing.CaseVerum
-import OrdinalAnalysis.IDn.Collapsing.Statement
-import OrdinalAnalysis.IDn.Collapsing.Theorem
-import OrdinalAnalysis.IDn.UpperAux
-import OrdinalAnalysis.IDn.UpperAuxCodes
-import OrdinalAnalysis.IDn.UpperAuxCof
-import OrdinalAnalysis.IDn.UpperAuxForms
-import OrdinalAnalysis.IDn.Lift
-import OrdinalAnalysis.IDn.WellOrdering
-import OrdinalAnalysis.IDn.UpperBound
-import OrdinalAnalysis.IDn.Theorem
-import OrdinalAnalysis.IDn.StageSemantics
-import OrdinalAnalysis.IDn.PredCutAux
-import OrdinalAnalysis.IDn.Internal.OrderFacts
-import OrdinalAnalysis.IDn.InternalFacts
-import OrdinalAnalysis.IDn.UpperFinal
-import OrdinalAnalysis.IDn.PredCut
-import OrdinalAnalysis.IDn.PredCutCases.CaseAll
-import OrdinalAnalysis.IDn.PredCutCases.CaseAnd
-import OrdinalAnalysis.IDn.PredCutCases.CaseCut
-import OrdinalAnalysis.IDn.PredCutCases.CaseExs
-import OrdinalAnalysis.IDn.PredCutCases.CaseFix
-import OrdinalAnalysis.IDn.PredCutCases.CaseIdX
-import OrdinalAnalysis.IDn.PredCutCases.CaseLiteral
-import OrdinalAnalysis.IDn.PredCutCases.CaseNstage
-import OrdinalAnalysis.IDn.PredCutCases.CaseOrL
-import OrdinalAnalysis.IDn.PredCutCases.CaseOrR
-import OrdinalAnalysis.IDn.PredCutCases.CaseStage
-import OrdinalAnalysis.IDn.PredCutCases.CaseVerum
-import OrdinalAnalysis.IDn.PredCutCases.Main
-import OrdinalAnalysis.IDn.Embed
-import OrdinalAnalysis.IDn.LowerBoundAux
-import OrdinalAnalysis.IDn.UpperFormsFacts
-import OrdinalAnalysis.IDn.Internal.OrderBridge
-import OrdinalAnalysis.IDn.Evaluate
-import OrdinalAnalysis.IDn.LowerBoundAux2
-import OrdinalAnalysis.IDn.AxiomsLogic
-import OrdinalAnalysis.IDn.AxiomsPA
-import OrdinalAnalysis.IDn.EmbedHypsPA
-import OrdinalAnalysis.IDn.EmbedHypsLogic
-import OrdinalAnalysis.IDn.LowerBound
-import OrdinalAnalysis.IDn.LowerLt
-import OrdinalAnalysis.IDn.Theorem2
-import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_or
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_rel
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_neg
-import OrdinalAnalysis.IDn.AxiomsIDCases.FixF_q
-import OrdinalAnalysis.IDn.AxiomsIDCases.predOf_rew
-import OrdinalAnalysis.IDn.AxiomsIDCases.NumF_q
-import OrdinalAnalysis.IDn.AxiomsIDCases.rew_plugI_num
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_lMap_top
-import OrdinalAnalysis.IDn.AxiomsIDCases.embK_substI
-import OrdinalAnalysis.IDn.AxiomsIDCases.opShape_rew
-import OrdinalAnalysis.IDn.AxiomsIDCases.params_plugI
-import OrdinalAnalysis.IDn.AxiomsIDCases.params_predStage
-import OrdinalAnalysis.IDn.AxiomsIDCases.xFreeI_predOf
-import OrdinalAnalysis.IDn.CollapseCorollary
-import OrdinalAnalysis.IDn.EmbedHypsReplace
-import OrdinalAnalysis.Ordinal.ThetaW.TowerCofinal
-import OrdinalAnalysis.IDn.LowerSharp
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_subst_numI
-import OrdinalAnalysis.IDn.TautAdditive
-import OrdinalAnalysis.IDn.CollapseCorollarySharp
-import OrdinalAnalysis.IDn.EmbedHypsTaut
-import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
-import OrdinalAnalysis.IDn.AxiomsIDCases.closure_inst
-import OrdinalAnalysis.IDn.AxiomsIDCases.closure_derivable
-import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_add_ofNat_eq_nadd
-import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_nadd_Omega_add_Omega
-import OrdinalAnalysis.IDn.AxiomsIDCases.neg_ClF
-import OrdinalAnalysis.IDn.AxiomsIDCases.indAx_claim
-import OrdinalAnalysis.IDn.AxiomsIDCases.indBody_inst
-import OrdinalAnalysis.IDn.EmbedHypsAll
-import OrdinalAnalysis.IDn.Final
-import OrdinalAnalysis.IDn.Retract
-import OrdinalAnalysis.Ordinal.ThetaV.Basic
-import OrdinalAnalysis.Ordinal.ThetaV.Order
-import OrdinalAnalysis.Ordinal.ThetaV.Exponents
-import OrdinalAnalysis.Ordinal.ThetaV.Dom
-import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
-import OrdinalAnalysis.Ordinal.ThetaV.OfW
-import OrdinalAnalysis.IDw.Theory
-import OrdinalAnalysis.IDw.Internal.CovTable
-import OrdinalAnalysis.Ordinal.ThetaV.Arith
-import OrdinalAnalysis.IDw.Language
-import OrdinalAnalysis.Ordinal.ThetaV.ArithSucc
-import OrdinalAnalysis.Ordinal.ThetaV.Instance
-import OrdinalAnalysis.Ordinal.ThetaV.Veblen
-import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder
-import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder2
-import OrdinalAnalysis.Ordinal.ThetaV.HullSingle
-import OrdinalAnalysis.Ordinal.ThetaV.HullDom
-import OrdinalAnalysis.IDw.Internal.Codes
-import OrdinalAnalysis.IDw.Internal.Standard
-import OrdinalAnalysis.Ordinal.Collapsing.ThetaVInstance
-import OrdinalAnalysis.Ordinal.Collapsing.Limit
-import OrdinalAnalysis.IDw.Rank
-import OrdinalAnalysis.IDw.Internal.Order
-import OrdinalAnalysis.IDw.Sound
-import OrdinalAnalysis.IDw.SlotCheck
-import OrdinalAnalysis.IDw.Internal.OrderT
-import OrdinalAnalysis.IDw.Internal.OrderE
-import OrdinalAnalysis.IDw.Internal.JumpList
-import OrdinalAnalysis.IDw.CalculusAux
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.IDw.CalculusSmoke
-import OrdinalAnalysis.IDw.Boundedness
-import OrdinalAnalysis.IDw.Evaluate
-import OrdinalAnalysis.IDw.NumSubst
-import OrdinalAnalysis.IDw.ReductionAux
-import OrdinalAnalysis.IDw.Reduction
-import OrdinalAnalysis.IDw.Elimination
-import OrdinalAnalysis.IDw.PredCutAux
-import OrdinalAnalysis.IDw.PredCutCases.CaseLiteral
-import OrdinalAnalysis.IDw.PredCutCases.CaseVerum
-import OrdinalAnalysis.IDw.PredCutCases.CaseIdX
-import OrdinalAnalysis.IDw.PredCutCases.CaseAnd
-import OrdinalAnalysis.IDw.PredCutCases.CaseOrL
-import OrdinalAnalysis.IDw.PredCutCases.CaseOrR
-import OrdinalAnalysis.IDw.PredCutCases.CaseAll
-import OrdinalAnalysis.IDw.PredCutCases.CaseExs
-import OrdinalAnalysis.IDw.PredCutCases.CaseStage
-import OrdinalAnalysis.IDw.PredCutCases.CaseNstage
-import OrdinalAnalysis.IDw.PredCutCases.CaseFix
-import OrdinalAnalysis.IDw.PredCutCases.CaseJlev
-import OrdinalAnalysis.IDw.PredCutCases.CaseNJlev
-import OrdinalAnalysis.IDw.PredCutCases.CaseCut
-import OrdinalAnalysis.IDw.PredCutCases.Main
-import OrdinalAnalysis.IDw.Lift
-import OrdinalAnalysis.IDw.UpperAuxCodes
-import OrdinalAnalysis.IDw.UpperAux
-import OrdinalAnalysis.IDw.InternalFacts
-import OrdinalAnalysis.IDw.Internal.OrderBridge
-import OrdinalAnalysis.IDw.Embed
-import OrdinalAnalysis.IDw.Internal.OrderFacts
-import OrdinalAnalysis.IDw.UpperAuxCof
-import OrdinalAnalysis.IDw.AxiomsPA
-import OrdinalAnalysis.IDw.EmbedHypsPA
-import OrdinalAnalysis.IDw.StageSemantics
-import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
-import OrdinalAnalysis.IDw.AxiomsIDCases.FixF_q
-import OrdinalAnalysis.IDw.AxiomsIDCases.predOf_rew
-import OrdinalAnalysis.IDw.AxiomsIDCases.NumF_q
-import OrdinalAnalysis.IDw.AxiomsIDCases.rew_plugI_num
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_rel
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_neg
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_lMap_top
-import OrdinalAnalysis.IDw.AxiomsIDCases.opShape_rew
-import OrdinalAnalysis.IDw.AxiomsIDCases.params_plugI
-import OrdinalAnalysis.IDw.AxiomsIDCases.params_predStage
-import OrdinalAnalysis.IDw.AxiomsIDCases.xFreeI_predOf
-import OrdinalAnalysis.IDw.AxiomsIDCases.unfold_top_eq
-import OrdinalAnalysis.IDw.AxiomsIDCases.neg_ClF
-import OrdinalAnalysis.IDw.Collapsing.Basic
-import OrdinalAnalysis.IDw.Collapsing.Statement
-import OrdinalAnalysis.IDw.Collapsing.Theorem
-import OrdinalAnalysis.IDw.Collapsing.CaseCut
-import OrdinalAnalysis.IDw.AxiomsLogic
-import OrdinalAnalysis.IDw.TautAdditive
-import OrdinalAnalysis.IDw.EmbedHypsLogic
-import OrdinalAnalysis.IDw.TransferAux
-import OrdinalAnalysis.IDw.Transfer
-import OrdinalAnalysis.IDw.PredCut
-import OrdinalAnalysis.IDw.Collapsing.CaseLiteral
-import OrdinalAnalysis.IDw.Collapsing.CaseVerum
-import OrdinalAnalysis.IDw.Collapsing.CaseIdX
-import OrdinalAnalysis.IDw.Collapsing.CaseAnd
-import OrdinalAnalysis.IDw.Collapsing.CaseOrL
-import OrdinalAnalysis.IDw.Collapsing.CaseOrR
-import OrdinalAnalysis.IDw.Collapsing.CaseAll
-import OrdinalAnalysis.IDw.Collapsing.CaseExs
-import OrdinalAnalysis.IDw.Collapsing.CaseStage
-import OrdinalAnalysis.IDw.Collapsing.CaseNstage
-import OrdinalAnalysis.IDw.Collapsing.Hyps
-import OrdinalAnalysis.IDw.UpperAuxForms
-import OrdinalAnalysis.IDw.WellOrderingW
-import OrdinalAnalysis.IDw.Collapsing.CaseFix
-import OrdinalAnalysis.IDw.Collapsing.CaseJlev
-import OrdinalAnalysis.IDw.Collapsing.CaseNJlev
-import OrdinalAnalysis.IDw.Collapsing.Final
-import OrdinalAnalysis.IDw.WellOrderingTI
-import OrdinalAnalysis.IDw.WellOrderingJump
-import OrdinalAnalysis.IDw.TISentence
-import OrdinalAnalysis.IDw.WellOrderingTau
-import OrdinalAnalysis.IDw.UpperBound
-import OrdinalAnalysis.IDw.UpperFinal
-import OrdinalAnalysis.IDw.TransferCong
-import OrdinalAnalysis.IDw.AxiomsIDCases.closure_inst
-import OrdinalAnalysis.IDw.AxiomsIDCases.closure_derivable
-import OrdinalAnalysis.IDw.AxiomsIDCases.indAx_claim
-import OrdinalAnalysis.IDw.AxiomsIDCases.indBody_inst
-import OrdinalAnalysis.IDw.EmbedHypsID
-import OrdinalAnalysis.IDw.EmbedHypsAll
-import OrdinalAnalysis.IDw.LowerBoundAux
-import OrdinalAnalysis.IDw.LowerBoundAux2
-import OrdinalAnalysis.IDw.LowerBound
-import OrdinalAnalysis.IDw.CollapseCorollaryW
-import OrdinalAnalysis.IDw.LowerLt
-import OrdinalAnalysis.IDw.Final
-import OrdinalAnalysis.EvalWrap
-import OrdinalAnalysis.Ordinal.ONoteEpsilon0
-import OrdinalAnalysis.Gentzen.OrderType
-import OrdinalAnalysis.KPi.Language
-import OrdinalAnalysis.KPi.Delta0
-import OrdinalAnalysis.KPi.Theory
-import OrdinalAnalysis.KPi.SlotCheck
-import OrdinalAnalysis.KPi.Ord.Defs
-import OrdinalAnalysis.KPi.Ord.Veblen
-import OrdinalAnalysis.KPi.Ord.Closure
-import OrdinalAnalysis.KPi.Ord.Psi
-import OrdinalAnalysis.KPi.Ord.CNF
-import OrdinalAnalysis.KPi.Ord.Omega
-import OrdinalAnalysis.KPi.Ord.Lemma45
-import OrdinalAnalysis.KPi.Ord.Hull
-import OrdinalAnalysis.KPi.Ord.Sanity
-import OrdinalAnalysis.KPi.Ord.Main
-import OrdinalAnalysis.Gentzen.JumpTransport
-import OrdinalAnalysis.KPi.RS.Defs
-import OrdinalAnalysis.KPi.RS.Rank
-import OrdinalAnalysis.KPi.RS.Truth
-import OrdinalAnalysis.KPi.RS.Infty
-import OrdinalAnalysis.KPi.RS.Card
-import OrdinalAnalysis.KPi.RS.StarDefs
-import OrdinalAnalysis.KPi.RS.StarBasic
-import OrdinalAnalysis.KPi.RS.StarSim
-import OrdinalAnalysis.KPi.RS.StarLemmas
+module
+
+public import OrdinalAnalysis.Basic
+public import OrdinalAnalysis.Ordinal.NaturalSum
+public import OrdinalAnalysis.Ordinal.NaturalSumMono
+public import OrdinalAnalysis.Ordinal.NONatSum
+public import OrdinalAnalysis.Ordinal.OmegaPow
+public import OrdinalAnalysis.Ordinal.Notation
+public import OrdinalAnalysis.Proof.CutRank
+public import OrdinalAnalysis.Proof.Ordinal
+public import OrdinalAnalysis.Proof.Bounded
+public import OrdinalAnalysis.Proof.Weakening
+public import OrdinalAnalysis.Proof.Inversion
+public import OrdinalAnalysis.Proof.Substitution
+public import OrdinalAnalysis.Proof.InversionAll
+public import OrdinalAnalysis.Proof.Reduction
+public import OrdinalAnalysis.Proof.Elimination
+public import OrdinalAnalysis.Proof.CutElimination
+public import OrdinalAnalysis.Proof.Bridge
+public import OrdinalAnalysis.Ordinal.NaturalSumAssoc
+public import OrdinalAnalysis.Proof.InversionAllFull
+public import OrdinalAnalysis.Omega.Calculus
+public import OrdinalAnalysis.Omega.Reduction
+public import OrdinalAnalysis.Gentzen.Setup
+public import OrdinalAnalysis.Gentzen.Jump
+public import OrdinalAnalysis.Gentzen.JumpProgressive
+public import OrdinalAnalysis.Gentzen.InternalONote
+public import OrdinalAnalysis.Gentzen.CodedNotation
+public import OrdinalAnalysis.Gentzen.JumpArithmetic
+public import OrdinalAnalysis.Gentzen.OmegaCover
+public import OrdinalAnalysis.Gentzen.OmegaTower
+public import OrdinalAnalysis.Gentzen.NotationBridge
+public import OrdinalAnalysis.Gentzen.Order
+public import OrdinalAnalysis.Gentzen.Cofinality
+public import OrdinalAnalysis.Gentzen.UpperBound
+public import OrdinalAnalysis.Gentzen.Idiom
+public import OrdinalAnalysis.Gentzen.Code
+public import OrdinalAnalysis.Gentzen.ToyOmega
+public import OrdinalAnalysis.Gentzen.LowerSyntax
+public import OrdinalAnalysis.Gentzen.StandardLX
+public import OrdinalAnalysis.Gentzen.PrecStandard
+public import OrdinalAnalysis.Gentzen.LowerClass
+public import OrdinalAnalysis.Gentzen.Evaluate
+public import OrdinalAnalysis.Gentzen.OmegaTruth
+public import OrdinalAnalysis.Omega.Transfer
+public import OrdinalAnalysis.Gentzen.NumSubst
+public import OrdinalAnalysis.Gentzen.EvInst
+public import OrdinalAnalysis.Gentzen.Embed
+public import OrdinalAnalysis.Omega.Identity
+public import OrdinalAnalysis.Gentzen.LowerClassEv
+public import OrdinalAnalysis.Gentzen.Boundedness
+public import OrdinalAnalysis.Gentzen.AxiomsInduction
+public import OrdinalAnalysis.Gentzen.AxiomsLogic
+public import OrdinalAnalysis.Gentzen.LowerBound
+public import OrdinalAnalysis.Gentzen.GentzenTheorem
+public import OrdinalAnalysis.Gentzen.Consistency
+public import OrdinalAnalysis.Ordinal.Veblen.Basic
+public import OrdinalAnalysis.Ordinal.Veblen.Cmp
+public import OrdinalAnalysis.Ordinal.Veblen.Gamma0Note
+public import OrdinalAnalysis.Ordinal.Veblen.NaturalSum
+public import OrdinalAnalysis.Ordinal.Veblen.Epsilon
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+public import OrdinalAnalysis.Ordinal.Veblen.OfNONote
+public import OrdinalAnalysis.Gentzen.CodeSurj
+public import OrdinalAnalysis.ACA.Syntax
+public import OrdinalAnalysis.ACA.LK
+public import OrdinalAnalysis.ACA.Standard
+public import OrdinalAnalysis.Ordinal.Veblen.NaturalSumAssoc
+public import OrdinalAnalysis.Gentzen.InternalVNote
+public import OrdinalAnalysis.Gentzen.VNoteBridge
+public import OrdinalAnalysis.Gentzen.CodedVeblen
+public import OrdinalAnalysis.Omega.HeightMap
+public import OrdinalAnalysis.Ordinal.Below
+public import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
+public import OrdinalAnalysis.Gentzen.Climb
+public import OrdinalAnalysis.Gentzen.ClimbEpsilon0
+public import OrdinalAnalysis.Gentzen.CutAxioms
+public import OrdinalAnalysis.Ordinal.BelowDerivation
+public import OrdinalAnalysis.Gentzen.ClimbVeblen
+public import OrdinalAnalysis.Gentzen.Epsilon1Axiom
+public import OrdinalAnalysis.Gentzen.Epsilon1Order
+public import OrdinalAnalysis.Gentzen.Epsilon1LowerBound
+public import OrdinalAnalysis.Gentzen.InternalVNoteOrder
+public import OrdinalAnalysis.Gentzen.InternalVNoteJump
+public import OrdinalAnalysis.Gentzen.CodedVeblenJump
+public import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
+public import OrdinalAnalysis.ACAOmega.Calculus
+public import OrdinalAnalysis.ACAOmega.Reduction
+public import OrdinalAnalysis.ACAOmega.SecondCut
+public import OrdinalAnalysis.Gentzen.EpsilonSegmentOrder
+public import OrdinalAnalysis.Gentzen.SubstX
+public import OrdinalAnalysis.Gentzen.Epsilon1Scheme
+public import OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme
+public import OrdinalAnalysis.Gentzen.Epsilon1Theorem
+public import OrdinalAnalysis.ACAOmega.Evaluate
+public import OrdinalAnalysis.ACAOmega.EvProvider
+public import OrdinalAnalysis.ACAOmega.SecondCutEv
+public import OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
+public import OrdinalAnalysis.Gentzen.VeblenTower
+public import OrdinalAnalysis.Gentzen.VeblenSuccStep
+public import OrdinalAnalysis.Gentzen.InternalEpsCover
+public import OrdinalAnalysis.Gentzen.InternalEpsMono
+public import OrdinalAnalysis.Gentzen.InternalEpsMonoCode
+public import OrdinalAnalysis.ACAOmega.CodedOrder₂
+public import OrdinalAnalysis.ACAOmega.LowerClass₂
+public import OrdinalAnalysis.ACAOmega.Boundedness₂
+public import OrdinalAnalysis.ACA.Toolkit
+public import OrdinalAnalysis.ACA.TI
+public import OrdinalAnalysis.ACAOmega.NumSubst₂
+public import OrdinalAnalysis.ACAOmega.CutRank₂
+public import OrdinalAnalysis.ACAOmega.Embed₂
+public import OrdinalAnalysis.ACAOmega.OmegaTruth₂
+public import OrdinalAnalysis.ACAOmega.AxiomsLogic₂
+public import OrdinalAnalysis.ACAOmega.AxiomsInduction₂
+public import OrdinalAnalysis.ACAOmega.Axioms₂
+public import OrdinalAnalysis.ACA.Translate
+public import OrdinalAnalysis.Ordinal.NONoteSucc
+public import OrdinalAnalysis.ACAOmega.RankBound
+public import OrdinalAnalysis.Ordinal.VeblenStructure
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+public import OrdinalAnalysis.ACAOmega.SchemeAxioms₂
+public import OrdinalAnalysis.ACAOmega.LowerBound₂
+public import OrdinalAnalysis.ACAOmega.ACATheorem
+public import OrdinalAnalysis.ACA.Combinators
+public import OrdinalAnalysis.ACA.Lift
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenBelow
+public import OrdinalAnalysis.ACAOmega.Gamma0Order₂
+public import OrdinalAnalysis.ACAOmega.SubstX₂
+public import OrdinalAnalysis.ACAOmega.Climb₂
+public import OrdinalAnalysis.ACA.LiftInduction
+public import OrdinalAnalysis.ACA.Congruence
+public import OrdinalAnalysis.ACA.LiftTI
+public import OrdinalAnalysis.Ramified.Language
+public import OrdinalAnalysis.Ramified.Ground
+public import OrdinalAnalysis.Ramified.Code
+public import OrdinalAnalysis.Ramified.Guard
+public import OrdinalAnalysis.Ramified.Rank
+public import OrdinalAnalysis.Ramified.Calculus
+public import OrdinalAnalysis.Ramified.ReductionProbe
+public import OrdinalAnalysis.ACA.TIGamma
+public import OrdinalAnalysis.ACAOmega.AxiomsTI₂
+public import OrdinalAnalysis.ACAOmega.Gamma0Theorem
+public import OrdinalAnalysis.ACAOmega.Gamma0Segment
+public import OrdinalAnalysis.ACA.Lifted
+public import OrdinalAnalysis.Gentzen.ProgStep
+public import OrdinalAnalysis.ACA.EpsProg
+public import OrdinalAnalysis.ACA.UpperBound
+public import OrdinalAnalysis.ACA.OmegaJump
+public import OrdinalAnalysis.ACA.OmegaJumpTower
+public import OrdinalAnalysis.ACA.OmegaJumpExt
+public import OrdinalAnalysis.ACA.OmegaJumpDepth
+public import OrdinalAnalysis.ACA.OmegaJumpInduction
+public import OrdinalAnalysis.ACA.OmegaJumpProg
+public import OrdinalAnalysis.ACA.OmegaJumpUpperBound
+public import OrdinalAnalysis.ACA.OmegaJumpSound
+public import OrdinalAnalysis.Gentzen.InternalVeblen
+public import OrdinalAnalysis.Ramified.Literals
+public import OrdinalAnalysis.Ramified.Reduction
+public import OrdinalAnalysis.Ramified.PredicativeCut
+public import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+public import OrdinalAnalysis.Ramified.PredicativeCutGeneral
+public import OrdinalAnalysis.Ramified.BlockCut
+public import OrdinalAnalysis.Ramified.SegOrder
+public import OrdinalAnalysis.Ramified.LowerBound
+public import OrdinalAnalysis.Ramified.LiftRAux
+public import OrdinalAnalysis.Ramified.LiftR
+public import OrdinalAnalysis.Ramified.TowerR
+public import OrdinalAnalysis.Ramified.EpsProgR
+public import OrdinalAnalysis.Ramified.DescentR
+public import OrdinalAnalysis.Ramified.UpperBound
+public import OrdinalAnalysis.Ramified.CopyR
+public import OrdinalAnalysis.Ramified.InfTools
+public import OrdinalAnalysis.Ramified.SemiformalLower
+public import OrdinalAnalysis.Ramified.EffLevel
+public import OrdinalAnalysis.Ramified.DescentBeta
+public import OrdinalAnalysis.Ramified.FefermanSchutte
+public import OrdinalAnalysis.Ramified.SemiformalUpper
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenCover
+public import OrdinalAnalysis.Ordinal.Veblen.FundSeq
+public import OrdinalAnalysis.Ramified.LimitTheorem
+public import OrdinalAnalysis.Ramified.FSLower
+public import OrdinalAnalysis.Ramified.TransfiniteLower
+public import OrdinalAnalysis.Ordinal.Veblen.Encodable
+public import OrdinalAnalysis.Ordinal.Veblen.OmegaMul
+public import OrdinalAnalysis.Ramified.NamingAxioms
+public import OrdinalAnalysis.Ramified.Comprehension
+public import OrdinalAnalysis.Ramified.CutAxioms
+public import OrdinalAnalysis.Ramified.CodedOrderR
+public import OrdinalAnalysis.Ramified.LowerClass
+public import OrdinalAnalysis.Ramified.Boundedness
+public import OrdinalAnalysis.Ramified.AxiomsLogic
+public import OrdinalAnalysis.Ramified.AxiomsInduction
+public import OrdinalAnalysis.Ramified.Axioms
+public import OrdinalAnalysis.Ramified.SegOrder
+public import OrdinalAnalysis.Ramified.LowerBound
+public import OrdinalAnalysis.Gentzen.InternalVeblenSurj
+public import OrdinalAnalysis.Gentzen.InternalVebCover
+public import OrdinalAnalysis.Gentzen.InternalVeblenCode
+public import OrdinalAnalysis.ACA.TowerInduction
+public import OrdinalAnalysis.ACA.SegmentBridge
+public import OrdinalAnalysis.Ramified.Evaluate
+public import OrdinalAnalysis.Ramified.NumSubst
+public import OrdinalAnalysis.Ramified.Theory
+public import OrdinalAnalysis.Ramified.Embed
+public import OrdinalAnalysis.ID1.Theory
+public import OrdinalAnalysis.ID1.Sound
+public import OrdinalAnalysis.Ordinal.Theta.Basic
+public import OrdinalAnalysis.Ordinal.Theta.Order
+public import OrdinalAnalysis.Ordinal.Theta.Arith
+public import OrdinalAnalysis.Ordinal.Theta.Instance
+public import OrdinalAnalysis.Ordinal.Theta.WellFounded
+public import OrdinalAnalysis.Ordinal.Theta.Hull
+public import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+public import OrdinalAnalysis.ID1.Language
+public import OrdinalAnalysis.ID1.Rank
+public import OrdinalAnalysis.ID1.Internal.CovTable
+public import OrdinalAnalysis.ID1.Internal.Codes
+public import OrdinalAnalysis.ID1.Internal.Standard
+public import OrdinalAnalysis.ID1.Calculus
+public import OrdinalAnalysis.ID1.Boundedness
+public import OrdinalAnalysis.ID1.Collapsing
+public import OrdinalAnalysis.ID1.ReductionAux
+public import OrdinalAnalysis.ID1.Reduction
+public import OrdinalAnalysis.ID1.Elimination
+public import OrdinalAnalysis.ID1.Internal.Order
+public import OrdinalAnalysis.ID1.Internal.OrderE
+public import OrdinalAnalysis.ID1.Internal.Arith
+public import OrdinalAnalysis.ID1.Internal.ArithBridge
+public import OrdinalAnalysis.ID1.Internal.ArithFormulas
+public import OrdinalAnalysis.ID1.Internal.ArithLaws
+public import OrdinalAnalysis.ID1.Internal.ArithE
+public import OrdinalAnalysis.ID1.Internal.ArithMul
+public import OrdinalAnalysis.ID1.StageSemantics
+public import OrdinalAnalysis.ID1.LowerBound
+public import OrdinalAnalysis.ID1.Evaluate
+public import OrdinalAnalysis.ID1.NumSubst
+public import OrdinalAnalysis.ID1.AxiomsLogic
+public import OrdinalAnalysis.ID1.AxiomsPA
+public import OrdinalAnalysis.ID1.AxiomsID
+public import OrdinalAnalysis.ID1.Embed
+public import OrdinalAnalysis.ID1.Theorem
+public import OrdinalAnalysis.ID1.Internal.JumpList
+public import OrdinalAnalysis.ID1.Lift
+public import OrdinalAnalysis.ID1.WellOrdering
+public import OrdinalAnalysis.ID1.Bridge
+public import OrdinalAnalysis.ID1.UpperBound
+public import OrdinalAnalysis.ID1.Theorem2
+public import OrdinalAnalysis.Ordinal.ThetaW.Basic
+public import OrdinalAnalysis.Ordinal.ThetaW.Order
+public import OrdinalAnalysis.Ordinal.ThetaW.Exponents
+public import OrdinalAnalysis.Ordinal.ThetaW.WellFounded
+public import OrdinalAnalysis.Ordinal.ThetaW.Descent
+public import OrdinalAnalysis.Ordinal.ThetaW.Dom
+public import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
+public import OrdinalAnalysis.Ordinal.ThetaW.Arith
+public import OrdinalAnalysis.Ordinal.ThetaW.Instance
+public import OrdinalAnalysis.Ordinal.ThetaW.Veblen
+public import OrdinalAnalysis.IDn.Theory
+public import OrdinalAnalysis.IDn.Sound
+public import OrdinalAnalysis.IDn.Union
+public import OrdinalAnalysis.IDn.Language
+public import OrdinalAnalysis.IDn.Rank
+public import OrdinalAnalysis.IDn.Internal.CovTable
+public import OrdinalAnalysis.IDn.Internal.Codes
+public import OrdinalAnalysis.IDn.Internal.Standard
+public import OrdinalAnalysis.Ordinal.ThetaW.Hull
+public import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+public import OrdinalAnalysis.Tactic.RuleSets
+public import OrdinalAnalysis.Tactic.Dom
+public import OrdinalAnalysis.Tactic.Order
+public import OrdinalAnalysis.Tactic.Notation
+public import OrdinalAnalysis.Tactic.Sanity
+public import OrdinalAnalysis.Tactic.Test
+public import OrdinalAnalysis.Ordinal.ThetaW.HullSingle
+public import OrdinalAnalysis.Ordinal.ThetaW.HullDom
+public import OrdinalAnalysis.Ordinal.Collapsing.Interface
+public import OrdinalAnalysis.Ordinal.Collapsing.ThetaInstance
+public import OrdinalAnalysis.Ordinal.Collapsing.ThetaWInstance
+public import OrdinalAnalysis.IDn.Internal.Order
+public import OrdinalAnalysis.IDn.CalculusAux
+public import OrdinalAnalysis.IDn.Calculus
+public import OrdinalAnalysis.IDn.ReductionAux
+public import OrdinalAnalysis.IDn.Reduction
+public import OrdinalAnalysis.IDn.Collapsing.Basic
+public import OrdinalAnalysis.IDn.Boundedness
+public import OrdinalAnalysis.Ordinal.ThetaW.VeblenOrder
+public import OrdinalAnalysis.IDn.Internal.OrderT
+public import OrdinalAnalysis.IDn.Internal.OrderE
+public import OrdinalAnalysis.IDn.Internal.JumpList
+public import OrdinalAnalysis.IDn.Elimination
+public import OrdinalAnalysis.IDn.NumSubst
+public import OrdinalAnalysis.Ordinal.ThetaW.ArithSucc
+public import OrdinalAnalysis.Ordinal.ThetaW.VeblenOrder2
+public import OrdinalAnalysis.IDn.Collapsing.CaseAll
+public import OrdinalAnalysis.IDn.Collapsing.CaseAnd
+public import OrdinalAnalysis.IDn.Collapsing.CaseCut
+public import OrdinalAnalysis.IDn.Collapsing.CaseExs
+public import OrdinalAnalysis.IDn.Collapsing.CaseFix
+public import OrdinalAnalysis.IDn.Collapsing.CaseIdX
+public import OrdinalAnalysis.IDn.Collapsing.CaseLiteral
+public import OrdinalAnalysis.IDn.Collapsing.CaseNstage
+public import OrdinalAnalysis.IDn.Collapsing.CaseOrL
+public import OrdinalAnalysis.IDn.Collapsing.CaseOrR
+public import OrdinalAnalysis.IDn.Collapsing.CaseStage
+public import OrdinalAnalysis.IDn.Collapsing.CaseVerum
+public import OrdinalAnalysis.IDn.Collapsing.Statement
+public import OrdinalAnalysis.IDn.Collapsing.Theorem
+public import OrdinalAnalysis.IDn.UpperAux
+public import OrdinalAnalysis.IDn.UpperAuxCodes
+public import OrdinalAnalysis.IDn.UpperAuxCof
+public import OrdinalAnalysis.IDn.UpperAuxForms
+public import OrdinalAnalysis.IDn.Lift
+public import OrdinalAnalysis.IDn.WellOrdering
+public import OrdinalAnalysis.IDn.UpperBound
+public import OrdinalAnalysis.IDn.Theorem
+public import OrdinalAnalysis.IDn.StageSemantics
+public import OrdinalAnalysis.IDn.PredCutAux
+public import OrdinalAnalysis.IDn.Internal.OrderFacts
+public import OrdinalAnalysis.IDn.InternalFacts
+public import OrdinalAnalysis.IDn.UpperFinal
+public import OrdinalAnalysis.IDn.PredCut
+public import OrdinalAnalysis.IDn.PredCutCases.CaseAll
+public import OrdinalAnalysis.IDn.PredCutCases.CaseAnd
+public import OrdinalAnalysis.IDn.PredCutCases.CaseCut
+public import OrdinalAnalysis.IDn.PredCutCases.CaseExs
+public import OrdinalAnalysis.IDn.PredCutCases.CaseFix
+public import OrdinalAnalysis.IDn.PredCutCases.CaseIdX
+public import OrdinalAnalysis.IDn.PredCutCases.CaseLiteral
+public import OrdinalAnalysis.IDn.PredCutCases.CaseNstage
+public import OrdinalAnalysis.IDn.PredCutCases.CaseOrL
+public import OrdinalAnalysis.IDn.PredCutCases.CaseOrR
+public import OrdinalAnalysis.IDn.PredCutCases.CaseStage
+public import OrdinalAnalysis.IDn.PredCutCases.CaseVerum
+public import OrdinalAnalysis.IDn.PredCutCases.Main
+public import OrdinalAnalysis.IDn.Embed
+public import OrdinalAnalysis.IDn.LowerBoundAux
+public import OrdinalAnalysis.IDn.UpperFormsFacts
+public import OrdinalAnalysis.IDn.Internal.OrderBridge
+public import OrdinalAnalysis.IDn.Evaluate
+public import OrdinalAnalysis.IDn.LowerBoundAux2
+public import OrdinalAnalysis.IDn.AxiomsLogic
+public import OrdinalAnalysis.IDn.AxiomsPA
+public import OrdinalAnalysis.IDn.EmbedHypsPA
+public import OrdinalAnalysis.IDn.EmbedHypsLogic
+public import OrdinalAnalysis.IDn.LowerBound
+public import OrdinalAnalysis.IDn.LowerLt
+public import OrdinalAnalysis.IDn.Theorem2
+public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_or
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_rel
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_neg
+public import OrdinalAnalysis.IDn.AxiomsIDCases.FixF_q
+public import OrdinalAnalysis.IDn.AxiomsIDCases.predOf_rew
+public import OrdinalAnalysis.IDn.AxiomsIDCases.NumF_q
+public import OrdinalAnalysis.IDn.AxiomsIDCases.rew_plugI_num
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_lMap_top
+public import OrdinalAnalysis.IDn.AxiomsIDCases.embK_substI
+public import OrdinalAnalysis.IDn.AxiomsIDCases.opShape_rew
+public import OrdinalAnalysis.IDn.AxiomsIDCases.params_plugI
+public import OrdinalAnalysis.IDn.AxiomsIDCases.params_predStage
+public import OrdinalAnalysis.IDn.AxiomsIDCases.xFreeI_predOf
+public import OrdinalAnalysis.IDn.CollapseCorollary
+public import OrdinalAnalysis.IDn.EmbedHypsReplace
+public import OrdinalAnalysis.Ordinal.ThetaW.TowerCofinal
+public import OrdinalAnalysis.IDn.LowerSharp
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_subst_numI
+public import OrdinalAnalysis.IDn.TautAdditive
+public import OrdinalAnalysis.IDn.CollapseCorollarySharp
+public import OrdinalAnalysis.IDn.EmbedHypsTaut
+public import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
+public import OrdinalAnalysis.IDn.AxiomsIDCases.closure_inst
+public import OrdinalAnalysis.IDn.AxiomsIDCases.closure_derivable
+public import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_add_ofNat_eq_nadd
+public import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_nadd_Omega_add_Omega
+public import OrdinalAnalysis.IDn.AxiomsIDCases.neg_ClF
+public import OrdinalAnalysis.IDn.AxiomsIDCases.indAx_claim
+public import OrdinalAnalysis.IDn.AxiomsIDCases.indBody_inst
+public import OrdinalAnalysis.IDn.EmbedHypsAll
+public import OrdinalAnalysis.IDn.Final
+public import OrdinalAnalysis.IDn.Retract
+public import OrdinalAnalysis.Ordinal.ThetaV.Basic
+public import OrdinalAnalysis.Ordinal.ThetaV.Order
+public import OrdinalAnalysis.Ordinal.ThetaV.Exponents
+public import OrdinalAnalysis.Ordinal.ThetaV.Dom
+public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+public import OrdinalAnalysis.Ordinal.ThetaV.OfW
+public import OrdinalAnalysis.IDw.Theory
+public import OrdinalAnalysis.IDw.Internal.CovTable
+public import OrdinalAnalysis.Ordinal.ThetaV.Arith
+public import OrdinalAnalysis.IDw.Language
+public import OrdinalAnalysis.Ordinal.ThetaV.ArithSucc
+public import OrdinalAnalysis.Ordinal.ThetaV.Instance
+public import OrdinalAnalysis.Ordinal.ThetaV.Veblen
+public import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder
+public import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder2
+public import OrdinalAnalysis.Ordinal.ThetaV.HullSingle
+public import OrdinalAnalysis.Ordinal.ThetaV.HullDom
+public import OrdinalAnalysis.IDw.Internal.Codes
+public import OrdinalAnalysis.IDw.Internal.Standard
+public import OrdinalAnalysis.Ordinal.Collapsing.ThetaVInstance
+public import OrdinalAnalysis.Ordinal.Collapsing.Limit
+public import OrdinalAnalysis.IDw.Rank
+public import OrdinalAnalysis.IDw.Internal.Order
+public import OrdinalAnalysis.IDw.Sound
+public import OrdinalAnalysis.IDw.SlotCheck
+public import OrdinalAnalysis.IDw.Internal.OrderT
+public import OrdinalAnalysis.IDw.Internal.OrderE
+public import OrdinalAnalysis.IDw.Internal.JumpList
+public import OrdinalAnalysis.IDw.CalculusAux
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.IDw.CalculusSmoke
+public import OrdinalAnalysis.IDw.Boundedness
+public import OrdinalAnalysis.IDw.Evaluate
+public import OrdinalAnalysis.IDw.NumSubst
+public import OrdinalAnalysis.IDw.ReductionAux
+public import OrdinalAnalysis.IDw.Reduction
+public import OrdinalAnalysis.IDw.Elimination
+public import OrdinalAnalysis.IDw.PredCutAux
+public import OrdinalAnalysis.IDw.PredCutCases.CaseLiteral
+public import OrdinalAnalysis.IDw.PredCutCases.CaseVerum
+public import OrdinalAnalysis.IDw.PredCutCases.CaseIdX
+public import OrdinalAnalysis.IDw.PredCutCases.CaseAnd
+public import OrdinalAnalysis.IDw.PredCutCases.CaseOrL
+public import OrdinalAnalysis.IDw.PredCutCases.CaseOrR
+public import OrdinalAnalysis.IDw.PredCutCases.CaseAll
+public import OrdinalAnalysis.IDw.PredCutCases.CaseExs
+public import OrdinalAnalysis.IDw.PredCutCases.CaseStage
+public import OrdinalAnalysis.IDw.PredCutCases.CaseNstage
+public import OrdinalAnalysis.IDw.PredCutCases.CaseFix
+public import OrdinalAnalysis.IDw.PredCutCases.CaseJlev
+public import OrdinalAnalysis.IDw.PredCutCases.CaseNJlev
+public import OrdinalAnalysis.IDw.PredCutCases.CaseCut
+public import OrdinalAnalysis.IDw.PredCutCases.Main
+public import OrdinalAnalysis.IDw.Lift
+public import OrdinalAnalysis.IDw.UpperAuxCodes
+public import OrdinalAnalysis.IDw.UpperAux
+public import OrdinalAnalysis.IDw.InternalFacts
+public import OrdinalAnalysis.IDw.Internal.OrderBridge
+public import OrdinalAnalysis.IDw.Embed
+public import OrdinalAnalysis.IDw.Internal.OrderFacts
+public import OrdinalAnalysis.IDw.UpperAuxCof
+public import OrdinalAnalysis.IDw.AxiomsPA
+public import OrdinalAnalysis.IDw.EmbedHypsPA
+public import OrdinalAnalysis.IDw.StageSemantics
+public import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
+public import OrdinalAnalysis.IDw.AxiomsIDCases.FixF_q
+public import OrdinalAnalysis.IDw.AxiomsIDCases.predOf_rew
+public import OrdinalAnalysis.IDw.AxiomsIDCases.NumF_q
+public import OrdinalAnalysis.IDw.AxiomsIDCases.rew_plugI_num
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_rel
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_neg
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_lMap_top
+public import OrdinalAnalysis.IDw.AxiomsIDCases.opShape_rew
+public import OrdinalAnalysis.IDw.AxiomsIDCases.params_plugI
+public import OrdinalAnalysis.IDw.AxiomsIDCases.params_predStage
+public import OrdinalAnalysis.IDw.AxiomsIDCases.xFreeI_predOf
+public import OrdinalAnalysis.IDw.AxiomsIDCases.unfold_top_eq
+public import OrdinalAnalysis.IDw.AxiomsIDCases.neg_ClF
+public import OrdinalAnalysis.IDw.Collapsing.Basic
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+public import OrdinalAnalysis.IDw.Collapsing.Theorem
+public import OrdinalAnalysis.IDw.Collapsing.CaseCut
+public import OrdinalAnalysis.IDw.AxiomsLogic
+public import OrdinalAnalysis.IDw.TautAdditive
+public import OrdinalAnalysis.IDw.EmbedHypsLogic
+public import OrdinalAnalysis.IDw.TransferAux
+public import OrdinalAnalysis.IDw.Transfer
+public import OrdinalAnalysis.IDw.PredCut
+public import OrdinalAnalysis.IDw.Collapsing.CaseLiteral
+public import OrdinalAnalysis.IDw.Collapsing.CaseVerum
+public import OrdinalAnalysis.IDw.Collapsing.CaseIdX
+public import OrdinalAnalysis.IDw.Collapsing.CaseAnd
+public import OrdinalAnalysis.IDw.Collapsing.CaseOrL
+public import OrdinalAnalysis.IDw.Collapsing.CaseOrR
+public import OrdinalAnalysis.IDw.Collapsing.CaseAll
+public import OrdinalAnalysis.IDw.Collapsing.CaseExs
+public import OrdinalAnalysis.IDw.Collapsing.CaseStage
+public import OrdinalAnalysis.IDw.Collapsing.CaseNstage
+public import OrdinalAnalysis.IDw.Collapsing.Hyps
+public import OrdinalAnalysis.IDw.UpperAuxForms
+public import OrdinalAnalysis.IDw.WellOrderingW
+public import OrdinalAnalysis.IDw.Collapsing.CaseFix
+public import OrdinalAnalysis.IDw.Collapsing.CaseJlev
+public import OrdinalAnalysis.IDw.Collapsing.CaseNJlev
+public import OrdinalAnalysis.IDw.Collapsing.Final
+public import OrdinalAnalysis.IDw.WellOrderingTI
+public import OrdinalAnalysis.IDw.WellOrderingJump
+public import OrdinalAnalysis.IDw.TISentence
+public import OrdinalAnalysis.IDw.WellOrderingTau
+public import OrdinalAnalysis.IDw.UpperBound
+public import OrdinalAnalysis.IDw.UpperFinal
+public import OrdinalAnalysis.IDw.TransferCong
+public import OrdinalAnalysis.IDw.AxiomsIDCases.closure_inst
+public import OrdinalAnalysis.IDw.AxiomsIDCases.closure_derivable
+public import OrdinalAnalysis.IDw.AxiomsIDCases.indAx_claim
+public import OrdinalAnalysis.IDw.AxiomsIDCases.indBody_inst
+public import OrdinalAnalysis.IDw.EmbedHypsID
+public import OrdinalAnalysis.IDw.EmbedHypsAll
+public import OrdinalAnalysis.IDw.LowerBoundAux
+public import OrdinalAnalysis.IDw.LowerBoundAux2
+public import OrdinalAnalysis.IDw.LowerBound
+public import OrdinalAnalysis.IDw.CollapseCorollaryW
+public import OrdinalAnalysis.IDw.LowerLt
+public import OrdinalAnalysis.IDw.Final
+public import OrdinalAnalysis.EvalWrap
+public import OrdinalAnalysis.Ordinal.ONoteEpsilon0
+public import OrdinalAnalysis.Gentzen.OrderType
+public import OrdinalAnalysis.KPi.Language
+public import OrdinalAnalysis.KPi.Delta0
+public import OrdinalAnalysis.KPi.Theory
+public import OrdinalAnalysis.KPi.SlotCheck
+public import OrdinalAnalysis.KPi.Ord.Defs
+public import OrdinalAnalysis.KPi.Ord.Veblen
+public import OrdinalAnalysis.KPi.Ord.Closure
+public import OrdinalAnalysis.KPi.Ord.Psi
+public import OrdinalAnalysis.KPi.Ord.CNF
+public import OrdinalAnalysis.KPi.Ord.Omega
+public import OrdinalAnalysis.KPi.Ord.Lemma45
+public import OrdinalAnalysis.KPi.Ord.Hull
+public import OrdinalAnalysis.KPi.Ord.Sanity
+public import OrdinalAnalysis.KPi.Ord.Main
+public import OrdinalAnalysis.Gentzen.JumpTransport
+public import OrdinalAnalysis.KPi.RS.Defs
+public import OrdinalAnalysis.KPi.RS.Rank
+public import OrdinalAnalysis.KPi.RS.Truth
+public import OrdinalAnalysis.KPi.RS.Infty
+public import OrdinalAnalysis.KPi.RS.Card
+public import OrdinalAnalysis.KPi.RS.StarDefs
+public import OrdinalAnalysis.KPi.RS.StarBasic
+public import OrdinalAnalysis.KPi.RS.StarSim
+public import OrdinalAnalysis.KPi.RS.StarLemmas
+public import OrdinalAnalysis.KPi.SoundAux0
+public import OrdinalAnalysis.KPi.SoundAux1
+public import OrdinalAnalysis.KPi.SoundAux2
+public import OrdinalAnalysis.KPi.SoundAux3
+public import OrdinalAnalysis.KPi.SoundAux4
+public import OrdinalAnalysis.KPi.Sound
+public import OrdinalAnalysis.KPi.RS.StarRefl
+public import OrdinalAnalysis.KPi.RS.StarNeq
+public import OrdinalAnalysis.KPi.RS.StarEqCore
+public import OrdinalAnalysis.KPi.RS.StarEqMem
+public import OrdinalAnalysis.KPi.RS.StarEqAdBex
+public import OrdinalAnalysis.KPi.RS.StarEq
+public import OrdinalAnalysis.KPi.RS.StarAxBase
+public import OrdinalAnalysis.KPi.RS.StarAxPU
+public import OrdinalAnalysis.KPi.RS.StarAx2
+public import OrdinalAnalysis.KPi.RS.StarAxSepDefs
+public import OrdinalAnalysis.KPi.RS.StarAxSep
+public import OrdinalAnalysis.KPi.RS.StarAxAd
+public import OrdinalAnalysis.KPi.RS.StarAxFinal
+public import OrdinalAnalysis.KPi.RS.StarCol
+public import OrdinalAnalysis.KPi.RS.StarColSim
+public import OrdinalAnalysis.KPi.RS.StarColAx
+
+@[expose] public section
+

@@ -15,7 +15,12 @@
   item (Prog): `aca_upper_bound_of_ti_epsilon` turns one `ACA`-proof of
   `∀²X TI(≺₁, ε̄_c, X)` per external `c < ε₀` into the full upper half.
 -/
-import OrdinalAnalysis.ACA.TowerInduction
+
+module
+
+public import OrdinalAnalysis.ACA.TowerInduction
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1000000

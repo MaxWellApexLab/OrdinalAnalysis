@@ -30,8 +30,13 @@
   agreement with the specification on standard codes are proved here; the order-theoretic
   facts about the internal order in arbitrary models are not.
 -/
-import OrdinalAnalysis.ID1.Internal.CovTable
-import OrdinalAnalysis.Ordinal.Theta.Order
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.CovTable
+public import OrdinalAnalysis.Ordinal.Theta.Order
+
+@[expose] public section
 
 set_option autoImplicit false
 

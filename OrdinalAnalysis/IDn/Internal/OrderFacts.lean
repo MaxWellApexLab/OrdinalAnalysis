@@ -9,9 +9,14 @@
   `IDn/Internal/{Order,OrderT,OrderE,JumpList}.lean`, in every model of `IΣ₁`
   (`orderAxioms_coded`).
 -/
-import OrdinalAnalysis.IDn.Internal.JumpList
-import OrdinalAnalysis.IDn.UpperAux
-import OrdinalAnalysis.EvalWrap
+
+module
+
+public import OrdinalAnalysis.IDn.Internal.JumpList
+public import OrdinalAnalysis.IDn.UpperAux
+public import OrdinalAnalysis.EvalWrap
+
+@[expose] public section
 
 set_option autoImplicit false
 

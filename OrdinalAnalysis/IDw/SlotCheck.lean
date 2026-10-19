@@ -13,7 +13,12 @@
       `y = 0 ∧ x = 1` instead; an off-by-one guard would change the threshold `1 ≤ y`.
     * `slotA_consistent`: the soundness machine instantiates on this concrete form.
 -/
-import OrdinalAnalysis.IDw.Sound
+
+module
+
+public import OrdinalAnalysis.IDw.Sound
+
+@[expose] public section
 
 set_option autoImplicit false
 

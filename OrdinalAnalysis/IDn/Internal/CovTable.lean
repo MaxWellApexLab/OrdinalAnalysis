@@ -22,7 +22,12 @@
   (`le_pair_right` again, chained through the `+1` of `tcTheta`) give the two "leveled reads from
   a plain position" directions.
 -/
-import OrdinalAnalysis.ID1.Internal.CovTable
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.CovTable
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -28,7 +28,12 @@
     closed under `+`, `⊕`, `ω^·`, `ω ·`, successor; `adjoin` keeps niceness.
   `HullDom.lean` proves the domain lemma `dom_add_omegaPow` on top of this file.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Hull
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Hull
+
+@[expose] public section
 
 set_option autoImplicit false
 

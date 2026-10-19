@@ -5,11 +5,15 @@
    the congruence *from the unfolding `A_k(t; I_k^{≺γ}, Jlev k)` straight to the embedded instance
    `A_{k̄}(t; F, j < k̄ ∧ Jlev ⊤)`* is supplied as a hypothesis of the abstract claim. -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.closure_inst
-import OrdinalAnalysis.IDw.Transfer
-import OrdinalAnalysis.IDw.AxiomsLogic
-import OrdinalAnalysis.IDw.AxiomsPA
-import OrdinalAnalysis.IDw.Embed
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.closure_inst
+public import OrdinalAnalysis.IDw.Transfer
+public import OrdinalAnalysis.IDw.AxiomsLogic
+public import OrdinalAnalysis.IDw.AxiomsPA
+public import OrdinalAnalysis.IDw.Embed
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

@@ -52,7 +52,12 @@
     `sim_subst_closed`, `sim_subst_numI`     `ψ(s) ~ ψ(t)` for closed `s`, `t` of equal value
     `IDnDerivable.replace`, `replace_head`   **term replacement**
 -/
-import OrdinalAnalysis.IDn.Calculus
+
+module
+
+public import OrdinalAnalysis.IDn.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

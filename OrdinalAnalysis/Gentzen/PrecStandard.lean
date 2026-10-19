@@ -14,8 +14,13 @@
   `NONote`.  It says nothing about `≺`, so it now lives generically as
   `Gentzen.le_of_forall_lt_lt` in `Gentzen/CodedOrder.lean`.
 -/
-import OrdinalAnalysis.Gentzen.StandardLX
-import OrdinalAnalysis.Gentzen.LowerSyntax
+
+module
+
+public import OrdinalAnalysis.Gentzen.StandardLX
+public import OrdinalAnalysis.Gentzen.LowerSyntax
+
+@[expose] public section
 
 set_option autoImplicit false
 

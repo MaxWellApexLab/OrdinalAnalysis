@@ -68,10 +68,15 @@
     `IDn_consistent`                             **consistency**
     `slotCheck_two`                              the per-level slot check
 -/
-import OrdinalAnalysis.IDn.Theory
-import Mathlib.Order.FixedPoints
-import Mathlib.Data.Fintype.Card
-import Mathlib.Tactic.FinCases
+
+module
+
+public import OrdinalAnalysis.IDn.Theory
+public import Mathlib.Order.FixedPoints
+public import Mathlib.Data.Fintype.Card
+public import Mathlib.Tactic.FinCases
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

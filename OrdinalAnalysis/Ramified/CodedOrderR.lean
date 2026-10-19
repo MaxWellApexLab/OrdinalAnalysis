@@ -52,8 +52,13 @@
   `complexity`/`univCl` bookkeeping of the first-order file have no use here
   and are omitted.
 -/
-import OrdinalAnalysis.Ramified.Evaluate
-import OrdinalAnalysis.Gentzen.CodedVeblen
+
+module
+
+public import OrdinalAnalysis.Ramified.Evaluate
+public import OrdinalAnalysis.Gentzen.CodedVeblen
+
+@[expose] public section
 
 set_option autoImplicit false
 

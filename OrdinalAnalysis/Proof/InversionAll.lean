@@ -11,7 +11,12 @@
   context.  Both facts are Foundation's: `rewrite_free_eq_subst` and
   `rewrite_comp_shift_eq_id`.
 -/
-import OrdinalAnalysis.Proof.Substitution
+
+module
+
+public import OrdinalAnalysis.Proof.Substitution
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

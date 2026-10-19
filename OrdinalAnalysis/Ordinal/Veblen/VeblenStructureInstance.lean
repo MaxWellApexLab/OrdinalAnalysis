@@ -19,8 +19,13 @@
   regardless of level — the hypothesis is carried only so the field matches the
   `VeblenStructure` signature.
 -/
-import OrdinalAnalysis.Ordinal.VeblenStructure
-import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+module
+
+public import OrdinalAnalysis.Ordinal.VeblenStructure
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

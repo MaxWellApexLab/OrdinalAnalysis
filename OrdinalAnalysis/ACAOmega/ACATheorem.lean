@@ -41,7 +41,12 @@
 
   Nothing else has to change here.
 -/
-import OrdinalAnalysis.ACAOmega.LowerBound₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.LowerBound₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -60,7 +60,12 @@
     `paLXI`, `idAxioms`, `ID1`           the theories, with membership lemmas
     `accForm`, `accForm_positive`, `ID1Acc`, `ID1Acc_positive`
 -/
-import Foundation.FirstOrder.Arithmetic.Schemata
+
+module
+
+public import Foundation.FirstOrder.Arithmetic.Schemata
+
+@[expose] public section
 
 set_option autoImplicit false
 

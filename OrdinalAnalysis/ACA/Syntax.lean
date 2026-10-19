@@ -26,11 +26,16 @@
 
   Everything is stated for an arbitrary language `L`; only `TISO` fixes `ℒₒᵣ`.
 -/
-import Foundation.SecondOrder.Derivation
-import Foundation.SecondOrder.Semantics
-import OrdinalAnalysis.Proof.Bridge
-import OrdinalAnalysis.Ordinal.OmegaPow
-import OrdinalAnalysis.Gentzen.CodedNotation
+
+module
+
+public import Foundation.SecondOrder.Derivation
+public import Foundation.SecondOrder.Semantics
+public import OrdinalAnalysis.Proof.Bridge
+public import OrdinalAnalysis.Ordinal.OmegaPow
+public import OrdinalAnalysis.Gentzen.CodedNotation
+
+@[expose] public section
 
 set_option autoImplicit false
 

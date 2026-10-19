@@ -20,7 +20,12 @@
   At a notation `c` the descent reads `TI_μ(c̄) → TI_κ(ε̄_c)`
   (`descent_code_provable`), since `Eps(ε̄_c, c̄)` holds.
 -/
-import OrdinalAnalysis.Ramified.EpsProgR
+
+module
+
+public import OrdinalAnalysis.Ramified.EpsProgR
+
+@[expose] public section
 
 set_option autoImplicit false
 

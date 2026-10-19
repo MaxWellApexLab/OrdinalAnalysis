@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.RS.Rank
+module
+
+public import OrdinalAnalysis.KPi.RS.Rank
 
 /-!
 # The RS calculus, part 3: truth by rank recursion
@@ -8,6 +10,8 @@ taken as the definition; no set structure is needed).  It is total because `chil
 (B92 Lemma 1.9 (b)) is the termination proof.  The unfolding lemmas `RSTrue_*` give one equation per
 shape, and `RSTrue_neg` says that the defined negation is classical negation.
 -/
+
+@[expose] public section
 
 open Ordinal
 

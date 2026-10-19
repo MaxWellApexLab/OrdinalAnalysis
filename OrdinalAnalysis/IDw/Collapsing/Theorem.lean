@@ -15,8 +15,13 @@
   `collapseHyps_of` discharges `bound`/`negStage` from the merged `IDw/Boundedness.lean`
   (`boundedness`, `neg_stage_bound`), exactly as `IDn`; `positive` and `predCut` remain.
 -/
-import OrdinalAnalysis.IDw.Collapsing.Statement
-import OrdinalAnalysis.IDw.Boundedness
+
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+public import OrdinalAnalysis.IDw.Boundedness
+
+@[expose] public section
 
 set_option autoImplicit false
 

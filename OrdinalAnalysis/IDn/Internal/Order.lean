@@ -40,7 +40,12 @@
     leveled slots `posAll i a c2`/`posEx i c1 b` from the plain slot at `⟪posP c1, posP c2⟫` (with
     `c1 = tcTheta i a`, `c2 = tcTheta i b`), second/first coordinate unchanged respectively.
 -/
-import OrdinalAnalysis.IDn.Internal.Codes
+
+module
+
+public import OrdinalAnalysis.IDn.Internal.Codes
+
+@[expose] public section
 
 set_option autoImplicit false
 

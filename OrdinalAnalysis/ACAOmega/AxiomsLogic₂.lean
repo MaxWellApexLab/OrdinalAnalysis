@@ -45,8 +45,13 @@
     `extLeaf_derivable`                the leaf, by the case split on `b = a`
     `setExt_derivable`                 **`setExt`, at height `ofNat 5`**
 -/
-import OrdinalAnalysis.ACAOmega.OmegaTruth₂
-import OrdinalAnalysis.ACA.LK
+
+module
+
+public import OrdinalAnalysis.ACAOmega.OmegaTruth₂
+public import OrdinalAnalysis.ACA.LK
+
+@[expose] public section
 
 set_option autoImplicit false
 

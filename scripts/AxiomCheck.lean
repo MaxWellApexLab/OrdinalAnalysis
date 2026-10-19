@@ -17,7 +17,12 @@
   module was renamed, say -- that is itself the failure, and the gate must be
   repaired rather than skipped.
 -/
-import OrdinalAnalysis
+
+module
+
+public import OrdinalAnalysis
+
+@[expose] public section
 
 open OrdinalAnalysis
 
@@ -2540,3 +2545,39 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.Ramified.eval_lMap_toLRA_emb' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.Ramified.eval_lMap_toLRA_emb
+
+/-- info: 'OrdinalAnalysis.KPi.Sound.models_KPi' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Sound.models_KPi
+
+/-- info: 'OrdinalAnalysis.KPi.Sound.KPi_consistent_of' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Sound.KPi_consistent_of
+
+/-- info: 'OrdinalAnalysis.KPi.Sound.KPi_consistent' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.Sound.KPi_consistent
+
+/-- info: 'OrdinalAnalysis.KPi.RS.eq_lemma' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.eq_lemma
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_lem26' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_lem26
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_lem28' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_lem28
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_sep' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_sep
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_kpl' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_kpl
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_col' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_col
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_col_closed' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_col_closed
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_ad3_col' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_ad3_col
+
+/-- info: 'OrdinalAnalysis.KPi.RS.star_kpi' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_kpi

@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\ID1\ReductionAux.lean (one-level `Omega`/`Stage` generalised to level `k : Fin n`). -/
 
-import OrdinalAnalysis.IDn.Calculus
-import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+module
+
+public import OrdinalAnalysis.IDn.Calculus
+public import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+
 /-
   Ordinal arithmetic for the reduction and cut elimination lemmas of `ID₁^∞`.
 
@@ -21,6 +24,8 @@ import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
       `ω_m(ω_n(α)) = ω_{m+m'}(α)` and the strict monotonicity of `ω_n`, used in
       Corollary 7.2.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

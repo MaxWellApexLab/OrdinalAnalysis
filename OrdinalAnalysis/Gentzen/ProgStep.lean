@@ -26,8 +26,13 @@
   `CodedNotation.paLX_of_peano_semantic`, or a semantic consequence of
   already-transported `paLX`-theorems.
 -/
-import OrdinalAnalysis.Gentzen.InternalEpsMonoCode
-import OrdinalAnalysis.Gentzen.InternalVeblen
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalEpsMonoCode
+public import OrdinalAnalysis.Gentzen.InternalVeblen
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1600000

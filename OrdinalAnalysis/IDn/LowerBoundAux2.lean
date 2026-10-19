@@ -21,11 +21,16 @@
     `provable_fieldInI0_of_ti`         **`IDn n (WForms F n) ⊢ TI_a(≺,X)` gives `⊢ fieldInI0 a`**
     `codeAt0_mem_stageSetN_iff`        **the accessible part at level `0`, for `WForms F n`**
 -/
-import OrdinalAnalysis.IDn.LowerBoundAux
-import OrdinalAnalysis.IDn.StageSemantics
-import OrdinalAnalysis.IDn.UpperBound
-import OrdinalAnalysis.IDn.Internal.OrderBridge
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.IDn.LowerBoundAux
+public import OrdinalAnalysis.IDn.StageSemantics
+public import OrdinalAnalysis.IDn.UpperBound
+public import OrdinalAnalysis.IDn.Internal.OrderBridge
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 

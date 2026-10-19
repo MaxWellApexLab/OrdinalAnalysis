@@ -32,8 +32,13 @@
   With `e := φ_2(0)` the ordering is `EpsilonSegmentOrder.epsilonOrder φ_2(0)`, the
   notations below `ε_{φ_2(0)} = φ_2(0)`, the ordering of the corresponding lower bound.
 -/
-import OrdinalAnalysis.ACA.OmegaJumpProg
-import OrdinalAnalysis.ACA.SegmentBridge
+
+module
+
+public import OrdinalAnalysis.ACA.OmegaJumpProg
+public import OrdinalAnalysis.ACA.SegmentBridge
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1000000

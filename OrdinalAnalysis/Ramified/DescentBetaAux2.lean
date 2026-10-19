@@ -21,7 +21,12 @@
   `ρ`, then `C` is derivable in the context `Γ`, `n` inferences higher.  The
   conclusion `C` itself is never cut, so its rank is unrestricted.
 -/
-import OrdinalAnalysis.Ramified.DescentBetaAux1
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBetaAux1
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -29,7 +29,12 @@
   only the three `cmp … = Ordering.…` equations, no `NF` — which keeps every declaration small
   and keeps the well-founded recursion in `nadd_assoc_aux` to a dispatch.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.NaturalSum
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.NaturalSum
+
+@[expose] public section
 
 set_option autoImplicit false
 

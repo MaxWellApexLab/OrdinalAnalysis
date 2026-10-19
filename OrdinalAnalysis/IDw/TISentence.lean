@@ -31,8 +31,13 @@
     `eval_belowC`, `eval_progX`, `eval_tiUpto`                      the sentences in an arithmetically
                                                                     standard structure
 -/
-import OrdinalAnalysis.IDw.InternalFacts
-import OrdinalAnalysis.IDw.Lift
+
+module
+
+public import OrdinalAnalysis.IDw.InternalFacts
+public import OrdinalAnalysis.IDw.Lift
+
+@[expose] public section
 
 set_option autoImplicit false
 

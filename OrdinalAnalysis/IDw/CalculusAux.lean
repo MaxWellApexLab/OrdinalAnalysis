@@ -59,8 +59,13 @@
     `ThetaVNoteD.NiceS.omegaBelow_mem`, `atomRkStage_mem`,
     `ThetaVNoteD.adjoin_eq_self`                                     Exercise 5.5 (c), (e)
 -/
-import OrdinalAnalysis.IDw.Rank
-import OrdinalAnalysis.Ordinal.ThetaV.HullDom
+
+module
+
+public import OrdinalAnalysis.IDw.Rank
+public import OrdinalAnalysis.Ordinal.ThetaV.HullDom
+
+@[expose] public section
 
 set_option autoImplicit false
 

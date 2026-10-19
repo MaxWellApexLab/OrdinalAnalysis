@@ -2,8 +2,11 @@
 `Omega (n - 1)`; `AxDerivable`/`axDerivable_of_le` taken as hypotheses, `OrdinalAnalysis.IDn.
 AxiomsLogic` not yet ported). -/
 
-import OrdinalAnalysis.IDn.NumSubst
-import OrdinalAnalysis.IDn.Sound
+module
+
+public import OrdinalAnalysis.IDn.NumSubst
+public import OrdinalAnalysis.IDn.Sound
+
 /-
   The induction axioms of `PA` over `(LXIn n)` in the infinitary calculus of `ID n`.
 
@@ -42,6 +45,8 @@ import OrdinalAnalysis.IDn.Sound
   elementary membership/comparison facts do not depend on that file's development, so they are
   proved locally instead of hypothesised.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

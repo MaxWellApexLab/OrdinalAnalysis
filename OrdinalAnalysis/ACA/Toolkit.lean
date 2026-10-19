@@ -10,7 +10,12 @@
   generalizing one back up (the latter needing exactly the `shift₀`/`shift₁`
   invariance that `LK.lean` established for `ACA₀`/`ACA`).
 -/
-import OrdinalAnalysis.ACA.LK
+
+module
+
+public import OrdinalAnalysis.ACA.LK
+
+@[expose] public section
 
 set_option autoImplicit false
 

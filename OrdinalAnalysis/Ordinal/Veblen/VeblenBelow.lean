@@ -14,9 +14,14 @@
   from `0 < a` via the ordinal fact `0 < o → 1 ≤ o` (`Order.one_le_iff_ne_zero`),
   transported along `repr`.
 -/
-import OrdinalAnalysis.Ordinal.Below
-import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
-import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+module
+
+public import OrdinalAnalysis.Ordinal.Below
+public import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+@[expose] public section
 
 set_option autoImplicit false
 

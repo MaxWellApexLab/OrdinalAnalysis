@@ -1,15 +1,19 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsIDCases\plugI_lMap_top.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
-import OrdinalAnalysis.IDw.Boundedness
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_rel
-import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_neg
-import OrdinalAnalysis.IDw.AxiomsIDCases.FixF_q
-import OrdinalAnalysis.IDw.AxiomsIDCases.predOf_rew
-import OrdinalAnalysis.IDw.AxiomsIDCases.NumF_q
-import OrdinalAnalysis.IDw.AxiomsIDCases.rew_plugI_num
+module
+
+public import OrdinalAnalysis.IDw.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_verum
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_or
+public import OrdinalAnalysis.IDw.Boundedness
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_rel
+public import OrdinalAnalysis.IDw.AxiomsIDCases.plugI_neg
+public import OrdinalAnalysis.IDw.AxiomsIDCases.FixF_q
+public import OrdinalAnalysis.IDw.AxiomsIDCases.predOf_rew
+public import OrdinalAnalysis.IDw.AxiomsIDCases.NumF_q
+public import OrdinalAnalysis.IDw.AxiomsIDCases.rew_plugI_num
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

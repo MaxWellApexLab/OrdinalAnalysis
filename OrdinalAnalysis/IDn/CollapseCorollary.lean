@@ -15,8 +15,13 @@
      (`CollapseHyps.bound`) caps the formula at the collapsed height `b = ψ_0(α̂) < Ω_1`, with
      operator `H_{α̂}`.
 -/
-import OrdinalAnalysis.IDn.LowerBound
-import OrdinalAnalysis.IDn.PredCut
+
+module
+
+public import OrdinalAnalysis.IDn.LowerBound
+public import OrdinalAnalysis.IDn.PredCut
+
+@[expose] public section
 
 set_option autoImplicit false
 

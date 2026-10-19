@@ -21,7 +21,12 @@
     `relAt`                                       `A^u`
     `relAt_ballAt`, `relAt_bexAt`, `relAt_of_isDelta0`
 -/
-import OrdinalAnalysis.KPi.Language
+
+module
+
+public import OrdinalAnalysis.KPi.Language
+
+@[expose] public section
 
 set_option autoImplicit false
 

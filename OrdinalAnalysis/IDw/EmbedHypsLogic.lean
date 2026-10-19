@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\EmbedHypsLogic.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Embed
-import OrdinalAnalysis.IDw.AxiomsLogic
+module
+
+public import OrdinalAnalysis.IDw.Embed
+public import OrdinalAnalysis.IDw.AxiomsLogic
+
 /-
   Bridge lemmas from `IDw/AxiomsLogic.lean` (`_al` suffix: `AxDerivable_al`, height convention
   `OmegaTwo_al := nadd OmegaW OmegaW`) to `IDw/Embed.lean`'s `EmbedHyps` structure
@@ -46,6 +49,8 @@ import OrdinalAnalysis.IDw.AxiomsLogic
     `embedHyps_taut_of_al`                   the `taut` field
     `EmbedHypsLogicPart`, `embedHypsLogicPart`   the two axiom fields (`eq_axiom`, `paMinus_axiom`)
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

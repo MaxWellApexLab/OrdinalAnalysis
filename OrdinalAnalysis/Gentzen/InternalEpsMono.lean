@@ -23,7 +23,12 @@
   instance of (T'') by its own course-of-values induction, with no normal-form hypothesis on
   the right-hand term, which breaks the circle.
 -/
-import OrdinalAnalysis.Gentzen.InternalEpsCover
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalEpsCover
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1600000

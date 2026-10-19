@@ -19,9 +19,14 @@
   Contrary to `ID_n` no level bound enters: `Ω_ω` bounds every level, so the tower
   `ω_m(Ω_ω + 1)` is cofinal in the countable notations outright.
 -/
-import OrdinalAnalysis.IDw.WellOrderingTau
-import OrdinalAnalysis.IDw.UpperAuxCof
-import OrdinalAnalysis.IDw.TISentence
+
+module
+
+public import OrdinalAnalysis.IDw.WellOrderingTau
+public import OrdinalAnalysis.IDw.UpperAuxCof
+public import OrdinalAnalysis.IDw.TISentence
+
+@[expose] public section
 
 set_option autoImplicit false
 

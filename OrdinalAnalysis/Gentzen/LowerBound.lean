@@ -20,11 +20,16 @@
   the coding: `ε₀` enters only through the fact that every height produced is
   a normal-form notation, and those are exactly the ordinals below `ε₀`.
 -/
-import OrdinalAnalysis.Gentzen.Embed
-import OrdinalAnalysis.Gentzen.AxiomsLogic
-import OrdinalAnalysis.Gentzen.AxiomsInduction
-import OrdinalAnalysis.Gentzen.Boundedness
-import OrdinalAnalysis.Omega.Reduction
+
+module
+
+public import OrdinalAnalysis.Gentzen.Embed
+public import OrdinalAnalysis.Gentzen.AxiomsLogic
+public import OrdinalAnalysis.Gentzen.AxiomsInduction
+public import OrdinalAnalysis.Gentzen.Boundedness
+public import OrdinalAnalysis.Omega.Reduction
+
+@[expose] public section
 
 set_option autoImplicit false
 

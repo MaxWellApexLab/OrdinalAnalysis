@@ -33,7 +33,12 @@
   of `exs₂` is therefore *not* used here — it earns its keep in the ordinal
   analysis, not in the semantics.
 -/
-import OrdinalAnalysis.ACA.LK
+
+module
+
+public import OrdinalAnalysis.ACA.LK
+
+@[expose] public section
 
 set_option autoImplicit false
 

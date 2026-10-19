@@ -17,8 +17,13 @@
       `ω_m(ω_n(α)) = ω_{m+n}(α)` and the strict monotonicity of `ω_n`, used in
       Corollary 7.2.
 -/
-import OrdinalAnalysis.ID1.Collapsing
-import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+
+module
+
+public import OrdinalAnalysis.ID1.Collapsing
+public import OrdinalAnalysis.Ordinal.Theta.HullCofinal
+
+@[expose] public section
 
 set_option autoImplicit false
 

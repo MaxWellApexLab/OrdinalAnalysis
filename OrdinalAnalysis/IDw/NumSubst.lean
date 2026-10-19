@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\NumSubst.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.IDw.Evaluate
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.IDw.Evaluate
+
 /- Source: OrdinalAnalysis\ID1\NumSubst.lean (one-level `Omega`/`Stage` generalised to level `k : ℕ`). -/
 
 /-
@@ -44,6 +47,8 @@ import OrdinalAnalysis.IDw.Evaluate
     `numSubst_shift`, `numSubst_subst`, `numSubst_eq_self`, `freeVariables_numSubst`
     `tr`                                   `φ ↦ (embK φ)` under the assignment `f`
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

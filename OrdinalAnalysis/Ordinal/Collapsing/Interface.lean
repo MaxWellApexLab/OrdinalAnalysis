@@ -28,7 +28,12 @@
 
   Derived facts (`Hull.lean` l. 504–603) are proved once, generically, at the end.
 -/
-import OrdinalAnalysis.Ordinal.Notation
+
+module
+
+public import OrdinalAnalysis.Ordinal.Notation
+
+@[expose] public section
 
 set_option autoImplicit false
 

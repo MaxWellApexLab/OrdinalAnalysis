@@ -21,7 +21,12 @@
   calculus (`Ehull_add_subset_hull`, `Ehull_omegaPow_hull`, `Ehull_eq_nil_iff`) and
   `ThetaWTerm.theta_lt_theta_of_lt`.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+
+@[expose] public section
 
 set_option autoImplicit false
 

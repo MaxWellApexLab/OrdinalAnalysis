@@ -16,7 +16,12 @@
   `ℒₒᵣ` has no function symbol `y ↦ code(Ω_y)`; see the notes.  `Jlev ⊤ (y, y)` has the same
   derivation shape, `f m = Ω_{m+1} + 1` unbounded below `Ω_ω`.)
 -/
-import OrdinalAnalysis.IDw.Calculus
+
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

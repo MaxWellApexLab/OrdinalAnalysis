@@ -25,7 +25,12 @@
   equality (`tower_TImu`) and turned into provability by
   `Ramified/LiftR.lean`'s `provable_of_eqModels` (`tower_provable`).
 -/
-import OrdinalAnalysis.Ramified.LiftRAux
+
+module
+
+public import OrdinalAnalysis.Ramified.LiftRAux
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSimpArgs false

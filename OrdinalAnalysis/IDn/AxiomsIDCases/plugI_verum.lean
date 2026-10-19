@@ -1,4 +1,8 @@
-import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+module
+
+public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

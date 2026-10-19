@@ -46,9 +46,14 @@
     `trueArithLits_of_true`      the two directions the ω-completeness lemma calls
     `trueArithLits_neg_of_false`
 -/
-import OrdinalAnalysis.Omega.Calculus
-import OrdinalAnalysis.Gentzen.Idiom
-import OrdinalAnalysis.Gentzen.Code
+
+module
+
+public import OrdinalAnalysis.Omega.Calculus
+public import OrdinalAnalysis.Gentzen.Idiom
+public import OrdinalAnalysis.Gentzen.Code
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

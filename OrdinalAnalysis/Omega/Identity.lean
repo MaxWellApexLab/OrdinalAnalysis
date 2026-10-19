@@ -10,7 +10,12 @@
   This is what the replay of the induction axiom consumes: it needs `ψ(n̄+1)`
   from `∼ψ(n̄+1)`, for a `ψ` that may contain `X` and is not an atom.
 -/
-import OrdinalAnalysis.Omega.Calculus
+
+module
+
+public import OrdinalAnalysis.Omega.Calculus
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

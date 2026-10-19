@@ -55,9 +55,14 @@
     `ACAΓ`                         **the theory**
     `ACAΓ_shift₀_invariant`, `ACAΓ_shift₁_invariant`, `ACA_subset_ACAΓ`
 -/
-import OrdinalAnalysis.ACA.LK
-import OrdinalAnalysis.ACAOmega.SubstX₂
-import OrdinalAnalysis.ACAOmega.Gamma0Order₂
+
+module
+
+public import OrdinalAnalysis.ACA.LK
+public import OrdinalAnalysis.ACAOmega.SubstX₂
+public import OrdinalAnalysis.ACAOmega.Gamma0Order₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

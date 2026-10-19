@@ -17,7 +17,12 @@
   Each function comes with its recursion equations and with `Σ₁` graphs and definability
   instances at every level of the hierarchy.
 -/
-import OrdinalAnalysis.ID1.Internal.OrderE
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.OrderE
+
+@[expose] public section
 
 set_option autoImplicit false
 

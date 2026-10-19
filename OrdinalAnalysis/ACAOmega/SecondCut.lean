@@ -21,8 +21,13 @@
   notation below `ω` is reached from `0` by finitely many predecessor steps
   (`chain_of_lt_omegaN`), read off `ONote.repr_ofNat`.
 -/
-import OrdinalAnalysis.ACAOmega.Reduction
-import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Reduction
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

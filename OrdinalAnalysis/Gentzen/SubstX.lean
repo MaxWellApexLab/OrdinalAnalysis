@@ -56,10 +56,15 @@
     `inst_substX`                    the ω-rule's instances commute too
     `OmegaDerivable.substX`          **the transformation of derivations**
 -/
-import OrdinalAnalysis.Gentzen.EvInst
-import OrdinalAnalysis.Gentzen.Jump
-import OrdinalAnalysis.Gentzen.CodedOrder
-import OrdinalAnalysis.Omega.Identity
+
+module
+
+public import OrdinalAnalysis.Gentzen.EvInst
+public import OrdinalAnalysis.Gentzen.Jump
+public import OrdinalAnalysis.Gentzen.CodedOrder
+public import OrdinalAnalysis.Omega.Identity
+
+@[expose] public section
 
 set_option autoImplicit false
 

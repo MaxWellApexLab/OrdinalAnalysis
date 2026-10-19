@@ -14,7 +14,12 @@
     `δ ∈ E(β)`;
   * `iinE_finite`: `E(c)` is a finite set of the model, bounded by `c`.
 -/
-import OrdinalAnalysis.ID1.Internal.Order
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.Order
+
+@[expose] public section
 
 set_option autoImplicit false
 

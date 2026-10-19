@@ -33,8 +33,13 @@
   proves transfinite induction along `≺_b` up to every `a < b`, and not along
   the whole of `≺_b`.
 -/
-import OrdinalAnalysis.Ramified.DescentR
-import OrdinalAnalysis.Ramified.LowerBound
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentR
+public import OrdinalAnalysis.Ramified.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSimpArgs false

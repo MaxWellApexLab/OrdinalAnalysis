@@ -29,8 +29,13 @@
 
       rank φ ≤ ω · lvlOf φ ⊕ complexity φ       (`rank_le_omegaMul_lvlOf_nadd`).
 -/
-import OrdinalAnalysis.Ramified.Evaluate
-import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+
+module
+
+public import OrdinalAnalysis.Ramified.Evaluate
+public import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -21,8 +21,13 @@
   * the totalised addition `safeIadd₁` and the unguarded finite iteration `safeIter₁`
     of `JumpArithmetic`, one notation system up.
 -/
-import OrdinalAnalysis.Gentzen.InternalVNoteOrder
-import OrdinalAnalysis.EvalWrap
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalVNoteOrder
+public import OrdinalAnalysis.EvalWrap
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 2000000

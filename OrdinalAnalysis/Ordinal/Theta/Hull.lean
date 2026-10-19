@@ -27,9 +27,14 @@
 
   Sets of notations are `Set ThetaNote`; `E(α)` as a set of notations is `Ehull α`.
 -/
-import OrdinalAnalysis.Ordinal.Theta.WellFounded
-import Mathlib.Order.Bounds.Defs
-import Mathlib.Data.Set.Lattice
+
+module
+
+public import OrdinalAnalysis.Ordinal.Theta.WellFounded
+public import Mathlib.Order.Bounds.Defs
+public import Mathlib.Data.Set.Lattice
+
+@[expose] public section
 
 set_option autoImplicit false
 

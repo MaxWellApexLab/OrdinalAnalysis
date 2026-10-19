@@ -53,7 +53,12 @@
     `embedding_theorem`                **Theorem 6.5**
     `embedding_theorem_xfree`          the form `H ⊢^{Ω·2+n}_{Ω+m} σ⁺` for `X`-free `σ`
 -/
-import OrdinalAnalysis.ID1.AxiomsID
+
+module
+
+public import OrdinalAnalysis.ID1.AxiomsID
+
+@[expose] public section
 
 set_option autoImplicit false
 

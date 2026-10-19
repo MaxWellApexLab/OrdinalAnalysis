@@ -20,9 +20,14 @@
   raising the bound — and branching rules take the natural sum rather than the
   maximum, which is what the reduction lemma consumes.
 -/
-import OrdinalAnalysis.Proof.CutElimination
-import OrdinalAnalysis.Proof.CutRank
-import OrdinalAnalysis.Ordinal.Notation
+
+module
+
+public import OrdinalAnalysis.Proof.CutElimination
+public import OrdinalAnalysis.Proof.CutRank
+public import OrdinalAnalysis.Ordinal.Notation
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

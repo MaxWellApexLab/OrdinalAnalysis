@@ -32,7 +32,12 @@
   goals carry the normal-form side conditions of every graph, so the disjuncts are not
   propositionally interchangeable and `tauto` does not see the mathematical content.
 -/
-import OrdinalAnalysis.Gentzen.InternalVebCover
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalVebCover
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1600000
@@ -184,28 +189,28 @@ noncomputable def vebCoverStatement : Sentence LX :=
                 (vebTowAt vebTowCode₁ #0 #1 #5 #2 ⋏
                   precAt precCode₁ #4 #0)))))))).univCl
 
-private def arithNfAt {n : ℕ} (x : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithNfAt {n : ℕ} (x : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x] ▹ Rewriting.emb nfDef₁.val
 
-private def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb precDef₁.val
 
-private def arithLeqAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithLeqAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb leqDef₁.val
 
-private def arithVebBaseAt {n : ℕ} (a e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithVebBaseAt {n : ℕ} (a e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![a, e] ▹ Rewriting.emb vebBaseDef₁.val
 
-private def arithVebTowBaseAt {n : ℕ} (a e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithVebTowBaseAt {n : ℕ} (a e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![a, e] ▹ Rewriting.emb vebTowBaseDef₁.val
 
-private def arithVebAt {n : ℕ} (y a g : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithVebAt {n : ℕ} (y a g : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![y, a, g] ▹ Rewriting.emb vebDef₁.val
 
-private def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, x, y] ▹ Rewriting.emb safeIadd₁Def.val
 
-private def arithVebTowAt {n : ℕ}
+def arithVebTowAt {n : ℕ}
     (u k a c : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![u, k, a, c] ▹ Rewriting.emb vebTowDef₁.val
 

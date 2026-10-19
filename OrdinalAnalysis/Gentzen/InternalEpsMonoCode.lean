@@ -15,7 +15,12 @@
   while `0` is not — `epsFixIndic_eq_one_iff` requires `g ≠ 0`).  So the guard here, `fixDef₁`,
   drops the `e = 0` disjunct and states `Fix(e) :≡ NF(e) ∧ fixIndic(e) = 1` outright.
 -/
-import OrdinalAnalysis.Gentzen.InternalEpsMono
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalEpsMono
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1600000
@@ -102,16 +107,16 @@ noncomputable def epsMonoStatement : Sentence LX :=
                 (epsAt epsCode₁ (#3 : Semiterm LX ℕ 4) #0 ⋏
                   precAt precCode₁ #0 #2)))))))).univCl
 
-private def arithFixAt {n : ℕ} (e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithFixAt {n : ℕ} (e : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![e] ▹ Rewriting.emb fixDef₁.val
 
-private def arithNfAt {n : ℕ} (x : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithNfAt {n : ℕ} (x : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x] ▹ Rewriting.emb nfDef₁.val
 
-private def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb precDef₁.val
 
-private def arithEpsAt {n : ℕ} (y g : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithEpsAt {n : ℕ} (y g : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![y, g] ▹ Rewriting.emb epsDef₁.val
 
 noncomputable def arithmeticEpsMonoStatement : ArithmeticSentence :=

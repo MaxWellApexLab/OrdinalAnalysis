@@ -29,9 +29,14 @@
   worked correctness argument (the design is sound on paper; whether it closes cleanly in Lean
   is checked below, after the order-free part).
 -/
-import OrdinalAnalysis.IDn.Internal.CovTable
-import OrdinalAnalysis.EvalWrap
-import OrdinalAnalysis.Ordinal.ThetaW.Dom
+
+module
+
+public import OrdinalAnalysis.IDn.Internal.CovTable
+public import OrdinalAnalysis.EvalWrap
+public import OrdinalAnalysis.Ordinal.ThetaW.Dom
+
+@[expose] public section
 
 set_option autoImplicit false
 

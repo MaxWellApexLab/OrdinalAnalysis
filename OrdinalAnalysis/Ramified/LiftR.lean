@@ -34,8 +34,13 @@
   The same evaluation is proved for `Comprehension.lean`'s `xMem μ`
   (`eval_xMem`), the form in which the jump formula `jumpR μ` is written.
 -/
-import OrdinalAnalysis.Ramified.Comprehension
-import OrdinalAnalysis.Ramified.AxiomsLogic
+
+module
+
+public import OrdinalAnalysis.Ramified.Comprehension
+public import OrdinalAnalysis.Ramified.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -38,8 +38,13 @@
   that the coded ordering and the notation ordering are the *same* order and not
   merely an embedding.
 -/
-import OrdinalAnalysis.Gentzen.PrecStandard
-import OrdinalAnalysis.Gentzen.Code
+
+module
+
+public import OrdinalAnalysis.Gentzen.PrecStandard
+public import OrdinalAnalysis.Gentzen.Code
+
+@[expose] public section
 
 set_option autoImplicit false
 

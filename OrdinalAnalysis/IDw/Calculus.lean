@@ -1,4 +1,7 @@
-import OrdinalAnalysis.IDw.CalculusAux
+module
+
+public import OrdinalAnalysis.IDw.CalculusAux
+
 /-
   The operator-controlled infinitary calculus `ID_ω^∞`, for the uniform theory `IDw A` with
   stage predicates `I_k^{≺α}`, `k : ℕ`, and the binary level atoms `Jlev ℓ`.
@@ -53,6 +56,8 @@ import OrdinalAnalysis.IDw.CalculusAux
     `IDwDerivable.inv_njlev`                          Exercise 7.1 (a), inversion
   (the smoke tests live in `IDw/CalculusSmoke.lean`)
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -33,8 +33,13 @@
   `toSOAtB_tiUptoAt`/`toSOAtB_liftCode`/`toSOAtB_Xat_bvar`, so no `Empty`-version
   of the jump formula is ever needed (`specSO` could not take one).
 -/
-import OrdinalAnalysis.ACA.Lifted
-import OrdinalAnalysis.ACA.Congruence
+
+module
+
+public import OrdinalAnalysis.ACA.Lifted
+public import OrdinalAnalysis.ACA.Congruence
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1000000

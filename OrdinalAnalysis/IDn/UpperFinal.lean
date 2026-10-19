@@ -1,5 +1,7 @@
-import OrdinalAnalysis.IDn.Theorem
-import OrdinalAnalysis.IDn.Internal.OrderFacts
+module
+
+public import OrdinalAnalysis.IDn.Theorem
+public import OrdinalAnalysis.IDn.Internal.OrderFacts
 
 /-!
 # The upper bounds of `ID_n` and `ID_{<ω}` without hypotheses
@@ -7,6 +9,8 @@ import OrdinalAnalysis.IDn.Internal.OrderFacts
 `Internal/OrderFacts.lean` proves every field of `InternalOrderFacts` for the coded order
 (`codedOrderFacts`), so the in-model level tower of `IDn/Theorem.lean` applies outright.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -23,7 +23,12 @@
   `contraction` cannot, because it leaves the ordinal unchanged, so it is the
   one case that uses the structural hypothesis.
 -/
-import OrdinalAnalysis.Omega.Calculus
+
+module
+
+public import OrdinalAnalysis.Omega.Calculus
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

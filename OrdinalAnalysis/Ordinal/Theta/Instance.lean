@@ -22,8 +22,13 @@
   The file closes with the closure of the principal terms under the operations of the class,
   in particular under the `ω`-tower.
 -/
-import OrdinalAnalysis.Ordinal.Notation
-import OrdinalAnalysis.Ordinal.Theta.Arith
+
+module
+
+public import OrdinalAnalysis.Ordinal.Notation
+public import OrdinalAnalysis.Ordinal.Theta.Arith
+
+@[expose] public section
 
 set_option autoImplicit false
 

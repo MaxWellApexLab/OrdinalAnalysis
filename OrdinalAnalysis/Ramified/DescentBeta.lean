@@ -47,9 +47,14 @@
   `hgtD a < ε_b` for `a < ε_b`, `b > 0`, and more generally `hgtD a < λ` for every
   `a < λ`, `λ > ε₀` a fixed point of `ω^·` (`hgtD_lt_of_fixed`).
 -/
-import OrdinalAnalysis.Ramified.DescentBetaAux6
-import OrdinalAnalysis.Ordinal.Veblen.FundSeq
-import OrdinalAnalysis.Ramified.SemiformalLower
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBetaAux6
+public import OrdinalAnalysis.Ordinal.Veblen.FundSeq
+public import OrdinalAnalysis.Ramified.SemiformalLower
+
+@[expose] public section
 
 set_option autoImplicit false
 

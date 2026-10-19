@@ -62,8 +62,13 @@
   `t ∈̇_{lvl a} p̄`.  The parameter-free codes of level `μ` over a formula of
   level `< μ` are the special case `p = 0` (`code`, `good_code`).
 -/
-import OrdinalAnalysis.Ramified.Ground
-import Mathlib.Tactic.IrreducibleDef
+
+module
+
+public import OrdinalAnalysis.Ramified.Ground
+public import Mathlib.Tactic.IrreducibleDef
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,8 +1,12 @@
-import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDn.AxiomsIDCases.embK_substI
-import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
-import OrdinalAnalysis.IDn.AxiomsIDCases.closure_inst
-import OrdinalAnalysis.IDn.AxiomsLogic
+module
+
+public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDn.AxiomsIDCases.embK_substI
+public import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
+public import OrdinalAnalysis.IDn.AxiomsIDCases.closure_inst
+public import OrdinalAnalysis.IDn.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

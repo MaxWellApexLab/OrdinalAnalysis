@@ -20,8 +20,13 @@
   `eval_DF`, `eval_wForm_zero`, `eval_wForm_succ`: the forms in any `LXIN ι`-structure whose
   arithmetic reduct is standard, with the predicates `I_j` read as that structure reads them.
 -/
-import OrdinalAnalysis.IDn.UpperAux
-import OrdinalAnalysis.IDn.Lift
+
+module
+
+public import OrdinalAnalysis.IDn.UpperAux
+public import OrdinalAnalysis.IDn.Lift
+
+@[expose] public section
 
 set_option autoImplicit false
 

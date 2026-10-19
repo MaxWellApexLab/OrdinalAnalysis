@@ -4,8 +4,13 @@
   transfinite induction along the notation order below every notation under `Ω₁` (these are cofinal
   in `ψ₀(ε_{Ω_ω+1})`, `Upper.exists_lt_tower`), and not up to `Ω₁` itself.
 -/
-import OrdinalAnalysis.IDw.UpperFinal
-import OrdinalAnalysis.IDw.CollapseCorollaryW
+
+module
+
+public import OrdinalAnalysis.IDw.UpperFinal
+public import OrdinalAnalysis.IDw.CollapseCorollaryW
+
+@[expose] public section
 
 set_option autoImplicit false
 

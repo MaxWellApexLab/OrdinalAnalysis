@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.RS.StarDefs
+module
+
+public import OrdinalAnalysis.KPi.RS.StarDefs
 
 /-!
 # The RS calculus, part 6: `k`-facts, duality of junctors, and `(TND)` (B92 Lemma 2.4)
@@ -7,6 +9,8 @@ import OrdinalAnalysis.KPi.RS.StarDefs
 * `expand_neg_isOr`, `expand_neg_child` : the junctor of `¬A` is dual to that of `A`;
 * `star_tnd`                          : `⊢* ¬A, A` (by induction on `rk A`).
 -/
+
+@[expose] public section
 
 open Ordinal
 

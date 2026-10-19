@@ -59,9 +59,14 @@
     `omega_zero_le`                                       `Ω₁ ⪯ Ω_{k+1}` for every level `k`
     `sound`                                                **the truth lemma**
 -/
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.IDw.Sound
-import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.IDw.Sound
+public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
+
+@[expose] public section
 
 set_option autoImplicit false
 

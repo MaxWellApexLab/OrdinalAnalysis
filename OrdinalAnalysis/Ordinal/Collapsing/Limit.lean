@@ -23,7 +23,12 @@
   files. `thetaVLimit` then fills `CollapsingLimit ThetaVNoteD` on top of `thetaVTower`
   (`ThetaVInstance.lean`), which already gives every `CollapsingTower` field for `ThetaVNoteD`.
 -/
-import OrdinalAnalysis.Ordinal.Collapsing.ThetaVInstance
+
+module
+
+public import OrdinalAnalysis.Ordinal.Collapsing.ThetaVInstance
+
+@[expose] public section
 
 set_option autoImplicit false
 

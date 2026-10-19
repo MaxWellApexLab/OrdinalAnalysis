@@ -5,8 +5,13 @@
   the same pairing layout.  Consequently comparison and normal-form facts for
   every fixed standard notation remain valid in every model of IΣ₁.
 -/
-import OrdinalAnalysis.Gentzen.InternalONote
-import Mathlib.SetTheory.Ordinal.Notation
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalONote
+public import Mathlib.SetTheory.Ordinal.Notation
+
+@[expose] public section
 
 set_option autoImplicit false
 

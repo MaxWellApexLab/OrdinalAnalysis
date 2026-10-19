@@ -66,8 +66,13 @@
   `Ordinal.veblen`, `Ordinal.deriv`, `Ordinal.nfp`, `Ordinal.derivFamily` API, in the style
   of `RankSegments.lean` and `ACA/UpperBound.lean`.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.RankSegments
-import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
+
+@[expose] public section
 
 set_option autoImplicit false
 

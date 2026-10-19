@@ -60,7 +60,12 @@
   Without the junk literals none of this holds at a junk name: `t ∈̇_L z̄` would
   then be an uninterpreted predicate.
 -/
-import OrdinalAnalysis.Ramified.InfTools
+
+module
+
+public import OrdinalAnalysis.Ramified.InfTools
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.Ord.Veblen
+module
+
+public import OrdinalAnalysis.KPi.Ord.Veblen
 
 /-!
 # Buchholz 1992, Def 4.2: the closure `C(α, β)`, Lemma 4.4 (a), (b)
@@ -11,6 +13,8 @@ cardinality bound `#C(α, β) ≤ max ℵ₀ |β|` is proved once and for all, u
 * `card_Cl_lt`   : Lemma 4.4 (a), `π ∈ R`, `β < π` imply `#C(α, β) < π`;
 * `Cl_bounded`   : `C(α, β) ∩ π` is bounded in `π` (used for the totality of `ψ`).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

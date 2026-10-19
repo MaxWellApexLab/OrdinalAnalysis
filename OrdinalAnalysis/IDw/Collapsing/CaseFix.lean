@@ -1,5 +1,8 @@
-import OrdinalAnalysis.IDw.Collapsing.Statement
-import OrdinalAnalysis.IDw.Boundedness
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Statement
+public import OrdinalAnalysis.IDw.Boundedness
+
 /-
   Theorem 4.8 for `ID_ω` (`Statement.lean`), all `m : WithTop ℕ` (transcribed from
   `IDn/Collapsing/CaseFix.lean`), the case of the clause (Fix) at a level `j`
@@ -23,6 +26,8 @@ import OrdinalAnalysis.IDw.Boundedness
 
   The statement is `Cases.lean`'s `collapse_case_fix`, verbatim.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

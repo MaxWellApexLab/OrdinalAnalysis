@@ -45,9 +45,14 @@
   relevant Mathlib tactic module is not transitively imported), so goals
   `∀ i : Fin 2, _` are split with `Fin.forall_fin_two` instead.
 -/
-import OrdinalAnalysis.Gentzen.Setup
-import OrdinalAnalysis.Gentzen.CodedNotation
-import OrdinalAnalysis.Gentzen.Idiom
+
+module
+
+public import OrdinalAnalysis.Gentzen.Setup
+public import OrdinalAnalysis.Gentzen.CodedNotation
+public import OrdinalAnalysis.Gentzen.Idiom
+
+@[expose] public section
 
 set_option autoImplicit false
 

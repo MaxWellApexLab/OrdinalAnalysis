@@ -9,7 +9,12 @@
   downstream, and `NONote` additionally comes with `LinearOrder` and
   `WellFoundedLT`, both of which the elimination lemma will want.
 -/
-import OrdinalAnalysis.Ordinal.NaturalSumMono
+
+module
+
+public import OrdinalAnalysis.Ordinal.NaturalSumMono
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

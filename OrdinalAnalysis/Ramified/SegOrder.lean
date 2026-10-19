@@ -23,9 +23,14 @@
   below `ε` is, verbatim, a derivation in `Below ε` — the two new (Pr)/(Pr⁻)
   cases are handled the same way every other unary rule is.
 -/
-import OrdinalAnalysis.Ramified.CodedOrderR
-import OrdinalAnalysis.Ordinal.Veblen.VeblenBelow
-import OrdinalAnalysis.Ordinal.BelowDerivation
+
+module
+
+public import OrdinalAnalysis.Ramified.CodedOrderR
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenBelow
+public import OrdinalAnalysis.Ordinal.BelowDerivation
+
+@[expose] public section
 
 set_option autoImplicit false
 

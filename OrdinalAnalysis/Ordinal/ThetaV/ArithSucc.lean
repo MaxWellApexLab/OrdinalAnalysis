@@ -18,7 +18,12 @@
   the "successor gap" `omegaMulOmega k ρ + Ω_{k+1} ≤ omegaMulOmega k ρ'` that an earlier route
   anticipated needing this lemma for. Proved here anyway, as a reusable discreteness fact.
 -/
-import OrdinalAnalysis.Ordinal.ThetaV.Arith
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaV.Arith
+
+@[expose] public section
 
 set_option autoImplicit false
 

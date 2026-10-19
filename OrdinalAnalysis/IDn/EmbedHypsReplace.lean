@@ -9,7 +9,12 @@ substitution slot may be replaced by the numeral of its value, for *some* value 
 `v := closedVal t`, and `Sim (φ'/[t]) (φ'/[numI (closedVal t)])` is exactly `sim_subst_numI`, so
 `IDnDerivable.replace_head` transports a derivation of the head across it. This is the whole
 proof; no new metatheorem, no induction on `d`. -/
-import OrdinalAnalysis.IDn.Evaluate
+
+module
+
+public import OrdinalAnalysis.IDn.Evaluate
+
+@[expose] public section
 
 set_option autoImplicit false
 

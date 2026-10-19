@@ -1,8 +1,11 @@
 /- Source: OrdinalAnalysis\IDn\Internal\Codes.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.CovTable
-import OrdinalAnalysis.EvalWrap
-import OrdinalAnalysis.Ordinal.ThetaV.Dom
+module
+
+public import OrdinalAnalysis.IDw.Internal.CovTable
+public import OrdinalAnalysis.EvalWrap
+public import OrdinalAnalysis.Ordinal.ThetaV.Dom
+
 /-
   Arithmetic coding of the multi-level ϑ-notation (`ThetaVTerm`), generalizing
   `ID1/Internal/Codes.lean`.
@@ -37,6 +40,8 @@ import OrdinalAnalysis.Ordinal.ThetaV.Dom
   worked correctness argument (the design is sound on paper; whether it closes cleanly in Lean
   is checked below, after the order-free part).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

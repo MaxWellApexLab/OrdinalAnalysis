@@ -28,8 +28,13 @@
 
   The finite values are `repr (blk (n + 1)) = ω · n` and `repr (blkTop n) = ω · n`.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.RankSegments
-import OrdinalAnalysis.Ordinal.Veblen.Encodable
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.RankSegments
+public import OrdinalAnalysis.Ordinal.Veblen.Encodable
+
+@[expose] public section
 
 set_option autoImplicit false
 

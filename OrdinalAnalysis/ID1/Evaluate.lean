@@ -46,7 +46,12 @@
     `sim_subst_closed`, `sim_subst_numI`     `ψ(s) ~ ψ(t)` for closed `s`, `t` of equal value
     `IDerivable.replace`, `replace_head`     **term replacement**
 -/
-import OrdinalAnalysis.ID1.Calculus
+
+module
+
+public import OrdinalAnalysis.ID1.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

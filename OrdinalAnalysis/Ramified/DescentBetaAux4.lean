@@ -24,7 +24,12 @@
     Step 2 applied to `ψ_L(g) :≡ ∀u (Eps(u, g) → Acc_L(u))`, whose progressiveness
     is the finitary (EP_L), `epsProg_provable`.
 -/
-import OrdinalAnalysis.Ramified.DescentBetaAux3
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBetaAux3
+
+@[expose] public section
 
 set_option autoImplicit false
 

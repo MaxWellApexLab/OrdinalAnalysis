@@ -42,8 +42,13 @@
     `IDnDerivable.inv_all`, `inv_nstage`              Exercise 7.1 (a), inversion
     §Smoke test                                      `n = 2`: closure of `I_1`, the Ω₂-rule
 -/
-import OrdinalAnalysis.IDn.CalculusAux
-import OrdinalAnalysis.Tactic.Order
+
+module
+
+public import OrdinalAnalysis.IDn.CalculusAux
+public import OrdinalAnalysis.Tactic.Order
+
+@[expose] public section
 
 set_option autoImplicit false
 

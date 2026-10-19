@@ -41,9 +41,14 @@
   `ConsStmt` (BP78 Lemma 1, sums; Gentzen's jump on `D_k`), `MonoStmt` (BP78 Lemma 2,
   `J(j, ·) ⊆ J(k, ·)` for `j ≤ k`), `OmegaStmt` (BP78 Lemma 3, `Ω_{j+1} ∈ J(k, ·)` for `j < k`).
 -/
-import OrdinalAnalysis.IDw.UpperAuxCodes
-import OrdinalAnalysis.IDw.UpperAuxForms
-import OrdinalAnalysis.IDw.Internal.JumpList
+
+module
+
+public import OrdinalAnalysis.IDw.UpperAuxCodes
+public import OrdinalAnalysis.IDw.UpperAuxForms
+public import OrdinalAnalysis.IDw.Internal.JumpList
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

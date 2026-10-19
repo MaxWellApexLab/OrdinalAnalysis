@@ -24,7 +24,12 @@
   predecessors of the countable domain term `ϑ₀(Ω_ω)` have unbounded levels.  In general every
   normal `Ω_ω`-free countable term lies below `ϑ₀(Ω_ω)` (`lt_theta0_OmegaW_of_wFree`).
 -/
-import OrdinalAnalysis.Ordinal.ThetaV.Exponents
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaV.Exponents
+
+@[expose] public section
 
 set_option autoImplicit false
 

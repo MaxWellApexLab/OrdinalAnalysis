@@ -29,8 +29,13 @@
     (Prog) itself, whose second-order moves are one `gen₂`, one `exs₂` and a
     handful of `all₁`/`exs₁`/`cut`.
 -/
-import OrdinalAnalysis.ACA.TowerInduction
-import OrdinalAnalysis.Gentzen.ProgStep
+
+module
+
+public import OrdinalAnalysis.ACA.TowerInduction
+public import OrdinalAnalysis.Gentzen.ProgStep
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1000000

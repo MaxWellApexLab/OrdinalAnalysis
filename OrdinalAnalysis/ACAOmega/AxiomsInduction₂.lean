@@ -65,8 +65,13 @@
     `succInd₂`, `succInd₂_derivable` **the induction axiom**, height `ω ⊕ 2`
     `setInduction_derivable`         **`setInduction`**, height `ω ⊕ 3`
 -/
-import OrdinalAnalysis.ACAOmega.AxiomsLogic₂
-import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+module
+
+public import OrdinalAnalysis.ACAOmega.AxiomsLogic₂
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

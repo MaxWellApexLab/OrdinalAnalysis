@@ -20,8 +20,13 @@
   together with `∀ σ ∈ Δ, rank (ev₂ σ) < ρ'` for a finite list `Δ`, with
   `ρ' := omegaAdd k` for `k` one more than the largest complexity on `Δ`.
 -/
-import OrdinalAnalysis.ACAOmega.SecondCutEv
-import OrdinalAnalysis.Ordinal.NONoteSucc
+
+module
+
+public import OrdinalAnalysis.ACAOmega.SecondCutEv
+public import OrdinalAnalysis.Ordinal.NONoteSucc
+
+@[expose] public section
 
 set_option autoImplicit false
 

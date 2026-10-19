@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\TautAdditive.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.AxiomsLogic
+module
+
+public import OrdinalAnalysis.IDw.AxiomsLogic
+
 /-
   Reprove `IDw/Embed.lean`'s `EmbedHyps.taut` field under `IDw/Rank.lean`'s *additive*
   height convention (height `rk ψ`, no `omegaMul`), as opposed to `IDw/AxiomsLogic.lean`'s
@@ -59,6 +62,8 @@ import OrdinalAnalysis.IDw.AxiomsLogic
 
   No `sorry`, no new axiom, no `native_decide`, no `partial def`; `autoImplicit false`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

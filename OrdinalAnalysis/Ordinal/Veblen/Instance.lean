@@ -17,9 +17,14 @@
   `Veblen/Epsilon.lean` is used: the `ω`-tower operator of the class does not escape an
   ε-number.
 -/
-import OrdinalAnalysis.Ordinal.Notation
-import OrdinalAnalysis.Ordinal.Veblen.Epsilon
-import OrdinalAnalysis.Ordinal.Veblen.NaturalSumAssoc
+
+module
+
+public import OrdinalAnalysis.Ordinal.Notation
+public import OrdinalAnalysis.Ordinal.Veblen.Epsilon
+public import OrdinalAnalysis.Ordinal.Veblen.NaturalSumAssoc
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\Reduction.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Calculus
-import OrdinalAnalysis.IDw.ReductionAux
+module
+
+public import OrdinalAnalysis.IDw.Calculus
+public import OrdinalAnalysis.IDw.ReductionAux
+
 /-
   The reduction lemma for the operator-controlled calculus `ID₁^∞`.
 
@@ -43,6 +46,8 @@ import OrdinalAnalysis.IDw.ReductionAux
     `IDwDerivable.reduction_jlev`                  the same for a cut formula `Jlev ℓ (s,t)`
     `IDwDerivable.reduction_cut`                   a cut of rank `ρ ≠ Ω` at the height `α + α`
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Internal\Order.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.Codes
+module
+
+public import OrdinalAnalysis.IDw.Internal.Codes
+
 /-
   The internal order `iltb` of the multi-level ϑ-notation, its normal-form predicate `isNFb`, and
   Wilken's domain condition `isDom`, generalizing ID1's comparison-table section of
@@ -43,6 +46,8 @@ import OrdinalAnalysis.IDw.Internal.Codes
     leveled slots `posAll i a c2`/`posEx i c1 b` from the plain slot at `⟪posP c1, posP c2⟫` (with
     `c1 = tcTheta i a`, `c2 = tcTheta i b`), second/first coordinate unchanged respectively.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

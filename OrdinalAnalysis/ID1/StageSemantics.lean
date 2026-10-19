@@ -47,9 +47,14 @@
     `codeNote_mem_stageSet_acc`, `mem_stageSet_acc_of_fieldN`,
     `mem_stageSet_acc_of_not_code`                the stages of the accessible part
 -/
-import OrdinalAnalysis.ID1.Calculus
-import OrdinalAnalysis.ID1.Sound
-import OrdinalAnalysis.ID1.Internal.Standard
+
+module
+
+public import OrdinalAnalysis.ID1.Calculus
+public import OrdinalAnalysis.ID1.Sound
+public import OrdinalAnalysis.ID1.Internal.Standard
+
+@[expose] public section
 
 set_option autoImplicit false
 

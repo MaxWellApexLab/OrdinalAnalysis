@@ -21,7 +21,12 @@
   Everything is proved semantically in an arbitrary model of `IΣ₁`, by `𝚺₁`-order
   induction; nothing about ordinals is used.
 -/
-import OrdinalAnalysis.Gentzen.InternalVNote
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalVNote
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 2000000

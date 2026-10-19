@@ -16,7 +16,12 @@
     `iinG_of_iinE`: the argument `d` of a level-`k` coefficient `ϑ_k d ∈ E_k(c)` is in
     `G_i(c)` for every `i < k`.
 -/
-import OrdinalAnalysis.IDn.Internal.Codes
+
+module
+
+public import OrdinalAnalysis.IDn.Internal.Codes
+
+@[expose] public section
 
 set_option autoImplicit false
 

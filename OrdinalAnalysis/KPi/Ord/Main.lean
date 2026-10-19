@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.Ord.Sanity
+module
+
+public import OrdinalAnalysis.KPi.Ord.Sanity
 
 /-!
 # Buchholz 1992, §4: ordinal notation system for `KPi` -- Lemmas 4.4 and 4.5 under B92 names
@@ -30,6 +32,8 @@ None of these weakens the mathematical content.
 6. **Universes.**  Cardinals of sets of ordinals live in `Cardinal.{2}`; 4.4 (a) is stated as
    `#(C α β) < Cardinal.lift.{2, 1} π.card`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

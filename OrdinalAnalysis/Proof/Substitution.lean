@@ -13,7 +13,12 @@
   `Semiformula.complexity_rew`: substitution does not change the complexity of
   a formula, so the rank side condition survives.
 -/
-import OrdinalAnalysis.Proof.Weakening
+
+module
+
+public import OrdinalAnalysis.Proof.Weakening
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

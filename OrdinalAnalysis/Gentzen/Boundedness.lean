@@ -36,7 +36,12 @@
   At the end `γ := 0` and the reading of `TI(≺)` is "every notation is below
   `ω^α`", refuted by `ω^α` itself.
 -/
-import OrdinalAnalysis.Gentzen.LowerClassEv
+
+module
+
+public import OrdinalAnalysis.Gentzen.LowerClassEv
+
+@[expose] public section
 
 set_option autoImplicit false
 

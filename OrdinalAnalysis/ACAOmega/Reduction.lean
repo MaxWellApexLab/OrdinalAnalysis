@@ -33,7 +33,12 @@
   inductive `Chain`; this keeps all ordinal arithmetic on `NONote` out of the
   file.
 -/
-import OrdinalAnalysis.ACAOmega.Calculus
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

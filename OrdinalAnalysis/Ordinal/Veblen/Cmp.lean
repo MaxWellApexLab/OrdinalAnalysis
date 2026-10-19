@@ -11,7 +11,12 @@
   term `vadd a' b' 1 0`, which is why `cmp` cannot be structurally recursive and needs the
   measure `size x + size y`.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.Basic
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

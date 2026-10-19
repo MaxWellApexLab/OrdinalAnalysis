@@ -1,18 +1,22 @@
-import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDn.AxiomsIDCases.opShape_rew
-import OrdinalAnalysis.IDn.AxiomsIDCases.params_plugI
-import OrdinalAnalysis.IDn.AxiomsIDCases.params_predStage
-import OrdinalAnalysis.IDn.AxiomsIDCases.xFreeI_predOf
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_lMap_top
-import OrdinalAnalysis.IDn.AxiomsIDCases.predOf_rew
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_subst_numI
-import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
-import OrdinalAnalysis.IDn.AxiomsIDCases.closure_inst
-import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_add_ofNat_eq_nadd
-import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_nadd_Omega_add_Omega
-import OrdinalAnalysis.IDn.AxiomsIDCases.neg_ClF
-import OrdinalAnalysis.IDn.AxiomsPA
-import OrdinalAnalysis.IDn.AxiomsLogic
+module
+
+public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDn.AxiomsIDCases.opShape_rew
+public import OrdinalAnalysis.IDn.AxiomsIDCases.params_plugI
+public import OrdinalAnalysis.IDn.AxiomsIDCases.params_predStage
+public import OrdinalAnalysis.IDn.AxiomsIDCases.xFreeI_predOf
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_lMap_top
+public import OrdinalAnalysis.IDn.AxiomsIDCases.predOf_rew
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_subst_numI
+public import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
+public import OrdinalAnalysis.IDn.AxiomsIDCases.closure_inst
+public import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_add_ofNat_eq_nadd
+public import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_nadd_Omega_add_Omega
+public import OrdinalAnalysis.IDn.AxiomsIDCases.neg_ClF
+public import OrdinalAnalysis.IDn.AxiomsPA
+public import OrdinalAnalysis.IDn.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

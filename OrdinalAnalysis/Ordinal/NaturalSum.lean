@@ -15,7 +15,12 @@
   decreasing exponents, the natural sum merges the two exponent lists and adds
   the coefficients of equal exponents.  That is what `nadd` below does.
 -/
-import Mathlib.SetTheory.Ordinal.Notation
+
+module
+
+public import Mathlib.SetTheory.Ordinal.Notation
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

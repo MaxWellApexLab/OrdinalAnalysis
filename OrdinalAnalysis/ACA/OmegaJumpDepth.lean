@@ -20,8 +20,13 @@
   The induction itself is carried out in `ACA/OmegaJumpInduction.lean`, inside
   `PA[X]` with the step condition of the omega-jump as a hypothesis.
 -/
-import OrdinalAnalysis.ACA.OmegaJumpExt
-import OrdinalAnalysis.ACA.TowerInduction
+
+module
+
+public import OrdinalAnalysis.ACA.OmegaJumpExt
+public import OrdinalAnalysis.ACA.TowerInduction
+
+@[expose] public section
 
 set_option autoImplicit false
 

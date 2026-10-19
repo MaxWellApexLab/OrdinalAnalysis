@@ -1,8 +1,11 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsLogic.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Evaluate
-import OrdinalAnalysis.IDw.NumSubst
-import OrdinalAnalysis.IDw.Sound
+module
+
+public import OrdinalAnalysis.IDw.Evaluate
+public import OrdinalAnalysis.IDw.NumSubst
+public import OrdinalAnalysis.IDw.Sound
+
 /-
   The tautology lemma and the logical and arithmetical axioms of `ID_ω`, the uniform theory
   `IDw A` with stage predicates `I_k^{≺α}`, `k : ℕ`, and the binary level atoms `Jlev ℓ`.
@@ -48,6 +51,8 @@ import OrdinalAnalysis.IDw.Sound
     `allClosure_derivable`                             the universal closure, by the ω-rule
     `IFreeL`, `paMinus_axiom`, `eq_axiom`, `relJ0_derivable`, `relExtJ_axiom`
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

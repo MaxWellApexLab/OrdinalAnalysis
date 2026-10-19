@@ -41,8 +41,13 @@
     `idn_lower_bound_sharp`      the lower bound at the bound `c n`
     `idn_theorem_sharp`          both halves, meeting exactly at `c n`
 -/
-import OrdinalAnalysis.IDn.Theorem2
-import OrdinalAnalysis.Ordinal.ThetaW.TowerCofinal
+
+module
+
+public import OrdinalAnalysis.IDn.Theorem2
+public import OrdinalAnalysis.Ordinal.ThetaW.TowerCofinal
+
+@[expose] public section
 
 set_option autoImplicit false
 

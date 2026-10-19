@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.RS.StarSim
+module
+
+public import OrdinalAnalysis.KPi.RS.StarSim
 
 /-!
 # The RS calculus, part 8: derived rules of `RS*` (B92 Lemma 2.4)
@@ -12,6 +14,8 @@ sequents `insert (child) Δ` (weakening is free, the principal sentence stays in
 * `star_tnd'` : (TND), `star_bex_lev`, `star_ball_lev` : `(∃^β)`, `(∀^β)` of Lemma 2.4;
 * `star_tnd_and` : (TND').
 -/
+
+@[expose] public section
 
 open Ordinal
 

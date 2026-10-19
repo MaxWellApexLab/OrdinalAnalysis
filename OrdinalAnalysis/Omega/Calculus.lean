@@ -52,8 +52,13 @@
     larger notation systems; taking `O := NONote` gives back exactly what was
     here before, which is what the `Gentzen/` files still do.
 -/
-import Foundation.FirstOrder.Basic.CutFree
-import OrdinalAnalysis.Ordinal.Notation
+
+module
+
+public import Foundation.FirstOrder.Basic.CutFree
+public import OrdinalAnalysis.Ordinal.Notation
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

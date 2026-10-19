@@ -28,8 +28,13 @@
     (`a ≺ Ω₁ ⇒ ∃ N, a ≺ ϑ₀(Ω_N)`) together with `theta0Omega_lt_c_succ`
     (`ϑ₀(Ω_N) ≺ c_{N+1}`, since `Ω_N ≺ ϑ_{N+1}(0)` by `Omega_lt_theta_succ`).
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Hull
-import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Hull
+public import OrdinalAnalysis.Ordinal.ThetaW.WellFoundedD
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -34,9 +34,14 @@
     `provable_fieldInI0_of_ti`                        **`TI_a(≺,X) ⊢ ∀x (x ≺ ⌜a⌝ → I_{k0} x)`**
     `codeAt0_mem_stageSetN_iff`                        **the accessible part at level `0`**
 -/
-import OrdinalAnalysis.IDn.StageSemantics
-import OrdinalAnalysis.IDn.Theorem
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.IDn.StageSemantics
+public import OrdinalAnalysis.IDn.Theorem
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 

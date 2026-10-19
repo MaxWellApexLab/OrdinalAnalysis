@@ -40,8 +40,13 @@
   `eval_subst₁`, `eval_lift` — are reproved at the head of this file under the
   names `evalSO_*`.
 -/
-import OrdinalAnalysis.ACAOmega.Evaluate
-import OrdinalAnalysis.Gentzen.EpsilonSegmentOrder
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Evaluate
+public import OrdinalAnalysis.Gentzen.EpsilonSegmentOrder
+
+@[expose] public section
 
 set_option autoImplicit false
 

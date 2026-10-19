@@ -20,8 +20,13 @@
   `I` (`WellOrdering.W_theta_tau`); `W` is downward closed, so every `x ≺ ⌜a⌝` is in `W`; and
   the induction scheme of `I` at the formula `X x` turns `Prog(≺, X)` into `W ⊆ X`.
 -/
-import OrdinalAnalysis.ID1.Bridge
-import OrdinalAnalysis.ID1.LowerBound
+
+module
+
+public import OrdinalAnalysis.ID1.Bridge
+public import OrdinalAnalysis.ID1.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -22,7 +22,12 @@
   * `W_of_E'`, `W_Omega'`, `W_theta'`, `W_theta_of_TI'`: the theorems of `IDw/WellOrderingW.lean`
     with the hypotheses `ConsStmt`, `MonoStmt`, `OmegaStmt` discharged.
 -/
-import OrdinalAnalysis.IDw.WellOrderingW
+
+module
+
+public import OrdinalAnalysis.IDw.WellOrderingW
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option linter.unusedSectionVars false

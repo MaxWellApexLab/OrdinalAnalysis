@@ -39,11 +39,16 @@
     `cut_axioms`                         cutting away the axioms
     `embedding_theorem`                  **Theorem 6.5**
 -/
-import OrdinalAnalysis.IDw.NumSubst
-import OrdinalAnalysis.IDw.Evaluate
-import OrdinalAnalysis.IDw.ReductionAux
-import OrdinalAnalysis.IDw.Rank
-import OrdinalAnalysis.Ordinal.Collapsing.Limit
+
+module
+
+public import OrdinalAnalysis.IDw.NumSubst
+public import OrdinalAnalysis.IDw.Evaluate
+public import OrdinalAnalysis.IDw.ReductionAux
+public import OrdinalAnalysis.IDw.Rank
+public import OrdinalAnalysis.Ordinal.Collapsing.Limit
+
+@[expose] public section
 
 set_option autoImplicit false
 

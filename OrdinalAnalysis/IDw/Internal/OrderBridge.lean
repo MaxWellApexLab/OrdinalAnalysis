@@ -1,8 +1,11 @@
 /- Source: OrdinalAnalysis\IDn\Internal\OrderBridge.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.InternalFacts
-import OrdinalAnalysis.IDw.Internal.OrderT
-import OrdinalAnalysis.IDw.Internal.Standard
+module
+
+public import OrdinalAnalysis.IDw.InternalFacts
+public import OrdinalAnalysis.IDw.Internal.OrderT
+public import OrdinalAnalysis.IDw.Internal.Standard
+
 /-
   The `ℕ`-standard-model bridge between the arithmetic order formulas `OrderFormulas`
   (`F.lt`, `F.nf`, `F.dom`, `F.fld`; `IDw/UpperAux.lean`), evaluated at the concrete instance
@@ -27,6 +30,8 @@ import OrdinalAnalysis.IDw.Internal.Standard
      fed by `OrderT.lean`'s `isTerm_of_isNF` (a code satisfying `isNF` is in particular a code
      satisfying `isTerm`, so `isTerm_surj` applies to it).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

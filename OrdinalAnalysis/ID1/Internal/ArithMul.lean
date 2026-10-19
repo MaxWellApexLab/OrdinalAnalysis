@@ -7,7 +7,12 @@
   * `iomegaMul_lt_iomegaMul`: `ω · ·` is strictly monotone;
   * `iomegaMul_lt_prin`: the principal codes are closed under `ω · ·` from below.
 -/
-import OrdinalAnalysis.ID1.Internal.ArithE
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.ArithE
+
+@[expose] public section
 
 set_option autoImplicit false
 

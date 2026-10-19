@@ -30,9 +30,14 @@
     `embInst_closure`, `closure_axiom_inst`     the closure-axiom presentation
     `transfer_unfold_fwd`, `transfer_unfold_bwd`
 -/
-import OrdinalAnalysis.IDw.Transfer
-import OrdinalAnalysis.IDw.NumSubst
-import OrdinalAnalysis.IDw.Sound
+
+module
+
+public import OrdinalAnalysis.IDw.Transfer
+public import OrdinalAnalysis.IDw.NumSubst
+public import OrdinalAnalysis.IDw.Sound
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -34,10 +34,15 @@
   accessible part of `≺` restricted to `D_y` below `Ω_{y+1}`, `D_y` the codes whose coefficients
   of every level `j < y` lie in `J(j, ·)`** — BP78's `W_u` and `M_u`, for an internal level `y`.
 -/
-import OrdinalAnalysis.IDw.Theory
-import OrdinalAnalysis.EvalWrap
-import OrdinalAnalysis.IDw.Internal.Order
-import Mathlib.Tactic.FinCases
+
+module
+
+public import OrdinalAnalysis.IDw.Theory
+public import OrdinalAnalysis.EvalWrap
+public import OrdinalAnalysis.IDw.Internal.Order
+public import Mathlib.Tactic.FinCases
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

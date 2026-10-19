@@ -52,12 +52,17 @@
     `instance_derivable`                       one numeral instance of a scheme axiom
     `scheme_axiom_derivable`                   **every axiom of `tiScheme₀`**
 -/
-import OrdinalAnalysis.Gentzen.SubstX
-import OrdinalAnalysis.Gentzen.Epsilon1Axiom
-import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
-import OrdinalAnalysis.Gentzen.AxiomsInduction
-import OrdinalAnalysis.Gentzen.NumSubst
-import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
+
+module
+
+public import OrdinalAnalysis.Gentzen.SubstX
+public import OrdinalAnalysis.Gentzen.Epsilon1Axiom
+public import OrdinalAnalysis.Gentzen.Epsilon1UpperBound
+public import OrdinalAnalysis.Gentzen.AxiomsInduction
+public import OrdinalAnalysis.Gentzen.NumSubst
+public import OrdinalAnalysis.Ordinal.Veblen.EpsilonBelow
+
+@[expose] public section
 
 set_option autoImplicit false
 

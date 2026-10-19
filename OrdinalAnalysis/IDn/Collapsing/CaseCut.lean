@@ -37,7 +37,12 @@
 
   The statement of `collapse_case_cut` is `Cases.lean`'s, verbatim.
 -/
-import OrdinalAnalysis.IDn.Collapsing.Statement
+
+module
+
+public import OrdinalAnalysis.IDn.Collapsing.Statement
+
+@[expose] public section
 
 set_option autoImplicit false
 

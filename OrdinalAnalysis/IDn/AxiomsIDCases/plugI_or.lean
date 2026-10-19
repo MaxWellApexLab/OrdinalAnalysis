@@ -1,5 +1,9 @@
-import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
+module
+
+public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

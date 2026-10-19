@@ -2,8 +2,13 @@
   The finite omega towers are cofinal in the external normal-form notations,
   and their external structural codes coincide with the internal tower codes.
 -/
-import OrdinalAnalysis.Gentzen.OmegaTower
-import OrdinalAnalysis.Gentzen.NotationBridge
+
+module
+
+public import OrdinalAnalysis.Gentzen.OmegaTower
+public import OrdinalAnalysis.Gentzen.NotationBridge
+
+@[expose] public section
 
 set_option autoImplicit false
 

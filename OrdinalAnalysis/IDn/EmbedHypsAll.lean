@@ -53,14 +53,19 @@
     `idn_lower_bound_final` the non-sharp lower bound at `Omega 0` (`CollapseCorollary.lean`)
     `idlt_theorem_final`    both halves for `ID_{<ω}` (`Theorem2.lean`), given `htr` as well
 -/
-import OrdinalAnalysis.IDn.EmbedHypsTaut
-import OrdinalAnalysis.IDn.EmbedHypsLogic
-import OrdinalAnalysis.IDn.EmbedHypsPA
-import OrdinalAnalysis.IDn.EmbedHypsReplace
-import OrdinalAnalysis.IDn.AxiomsIDCases.closure_derivable
-import OrdinalAnalysis.IDn.CollapseCorollary
-import OrdinalAnalysis.IDn.CollapseCorollarySharp
-import OrdinalAnalysis.IDn.Theorem2
+
+module
+
+public import OrdinalAnalysis.IDn.EmbedHypsTaut
+public import OrdinalAnalysis.IDn.EmbedHypsLogic
+public import OrdinalAnalysis.IDn.EmbedHypsPA
+public import OrdinalAnalysis.IDn.EmbedHypsReplace
+public import OrdinalAnalysis.IDn.AxiomsIDCases.closure_derivable
+public import OrdinalAnalysis.IDn.CollapseCorollary
+public import OrdinalAnalysis.IDn.CollapseCorollarySharp
+public import OrdinalAnalysis.IDn.Theorem2
+
+@[expose] public section
 
 set_option autoImplicit false
 

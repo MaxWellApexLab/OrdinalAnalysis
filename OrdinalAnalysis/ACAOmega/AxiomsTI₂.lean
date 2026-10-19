@@ -44,9 +44,14 @@
     `tiUptoScheme_derivable`             **the new axiom block**
     `acaΓ_axiom_derivable`               **every axiom of `ACAΓ`**
 -/
-import OrdinalAnalysis.ACA.TIGamma
-import OrdinalAnalysis.ACAOmega.Climb₂
-import OrdinalAnalysis.ACAOmega.SchemeAxioms₂
+
+module
+
+public import OrdinalAnalysis.ACA.TIGamma
+public import OrdinalAnalysis.ACAOmega.Climb₂
+public import OrdinalAnalysis.ACAOmega.SchemeAxioms₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -5,8 +5,13 @@
   file is that the images are *definitionally* the propositions `TI.lean`
   already names, so the assembly never has to compute a `toSOAt`.
 -/
-import OrdinalAnalysis.ACA.Lift
-import OrdinalAnalysis.ACA.TI
+
+module
+
+public import OrdinalAnalysis.ACA.Lift
+public import OrdinalAnalysis.ACA.TI
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.RS.Infty
+module
+
+public import OrdinalAnalysis.KPi.RS.Infty
 
 /-!
 # The RS calculus, part 5: `TermReg` from regularity of a cardinal
@@ -9,6 +11,8 @@ the terms of level `< a` into `List Tk` (`Tk` a record `<tag, a, b, x>`, `x` the
 `RegOrd` is the class of these `kappa` (B92 Sect. 4: `R` consists of uncountable regular cardinals) and
 `truth_lemma_regular` is the Truth Lemma with that hypothesis on `R` only.
 -/
+
+@[expose] public section
 
 open Ordinal Cardinal
 

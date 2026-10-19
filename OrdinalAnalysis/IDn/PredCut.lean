@@ -25,8 +25,13 @@
   `ω^{muBar(s+2)+muBar(s+2)} ⪯ γ'`), `β' := φ_{s+1}(ρ₀, β)`.  `collapseHyps_of_levelBounded`
   then builds `CollapseHyps A` from `positive` and `levelBounded` only.
 -/
-import OrdinalAnalysis.IDn.PredCutCases.Main
-import OrdinalAnalysis.IDn.Collapsing.Theorem
+
+module
+
+public import OrdinalAnalysis.IDn.PredCutCases.Main
+public import OrdinalAnalysis.IDn.Collapsing.Theorem
+
+@[expose] public section
 
 set_option autoImplicit false
 

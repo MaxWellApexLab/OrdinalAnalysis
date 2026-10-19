@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Internal\JumpList.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.OrderE
+module
+
+public import OrdinalAnalysis.IDw.Internal.OrderE
+
 /-
   Exponent lists of the coded multi-level ϑ-notation inside models of `IΣ₁`: concatenation
   and the facts about appending one exponent at the end that Gentzen's jump needs (the
@@ -22,6 +25,8 @@ import OrdinalAnalysis.IDw.Internal.OrderE
   * `isNF_isDom_tcCons_iff`: a sum code is a normal domain code iff it is a descending list and
     not a one-entry list with a principal entry.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

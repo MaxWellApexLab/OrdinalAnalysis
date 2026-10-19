@@ -1,8 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\InternalFacts.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega; the order-formula part only). -/
 
-import OrdinalAnalysis.IDw.UpperAux
-import OrdinalAnalysis.EvalWrap
-import OrdinalAnalysis.IDw.Internal.Order
+module
+
+public import OrdinalAnalysis.IDw.UpperAux
+public import OrdinalAnalysis.EvalWrap
+public import OrdinalAnalysis.IDw.Internal.Order
 
 /-
   The concrete formulas of the internal order of `IDw/Internal/Order.lean`.
@@ -20,6 +22,8 @@ import OrdinalAnalysis.IDw.Internal.Order
   `IDw/Internal/{Order,OrderT,OrderE,JumpList}.lean` (the role of `IDn/Internal/OrderFacts.lean`),
   and the headlines need the theorem side of the upper bound.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

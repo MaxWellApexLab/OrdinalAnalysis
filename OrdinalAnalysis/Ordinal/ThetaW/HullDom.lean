@@ -29,7 +29,12 @@
   hypotheses for the merged `Hop 3` (`hA_mem_Hop_three`, `not_dom_theta_three_hA_succ`) but not
   for the level-free operator (`hA_not_mem_HopS`).
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.HullSingle
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.HullSingle
+
+@[expose] public section
 
 set_option autoImplicit false
 

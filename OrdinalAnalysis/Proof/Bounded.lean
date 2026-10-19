@@ -22,8 +22,13 @@
   otherwise carry a normal-form hypothesis.  `NONote` also supplies `LinearOrder`
   and `WellFoundedLT`, both of which the elimination lemma will want.
 -/
-import OrdinalAnalysis.Ordinal.NONatSum
-import OrdinalAnalysis.Proof.CutRank
+
+module
+
+public import OrdinalAnalysis.Ordinal.NONatSum
+public import OrdinalAnalysis.Proof.CutRank
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

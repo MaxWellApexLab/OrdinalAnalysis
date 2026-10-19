@@ -20,10 +20,15 @@
   formula of the object language is unfolded (`precN_iff`, `precN_code_iff` and
   `eval_precAt_numeral` are used as black boxes), so the kernel work is small.
 -/
-import Mathlib.SetTheory.Ordinal.Veblen
-import OrdinalAnalysis.Gentzen.CodeSurj
-import OrdinalAnalysis.Gentzen.GentzenTheorem
-import OrdinalAnalysis.Ordinal.ONoteEpsilon0
+
+module
+
+public import Mathlib.SetTheory.Ordinal.Veblen
+public import OrdinalAnalysis.Gentzen.CodeSurj
+public import OrdinalAnalysis.Gentzen.GentzenTheorem
+public import OrdinalAnalysis.Ordinal.ONoteEpsilon0
+
+@[expose] public section
 
 set_option autoImplicit false
 

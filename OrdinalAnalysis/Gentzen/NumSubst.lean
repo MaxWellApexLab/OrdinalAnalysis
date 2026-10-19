@@ -26,8 +26,13 @@
   and free variables.  They are true because the numerals are closed terms,
   which `free`, `shift` and `bShift` all leave alone.
 -/
-import OrdinalAnalysis.Gentzen.StandardLX
-import OrdinalAnalysis.Gentzen.LowerSyntax
+
+module
+
+public import OrdinalAnalysis.Gentzen.StandardLX
+public import OrdinalAnalysis.Gentzen.LowerSyntax
+
+@[expose] public section
 
 set_option autoImplicit false
 

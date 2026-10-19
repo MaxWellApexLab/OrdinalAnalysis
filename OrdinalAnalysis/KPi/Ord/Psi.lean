@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.Ord.Closure
+module
+
+public import OrdinalAnalysis.KPi.Ord.Closure
 
 /-!
 # Buchholz 1992, Def 4.2: the collapsing functions `ψ_κ`; Lemma 4.4 (c), (d), Lemma 4.5 (a)
@@ -12,6 +14,8 @@ is Lemma 4.5 (a); for `κ ∉ R` the value is junk and never used.
 
 Lemmas 4.4 (c), (d) depend on the totality 4.5 (a) and are therefore proved after it.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

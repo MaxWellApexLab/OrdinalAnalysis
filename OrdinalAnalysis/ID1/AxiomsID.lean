@@ -47,7 +47,12 @@
     `closure_derivable`, `closure_axiom`            **Proposition 6.2**
     `indAx_claim`, `indAx_derivable`, `indAx_axiom` **Proposition 6.4**
 -/
-import OrdinalAnalysis.ID1.AxiomsPA
+
+module
+
+public import OrdinalAnalysis.ID1.AxiomsPA
+
+@[expose] public section
 
 set_option autoImplicit false
 

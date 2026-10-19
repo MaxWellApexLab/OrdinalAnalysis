@@ -6,9 +6,14 @@
   `closure_axiom`/`indAx_axiom` (`EmbedHypsID`). Unlike `IDn/EmbedHypsAll.lean`, no field is taken
   as a hypothesis.
 -/
-import OrdinalAnalysis.IDw.EmbedHypsLogic
-import OrdinalAnalysis.IDw.EmbedHypsPA
-import OrdinalAnalysis.IDw.EmbedHypsID
+
+module
+
+public import OrdinalAnalysis.IDw.EmbedHypsLogic
+public import OrdinalAnalysis.IDw.EmbedHypsPA
+public import OrdinalAnalysis.IDw.EmbedHypsID
+
+@[expose] public section
 
 set_option autoImplicit false
 

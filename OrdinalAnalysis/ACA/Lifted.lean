@@ -20,8 +20,13 @@
   progressiveness as a `paLX` theorem lifted").  It is first-order, so it is
   proved in `paLX` and lifted, exactly as the two-layer discipline requires.
 -/
-import OrdinalAnalysis.ACA.LiftTI
-import OrdinalAnalysis.Gentzen.InternalEpsMonoCode
+
+module
+
+public import OrdinalAnalysis.ACA.LiftTI
+public import OrdinalAnalysis.Gentzen.InternalEpsMonoCode
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1000000

@@ -74,7 +74,12 @@
     `ev_idem`, `complexity_ev`, `freeVariables_ev`, `ev_Xat`
     `isArithLit_ev`, `trueN_ev`, `trueArithLits_ev`
 -/
-import OrdinalAnalysis.Gentzen.StandardLX
+
+module
+
+public import OrdinalAnalysis.Gentzen.StandardLX
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

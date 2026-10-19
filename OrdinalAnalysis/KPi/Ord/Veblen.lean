@@ -1,4 +1,6 @@
-import OrdinalAnalysis.KPi.Ord.Defs
+module
+
+public import OrdinalAnalysis.KPi.Ord.Defs
 
 /-!
 # Regular uncountable ordinals are closed under the Veblen function
@@ -10,6 +12,8 @@ Mathlib's `derivFamily_lt_ord_lift` needs the index type in `Type u` for `Ordina
 `veblen` at `Ordinal.{1}` uses the index type `Iio ξ : Type 2`; the closure lemmas are therefore
 re-proved here for index types in `Type 2`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

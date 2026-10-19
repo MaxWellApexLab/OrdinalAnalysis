@@ -24,7 +24,12 @@
   * a set atom `t ∈& X` needs `setExt`, which `LK.lean` put into `ACA₀`
     precisely for this purpose.
 -/
-import OrdinalAnalysis.ACA.Combinators
+
+module
+
+public import OrdinalAnalysis.ACA.Combinators
+
+@[expose] public section
 
 set_option autoImplicit false
 

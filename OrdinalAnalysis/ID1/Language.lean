@@ -58,8 +58,13 @@
     `SigmaOmega`                           the class `Σ(Ω)`
     `cap`                                  `φ ↦ φ^β`
 -/
-import OrdinalAnalysis.ID1.Theory
-import OrdinalAnalysis.Ordinal.Theta.Arith
+
+module
+
+public import OrdinalAnalysis.ID1.Theory
+public import OrdinalAnalysis.Ordinal.Theta.Arith
+
+@[expose] public section
 
 set_option autoImplicit false
 

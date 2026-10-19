@@ -13,8 +13,13 @@
   The ordinal sum and `ω^·` are also transported into the language `LX` (`addCodeTheta`,
   `omegaPowCodeTheta`), as the order is in `Standard`.
 -/
-import OrdinalAnalysis.ID1.Internal.ArithBridge
-import OrdinalAnalysis.ID1.Internal.Standard
+
+module
+
+public import OrdinalAnalysis.ID1.Internal.ArithBridge
+public import OrdinalAnalysis.ID1.Internal.Standard
+
+@[expose] public section
 
 set_option autoImplicit false
 

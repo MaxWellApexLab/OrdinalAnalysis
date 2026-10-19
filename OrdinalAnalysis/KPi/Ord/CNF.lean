@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Sums of `ω`-powers: Cantor normal forms as sorted lists
@@ -8,6 +10,8 @@ is rendered as the ordinary sum `ω^{ξ₀} + … + ω^{ξₙ}` over a weakly de
 (the natural sum of `ω`-powers is exactly this sorted ordinary sum).  We prove existence (`exists_pw`)
 and uniqueness (`pw_inj`) of this representation.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

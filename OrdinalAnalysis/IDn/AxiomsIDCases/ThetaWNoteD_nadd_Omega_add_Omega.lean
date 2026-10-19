@@ -1,6 +1,10 @@
-import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
-import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_add_ofNat_eq_nadd
-import OrdinalAnalysis.IDn.AxiomsPA
+module
+
+public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
+public import OrdinalAnalysis.IDn.AxiomsIDCases.ThetaWNoteD_add_ofNat_eq_nadd
+public import OrdinalAnalysis.IDn.AxiomsPA
+
+@[expose] public section
 
 set_option autoImplicit false
 namespace OrdinalAnalysis

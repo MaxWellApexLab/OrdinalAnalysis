@@ -65,9 +65,14 @@
     numerals are injective — uses a `private def` of type `Structure LX ℕ`
     passed explicitly as `(str₂ := …)`, so nothing is registered.
 -/
-import OrdinalAnalysis.Gentzen.CodedOrder
-import OrdinalAnalysis.Gentzen.Code
-import OrdinalAnalysis.Omega.Calculus
+
+module
+
+public import OrdinalAnalysis.Gentzen.CodedOrder
+public import OrdinalAnalysis.Gentzen.Code
+public import OrdinalAnalysis.Omega.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -191,13 +196,13 @@ belongs to `Gentzen/StandardLX.lean`, not here. -/
 set_option warn.classDefReducibility false in
 /-- A throwaway reading of the fresh predicate.  `XLang` has no function
 symbols, so only `rel` has to be decided, and the choice is irrelevant. -/
-private def xStrucAux : Structure XLang ℕ where
+def xStrucAux : Structure XLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
 set_option warn.classDefReducibility false in
 /-- Arithmetic standard, `X` empty.  Deliberately *not* an instance. -/
-private def stdAux : Structure LX ℕ := Structure.add ℒₒᵣ XLang ℕ (str₂ := xStrucAux)
+def stdAux : Structure LX ℕ := Structure.add ℒₒᵣ XLang ℕ (str₂ := xStrucAux)
 
 private theorem val_numLX_aux (k : ℕ) :
     Semiterm.val (s := stdAux) ![] (fun _ => 0) (numLX k) = k := by

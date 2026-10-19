@@ -17,7 +17,12 @@
   the identical instantiation (`ix := id`) of the already-proved `positiveIn_wForm`/
   `levelBounded_wForm`; no new induction.
 -/
-import OrdinalAnalysis.IDn.Theorem
+
+module
+
+public import OrdinalAnalysis.IDn.Theorem
+
+@[expose] public section
 
 set_option autoImplicit false
 

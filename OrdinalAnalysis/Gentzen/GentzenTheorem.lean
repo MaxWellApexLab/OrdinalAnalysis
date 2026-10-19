@@ -15,8 +15,13 @@
   Together: `ε₀` is exactly the supremum of the orderings `PA` proves well
   founded, and `|PA| = ε₀`.
 -/
-import OrdinalAnalysis.Gentzen.UpperBound
-import OrdinalAnalysis.Gentzen.LowerBound
+
+module
+
+public import OrdinalAnalysis.Gentzen.UpperBound
+public import OrdinalAnalysis.Gentzen.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

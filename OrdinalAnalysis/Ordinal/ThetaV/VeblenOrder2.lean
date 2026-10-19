@@ -38,7 +38,12 @@
   the discreteness lemma, while proved (`ArithSucc.lean`, as requested), turns out not to be on
   the critical path for `φ.4` after all.
 -/
-import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder
+
+@[expose] public section
 
 set_option autoImplicit false
 

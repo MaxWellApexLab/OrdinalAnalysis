@@ -16,7 +16,12 @@
   This module is deliberately X-free; the Gentzen layer later maps its
   arithmetic formulas into the language LX.
 -/
-import OrdinalAnalysis.Gentzen.InternalONote
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalONote
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 2000000

@@ -30,7 +30,12 @@
   `Σ(κ)` is `SigmaW k` (`Jlev ℓ` allowed iff `ℓ ≤ k`), `ψ_κ = ϑ_k = psi k`, `H_γ[Θ] = Hg γ X`,
   `k(Θ) ⊆ ⋂_{τ ≥ κ} C_τ(γ+1)` is `HullHypGe k γ X`, the rank index is a strict bound.
 -/
-import OrdinalAnalysis.IDw.Collapsing.Basic
+
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -6,7 +6,12 @@
   single rule does the work of weakening, contraction and exchange at once, and
   it does not raise the ordinal index.
 -/
-import OrdinalAnalysis.Proof.Bounded
+
+module
+
+public import OrdinalAnalysis.Proof.Bounded
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

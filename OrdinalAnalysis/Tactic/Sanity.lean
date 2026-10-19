@@ -22,10 +22,15 @@
   no longer type-checks or whose proof no longer goes through fails the build exactly like any
   other theorem, no separate test runner needed.
 -/
-import Lean
-import OrdinalAnalysis.Tactic.Dom
-import OrdinalAnalysis.Tactic.Order
-import OrdinalAnalysis.Tactic.Notation
+
+module
+
+public import Lean
+public import OrdinalAnalysis.Tactic.Dom
+public import OrdinalAnalysis.Tactic.Order
+public import OrdinalAnalysis.Tactic.Notation
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -36,7 +41,7 @@ namespace OrdinalAnalysis
 /-- Turns an arbitrary string into a valid identifier fragment: every character that is not
 alphanumeric becomes `_`, and a leading digit gets an `_` prefix (identifiers cannot start with
 a digit). -/
-def sanityIdentFragment (s : String) : String :=
+meta def sanityIdentFragment (s : String) : String :=
   let mapped := String.ofList (s.toList.map fun c => if c.isAlphanum then c else '_')
   if mapped.isEmpty then "unnamed"
   else if mapped.front.isDigit then "_" ++ mapped else mapped
@@ -45,7 +50,7 @@ def sanityIdentFragment (s : String) : String :=
 `Sanity.check_s` (with `s` sanitized by `sanityIdentFragment`).  Every use in this development
 is inside `namespace OrdinalAnalysis`, so the declaration's absolute name is
 `OrdinalAnalysis.Sanity.check_s`; `#sanity_report` looks for exactly that absolute prefix. -/
-def sanityCheckName (s : String) : Lean.Name :=
+meta def sanityCheckName (s : String) : Lean.Name :=
   .str (.str .anonymous "Sanity") ("check_" ++ sanityIdentFragment s)
 
 /-- `sanity_check "name" : prop := proof` registers `proof : prop` as a named sanity check

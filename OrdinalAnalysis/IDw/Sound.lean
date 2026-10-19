@@ -59,9 +59,14 @@
     `models_paLXJ`, `models_IDw`                          **soundness**
     `IDw_consistent`                                       **consistency**
 -/
-import OrdinalAnalysis.IDw.Theory
-import Mathlib.Order.FixedPoints
-import Mathlib.Tactic.FinCases
+
+module
+
+public import OrdinalAnalysis.IDw.Theory
+public import Mathlib.Order.FixedPoints
+public import Mathlib.Tactic.FinCases
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option warn.classDefReducibility false

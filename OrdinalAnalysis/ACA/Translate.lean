@@ -24,7 +24,12 @@
   `Toolkit.lean`'s `specSets` — which is exactly `subst₁_toSOAtB` below.
   `toSOAt := toSOAtB (N := 0)` keeps every earlier use unchanged.
 -/
-import OrdinalAnalysis.ACA.Toolkit
+
+module
+
+public import OrdinalAnalysis.ACA.Toolkit
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -538,9 +543,9 @@ theorem subst₁_toSOAtB (Φ : Fin N → Semiformula ℒₒᵣ ℕ Empty 0 1) {n
 
 /-- `cut` with the two contexts merged — Foundation's `cut` concatenates them,
 ours needs them shared, so both premises are weakened first. -/
-private def cutShared {φ : Proposition ℒₒᵣ} {Γ Δ : SecondOrder.Sequent ℒₒᵣ}
+def cutShared {φ : Proposition ℒₒᵣ} {Γ Δ : SecondOrder.Sequent ℒₒᵣ}
     (dp : Derivation (φ :: Γ)) (dn : Derivation (∼φ :: Δ)) : Derivation (Γ ++ Δ) :=
-  Derivation.cut
+  Derivation.cut (φ := φ) (Γ := Γ ++ Δ)
     (Derivation.wk dp (by
       intro x hx; simp only [List.mem_cons, List.mem_append] at hx ⊢; tauto))
     (Derivation.wk dn (by

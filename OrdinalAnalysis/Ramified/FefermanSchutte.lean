@@ -69,10 +69,15 @@
   with all finite levels is analysed in `Ramified/LimitTheorem.lean`, at `φ_2(0)`,
   and it is not a statement about `ATR₀`.
 -/
-import OrdinalAnalysis.Ramified.DescentBeta
-import OrdinalAnalysis.Ramified.FSLower
-import OrdinalAnalysis.Ramified.UpperBound
-import OrdinalAnalysis.Ordinal.Veblen.VeblenCover
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBeta
+public import OrdinalAnalysis.Ramified.FSLower
+public import OrdinalAnalysis.Ramified.UpperBound
+public import OrdinalAnalysis.Ordinal.Veblen.VeblenCover
+
+@[expose] public section
 
 set_option autoImplicit false
 

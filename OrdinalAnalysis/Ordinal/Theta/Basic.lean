@@ -24,7 +24,12 @@
   and elementary facts about `l` and `E`.  The order-theoretic properties (irreflexivity,
   transitivity, totality) are proved in the companion module on the order.
 -/
-import Mathlib.Data.List.Basic
+
+module
+
+public import Mathlib.Data.List.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

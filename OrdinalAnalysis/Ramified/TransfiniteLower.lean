@@ -23,7 +23,12 @@
   `ω^{n+1}` and a height below `ε₀`, and the semiformal bound applies.  This bound
   is sound but, for the finitary theory, not claimed to be attained.
 -/
-import OrdinalAnalysis.Ramified.LowerBound
+
+module
+
+public import OrdinalAnalysis.Ramified.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

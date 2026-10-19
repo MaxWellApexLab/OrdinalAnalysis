@@ -10,10 +10,15 @@
   (`lake build OrdinalAnalysis.Tactic.Test`), the tactics work on real goals, not just on
   hand-picked toys.
 -/
-import OrdinalAnalysis.Tactic.Dom
-import OrdinalAnalysis.Tactic.Order
-import OrdinalAnalysis.Tactic.Notation
-import OrdinalAnalysis.Tactic.Sanity
+
+module
+
+public import OrdinalAnalysis.Tactic.Dom
+public import OrdinalAnalysis.Tactic.Order
+public import OrdinalAnalysis.Tactic.Notation
+public import OrdinalAnalysis.Tactic.Sanity
+
+@[expose] public section
 
 set_option autoImplicit false
 

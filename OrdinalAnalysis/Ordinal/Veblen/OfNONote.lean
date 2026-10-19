@@ -14,7 +14,12 @@
   are proved locally: the first exists in `Ordinal/OmegaPow.lean` but is `private`, and the
   second is in neither mathlib nor this tree.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

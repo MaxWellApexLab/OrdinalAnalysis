@@ -29,7 +29,12 @@
   needed to be re-proved, only re-applied one level up with `E_phiArg_eq_of_lt` supplying the
   bridge that the one-level system does not need (there, `ϑ`'s argument has no `Ω · ρ` shift).
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Veblen
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Veblen
+
+@[expose] public section
 
 set_option autoImplicit false
 

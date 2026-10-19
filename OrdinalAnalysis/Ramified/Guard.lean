@@ -20,8 +20,13 @@
   * its true numeral instances are provable in `PA⁻` (`guardAt_provable`), by
     `Σ₁`-completeness — this is what lets a particular code be used.
 -/
-import OrdinalAnalysis.Ramified.Code
-import Foundation.FirstOrder.Arithmetic.HFS
+
+module
+
+public import OrdinalAnalysis.Ramified.Code
+public import Foundation.FirstOrder.Arithmetic.HFS
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -48,14 +48,19 @@
     `ofNat`/`succ`/`nadd` operations — so, read in `Gamma0Note`, it always sits
     below `ε₀`, `ε₀` being closed under exactly those three operations.
 -/
-import OrdinalAnalysis.Ramified.SegOrder
-import OrdinalAnalysis.Ramified.Embed
-import OrdinalAnalysis.Ramified.Axioms
-import OrdinalAnalysis.Ramified.NamingAxioms
-import OrdinalAnalysis.Ramified.CutAxioms
-import OrdinalAnalysis.Ramified.BlockCut
-import OrdinalAnalysis.Ramified.Boundedness
-import Foundation.FirstOrder.Hauptsatz
+
+module
+
+public import OrdinalAnalysis.Ramified.SegOrder
+public import OrdinalAnalysis.Ramified.Embed
+public import OrdinalAnalysis.Ramified.Axioms
+public import OrdinalAnalysis.Ramified.NamingAxioms
+public import OrdinalAnalysis.Ramified.CutAxioms
+public import OrdinalAnalysis.Ramified.BlockCut
+public import OrdinalAnalysis.Ramified.Boundedness
+public import Foundation.FirstOrder.Hauptsatz
+
+@[expose] public section
 
 set_option autoImplicit false
 

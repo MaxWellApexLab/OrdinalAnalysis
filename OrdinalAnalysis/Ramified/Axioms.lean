@@ -23,9 +23,14 @@
   `RAlt_axiom_derivable'` and `RA_univ_axiom_derivable'` discharge the naming
   hypothesis with `Ramified/NamingAxioms.lean`'s `naming_axiom_derivable`.
 -/
-import OrdinalAnalysis.Ramified.AxiomsInduction
-import OrdinalAnalysis.Ramified.Theory
-import OrdinalAnalysis.Ramified.NamingAxioms
+
+module
+
+public import OrdinalAnalysis.Ramified.AxiomsInduction
+public import OrdinalAnalysis.Ramified.Theory
+public import OrdinalAnalysis.Ramified.NamingAxioms
+
+@[expose] public section
 
 set_option autoImplicit false
 

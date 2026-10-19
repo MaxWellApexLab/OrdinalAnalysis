@@ -55,8 +55,13 @@
     `omega_complete₂_ev_neg`               the negative form
     `omega_complete₂_liftEmb`              the form the `𝗘𝗤`/`𝗣𝗔⁻` rows consume
 -/
-import OrdinalAnalysis.ACAOmega.CodedOrder₂
-import OrdinalAnalysis.Gentzen.LowerSyntax
+
+module
+
+public import OrdinalAnalysis.ACAOmega.CodedOrder₂
+public import OrdinalAnalysis.Gentzen.LowerSyntax
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -22,7 +22,12 @@
   the ω-rule takes the supremum of the climbs to the notations below `ε₀`,
   which is `ε₀`.
 -/
-import OrdinalAnalysis.Gentzen.ClimbVeblen
+
+module
+
+public import OrdinalAnalysis.Gentzen.ClimbVeblen
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 400000

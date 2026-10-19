@@ -62,9 +62,14 @@
     `id1_lower_bound_of_embedding_xfree`, `id1_lower_bound_of_embedding`,
     `not_provable_fieldInI_of_embedding`   the lower bound, given the embedding
 -/
-import OrdinalAnalysis.ID1.StageSemantics
-import OrdinalAnalysis.ID1.Elimination
-import Foundation.FirstOrder.Completeness
+
+module
+
+public import OrdinalAnalysis.ID1.StageSemantics
+public import OrdinalAnalysis.ID1.Elimination
+public import Foundation.FirstOrder.Completeness
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -38,9 +38,14 @@
   else: when (⋆⋆)/(Prog) land, `aca_theorem` is one application away and this
   file is the only place that changes.
 -/
-import OrdinalAnalysis.ACA.EpsProg
-import OrdinalAnalysis.ACA.SegmentBridge
-import OrdinalAnalysis.ACAOmega.ACATheorem
+
+module
+
+public import OrdinalAnalysis.ACA.EpsProg
+public import OrdinalAnalysis.ACA.SegmentBridge
+public import OrdinalAnalysis.ACAOmega.ACATheorem
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -65,7 +70,7 @@ private theorem isSuccLimit_epsilon (o : Ordinal) : Order.IsSuccLimit (Ordinal.e
 /-- The ω-tower `0, ω^0, ω^{ω^0}, …` inside `Gamma0Note` (the `vtower` of
 `Gentzen/VeblenEpsilon0UpperBound.lean`, reproduced so this file is
 self-contained). -/
-private def epsTower : ℕ → Gamma0Note
+def epsTower : ℕ → Gamma0Note
   | 0 => 0
   | n + 1 => Gamma0Note.omegaPow (epsTower n)
 

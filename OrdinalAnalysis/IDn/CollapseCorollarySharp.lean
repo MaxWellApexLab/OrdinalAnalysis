@@ -18,9 +18,14 @@
   No predicative cut elimination and no `φ`-closed base are needed: the cut rank already sits
   inside `[Ω_n, Ω_n + ω)`, one level below the old (loose) `Ω_{n+1} + m`.
 -/
-import OrdinalAnalysis.IDn.LowerSharp
-import OrdinalAnalysis.IDn.PredCut
-import OrdinalAnalysis.IDn.Elimination
+
+module
+
+public import OrdinalAnalysis.IDn.LowerSharp
+public import OrdinalAnalysis.IDn.PredCut
+public import OrdinalAnalysis.IDn.Elimination
+
+@[expose] public section
 
 set_option autoImplicit false
 

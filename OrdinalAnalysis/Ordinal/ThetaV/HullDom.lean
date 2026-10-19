@@ -27,7 +27,12 @@
   transitive on raw terms, needed by `dom_theta_of_max_G`): `G k OmegaW = []` (`G_OmegaW`), so its
   `OmegaW` case is vacuous, exactly like every other `G_k`-vanishing case in `HullSingle.lean`.
 -/
-import OrdinalAnalysis.Ordinal.ThetaV.HullSingle
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaV.HullSingle
+
+@[expose] public section
 
 set_option autoImplicit false
 

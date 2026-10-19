@@ -6,7 +6,12 @@
   The final theorem specializes the generic predicate to the fresh predicate
   `X`, yielding the concrete `TIupto` sentence used by the upper bound.
 -/
-import OrdinalAnalysis.Gentzen.OmegaCover
+
+module
+
+public import OrdinalAnalysis.Gentzen.OmegaCover
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -100,7 +105,7 @@ lemma towerCode_nf {V : Type*} [ORingStructure V]
       rw [towerCode, natCast_ocOadd]
       exact isNF_omegaBlock ih (by simp)
 
-private def arithOmegaPowAtTower {n : ℕ}
+def arithOmegaPowAtTower {n : ℕ}
     (z a : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, a] ▹ Rewriting.emb omegaPowDef.val
 

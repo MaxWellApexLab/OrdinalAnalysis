@@ -54,8 +54,13 @@
     `substX₂_ev₂_TI₂`, `substX₂_ev₂_TIupto₂`
     `OmegaDerivable₂.substX₂`              **the transformation of derivations**
 -/
-import OrdinalAnalysis.ACAOmega.EvProvider
-import OrdinalAnalysis.ACAOmega.LowerClass₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.EvProvider
+public import OrdinalAnalysis.ACAOmega.LowerClass₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -54,8 +54,13 @@
     `axDerivable_of_al`                      `AxDerivable_al A σ → AxDerivable A σ`
     `EmbedHypsLogicPart`, `embedHypsLogicPart`   the two covered fields (`eq_axiom`, `paMinus_axiom`)
 -/
-import OrdinalAnalysis.IDn.Embed
-import OrdinalAnalysis.IDn.AxiomsLogic
+
+module
+
+public import OrdinalAnalysis.IDn.Embed
+public import OrdinalAnalysis.IDn.AxiomsLogic
+
+@[expose] public section
 
 set_option autoImplicit false
 

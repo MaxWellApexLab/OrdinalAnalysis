@@ -17,7 +17,12 @@
     `repr` is `ω^(repr e) * n + repr (nadd r 1) = ω^(repr e) * n + (repr r + 1)
     = (ω^(repr e) * n + repr r) + 1` by associativity of ordinal addition.
 -/
-import OrdinalAnalysis.Ordinal.Notation
+
+module
+
+public import OrdinalAnalysis.Ordinal.Notation
+
+@[expose] public section
 
 set_option autoImplicit false
 

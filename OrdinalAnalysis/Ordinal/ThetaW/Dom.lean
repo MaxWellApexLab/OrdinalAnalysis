@@ -32,8 +32,13 @@
   levels are `< N` lies below `ϑ₀(Ω_{N+1})`; and the predecessors of a domain term need not
   have bounded levels: `ϑ₁(Ω₆) ≺ Ω₂`.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Exponents
-import OrdinalAnalysis.Ordinal.ThetaW.Descent
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Exponents
+public import OrdinalAnalysis.Ordinal.ThetaW.Descent
+
+@[expose] public section
 
 set_option autoImplicit false
 

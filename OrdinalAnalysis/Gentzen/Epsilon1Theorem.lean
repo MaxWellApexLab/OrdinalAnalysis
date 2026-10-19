@@ -48,7 +48,12 @@
   ω-derivation that exists (`SubstX.lean`) and discharging the free variables
   with the ω-rule.
 -/
-import OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme
+
+module
+
+public import OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme
+
+@[expose] public section
 
 set_option autoImplicit false
 

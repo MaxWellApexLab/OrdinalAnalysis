@@ -4,21 +4,26 @@
   assembled theorems of `Collapsing/Theorem.lean` into statements whose only hypothesis on the
   operator form is `PositiveP A`.
 -/
-import OrdinalAnalysis.IDw.Collapsing.Hyps
-import OrdinalAnalysis.IDw.Collapsing.CaseLiteral
-import OrdinalAnalysis.IDw.Collapsing.CaseVerum
-import OrdinalAnalysis.IDw.Collapsing.CaseIdX
-import OrdinalAnalysis.IDw.Collapsing.CaseAnd
-import OrdinalAnalysis.IDw.Collapsing.CaseOrL
-import OrdinalAnalysis.IDw.Collapsing.CaseOrR
-import OrdinalAnalysis.IDw.Collapsing.CaseAll
-import OrdinalAnalysis.IDw.Collapsing.CaseExs
-import OrdinalAnalysis.IDw.Collapsing.CaseStage
-import OrdinalAnalysis.IDw.Collapsing.CaseNstage
-import OrdinalAnalysis.IDw.Collapsing.CaseFix
-import OrdinalAnalysis.IDw.Collapsing.CaseJlev
-import OrdinalAnalysis.IDw.Collapsing.CaseNJlev
-import OrdinalAnalysis.IDw.Collapsing.CaseCut
+
+module
+
+public import OrdinalAnalysis.IDw.Collapsing.Hyps
+public import OrdinalAnalysis.IDw.Collapsing.CaseLiteral
+public import OrdinalAnalysis.IDw.Collapsing.CaseVerum
+public import OrdinalAnalysis.IDw.Collapsing.CaseIdX
+public import OrdinalAnalysis.IDw.Collapsing.CaseAnd
+public import OrdinalAnalysis.IDw.Collapsing.CaseOrL
+public import OrdinalAnalysis.IDw.Collapsing.CaseOrR
+public import OrdinalAnalysis.IDw.Collapsing.CaseAll
+public import OrdinalAnalysis.IDw.Collapsing.CaseExs
+public import OrdinalAnalysis.IDw.Collapsing.CaseStage
+public import OrdinalAnalysis.IDw.Collapsing.CaseNstage
+public import OrdinalAnalysis.IDw.Collapsing.CaseFix
+public import OrdinalAnalysis.IDw.Collapsing.CaseJlev
+public import OrdinalAnalysis.IDw.Collapsing.CaseNJlev
+public import OrdinalAnalysis.IDw.Collapsing.CaseCut
+
+@[expose] public section
 
 set_option autoImplicit false
 

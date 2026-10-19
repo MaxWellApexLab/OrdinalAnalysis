@@ -34,8 +34,13 @@
   `ACA^+` by monotonicity, `progPsi_plus`; it does not yield the ε-jump from
   `∀²Z TI(b, Z)`, since `TI(b, ψ₀)` is not an instance of it.)
 -/
-import OrdinalAnalysis.ACA.OmegaJumpInduction
-import OrdinalAnalysis.ACA.EpsProg
+
+module
+
+public import OrdinalAnalysis.ACA.OmegaJumpInduction
+public import OrdinalAnalysis.ACA.EpsProg
+
+@[expose] public section
 
 set_option autoImplicit false
 

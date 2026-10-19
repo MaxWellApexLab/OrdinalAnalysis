@@ -11,7 +11,12 @@
   On normal forms that test is syntactic (`VNote.veblen_repr_eq_of_test` /
   `VNote.repr_lt_veblen_of_test`), so both operations are total, with no side hypothesis.
 -/
-import OrdinalAnalysis.Ordinal.Veblen.Cmp
+
+module
+
+public import OrdinalAnalysis.Ordinal.Veblen.Cmp
+
+@[expose] public section
 
 set_option autoImplicit false
 

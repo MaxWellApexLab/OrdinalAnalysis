@@ -45,8 +45,13 @@
     `omega_complete_neg`          its negative form
     `omega_complete_sentence`     the shape `Theory.lMap toLX 𝗣𝗔⁻` arrives in
 -/
-import OrdinalAnalysis.Gentzen.StandardLX
-import OrdinalAnalysis.Gentzen.LowerSyntax
+
+module
+
+public import OrdinalAnalysis.Gentzen.StandardLX
+public import OrdinalAnalysis.Gentzen.LowerSyntax
+
+@[expose] public section
 
 set_option autoImplicit false
 

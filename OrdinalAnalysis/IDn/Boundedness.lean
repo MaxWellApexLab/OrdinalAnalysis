@@ -37,7 +37,12 @@
 
   Both results need of the operator only that it is an operator (monotone).
 -/
-import OrdinalAnalysis.IDn.Calculus
+
+module
+
+public import OrdinalAnalysis.IDn.Calculus
+
+@[expose] public section
 
 set_option autoImplicit false
 

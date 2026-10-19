@@ -8,7 +8,12 @@
   Gentzen 1943; it has been formalized before, in Coq and in Lean, and is
   recorded here only because it falls out.
 -/
-import OrdinalAnalysis.Gentzen.LowerBound
+
+module
+
+public import OrdinalAnalysis.Gentzen.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

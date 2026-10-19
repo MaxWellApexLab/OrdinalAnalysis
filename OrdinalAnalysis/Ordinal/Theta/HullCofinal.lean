@@ -14,7 +14,12 @@
   below some `ϑ(ω_n(Ω + 1))`.  Hence the terms `ϑ(ω_n(Ω + 1))` are cofinal in the
   notations below `Ω`: the Bachmann–Howard ordinal is their supremum.
 -/
-import OrdinalAnalysis.Ordinal.Theta.Hull
+
+module
+
+public import OrdinalAnalysis.Ordinal.Theta.Hull
+
+@[expose] public section
 
 set_option autoImplicit false
 

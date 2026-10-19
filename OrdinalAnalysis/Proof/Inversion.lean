@@ -11,7 +11,12 @@
   statement the `contraction` case is unprovable: from `Δ ⊆ (φ ⋎ ψ) :: Γ'` one
   learns nothing about the shape of `Δ`.
 -/
-import OrdinalAnalysis.Proof.Weakening
+
+module
+
+public import OrdinalAnalysis.Proof.Weakening
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

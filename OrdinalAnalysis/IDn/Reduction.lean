@@ -1,8 +1,11 @@
 /- Source: OrdinalAnalysis\ID1\Reduction.lean (one-level `Omega`/`Stage` generalised to level `k : Fin n`). -/
 
-import OrdinalAnalysis.IDn.Calculus
-import OrdinalAnalysis.IDn.ReductionAux
-import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+module
+
+public import OrdinalAnalysis.IDn.Calculus
+public import OrdinalAnalysis.IDn.ReductionAux
+public import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
+
 /-
   The reduction lemma for the operator-controlled calculus `ID₁^∞`.
 
@@ -43,6 +46,8 @@ import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
     `IDnDerivable.reduction`                       Exercise 7.1 (b)
     `IDnDerivable.reduction_cut`                   a cut of rank `ρ ≠ Ω` at the height `α + α`
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

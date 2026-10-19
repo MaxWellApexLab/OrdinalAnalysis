@@ -28,8 +28,13 @@
   at `a = 1` and is left as a follow-up (its proof needs a genuine trichotomy on `icmp₁ p a`,
   not just the fixed-point case).
 -/
-import OrdinalAnalysis.Gentzen.InternalEpsMono
-import OrdinalAnalysis.Gentzen.VNoteBridge
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalEpsMono
+public import OrdinalAnalysis.Gentzen.VNoteBridge
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 2000000

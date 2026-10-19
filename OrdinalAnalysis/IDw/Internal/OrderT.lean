@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Internal\OrderT.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.Order
+module
+
+public import OrdinalAnalysis.IDw.Internal.Order
+
 /-
   The order of the coded multi-level ϑ-notation inside models of `IΣ₁`.
 
@@ -26,6 +29,8 @@ import OrdinalAnalysis.IDw.Internal.Order
   * `iltb_trans`, `iltb_irrefl`, `iltb_asymm`, `iltb_trichotomy`, `iltb_trichotomy_nf`;
   * `isTerm_cases`, `nfA_cases`, `isTerm_of_isNF`, `isTerm_of_iinE`.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

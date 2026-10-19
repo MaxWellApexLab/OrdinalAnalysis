@@ -35,9 +35,14 @@
     that survives the recursion, and the elimination lemma will absorb it,
     because `ω ^ α` is additively indecomposable.
 -/
-import OrdinalAnalysis.Ordinal.NaturalSumMono
-import OrdinalAnalysis.Proof.Inversion
-import OrdinalAnalysis.Proof.InversionAll
+
+module
+
+public import OrdinalAnalysis.Ordinal.NaturalSumMono
+public import OrdinalAnalysis.Proof.Inversion
+public import OrdinalAnalysis.Proof.InversionAll
+
+@[expose] public section
 
 namespace OrdinalAnalysis
 

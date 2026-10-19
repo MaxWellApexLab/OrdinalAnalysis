@@ -1,8 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\EmbedHypsID.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Embed
-import OrdinalAnalysis.IDw.AxiomsIDCases.closure_derivable
-import OrdinalAnalysis.IDw.AxiomsIDCases.indBody_inst
+module
+
+public import OrdinalAnalysis.IDw.Embed
+public import OrdinalAnalysis.IDw.AxiomsIDCases.closure_derivable
+public import OrdinalAnalysis.IDw.AxiomsIDCases.indBody_inst
 
 /-
   The two `ID_ω`-specific fields of `IDw.Embed`'s `EmbedHyps`: the closure axiom and the induction
@@ -27,6 +29,8 @@ import OrdinalAnalysis.IDw.AxiomsIDCases.indBody_inst
     `embedHyps_closure_axiom`, `embedHyps_indAx_axiom`   the two fields, as theorems
     `EmbedHypsIDPart`, `embedHypsIDPart`                 the two fields bundled
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

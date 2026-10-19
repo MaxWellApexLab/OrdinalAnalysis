@@ -47,7 +47,12 @@
   normal terms with a bound on the levels (proved for two levels), but not on the normal
   terms of all levels: `ϑ₀(Ω₂) ≻ ϑ₀(ϑ₁(Ω₃)) ≻ ϑ₀(ϑ₁(ϑ₂(Ω₄))) ≻ ⋯` is a descending sequence.
 -/
-import Mathlib.Data.List.Basic
+
+module
+
+public import Mathlib.Data.List.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

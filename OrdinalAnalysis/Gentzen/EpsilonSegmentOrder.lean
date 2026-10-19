@@ -17,8 +17,13 @@
   instantiated at `epsilonOrder a` gives the lower bound at every ε-number,
   not just `ε₁`.
 -/
-import OrdinalAnalysis.Gentzen.Epsilon1Order
-import OrdinalAnalysis.Gentzen.Boundedness
+
+module
+
+public import OrdinalAnalysis.Gentzen.Epsilon1Order
+public import OrdinalAnalysis.Gentzen.Boundedness
+
+@[expose] public section
 
 set_option autoImplicit false
 

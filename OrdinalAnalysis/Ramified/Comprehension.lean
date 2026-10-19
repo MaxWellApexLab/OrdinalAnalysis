@@ -31,8 +31,13 @@
   the rest.  No equality axiom is used, so the argument applies verbatim to
   the level-guarded theories `RAlt ν`.
 -/
-import OrdinalAnalysis.Ramified.Theory
-import OrdinalAnalysis.Gentzen.CodedVeblenJump
+
+module
+
+public import OrdinalAnalysis.Ramified.Theory
+public import OrdinalAnalysis.Gentzen.CodedVeblenJump
+
+@[expose] public section
 
 set_option autoImplicit false
 

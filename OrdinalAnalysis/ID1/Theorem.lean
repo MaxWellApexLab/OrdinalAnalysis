@@ -20,8 +20,13 @@
     `embedding_accForm`                 Theorem 6.5 in the form the lower bound consumes
     `id1_lower_bound`                   **`ID1Acc precC ⊬ TI_Ω(≺, X)`**
 -/
-import OrdinalAnalysis.ID1.Embed
-import OrdinalAnalysis.ID1.LowerBound
+
+module
+
+public import OrdinalAnalysis.ID1.Embed
+public import OrdinalAnalysis.ID1.LowerBound
+
+@[expose] public section
 
 set_option autoImplicit false
 

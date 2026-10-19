@@ -57,8 +57,13 @@
       bound, `m` read as the logical complexity (`params (embed φ) = ∅`, `IDw.params_embed`, so
       the finite-part bound's hypothesis is vacuous here).
 -/
-import OrdinalAnalysis.IDw.Language
-import OrdinalAnalysis.Ordinal.ThetaV.Arith
+
+module
+
+public import OrdinalAnalysis.IDw.Language
+public import OrdinalAnalysis.Ordinal.ThetaV.Arith
+
+@[expose] public section
 
 set_option autoImplicit false
 

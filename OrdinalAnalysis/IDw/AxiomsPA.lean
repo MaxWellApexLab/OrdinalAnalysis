@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\AxiomsPA.lean (ID_n -> ID_omega: `LXJ`, `Jlev ⊤` embedding, level-free `OmegaW`). -/
 
-import OrdinalAnalysis.IDw.NumSubst
-import OrdinalAnalysis.IDw.Sound
+module
+
+public import OrdinalAnalysis.IDw.NumSubst
+public import OrdinalAnalysis.IDw.Sound
+
 /- Source: OrdinalAnalysis\ID1\AxiomsPA.lean (one-level `Omega` generalised to the top level
 `Omega (n - 1)`; `AxDerivable`/`axDerivable_of_le` taken as hypotheses, `OrdinalAnalysis.IDw.
 AxiomsLogic` not yet ported). -/
@@ -44,6 +47,8 @@ AxiomsLogic` not yet ported). -/
   elementary membership/comparison facts do not depend on that file's development, so they are
   proved locally instead of hypothesised.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

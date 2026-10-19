@@ -1,15 +1,20 @@
-import OrdinalAnalysis.IDn.PredCutCases.CaseLiteral
-import OrdinalAnalysis.IDn.PredCutCases.CaseVerum
-import OrdinalAnalysis.IDn.PredCutCases.CaseIdX
-import OrdinalAnalysis.IDn.PredCutCases.CaseAnd
-import OrdinalAnalysis.IDn.PredCutCases.CaseOrL
-import OrdinalAnalysis.IDn.PredCutCases.CaseOrR
-import OrdinalAnalysis.IDn.PredCutCases.CaseAll
-import OrdinalAnalysis.IDn.PredCutCases.CaseExs
-import OrdinalAnalysis.IDn.PredCutCases.CaseStage
-import OrdinalAnalysis.IDn.PredCutCases.CaseNstage
-import OrdinalAnalysis.IDn.PredCutCases.CaseFix
-import OrdinalAnalysis.IDn.PredCutCases.CaseCut
+module
+
+public import OrdinalAnalysis.IDn.PredCutCases.CaseLiteral
+public import OrdinalAnalysis.IDn.PredCutCases.CaseVerum
+public import OrdinalAnalysis.IDn.PredCutCases.CaseIdX
+public import OrdinalAnalysis.IDn.PredCutCases.CaseAnd
+public import OrdinalAnalysis.IDn.PredCutCases.CaseOrL
+public import OrdinalAnalysis.IDn.PredCutCases.CaseOrR
+public import OrdinalAnalysis.IDn.PredCutCases.CaseAll
+public import OrdinalAnalysis.IDn.PredCutCases.CaseExs
+public import OrdinalAnalysis.IDn.PredCutCases.CaseStage
+public import OrdinalAnalysis.IDn.PredCutCases.CaseNstage
+public import OrdinalAnalysis.IDn.PredCutCases.CaseFix
+public import OrdinalAnalysis.IDn.PredCutCases.CaseCut
+
+@[expose] public section
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis

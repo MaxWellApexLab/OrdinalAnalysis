@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Internal\Standard.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.Internal.Codes
+module
+
+public import OrdinalAnalysis.IDw.Internal.Codes
+
 /-
   The coding of the multi-level ϑ-notation in the standard model, generalizing
   `ID1/Internal/Standard.lean`.
@@ -11,6 +14,8 @@ import OrdinalAnalysis.IDw.Internal.Codes
   predicates are not built in `Codes.lean` (see its module docstring), so there is nothing to
   bridge for them here.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -114,7 +119,7 @@ terms with genuinely different levels, per clause, exactly as `SlotCheck.lean` d
 section SlotCheck
 
 /-- A concrete term whose level-`0` and level-`1` coefficient sets differ: `ϑ₁(ϑ₀(Ω₃))`. -/
-private def slotTerm : ThetaVTerm := theta 1 (theta 0 (Omega 2))
+def slotTerm : ThetaVTerm := theta 1 (theta 0 (Omega 2))
 
 /-- **Codes tell levels apart**: swapping the two levels of `slotTerm` gives a different code —
 a level-index swap in `tcTheta`'s pairing would make this provable only by luck. -/

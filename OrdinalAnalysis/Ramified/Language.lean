@@ -40,10 +40,15 @@
   `Encodable (L.Rel k)` for every `k`.  `ℒₒᵣ` has both
   (`Syntax/Predicate/Language.lean:139,163`); this file supplies the summand.
 -/
-import OrdinalAnalysis.Omega.Calculus
-import Foundation.FirstOrder.Arithmetic.Schemata
-import Mathlib.Tactic.FinCases
-import OrdinalAnalysis.Ordinal.Veblen.OmegaMul
+
+module
+
+public import OrdinalAnalysis.Omega.Calculus
+public import Foundation.FirstOrder.Arithmetic.Schemata
+public import Mathlib.Tactic.FinCases
+public import OrdinalAnalysis.Ordinal.Veblen.OmegaMul
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -259,7 +264,7 @@ set_option warn.classDefReducibility false in
 /-- A throwaway reading of the fresh symbols.  `RALang` has no function symbols,
 so only `rel` has to be decided, and the choice is irrelevant: the numerals are
 `X`- and `∈̇`-free, so their values do not see it. -/
-private def raStrucAux : Structure RALang ℕ where
+def raStrucAux : Structure RALang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
@@ -267,7 +272,7 @@ set_option warn.classDefReducibility false in
 /-- Arithmetic standard, the fresh symbols read arbitrarily.  Deliberately *not*
 an instance: the standard model of `LRA` belongs with the atomic axioms, not
 here. -/
-private def stdAux : Structure LRA ℕ := Structure.add ℒₒᵣ RALang ℕ (str₂ := raStrucAux)
+def stdAux : Structure LRA ℕ := Structure.add ℒₒᵣ RALang ℕ (str₂ := raStrucAux)
 
 private theorem val_num_aux (k : ℕ) :
     Semiterm.val (s := stdAux) ![] (fun _ => 0) (num k) = k := by

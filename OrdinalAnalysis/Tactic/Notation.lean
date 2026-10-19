@@ -38,9 +38,14 @@
   …: each arithmetic operation's defining identity re-expressed on numerals) gets there, by
   rewriting instead of reducing.
 -/
-import Lean
-import OrdinalAnalysis.Tactic.RuleSets
-import OrdinalAnalysis.Ordinal.ThetaW.Instance
+
+module
+
+public import Lean
+public import OrdinalAnalysis.Tactic.RuleSets
+public import OrdinalAnalysis.Ordinal.ThetaW.Instance
+
+@[expose] public section
 
 set_option autoImplicit false
 

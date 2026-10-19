@@ -51,8 +51,13 @@
     `SigmaW`                                          the classes `Σ(Ω_{k+1})`
     `capAt`                                           `φ ↦ φ^β` at level `k`
 -/
-import OrdinalAnalysis.IDn.Theory
-import OrdinalAnalysis.Ordinal.ThetaW.Arith
+
+module
+
+public import OrdinalAnalysis.IDn.Theory
+public import OrdinalAnalysis.Ordinal.ThetaW.Arith
+
+@[expose] public section
 
 set_option autoImplicit false
 

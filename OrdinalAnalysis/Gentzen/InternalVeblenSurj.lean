@@ -40,7 +40,12 @@
   have coefficient `1`.  The code-shape form `veb_surj'` needs no such hypothesis — at `a = 0`
   it says every *additively principal* normal code is an ω-power, which is true.
 -/
-import OrdinalAnalysis.Gentzen.InternalVeblen
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalVeblen
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 1600000

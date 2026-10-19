@@ -22,8 +22,13 @@
   Without the last a number that is "internally normal" but codes nothing
   would have predecessors the climb cannot reach.
 -/
-import OrdinalAnalysis.Gentzen.Boundedness
-import OrdinalAnalysis.Omega.Identity
+
+module
+
+public import OrdinalAnalysis.Gentzen.Boundedness
+public import OrdinalAnalysis.Omega.Identity
+
+@[expose] public section
 
 set_option autoImplicit false
 

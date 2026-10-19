@@ -37,7 +37,12 @@
   independent argument (the design note estimates 300–450 lines for this row alone) and is left
   for a dedicated pass, not attempted here to avoid an under-verified order claim.
 -/
-import OrdinalAnalysis.Ordinal.ThetaW.Arith
+
+module
+
+public import OrdinalAnalysis.Ordinal.ThetaW.Arith
+
+@[expose] public section
 
 set_option autoImplicit false
 

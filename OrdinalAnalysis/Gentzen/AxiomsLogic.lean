@@ -66,7 +66,12 @@
     `relExtX_derivable`                `relExt X`, by hand
     `eq_axiom_derivable`               **the `𝗘𝗤 LX` half**
 -/
-import OrdinalAnalysis.Gentzen.EvInst
+
+module
+
+public import OrdinalAnalysis.Gentzen.EvInst
+
+@[expose] public section
 
 set_option autoImplicit false
 

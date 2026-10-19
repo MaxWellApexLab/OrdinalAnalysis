@@ -62,7 +62,12 @@
   `(4 ⊕ n) ⊕ N` (comprehension), and `ε₀` is closed under `⊕` and `ω ^ ·`.
   The `< ε_{ε₀}` forms are the immediate corollaries.
 -/
-import OrdinalAnalysis.ACAOmega.Axioms₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.Axioms₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

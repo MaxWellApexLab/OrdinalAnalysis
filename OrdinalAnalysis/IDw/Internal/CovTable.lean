@@ -1,6 +1,9 @@
 /- Source: OrdinalAnalysis\IDn\Internal\CovTable.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.ID1.Internal.CovTable
+module
+
+public import OrdinalAnalysis.ID1.Internal.CovTable
+
 /-
   Course-of-values tables for the multi-level ϑ-notation: reuses `ID1.Internal`'s generic
   `covVal`/`covTable` machinery verbatim (it is already generic in the position type `V`, not
@@ -25,6 +28,8 @@ import OrdinalAnalysis.ID1.Internal.CovTable
   (`le_pair_right` again, chained through the `+1` of `tcTheta`) give the two "leveled reads from
   a plain position" directions.
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

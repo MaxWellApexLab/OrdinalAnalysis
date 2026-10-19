@@ -1,7 +1,10 @@
 /- Source: OrdinalAnalysis\ID1\AxiomsID.lean (one-level `Omega`/`Stage` generalised to level `k : Fin n`). -/
 
-import OrdinalAnalysis.IDn.NumSubst
-import OrdinalAnalysis.IDn.Sound
+module
+
+public import OrdinalAnalysis.IDn.NumSubst
+public import OrdinalAnalysis.IDn.Sound
+
 /-
   The axioms of the inductive definition in the infinitary calculus of `ID₁`.
 
@@ -51,6 +54,8 @@ import OrdinalAnalysis.IDn.Sound
     `closure_derivable`, `closure_axiom`            **Proposition 6.2**
     `indAx_claim`, `indAx_derivable`, `indAx_axiom` **Proposition 6.4**
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

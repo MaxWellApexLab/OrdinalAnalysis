@@ -53,7 +53,12 @@
   bound is a hypothesis rather than a lemma, so nothing downstream is blocked by
   it.
 -/
-import OrdinalAnalysis.ACAOmega.AxiomsInduction₂
+
+module
+
+public import OrdinalAnalysis.ACAOmega.AxiomsInduction₂
+
+@[expose] public section
 
 set_option autoImplicit false
 

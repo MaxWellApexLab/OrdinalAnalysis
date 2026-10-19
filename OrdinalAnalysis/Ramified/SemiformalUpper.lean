@@ -60,7 +60,12 @@
   exactly.  For `γ < ε₁` (in particular `γ ≤ ε₀`) the heights of the upper half are below
   `ε₁`, and `ε₁ < φ_{1+γ}(0)`.  At `γ = n` the value is `φ_{n+1}(0)`.
 -/
-import OrdinalAnalysis.Ramified.DescentBeta
+
+module
+
+public import OrdinalAnalysis.Ramified.DescentBeta
+
+@[expose] public section
 
 set_option autoImplicit false
 

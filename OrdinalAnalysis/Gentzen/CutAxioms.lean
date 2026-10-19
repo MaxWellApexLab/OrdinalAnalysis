@@ -9,7 +9,12 @@
   height system as parameters, so that `|PA + TI(ε₀)| = ε₁` — where the theory
   gains an axiom and the heights leave `ε₀` — can run it unchanged.
 -/
-import OrdinalAnalysis.Gentzen.EvInst
+
+module
+
+public import OrdinalAnalysis.Gentzen.EvInst
+
+@[expose] public section
 
 set_option autoImplicit false
 

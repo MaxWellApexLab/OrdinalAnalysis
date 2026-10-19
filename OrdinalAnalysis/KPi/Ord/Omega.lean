@@ -1,5 +1,7 @@
-import OrdinalAnalysis.KPi.Ord.Psi
-import OrdinalAnalysis.KPi.Ord.CNF
+module
+
+public import OrdinalAnalysis.KPi.Ord.Psi
+public import OrdinalAnalysis.KPi.Ord.CNF
 
 /-!
 # Facts about `Ω_σ` and `I`; closure of `ψ_κ α` under `+`, `φ`, `ω^`
@@ -8,6 +10,8 @@ Elementary properties of `Om` (Def 4.1), `Iord`, and the existence of the interv
 containing a given ordinal.  `veblen_lt_Om` shows that every `Ω_σ` (`σ ≠ 0`) is closed under `φ`, even when `ℵ_σ`
 is singular, via a regular successor cardinal below it.  These are the ingredients of Lemma 4.5 (c), (d), (g), (h).
 -/
+
+@[expose] public section
 
 set_option autoImplicit false
 

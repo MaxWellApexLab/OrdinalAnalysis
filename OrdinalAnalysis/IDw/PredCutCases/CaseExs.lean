@@ -1,6 +1,10 @@
 /- Source: OrdinalAnalysis\IDn\PredCutCases\CaseExs.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega). -/
 
-import OrdinalAnalysis.IDw.PredCutAux
+module
+
+public import OrdinalAnalysis.IDw.PredCutAux
+
+@[expose] public section
 
 set_option autoImplicit false
 

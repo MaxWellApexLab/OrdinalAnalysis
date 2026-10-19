@@ -13,9 +13,14 @@
 
   This file: the type, `repr`, the normal form, and `repr o < Γ₀`.
 -/
-import Mathlib.SetTheory.Ordinal.Veblen
-import Mathlib.SetTheory.Ordinal.Principal
-import Mathlib.Data.PNat.Basic
+
+module
+
+public import Mathlib.SetTheory.Ordinal.Veblen
+public import Mathlib.SetTheory.Ordinal.Principal
+public import Mathlib.Data.PNat.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

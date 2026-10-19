@@ -36,8 +36,13 @@
   level, the empty set); `fs_lower` is its restriction to the arithmetic
   literals.
 -/
-import OrdinalAnalysis.Ramified.Boundedness
-import OrdinalAnalysis.Ramified.PredicativeCutGeneral
+
+module
+
+public import OrdinalAnalysis.Ramified.Boundedness
+public import OrdinalAnalysis.Ramified.PredicativeCutGeneral
+
+@[expose] public section
 
 set_option autoImplicit false
 

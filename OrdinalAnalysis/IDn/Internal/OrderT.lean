@@ -23,7 +23,12 @@
   * `iltb_trans`, `iltb_irrefl`, `iltb_asymm`, `iltb_trichotomy`, `iltb_trichotomy_nf`;
   * `isTerm_cases`, `nfA_cases`, `isTerm_of_isNF`, `isTerm_of_iinE`.
 -/
-import OrdinalAnalysis.IDn.Internal.Order
+
+module
+
+public import OrdinalAnalysis.IDn.Internal.Order
+
+@[expose] public section
 
 set_option autoImplicit false
 

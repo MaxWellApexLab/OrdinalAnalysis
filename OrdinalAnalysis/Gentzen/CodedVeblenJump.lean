@@ -13,9 +13,14 @@
   `addCode₁ (z, x, y)` says `z = x + y` (totalised outside the normal forms, as
   `safeAddCode`), and `omegaPowCode₁ (u, a)` says `a` is normal and `u = ω ^ a`.
 -/
-import OrdinalAnalysis.Gentzen.InternalVNoteJump
-import OrdinalAnalysis.Gentzen.CodedVeblen
-import OrdinalAnalysis.Gentzen.JumpTransport
+
+module
+
+public import OrdinalAnalysis.Gentzen.InternalVNoteJump
+public import OrdinalAnalysis.Gentzen.CodedVeblen
+public import OrdinalAnalysis.Gentzen.JumpTransport
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -56,16 +61,16 @@ def iterCode₁ : Semiformula LX ℕ 4 := liftCode safeIter₁Def
 
 /-! ## Pure-arithmetic closed statements -/
 
-private def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithAddAt {n : ℕ} (z x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, x, y] ▹ Rewriting.emb safeIadd₁Def.val
 
-private def arithIterAt {n : ℕ} (z b w k : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithIterAt {n : ℕ} (z b w k : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, b, w, k] ▹ Rewriting.emb safeIter₁Def.val
 
-private def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithPrecAt {n : ℕ} (x y : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![x, y] ▹ Rewriting.emb precDef₁.val
 
-private def arithOmegaPowAt {n : ℕ} (z a : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
+def arithOmegaPowAt {n : ℕ} (z a : Semiterm ℒₒᵣ ℕ n) : Semiformula ℒₒᵣ ℕ n :=
   Rew.subst ![z, a] ▹ Rewriting.emb omegaPowDef₁.val
 
 /-- Arithmetic version of the zero-step law. -/
