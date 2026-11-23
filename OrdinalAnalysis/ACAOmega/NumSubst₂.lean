@@ -68,6 +68,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACAOmega.Evaluate
 
 @[expose] public section
@@ -76,11 +77,11 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega.NumSubst₂
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 open OrdinalAnalysis.ACA OrdinalAnalysis.ACAOmega
 
 /-! ### The base substitution -/

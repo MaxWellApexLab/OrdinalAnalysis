@@ -26,7 +26,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-- **`Jat s t` reads column `s` of the environment** (its first argument is the level),
 for every pair of columns, checked at `0` versus `1`. -/
@@ -49,9 +49,9 @@ theorem eval_eq_inl_fn (P : ℕ → Prop) (S : ℕ → Set ℕ) {ξ : Type*} {n 
     (v : Fin 2 → Semiterm LXJ ξ n) (e : Fin n → ℕ) (f : ξ → ℕ) :
     Semiformula.Eval (s := stdJ P S) e f (Semiformula.rel (Sum.inl (Language.Eq.eq : (ℒₒᵣ).Rel 2)) v) ↔
       Semiterm.val (s := stdJ P S) e f (v 0) = Semiterm.val (s := stdJ P S) e f (v 1) := by
-  show Structure.rel (M := ℕ) (Language.Eq.eq : (ℒₒᵣ).Rel 2)
+  show Tarski.Structure.rel (M := ℕ) (Language.Eq.eq : (ℒₒᵣ).Rel 2)
       (fun i => Semiterm.val (s := stdJ P S) e f (v i)) ↔ _
-  exact Structure.eq_lang
+  exact Tarski.Structure.eq_lang
 
 theorem val_termCast_bvar (P : ℕ → Prop) (S : ℕ → Set ℕ) {n : ℕ} (e : Fin n → ℕ) (f : Empty → ℕ)
     (i : Fin n) : Semiterm.val (s := stdJ P S) e f (termCast (#i : Semiterm LForm Empty n)) = e i :=

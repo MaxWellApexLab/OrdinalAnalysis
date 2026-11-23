@@ -13,7 +13,7 @@
 
   **The route.** A derivation `IDseq (WFormsOmega F) m ⊢ σ` maps, along `retr m hm`, to a
   derivation `Theory.lMap (retr m hm) (IDseq (WFormsOmega F) m) ⊢ Semiformula.lMap (retr m hm) σ`
-  (`theory_proof_lMap`, built from `Derivation.lMap` and `Theory.Proof.provable_iff` — the
+  (`theory_proof_lMap`, built from `Derivation.lMap` and `Theory.Proof.provable_iff_list` — the
   translation-of-derivations lemma `Union.lean`'s docstring says is not built). Since
   `tiUptoSentence` never mentions any `I_j` (only `X` and arithmetic), it is fixed by *any*
   `mapHom` (`lMap_tiUptoSentence`). And every axiom of `IDseq (WFormsOmega F) m` translates,
@@ -49,6 +49,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Theorem2
 public import OrdinalAnalysis.IDn.UpperFormsFacts
 
@@ -60,7 +62,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDn.Upper
 
 /-! ### The retraction `LXIω →ᵥ LXIn m` -/
@@ -534,9 +536,9 @@ theorem lMap_indAxAt {ι ι' : Type} [DecidableEq ι] [DecidableEq ι'] [Partial
 
 theorem theory_proof_lMap {L₁ L₂ : Language} (Φ : L₁ →ᵥ L₂) {T : Theory L₁} {σ : Sentence L₁}
     (h : T ⊢ σ) : Theory.lMap Φ T ⊢ Semiformula.lMap Φ σ := by
-  rw [Theory.Proof.provable_iff] at h
+  rw [Theory.Proof.provable_iff_list] at h
   obtain ⟨Γ, hΓ, ⟨d⟩⟩ := h
-  rw [Theory.Proof.provable_iff]
+  rw [Theory.Proof.provable_iff_list]
   refine ⟨Γ.map (Semiformula.lMap Φ), ?_, ⟨?_⟩⟩
   · rintro ψ hψ
     obtain ⟨ψ', hψ', rfl⟩ := List.mem_map.mp hψ

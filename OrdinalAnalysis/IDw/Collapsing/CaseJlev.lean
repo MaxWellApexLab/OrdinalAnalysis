@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Collapsing.Statement
 
 /-
@@ -7,8 +8,7 @@ public import OrdinalAnalysis.IDw.Collapsing.Statement
   (W) for `Jlev ℓ (s,t)`, the one relevant disjunct `I_{val s} t` (new in `ID_ω`; modelled on
   `CaseOrL.lean`) — proved (no `sorry`).
 
-  Source: the design notes ("(Jlev) cases: like `orL`/`and`; the premise's
-  `Σ(κ)` from `ℓ ≤ k`"); W. Buchholz, *A simplified version of local predicativity* (1992),
+  Source: W. Buchholz, *A simplified version of local predicativity* (1992),
   author preprint p. 27, proof of Theorem 4.8, case 2 (a disjunction with one relevant disjunct);
   A. Freund, arXiv:2204.09321, Theorem 6.7, case (W) for `∨`.
 
@@ -31,7 +31,7 @@ namespace IDw
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {A : FormJ}
 

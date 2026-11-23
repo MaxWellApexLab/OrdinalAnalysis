@@ -37,10 +37,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX XRel Xat toLX paLX)
 open OrdinalAnalysis.Gentzen.StandardLX (stdLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁)
@@ -59,7 +59,7 @@ theorem val_unTerm (P : ℕ → Prop) {n : ℕ} (e : Fin n → ℕ) (f : ℕ →
       have ih : (fun i => (unTerm (v i)).val e f) =
           (fun i => FirstOrder.Semiterm.val (s := stdLX P) e f (v i)) :=
         funext fun i => val_unTerm P e f (v i)
-      show FirstOrder.Structure.func (M := ℕ) fn (fun i => (unTerm (v i)).val e f) = _
+      show FirstOrder.Tarski.Structure.func (M := ℕ) fn (fun i => (unTerm (v i)).val e f) = _
       rw [ih]
       rfl
   | .func (Sum.inr fn) _ => fn.elim
@@ -134,7 +134,7 @@ section Codes
 
 /-- A reference standard model of `LX`; the codes do not mention `X`, so their
 reading is the same in every `stdLX P`. -/
-abbrev refLX : FirstOrder.Structure LX ℕ := stdLX (fun _ => False)
+abbrev refLX : FirstOrder.Tarski.Structure LX ℕ := stdLX (fun _ => False)
 
 /-- A coded formula (a `liftCode`) reads the same in every standard model of `LX`, under
 every assignment. -/
@@ -174,7 +174,7 @@ theorem eval_jump_std (P : ℕ → Prop) (φ : FirstOrder.Semiformula LX ℕ 1) 
     FirstOrder.Semiformula.Eval (s := stdLX P) ![x] f
         (Gentzen.jump precCode₁ addCode₁ omegaPowCode₁ φ) ↔
       JumpRel (fun y => FirstOrder.Semiformula.Eval (s := stdLX P) ![y] f φ) x := by
-  let _ : FirstOrder.Structure LX ℕ := stdLX P
+  let _ : FirstOrder.Tarski.Structure LX ℕ := stdLX P
   have hp : ∀ y x' : ℕ, FirstOrder.Semiformula.Eval ![y, x'] f precCode₁ ↔ precN y x' :=
     fun y x' => eval_liftCode_std _ P _ f
   have ha : ∀ z b u : ℕ, FirstOrder.Semiformula.Eval ![z, b, u] f addCode₁ ↔ addN z b u :=
@@ -299,14 +299,14 @@ theorem eval_omegaJumpAxiom : SOTrue omegaJumpAxiom := by
       LogicalConnective.Prop.iff_eq]
     intro x
     rw [eval_toSOAtB_of yWit2 F _ f (· ∈ omegaJumpSet Z) hP]
-    let _ : FirstOrder.Structure LX ℕ := stdLX (· ∈ omegaJumpSet Z)
+    let _ : FirstOrder.Tarski.Structure LX ℕ := stdLX (· ∈ omegaJumpSet Z)
     rw [hierBaseColLX, ColumnTower.eval_columnXat, val_zero_std]
     simp only [FirstOrder.Semiterm.val_bvar, Matrix.cons_val_fin_one]
     rw [colE_omegaJumpSet]
     simp [hierSet]
   · show (toSOAtB yWit2 ColumnTower.stepHypLX : Semiproposition ℒₒᵣ 2 0).Eval _ F f _ _
     rw [eval_toSOAtB_of yWit2 F _ f (· ∈ omegaJumpSet Z) hP]
-    let _ : FirstOrder.Structure LX ℕ := stdLX (· ∈ omegaJumpSet Z)
+    let _ : FirstOrder.Tarski.Structure LX ℕ := stdLX (· ∈ omegaJumpSet Z)
     rw [ColumnTower.eval_stepHypLX]
     intro k x
     rw [ColumnTower.succE, val_succ_std, colE_omegaJumpSet, jumpColumnFree, eval_jump_std]

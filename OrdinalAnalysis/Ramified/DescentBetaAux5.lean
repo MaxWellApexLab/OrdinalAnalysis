@@ -16,6 +16,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.DescentBetaAux4
 
 @[expose] public section
@@ -26,7 +27,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁)
 open OrdinalAnalysis.Gentzen.InternalVeblenCode (vebDef₁)
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
@@ -54,7 +55,7 @@ theorem progR_eq (φ : Semiformula LRA ℕ 1) : progR φ = ∀¹ progBody φ := 
 
 section Eval
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 theorem eval_subst_bvar_zero {n : ℕ} (φ : Semiformula LRA ℕ 1) (x : M) (e : Fin n → M)
     (f : ℕ → M) :

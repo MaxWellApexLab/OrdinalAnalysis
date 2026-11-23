@@ -13,8 +13,8 @@
   ## The shape of the argument
 
   The `∀ a' ≺₁ a` hypothesis is not a bounded quantifier (the code order `≺₁` and the
-  numerical order on codes are different), so it is **not** `𝚺₁` as it stands.  It is,
-  however, equivalent to a plain `𝚺₁` test on the code shape of `e`:
+  numerical order on codes are different), so it is **not** `𝚺ᴬ₁` as it stands.  It is,
+  however, equivalent to a plain `𝚺ᴬ₁` test on the code shape of `e`:
 
       `vebBaseIndic a e = 1`  :⇔  `e = φ_p(q)` for some `p` with `a ≼₁ p`,
 
@@ -47,13 +47,15 @@ public import OrdinalAnalysis.Gentzen.InternalVeblen
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 set_option maxHeartbeats 1600000
 
 namespace OrdinalAnalysis.Gentzen.InternalVeblenSurj
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -89,25 +91,25 @@ lemma iveblen_zero (g : V) : iveblen (0 : V) g = iomegaPow g := by
 
 /-- `0/1` flag: `e` is a single Veblen term `φ_p(q)` with `a ≼₁ p` — equivalently (for `a ≠ 0`
 and normal `e`, see `vebBaseIndic_iff_forall`) a common fixed point of every `φ_{a'}` with
-`a' ≺₁ a`.  This is the `𝚺₁` form of "`e` is in the range of `φ_a`". -/
+`a' ≺₁ a`.  This is the `𝚺ᴬ₁` form of "`e` is in the range of `φ_a`". -/
 noncomputable def vebBaseIndic (a e : V) : V :=
   if e ≠ 0 ∧ vcCoeff e = 1 ∧ vcTail e = 0 ∧ icmp₁ (vcFst e) a ≠ 0 then 1 else 0
 
-def _root_.LO.FirstOrder.Arithmetic.vebBaseIndicDef : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vebBaseIndicDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y a e. ∃ n, !vcCoeffDef n e ∧ ∃ t, !sndIdxDef t e ∧ ∃ f, !vcFstDef f e ∧
     ∃ c, !icmp₁Def c f a ∧
     ((e ≠ 0 ∧ n = 1 ∧ t = 0 ∧ c ≠ 0 ∧ y = 1) ∨
       ((e = 0 ∨ n ≠ 1 ∨ t ≠ 0 ∨ c = 0) ∧ y = 0))”
 
 instance vebBaseIndic_defined :
-    𝚺₁-Function₂ (vebBaseIndic : V → V → V) via vebBaseIndicDef := .mk fun v ↦ by
+    𝚺ᴬ₁-Function₂ (vebBaseIndic : V → V → V) via vebBaseIndicDef := .mk fun v ↦ by
   simp [vebBaseIndicDef, vebBaseIndic, vcCoeff_defined.iff, vcTail, sndIdx_defined.iff,
     vcFst_defined.iff, icmp₁_defined.iff]
   by_cases h0 : v 2 = 0 <;> by_cases h1 : vcCoeff (v 2) = 1 <;>
     by_cases h2 : sndIdx (v 2) = 0 <;>
     by_cases h3 : icmp₁ (vcFst (v 2)) (v 1) = 0 <;> simp [h0, h1, h2, h3]
 
-instance vebBaseIndic_definable : 𝚺₁-Function₂ (vebBaseIndic : V → V → V) :=
+instance vebBaseIndic_definable : 𝚺ᴬ₁-Function₂ (vebBaseIndic : V → V → V) :=
   vebBaseIndic_defined.to_definable
 
 lemma vebBaseIndic_eq_one_iff (a e : V) :
@@ -165,7 +167,7 @@ theorem vebBaseIndic_eq_one_of_forall {a e : V} (ha0 : a ≠ 0) (he : isNF₁ e)
   rw [icmp₁_self hp] at h1
   exact _root_.one_ne_zero h1
 
-/-- **The `𝚺₁` form of "`e` is a common fixed point of every `φ_{a'}` with `a' ≺₁ a`".** -/
+/-- **The `𝚺ᴬ₁` form of "`e` is a common fixed point of every `φ_{a'}` with `a' ≺₁ a`".** -/
 theorem vebBaseIndic_iff_forall {a e : V} (ha0 : a ≠ 0) (ha : isNF₁ a) (he : isNF₁ e) :
     vebBaseIndic a e = 1 ↔ ∀ a' : V, isNF₁ a' → icmp₁ a' a = 0 → vebFixIndic a' e = 1 :=
   ⟨forall_of_vebBaseIndic_eq_one ha he, vebBaseIndic_eq_one_of_forall ha0 he⟩
@@ -198,14 +200,14 @@ theorem veb_surj_term {a p q : V} (ha : isNF₁ a) (he : isNF₁ (vcVadd p q 1 0
     exact ⟨vcVadd p q 1 0, he,
       iveblen_of_fix ((vebFixIndic_vcVadd a p q 1 0).2 ⟨rfl, rfl, icmp₁_rev_two hp ha hc⟩)⟩
 
-/-- **The real surjectivity**, in the `𝚺₁` code-shape form. -/
+/-- **The real surjectivity**, in the `𝚺ᴬ₁` code-shape form. -/
 theorem veb_surj' {a e : V} (ha : isNF₁ a) (he : isNF₁ e) (hbase : vebBaseIndic a e = 1) :
     ∃ h : V, isNF₁ h ∧ iveblen a h = e := by
   obtain ⟨p, q, rfl, hpa⟩ := vebBase_destruct hbase
   exact veb_surj_term ha he hpa
 
 /--
-**The real surjectivity, as design §4 G3 states it.**  Every common fixed point of all the
+**The real surjectivity, as required.**  Every common fixed point of all the
 `φ_{a'}` with `a' ≺₁ a` is a value of `φ_a`.  The extra hypothesis `a ≠ 0` cannot be dropped:
 see the file header.
 -/

@@ -34,7 +34,7 @@
   `Ω_{k+1}·ρ + β` sits *above* `Ω_{k+1}` (unlike every other `ϑ_k`-application already proved
   safe in `ThetaW/Dom`, all of whose arguments are `≺ Ω_{k+1}`) — computing `E_k` of it requires
   tracking exactly which `ϑ_j`-subterms of `ρ, β` survive at level `k`, which is a substantial
-  independent argument (the design note estimates 300–450 lines for this row alone) and is left
+  independent argument (an estimated 300–450 lines for this row alone) and is left
   for a dedicated pass, not attempted here to avoid an under-verified order claim.
 -/
 

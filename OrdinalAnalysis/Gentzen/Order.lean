@@ -14,7 +14,7 @@ set_option autoImplicit false
 namespace OrdinalAnalysis.Gentzen.Order
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.CodedNotation
 
@@ -62,10 +62,10 @@ def precTransStatement (prec : Semiformula LX ℕ 2) : Sentence LX :=
       (∼(precAt prec #1 #0) ⋎ precAt prec #2 #0))).univCl
 
 lemma models_precTrans_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ precTransStatement precCode ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticPrecTransStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   simp [models_iff, precTransStatement, arithmeticPrecTransStatement,
     arithPrecAt, precAt, precCode, liftCode, Semiformula.eval_lMap]
 
@@ -77,7 +77,7 @@ theorem concrete_precTrans : paLX ⊢ precTransStatement precCode := by
   exact models_precTrans_iff_arithmetic
 
 theorem models_precTransStatement {M : Type*} [Nonempty M]
-    [Structure LX M] (prec : Semiformula LX ℕ 2) :
+    [Tarski.Structure LX M] (prec : Semiformula LX ℕ 2) :
     M↓[LX] ⊧ precTransStatement prec ↔
       ∀ f : ℕ → M, ∀ a b c : M,
         prec.Eval ![a, b] f → prec.Eval ![b, c] f →

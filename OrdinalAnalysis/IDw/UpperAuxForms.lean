@@ -49,7 +49,7 @@ set_option warn.classDefReducibility false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 
 /-! ### Arithmetic pieces -/
@@ -63,13 +63,13 @@ abbrev lf {ξ : Type*} {m : ℕ} (φ : Semiformula ℒₒᵣ ξ m) : Semiformula
 
 section Pieces
 
-variable (ltD : 𝚺₁.Semisentence 2) (nfD domD : 𝚺₁.Semisentence 1)
+variable (ltD : 𝚺ᴬ₁.Semisentence 2) (nfD domD : 𝚺ᴬ₁.Semisentence 1)
 
 /-- `fld(x)`: `NF x ∧ Dom x`. -/
-def fldDefW : 𝚺₁.Semisentence 1 := .mkSigma “x. !nfD x ∧ !domD x”
+def fldDefW : 𝚺ᴬ₁.Semisentence 1 := .mkSigma “x. !nfD x ∧ !domD x”
 
 /-- `x ≺ Ω_{y+1}` (slot `0` is `x`, slot `1` the level `y`). -/
-def ltOmegaDefW : 𝚺₁.Semisentence 2 := .mkSigma “x y. ∃ o, !tcOmegaDef o y ∧ !ltD x o”
+def ltOmegaDefW : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “x y. ∃ o, !tcOmegaDef o y ∧ !ltD x o”
 
 end Pieces
 
@@ -80,7 +80,7 @@ def ltNatDef : Semisentence ℒₒᵣ 2 := “x y. x < y”
 
 section Forms
 
-variable (ltD : 𝚺₁.Semisentence 2) (nfD domD : 𝚺₁.Semisentence 1)
+variable (ltD : 𝚺ᴬ₁.Semisentence 2) (nfD domD : 𝚺ᴬ₁.Semisentence 1)
 
 /-- **The distinguished class** `D(y, x) :≡ fld x ∧ ∀j < y ∀δ (δ ∈ E_j(x) → Q(j, δ))`, at
 arithmetic terms `x`, `y`. -/
@@ -98,7 +98,7 @@ def WFormW : FormJ :=
 end Forms
 
 /-- `x ≺ y` for the internal order `iltb` of `IDw/Internal/Order.lean`. -/
-def iltDefW : 𝚺₁.Semisentence 2 := .mkSigma “x y. !iltbDef 1 x y”
+def iltDefW : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “x y. !iltbDef 1 x y”
 
 /-- **The form with the internal order of `IDw/Internal`.** -/
 def WFormWc : FormJ := WFormW iltDefW thNFDef thDomDef
@@ -160,12 +160,12 @@ theorem noP_lf : ∀ {n : ℕ} (φ : Semiformula ℒₒᵣ ξ n), NoP (lf φ)
   | _, .all φ => noP_lf (n := _ + 1) φ
   | _, .exs φ => noP_lf (n := _ + 1) φ
 
-theorem noP_DAt (nfD domD : 𝚺₁.Semisentence 1) {n : ℕ} (x y : Semiterm ℒₒᵣ Empty n) :
+theorem noP_DAt (nfD domD : 𝚺ᴬ₁.Semisentence 1) {n : ℕ} (x y : Semiterm ℒₒᵣ Empty n) :
     NoP (DAt nfD domD x y) :=
   ⟨noP_lf _, noP_neg (noP_lf _), noP_neg (noP_lf _), trivial⟩
 
 /-- **The form is positive in `P`.** -/
-theorem positiveP_WFormW (ltD : 𝚺₁.Semisentence 2) (nfD domD : 𝚺₁.Semisentence 1) :
+theorem positiveP_WFormW (ltD : 𝚺ᴬ₁.Semisentence 2) (nfD domD : 𝚺ᴬ₁.Semisentence 1) :
     PositiveP (WFormW ltD nfD domD) :=
   ⟨positiveP_of_noP (noP_DAt nfD domD _ _), positiveP_of_noP (noP_lf _),
     positiveP_of_noP (noP_neg ⟨noP_DAt nfD domD _ _, noP_lf _⟩), trivial⟩
@@ -181,22 +181,22 @@ section Reading
 variable {N : Type*} [ORingStructure N]
 
 /-- The schema predicates on `N`: `P` read by `Pr`, `Q` by `Qr`. -/
-def pqStruc (Pr : N → Prop) (Qr : N → N → Prop) : Structure PQLang N where
+def pqStruc (Pr : N → Prop) (Qr : N → N → Prop) : Tarski.Structure PQLang N where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | PQRel.P => Pr (v 0)
     | PQRel.Q => Qr (v 0) (v 1)
 
 /-- The `LForm`-structure on `N`: arithmetic of `N`, `P` read by `Pr`, `Q` by `Qr`. -/
-def formStr (Pr : N → Prop) (Qr : N → N → Prop) : Structure LForm N :=
-  Structure.add ℒₒᵣ PQLang N (str₂ := pqStruc Pr Qr)
+def formStr (Pr : N → Prop) (Qr : N → N → Prop) : Tarski.Structure LForm N :=
+  Tarski.Structure.add ℒₒᵣ PQLang N (str₂ := pqStruc Pr Qr)
 
 variable (Pr : N → Prop) (Qr : N → N → Prop)
 
 @[simp] theorem eval_lf_formStr {ξ : Type*} {n : ℕ} (φ : Semiformula ℒₒᵣ ξ n) (e : Fin n → N)
     (f : ξ → N) :
     Semiformula.Eval (s := formStr Pr Qr) e f (lf φ) ↔ Semiformula.Eval (M := N) e f φ :=
-  Structure.eval_lMap_add₁ (str₂ := pqStruc Pr Qr) φ e f
+  Tarski.Structure.eval_lMap_add₁ (str₂ := pqStruc Pr Qr) φ e f
 
 theorem eval_Pat_formStr {ξ : Type*} {n : ℕ} (t : Semiterm LForm ξ n) (e : Fin n → N)
     (f : ξ → N) :
@@ -216,7 +216,7 @@ theorem eval_Qat_formStr {ξ : Type*} {n : ℕ} (a b : Semiterm LForm ξ n) (e :
   exact Iff.of_eq (congrArg ((formStr Pr Qr).rel (Sum.inr PQRel.Q)) h)
 
 variable [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
-variable (ltD : 𝚺₁.Semisentence 2) (nfD domD : 𝚺₁.Semisentence 1)
+variable (ltD : 𝚺ᴬ₁.Semisentence 2) (nfD domD : 𝚺ᴬ₁.Semisentence 1)
 
 /-- `fld(x)` for the formulas `nfD`, `domD`. -/
 def FldR (x : N) : Prop := nfD.val.Evalb ![x] ∧ domD.val.Evalb ![x]
@@ -279,7 +279,7 @@ end Reading
 
 section AAt
 
-variable {N : Type*} [ORingStructure N] [s : Structure LXJ N]
+variable {N : Type*} [ORingStructure N] [s : Tarski.Structure LXJ N]
 
 /-- `J(k, x)` as read by the structure. -/
 def Jm (k x : N) : Prop := s.rel (Sum.inr XJRel.J) ![k, x]
@@ -297,11 +297,11 @@ include hS
 
 theorem func_inl_eq {k : ℕ} (fn : (ℒₒᵣ).Func k) (w : Fin k → N) :
     s.func (Sum.inl fn) w = (Arithmetic.standardModel N).func fn w :=
-  congrArg (fun S : Structure ℒₒᵣ N => S.func fn w) hS
+  congrArg (fun S : Tarski.Structure ℒₒᵣ N => S.func fn w) hS
 
 theorem rel_inl_iff {k : ℕ} (r : (ℒₒᵣ).Rel k) (w : Fin k → N) :
     s.rel (Sum.inl r) w ↔ (Arithmetic.standardModel N).rel r w :=
-  Iff.of_eq (congrArg (fun S : Structure ℒₒᵣ N => S.rel r w) hS)
+  Iff.of_eq (congrArg (fun S : Tarski.Structure ℒₒᵣ N => S.rel r w) hS)
 
 theorem eval_ltAt_lt {ξ : Type*} {n : ℕ} (a b : Semiterm LXJ ξ n) (e : Fin n → N) (f : ξ → N) :
     Semiformula.Eval (s := s) e f (ltAt a b) ↔
@@ -310,7 +310,7 @@ theorem eval_ltAt_lt {ξ : Type*} {n : ℕ} (a b : Semiterm LXJ ξ n) (e : Fin n
       = ![Semiterm.val (s := s) e f a, Semiterm.val (s := s) e f b] := Matrix.comp₂ a b
   show s.rel (Sum.inl Language.LT.lt) (fun i => Semiterm.val (s := s) e f (![a, b] i)) ↔ _
   rw [h, rel_inl_iff hS]
-  exact Structure.lt_lang
+  exact Tarski.Structure.lt_lang
 
 variable (Pr : N → Prop) (Qr : N → N → Prop)
 
@@ -405,7 +405,7 @@ end AAt
 
 section Axioms
 
-variable {N : Type} [ORingStructure N] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [s : Tarski.Structure LXJ N]
 variable (hS : s.lMap toLXJ = Arithmetic.standardModel N)
 
 /-- The lower levels below `y`, as the closure axiom reads `Q`. -/
@@ -500,7 +500,7 @@ end Axioms
 
 section Concrete
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 /-- The field: normal domain codes. -/
 def fldW (x : N) : Prop := isNF x ∧ isDom x
@@ -513,7 +513,7 @@ def DkW (k x : N) : Prop := fldW x ∧ ∀ j < k, ∀ δ, iinE j δ x = 1 → Jm
 def AccW (k : N) (P : N → Prop) (x : N) : Prop :=
   DkW k x ∧ iltb x (tcOmega k) = 1 ∧ ∀ z, DkW k z → iltb z x = 1 → P z
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 theorem eval_iltDefW (x y : N) : iltDefW.val.Evalb ![x, y] ↔ iltb x y = 1 := by
   exact OrdinalAnalysis.eval_wrap2 iltbDef iltb x y
 

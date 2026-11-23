@@ -68,7 +68,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.Epsilon1Scheme
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.StandardLX (trueArithLits numLX)
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.EvInst

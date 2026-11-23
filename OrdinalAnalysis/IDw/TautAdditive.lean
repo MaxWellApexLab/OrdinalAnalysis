@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.AxiomsLogic
 
 /-
@@ -71,7 +72,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 
 /-! ### The witness formula `X(#0)` and its numeral instances -/

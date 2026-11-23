@@ -51,7 +51,7 @@ namespace OrdinalAnalysis
 
 namespace Gentzen
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The language -/
 

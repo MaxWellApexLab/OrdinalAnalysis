@@ -29,7 +29,7 @@ set_option maxHeartbeats 1000000
 
 namespace OrdinalAnalysis.ACA.SegBridge
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedVeblen
 open OrdinalAnalysis.Gentzen.CodedVeblenJump
@@ -39,7 +39,7 @@ open OrdinalAnalysis.Gentzen.Order (precTransStatement models_precTransStatement
 open OrdinalAnalysis.Gamma0Note (epsilonNote)
 open OrdinalAnalysis.ACA.Relativise (segGuard segBound)
 
-private theorem val_numeral_eq {M : Type*} [Nonempty M] [Structure LX M] (k : ℕ) {n : ℕ}
+private theorem val_numeral_eq {M : Type*} [Nonempty M] [Tarski.Structure LX M] (k : ℕ) {n : ℕ}
     (e : Fin n → M) (f : ℕ → M) :
     (Semiterm.numeral k : Semiterm LX ℕ n).val e f =
       (Semiterm.numeral k : Semiterm LX ℕ 0).val ![] f := by
@@ -168,10 +168,10 @@ end OrdinalAnalysis.ACA.SegBridge
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX Xat TIupto paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁)
 open OrdinalAnalysis.ACA.TowerSyntax (emb_univCl_of_closed)
@@ -198,7 +198,7 @@ theorem arith_guardWitness : Arith guardWitness := arith_toSOAt arith_segWitness
 /-- **From `∀²X TI(≺₁, b̄, X)` to transfinite induction along the segment
 ordering below `ā`**, for any notation `a < b`.
 
-Three steps: `spec₂` at `guardWitness` (route 2 of the design note, computed by
+Three steps: `spec₂` at `guardWitness` (route 2 of the construction, computed by
 `subst₁_tiBody_gen`); the lifted relativisation implication; modus ponens. -/
 theorem aca_tiUptoSeg_of_allTI (a b : Gamma0Note) (hab : a < b)
     (h : Provable ACA (allTI (Gentzen.Epsilon1UpperBound.gamma0Term b))) :

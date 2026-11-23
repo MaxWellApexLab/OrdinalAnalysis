@@ -24,11 +24,11 @@ variable (k : ℕ)
 namespace IDw
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### The two plugged forms -/
@@ -36,7 +36,7 @@ open LO.FirstOrder.LawfulSyntacticRewriting
 section PlugForms
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem opShape_rew {ξ₁ ξ₂ : Type*} {n₁ n₂ : ℕ} (ω : Rew (LIinfW) ξ₁ n₁ ξ₂ n₂)
     {φ : Semiformula (LIinfW) ξ₁ n₁} (h : OpShape k φ) : OpShape k (ω ▹ φ) := by

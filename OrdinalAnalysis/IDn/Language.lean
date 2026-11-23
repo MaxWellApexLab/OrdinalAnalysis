@@ -19,7 +19,7 @@
   **Per-level `stageHom`.**  Unfolding the operator form `A k` at a stage `α ⪯ Ω_{k+1}`
   reads `I_k` (the predicate *this* level's operator controls) as `I_k^{≺α}`, and every other
   predicate `I_j`, `j ≠ k`, as its own full predicate `I_j^{≺Ω_{j+1}}` — never as a variable
-  stage, since only one level unfolds at a time (design note §2.1: `unfold_k A t α :=
+  stage, since only one level unfolds at a time (`unfold_k A t α :=
   A_k(t, I_k^{<α})` with `I_j ↦ I_j^{<Ω_{j+1}}` for the other levels).  This is `stageHom k a`
   below, taking the level `k` and the bound `a : StageAt k.val` directly (rather than a general
   `Stage n`, which would force an unused case split on whether the given stage's level equals
@@ -30,7 +30,7 @@
 
   **`params` and `Σ(Ω_{k+1})`.**  `params φ : Set (Stage n)` is Freund's `k(φ)` generalised: the
   stage indices `(j, β)` occurring as a literal `I_j^{≺β} t` or `¬I_j^{≺β} t` of `φ`.  `SigmaW k`
-  is Buchholz's `Σ(Ω_{k+1})` read for `ID n` (design note §2.1): every stage literal has level
+  is Buchholz's `Σ(Ω_{k+1})` read for `ID n`: every stage literal has level
   `≤ k` (`RelSigmaW`/`NrelSigmaW`'s first conjunct, needed for *both* polarities, unlike the
   one-level `ID1.SigmaOmega`, which has nothing to restrict positively), and a *negated* stage
   literal of level exactly `k` must not be the full predicate `I_k` (second conjunct — positive
@@ -65,7 +65,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Stages -/
 
@@ -572,8 +572,7 @@ section Sigma
 
 variable {n : ℕ}
 
-/-- A positive atom is allowed in `Σ(Ω_{k+1})` iff its stage level is `≤ k` (design note §2.1:
-"every stage literal has level `≤ k`" — this restricts *both* polarities, unlike the one-level
+/-- A positive atom is allowed in `Σ(Ω_{k+1})` iff its stage level is `≤ k` ("every stage literal has level `≤ k`" — this restricts *both* polarities, unlike the one-level
 `ID1.SigmaOmega`, which had nothing to restrict positively). -/
 def RelSigmaW (k : Fin n) : {m : ℕ} → (LIinfN n).Rel m → Prop
   | _, Sum.inl _ => True
@@ -581,14 +580,14 @@ def RelSigmaW (k : Fin n) : {m : ℕ} → (LIinfN n).Rel m → Prop
   | _, Sum.inr (IInfRelN.stage s) => s.lvl.val ≤ k.val
 
 /-- A negated atom is allowed in `Σ(Ω_{k+1})` iff its stage level is `≤ k` and it is not the
-full, level-`k` predicate `I_k` (design note §2.1: "negated ones have index `≺ Ω_{k+1}`, so
+full, level-`k` predicate `I_k` ("negated ones have index `≺ Ω_{k+1}`, so
 `¬I_k` full is excluded, `¬I_j` full for `j < k` allowed"). -/
 def NrelSigmaW (k : Fin n) : {m : ℕ} → (LIinfN n).Rel m → Prop
   | _, Sum.inl _ => True
   | _, Sum.inr IInfRelN.X => True
   | _, Sum.inr (IInfRelN.stage s) => s.lvl.val ≤ k.val ∧ s ≠ Stage.top k
 
-/-- **`Σ(Ω_{k+1})`** (Buchholz's `Σ(κ)` at `κ = Ω_{k+1}`, design note §2.1). -/
+/-- **`Σ(Ω_{k+1})`** (Buchholz's `Σ(κ)` at `κ = Ω_{k+1}`). -/
 def SigmaW (k : Fin n) {ξ : Type*} : {m : ℕ} → Semiformula (LIinfN n) ξ m → Prop
   | _, .verum => True
   | _, .falsum => True

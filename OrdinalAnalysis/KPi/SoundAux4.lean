@@ -19,7 +19,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.KPi.Sound
 
-open LO LO.FirstOrder OrdinalAnalysis.KPi.RS Ordinal
+open FFL FFL.FirstOrder OrdinalAnalysis.KPi.RS Ordinal
 
 @[simp] theorem T_L_level (γ : Ordinal.{1}) : (T.L γ).level = γ := rfl
 

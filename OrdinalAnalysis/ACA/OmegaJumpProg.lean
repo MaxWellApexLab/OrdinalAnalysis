@@ -46,7 +46,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA.ColumnTower
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁ freeVariables_precCode₁)
 open OrdinalAnalysis.Gentzen.CodedVeblenJump (addCode₁ omegaPowCode₁)
@@ -80,7 +80,7 @@ theorem freeVariables_chiLX : chiLX.freeVariables = ∅ := by
 
 section Eval
 
-variable {M : Type*} [Structure LX M]
+variable {M : Type*} [Tarski.Structure LX M]
 
 /-- `χ(g)`, in a model. -/
 def chiE (f : ℕ → M) (g : M) : Prop :=
@@ -95,7 +95,7 @@ end Eval
 
 section Model
 
-variable {M : Type} [Nonempty M] [Structure LX M] [Structure.Eq LX M] [M↓[LX] ⊧* paLX]
+variable {M : Type} [Nonempty M] [Tarski.Structure LX M] [Tarski.Structure.Eq LX M] [M↓[LX] ⊧* paLX]
 
 /-- Transfinite induction up to `0` holds for every predicate. -/
 theorem tim_zero (f : ℕ → M) (S : M → Prop) :
@@ -240,10 +240,10 @@ end OrdinalAnalysis.ACA.ColumnTower
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX Xat paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁)
 open OrdinalAnalysis.Gentzen.Epsilon1UpperBound (gamma0Term)

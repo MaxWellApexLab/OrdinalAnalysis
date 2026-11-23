@@ -45,16 +45,16 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The arithmetical reduct of a model -/
 
 section Reduct
 
-variable {M : Type*} [s : Structure LRA M]
+variable {M : Type*} [s : Tarski.Structure LRA M]
 
 /-- The value of the numeral `k` in the arithmetical reduct of `M`. -/
-def numVal (M : Type*) [s : Structure LRA M] (k : ℕ) : M :=
+def numVal (M : Type*) [s : Tarski.Structure LRA M] (k : ℕ) : M :=
   (Semiterm.Operator.numeral ℒₒᵣ k).val (s := s.lMap toLRA) ![]
 
 /-- An arithmetical numeral denotes `numVal`, whatever the environment. -/
@@ -163,7 +163,7 @@ theorem arithPart_RAlt {ν : Lv} (hν : 1 ≤ ν) : ArithPart (RAlt ν) :=
 
 /-- **The arithmetical reduct of a model of `T` satisfies `PA⁻`.** -/
 theorem reduct_models_peanoMinus {T : Theory LRA} (hPA : Theory.lMap toLRA 𝗣𝗔⁻ ⊆ T)
-    {M : Type*} [Nonempty M] [s : Structure LRA M] (hM : M↓[LRA] ⊧* T) :
+    {M : Type*} [Nonempty M] [s : Tarski.Structure LRA M] (hM : M↓[LRA] ⊧* T) :
     (s.lMap toLRA).toStruc ⊧* 𝗣𝗔⁻ := by
   refine ⟨fun σ hσ => ?_⟩
   exact Semiformula.models_lMap.mp (Semantics.modelsSet_iff.mp hM (hPA ⟨σ, hσ, rfl⟩))
@@ -171,9 +171,9 @@ theorem reduct_models_peanoMinus {T : Theory LRA} (hPA : Theory.lMap toLRA 𝗣�
 set_option linter.style.haveILetI false in
 /-- **The arithmetical reduct of a model of `T` satisfies `PA`.** -/
 theorem reduct_models_peano {T : Theory LRA} (hT : ArithPart T)
-    {M : Type*} [Nonempty M] [s : Structure LRA M] (hM : M↓[LRA] ⊧* T) :
+    {M : Type*} [Nonempty M] [s : Tarski.Structure LRA M] (hM : M↓[LRA] ⊧* T) :
     (s.lMap toLRA).toStruc ⊧* 𝗣𝗔 := by
-  letI : Structure ℒₒᵣ M := s.lMap toLRA
+  letI : Tarski.Structure ℒₒᵣ M := s.lMap toLRA
   refine ⟨fun σ hσ => ?_⟩
   rcases hσ with hpa | hind
   · exact Semantics.modelsSet_iff.mp (reduct_models_peanoMinus hT.peanoMinus hM) hpa
@@ -189,7 +189,7 @@ theorem reduct_models_peano {T : Theory LRA} (hT : ArithPart T)
 
 section GuardReduct
 
-variable {M : Type*} [s : Structure LRA M]
+variable {M : Type*} [s : Tarski.Structure LRA M]
 
 theorem reduct_guardTotal {T : Theory LRA} (hT : ArithPart T) [Nonempty M]
     (hM : M↓[LRA] ⊧* T) (m e k p : M) :
@@ -237,7 +237,7 @@ end GuardReduct
 
 section NamingModel
 
-variable {M : Type*} [Nonempty M] [s : Structure LRA M]
+variable {M : Type*} [Nonempty M] [s : Tarski.Structure LRA M]
 
 /-- **`nameOutP` in a model**: a code satisfying the guard names only elements
 of `{x | A(x, p)}`. -/
@@ -296,7 +296,7 @@ def inst3 (A : Semiformula LRA ℕ 1) : Semiformula LRA ℕ 3 :=
 def compr (μ : Lv) (A : Semiformula LRA ℕ 1) : Proposition LRA :=
   ∀¹ ∃¹ ∀¹ (memAt μ (#0 : Semiterm LRA ℕ 3) #1 🡘 inst3 A)
 
-theorem eval_inst3 {M : Type*} [s : Structure LRA M] (A : Semiformula LRA ℕ 1) (z w x : M)
+theorem eval_inst3 {M : Type*} [s : Tarski.Structure LRA M] (A : Semiformula LRA ℕ 1) (z w x : M)
     (f : ℕ → M) :
     Semiformula.Eval (s := s) (x :> w :> z :> ![]) f (inst3 A)
       ↔ Semiformula.Eval (s := s) ![x] (fun _ => z) A := by
@@ -313,12 +313,12 @@ theorem eval_inst3 {M : Type*} [s : Structure LRA M] (A : Semiformula LRA ℕ 1)
       ∘ Semiterm.fvar) = fun _ => z := rfl
   rw [hb, hf]
 
-theorem eval_compr {M : Type*} [s : Structure LRA M] (μ : Lv) (A : Semiformula LRA ℕ 1)
+theorem eval_compr {M : Type*} [s : Tarski.Structure LRA M] (μ : Lv) (A : Semiformula LRA ℕ 1)
     (f : ℕ → M) :
     Semiformula.Eval (s := s) ![] f (compr μ A) ↔
       ∀ z : M, ∃ w : M, ∀ x : M, memM μ x w ↔ Semiformula.Eval (s := s) ![x] (fun _ => z) A := by
   simp only [compr, Semiformula.eval_all, Semiformula.eval_ex, LogicalConnective.HomClass.map_iff,
-    LO.LogicalConnective.Prop.iff_eq, eval_memAt, eval_inst3]
+    FFL.LogicalConnective.Prop.iff_eq, eval_memAt, eval_inst3]
   rfl
 
 /-- **Comprehension, for any theory with the arithmetical part and the two naming
@@ -421,7 +421,7 @@ theorem exists_jump_code_lt {ν μ : Lv} (h0 : 0 < μ) (hμ : μ < ν) :
 /-! ### Naming by the canonical parameter-free code -/
 
 /-- The body of the canonical code in a model: the formula at the parameter `0`. -/
-theorem eval_body_code {M : Type*} [s : Structure LRA M] (μ : Lv) (A : Semiformula LRA ℕ 1)
+theorem eval_body_code {M : Type*} [s : Tarski.Structure LRA M] (μ : Lv) (A : Semiformula LRA ℕ 1)
     (x : M) (f : ℕ → M) :
     Semiformula.Eval (s := s) ![x] f (body (code μ A))
       ↔ Semiformula.Eval (s := s) ![x] (fun _ => numVal M 0) A := by

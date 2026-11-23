@@ -21,6 +21,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Proof.Reduction
 public import OrdinalAnalysis.Ordinal.OmegaPow
 
@@ -28,7 +29,7 @@ public import OrdinalAnalysis.Ordinal.OmegaPow
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 variable {L : Language}
 

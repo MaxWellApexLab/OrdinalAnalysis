@@ -37,7 +37,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ThetaVTerm
 open OrdinalAnalysis.IDw.Upper (orderFormulas iltDef eval_iltDef)
 

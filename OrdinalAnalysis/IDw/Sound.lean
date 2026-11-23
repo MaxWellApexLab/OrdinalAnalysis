@@ -75,14 +75,14 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 open scoped Classical
 
 /-! ### The standard structure -/
 
 /-- The fresh predicates: `X` read by `P`, `J` read by `S`, level = first argument. -/
-def ixJStruc (P : ℕ → Prop) (S : ℕ → Set ℕ) : Structure XJLang ℕ where
+def ixJStruc (P : ℕ → Prop) (S : ℕ → Set ℕ) : Tarski.Structure XJLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | XJRel.X => P (v 0)
@@ -90,8 +90,8 @@ def ixJStruc (P : ℕ → Prop) (S : ℕ → Set ℕ) : Structure XJLang ℕ whe
 
 /-- **The standard structure of `LXJ`**: arithmetic standard, `X` read by `P`, `J` read by
 `S` (`Jat s t ↔ t ∈ S s`). -/
-def stdJ (P : ℕ → Prop) (S : ℕ → Set ℕ) : Structure LXJ ℕ :=
-  Structure.add ℒₒᵣ XJLang ℕ (str₂ := ixJStruc P S)
+def stdJ (P : ℕ → Prop) (S : ℕ → Set ℕ) : Tarski.Structure LXJ ℕ :=
+  Tarski.Structure.add ℒₒᵣ XJLang ℕ (str₂ := ixJStruc P S)
 
 section Std
 
@@ -105,7 +105,7 @@ theorem stdJ_lMap_toLXJ : (stdJ P S).lMap toLXJ = Arithmetic.standardModel ℕ :
     (f : ξ → ℕ) :
     Semiformula.Eval (s := stdJ P S) e f (Semiformula.lMap toLXJ φ)
       ↔ Semiformula.Eval (M := ℕ) e f φ :=
-  Structure.eval_lMap_add₁ (str₂ := ixJStruc P S) φ e f
+  Tarski.Structure.eval_lMap_add₁ (str₂ := ixJStruc P S) φ e f
 
 /-- Term values do not depend on the readings of `X` and `J`. -/
 theorem val_stdJ_congr (Q : ℕ → Prop) (T : ℕ → Set ℕ) {ξ : Type*} {n : ℕ} (e : Fin n → ℕ)
@@ -145,10 +145,10 @@ theorem eval_Xat {ξ : Type*} {n : ℕ} (t : Semiterm LXJ ξ n) (e : Fin n → �
   have h : (fun i => Semiterm.val (s := stdJ P S) e f (![s, t] i))
       = ![Semiterm.val (s := stdJ P S) e f s, Semiterm.val (s := stdJ P S) e f t] :=
     Matrix.comp₂ s t
-  show Structure.rel (M := ℕ) (Language.LT.lt : (ℒₒᵣ).Rel 2)
+  show Tarski.Structure.rel (M := ℕ) (Language.LT.lt : (ℒₒᵣ).Rel 2)
       (fun i => Semiterm.val (s := stdJ P S) e f (![s, t] i)) ↔ _
   rw [h]
-  exact Structure.lt_lang
+  exact Tarski.Structure.lt_lang
 
 end Std
 
@@ -163,8 +163,8 @@ theorem eval_rel_inl_congr {ξ : Type*} {n k : ℕ} (P Q : ℕ → Prop) (S S' :
   have hv : (fun i => Semiterm.val (s := stdJ P S) e f (v i))
       = (fun i => Semiterm.val (s := stdJ Q S') e f (v i)) :=
     funext fun i => val_stdJ_congr P S Q S' e f (v i)
-  show Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ P S) e f (v i)) ↔
-      Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ Q S') e f (v i))
+  show Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ P S) e f (v i)) ↔
+      Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ Q S') e f (v i))
   rw [hv]
 
 /-- Same as `eval_rel_inl_congr` for `.nrel`. -/
@@ -175,8 +175,8 @@ theorem eval_nrel_inl_congr {ξ : Type*} {n k : ℕ} (P Q : ℕ → Prop) (S S' 
   have hv : (fun i => Semiterm.val (s := stdJ P S) e f (v i))
       = (fun i => Semiterm.val (s := stdJ Q S') e f (v i)) :=
     funext fun i => val_stdJ_congr P S Q S' e f (v i)
-  show ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ P S) e f (v i)) ↔
-      ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ Q S') e f (v i))
+  show ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ P S) e f (v i)) ↔
+      ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdJ Q S') e f (v i))
   rw [hv]
 
 /-! ### `AAt` is monotone in `P`-positive forms -/
@@ -840,9 +840,9 @@ set_option linter.style.haveILetI false in
 /-- Every equality axiom is true in `stdJ P S`. -/
 theorem eval_of_eqAxiom {σ : Sentence LXJ} (h : σ ∈ 𝗘𝗤 LXJ) :
     Semiformula.Eval (s := stdJ P S) ![] Empty.elim σ := by
-  letI : Structure LXJ ℕ := stdJ P S
-  haveI : Structure.Eq LXJ ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
-  haveI : ℕ↓[LXJ] ⊧* 𝗘𝗤 LXJ := Structure.Eq.models_eq LXJ ℕ
+  letI : Tarski.Structure LXJ ℕ := stdJ P S
+  haveI : Tarski.Structure.Eq LXJ ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
+  haveI : ℕ↓[LXJ] ⊧* 𝗘𝗤 LXJ := Tarski.Structure.Eq.models_eq LXJ ℕ
   exact Theory.models ℕ (𝗘𝗤 LXJ) h
 
 /-- Every transported axiom of `𝗣𝗔⁻` is true in `stdJ P S`. -/
@@ -871,7 +871,7 @@ theorem eval_of_succInd {σ : Sentence LXJ} (h : σ ∈ InductionScheme LXJ Set.
 /-- `stdJ P S` is a model of `paLXJ`, for every `P` and `S`. -/
 theorem models_paLXJ :
     letI := stdJ P S; ℕ↓[LXJ] ⊧* paLXJ := by
-  let _ : Structure LXJ ℕ := stdJ P S
+  let _ : Tarski.Structure LXJ ℕ := stdJ P S
   refine Semantics.modelsSet_iff.mpr fun σ hσ => models_iff.mpr ?_
   rcases hσ with h | h | h
   · exact eval_of_eqAxiom P S h
@@ -903,14 +903,14 @@ standard structure with `J` read as the ℕ-indexed chain of least fixed points 
 `IDw A`. -/
 theorem models_IDw (hA : PositiveP A) (P : ℕ → Prop) :
     letI := stdJ P (lfpChain P A); ℕ↓[LXJ] ⊧* IDw A := by
-  let _ : Structure LXJ ℕ := stdJ P (lfpChain P A)
+  let _ : Tarski.Structure LXJ ℕ := stdJ P (lfpChain P A)
   exact Semantics.modelsSet_iff.mpr fun σ hσ => models_iff.mpr (eval_of_mem_IDw A hA P hσ)
 
 /-- **Every theorem of `IDw A` is true in the standard model.** -/
 theorem eval_of_provable_IDw (hA : PositiveP A) (P : ℕ → Prop) {σ : Sentence LXJ}
     (h : IDw A ⊢ σ) :
     Semiformula.Eval (s := stdJ P (lfpChain P A)) ![] Empty.elim σ := by
-  let _ : Structure LXJ ℕ := stdJ P (lfpChain P A)
+  let _ : Tarski.Structure LXJ ℕ := stdJ P (lfpChain P A)
   exact models_iff.mp (models_of_provable (models_IDw A hA P) h)
 
 /-- **`IDw A` does not prove `⊥`**, for every `PositiveP` form `A`. -/

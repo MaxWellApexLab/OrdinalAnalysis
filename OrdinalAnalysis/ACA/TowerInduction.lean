@@ -28,7 +28,7 @@
     `jumpWitness` (this *is* arithmetical comprehension — the `exs₂` rule) and
     `jumpB_SO`, and the `gen₁`/`gen₂` bookkeeping around them.
 
-  The comprehension step uses **route 2** of the design note: `Toolkit.spec₂` is
+  The comprehension step uses **route 2** of the construction: `Toolkit.spec₂` is
   applied raw and both sides are normalised with `Lifted.lean`'s
   `toSOAtB_tiUptoAt`/`toSOAtB_liftCode`/`toSOAtB_Xat_bvar`, so no `Empty`-version
   of the jump formula is ever needed (`specSO` could not take one).
@@ -36,6 +36,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACA.Lifted
 public import OrdinalAnalysis.ACA.Congruence
 
@@ -48,7 +49,7 @@ set_option maxHeartbeats 1000000
 
 namespace OrdinalAnalysis.ACA.TowerSyntax
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 
 /-- A rewriting passes through a substitution instance of a **closed** formula:
@@ -423,10 +424,10 @@ end OrdinalAnalysis.ACA.TowerSyntax
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX Xat paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁ freeVariables_precCode₁)
 open OrdinalAnalysis.Gentzen.CodedVeblenJump (addCode₁ omegaPowCode₁)

@@ -29,6 +29,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.PredCutCases.Main
 public import OrdinalAnalysis.IDw.Collapsing.Basic
 
@@ -40,7 +41,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {A : FormJ}
 

@@ -204,7 +204,7 @@ end ThetaWNoteD
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The rank -/
 
@@ -236,7 +236,7 @@ def rkRec {ξ : Type*} : {m : ℕ} → Semiformula (LIinfN n) ξ m → ThetaWNot
   | _, .all φ => ThetaWNoteD.succ (rkRec φ)
   | _, .exs φ => ThetaWNoteD.succ (rkRec φ)
 
-/-- **The rank** `rk(φ)` of Freund, Definition 5.2, read for `ID n` (design note §2.1). -/
+/-- **The rank** `rk(φ)` of Freund, Definition 5.2, read for `ID n`. -/
 irreducible_def rk {ξ : Type*} {m : ℕ} (φ : Semiformula (LIinfN n) ξ m) : ThetaWNoteD := rkRec φ
 
 section Equations

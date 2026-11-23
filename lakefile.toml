@@ -11,4 +11,4 @@ name = "OrdinalAnalysis"
 [[require]]
 name = "Foundation"
 git = "https://github.com/FormalizedFormalLogic/Foundation"
-rev = "master"
+rev = "c3eb37ae896dc8f1d239ba1511e74d9f25e9d158"

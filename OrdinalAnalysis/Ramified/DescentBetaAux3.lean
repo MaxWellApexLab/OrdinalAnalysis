@@ -32,7 +32,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁ eval_precDef₁ isNF₁)
 open OrdinalAnalysis.Gentzen.InternalVeblenCode (vebDef₁ eval_vebDef₁)
 open OrdinalAnalysis.Gentzen.InternalEpsMonoCode (epsDef₁ eval_epsDef₁)
@@ -80,7 +80,7 @@ theorem trueN_neg (φ : Proposition LRA) : TrueN (∼φ) ↔ ¬TrueN φ := by
 
 section Eval
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 theorem vec2_numAtR (x v : ℕ) :
     (![numAtR x, numAtR v] : Fin 2 → Semiterm LRA ℕ 0) = fun i => numAtR (![x, v] i) := by

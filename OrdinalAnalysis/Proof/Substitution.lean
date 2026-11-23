@@ -16,14 +16,15 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Proof.Weakening
 
 @[expose] public section
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
-open LO.FirstOrder.Rewriting LO.FirstOrder.LawfulSyntacticRewriting
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.LawfulSyntacticRewriting
 open ONote
 
 variable {L : Language}
@@ -76,7 +77,7 @@ theorem rewrite {r : ℕ} :
       have key := ih (&0 :>ₙ fun x ↦ Rew.shift (f x))
       simp only [List.map_cons] at key ⊢
       refine BoundedDerivable.all hlt ?_
-      simp only [Rewriting.shifts, shift_rewrite_eq,
+      simp only [Rewriting.lshifts, shift_rewrite_eq,
         Function.comp_def, Rew.q_rewrite, List.map_map] at key ⊢
       have e : (Semiformula.rewAux (Rew.rewrite fun x ↦ Rew.bShift (f x)) χ).free
           = (Rew.rewrite (&0 :>ₙ fun x ↦ Rew.shift (f x))) ▹ Semiformula.free χ :=
@@ -89,9 +90,9 @@ the reduction lemma: that rule shifts its context, so the cut formula has to be
 shifted along with it.
 
 Foundation defines `Derivation.shift` the same way, as `rewrite` at
-`fun x ↦ &(x+1)`; `Γ.map (Rew.rewriteMap Nat.succ ▹ ·)` is `Γ⁺` definitionally. -/
+`fun x ↦ &(x+1)`; `Γ.map (Rew.rewriteMap Nat.succ ▹ ·)` is `Γˡ⁺` definitionally. -/
 theorem shift {r : ℕ} {α : NONote} {Γ : Sequent L} (h : BoundedDerivable r α Γ) :
-    BoundedDerivable r α Γ⁺ :=
+    BoundedDerivable r α Γˡ⁺ :=
   h.rewrite (fun x => &(Nat.succ x))
 
 end BoundedDerivable

@@ -85,7 +85,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 open scoped Classical
 
@@ -94,7 +94,7 @@ variable {ι : Type} [DecidableEq ι]
 /-! ### The standard structures -/
 
 /-- The fresh predicates: `X` read by `P`, `I_k` read by `S k`. -/
-def ixStrucN (P : ℕ → Prop) (S : ι → Set ℕ) : Structure (IXLangN ι) ℕ where
+def ixStrucN (P : ℕ → Prop) (S : ι → Set ℕ) : Tarski.Structure (IXLangN ι) ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | IXRelN.X => P (v 0)
@@ -102,8 +102,8 @@ def ixStrucN (P : ℕ → Prop) (S : ι → Set ℕ) : Structure (IXLangN ι) �
 
 /-- **The standard structure of `LXIN ι`**: arithmetic standard, `X` read by `P`, `I_k`
 read by `S k`. -/
-def stdIN (P : ℕ → Prop) (S : ι → Set ℕ) : Structure (LXIN ι) ℕ :=
-  Structure.add ℒₒᵣ (IXLangN ι) ℕ (str₂ := ixStrucN P S)
+def stdIN (P : ℕ → Prop) (S : ι → Set ℕ) : Tarski.Structure (LXIN ι) ℕ :=
+  Tarski.Structure.add ℒₒᵣ (IXLangN ι) ℕ (str₂ := ixStrucN P S)
 
 section Std
 
@@ -119,7 +119,7 @@ omit [DecidableEq ι] in
     (f : ξ → ℕ) :
     Semiformula.Eval (s := stdIN P S) e f (Semiformula.lMap (toLXIN ι) φ)
       ↔ Semiformula.Eval (M := ℕ) e f φ :=
-  Structure.eval_lMap_add₁ (str₂ := ixStrucN P S) φ e f
+  Tarski.Structure.eval_lMap_add₁ (str₂ := ixStrucN P S) φ e f
 
 omit [DecidableEq ι] in
 /-- Term values do not depend on the readings of `X` and the `I_k`'s. -/
@@ -171,8 +171,8 @@ theorem positiveIn_monotone (P : ℕ → Prop) (k : ι) {S S' : ι → Set ℕ} 
         = (fun i => Semiterm.val (s := stdIN P S') e f (v i)) :=
       funext fun i => val_stdIN_congr P S P S' e f (v i)
     rcases r with r | r
-    · show Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) →
-        Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
+    · show Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) →
+        Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
       rw [hv]; exact id
     · cases r with
       | X =>
@@ -191,8 +191,8 @@ theorem positiveIn_monotone (P : ℕ → Prop) (k : ι) {S S' : ι → Set ℕ} 
         = (fun i => Semiterm.val (s := stdIN P S') e f (v i)) :=
       funext fun i => val_stdIN_congr P S P S' e f (v i)
     rcases r with r | r
-    · show ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) →
-        ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
+    · show ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) →
+        ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
       rw [hv]; exact id
     · cases r with
       | X =>
@@ -232,8 +232,8 @@ theorem levelBounded_agree [PartialOrder ι] (P : ℕ → Prop) (k : ι) {S S' :
         = (fun i => Semiterm.val (s := stdIN P S') e f (v i)) :=
       funext fun i => val_stdIN_congr P S P S' e f (v i)
     rcases r with r | r
-    · show Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
-        Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
+    · show Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
+        Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
       rw [hv]
     · cases r with
       | X =>
@@ -249,8 +249,8 @@ theorem levelBounded_agree [PartialOrder ι] (P : ℕ → Prop) (k : ι) {S S' :
         = (fun i => Semiterm.val (s := stdIN P S') e f (v i)) :=
       funext fun i => val_stdIN_congr P S P S' e f (v i)
     rcases r with r | r
-    · show ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
-        ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
+    · show ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
+        ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S') e f (v i))
       rw [hv]
     · cases r with
       | X =>
@@ -293,8 +293,8 @@ theorem eval_substIAt (P : ℕ → Prop) (S : ι → Set ℕ) (k : ι) {ξ : Typ
         = (fun i => Semiterm.val (s := stdIN P (Function.update S k SF)) e f (v i)) :=
       funext fun i => val_stdIN_congr P S P (Function.update S k SF) e f (v i)
     rcases r with r | r
-    · show Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
-        Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P (Function.update S k SF))
+    · show Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
+        Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P (Function.update S k SF))
           e f (v i))
       rw [hv]
     · cases r with
@@ -321,8 +321,8 @@ theorem eval_substIAt (P : ℕ → Prop) (S : ι → Set ℕ) (k : ι) {ξ : Typ
         = (fun i => Semiterm.val (s := stdIN P (Function.update S k SF)) e f (v i)) :=
       funext fun i => val_stdIN_congr P S P (Function.update S k SF) e f (v i)
     rcases r with r | r
-    · show ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
-        ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P (Function.update S k SF))
+    · show ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P S) e f (v i)) ↔
+        ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdIN P (Function.update S k SF))
           e f (v i))
       rw [hv]
     · cases r with
@@ -512,9 +512,9 @@ omit [DecidableEq ι] in
 /-- Every equality axiom is true in `stdIN P S`. -/
 theorem eval_of_eqAxiom {σ : Sentence (LXIN ι)} (h : σ ∈ 𝗘𝗤 (LXIN ι)) :
     Semiformula.Eval (s := stdIN P S) ![] Empty.elim σ := by
-  letI : Structure (LXIN ι) ℕ := stdIN P S
-  haveI : Structure.Eq (LXIN ι) ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
-  haveI : ℕ↓[LXIN ι] ⊧* 𝗘𝗤 (LXIN ι) := Structure.Eq.models_eq (LXIN ι) ℕ
+  letI : Tarski.Structure (LXIN ι) ℕ := stdIN P S
+  haveI : Tarski.Structure.Eq (LXIN ι) ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
+  haveI : ℕ↓[LXIN ι] ⊧* 𝗘𝗤 (LXIN ι) := Tarski.Structure.Eq.models_eq (LXIN ι) ℕ
   exact Theory.models ℕ (𝗘𝗤 (LXIN ι)) h
 
 omit [DecidableEq ι] in
@@ -553,7 +553,7 @@ theorem eval_of_succInd {σ : Sentence (LXIN ι)} (h : σ ∈ InductionScheme (L
 /-- `stdIN P S` is a model of `paLXIN ι`, for every `P` and `S`. -/
 theorem models_paLXIN :
     letI := stdIN P S; ℕ↓[LXIN ι] ⊧* paLXIN ι := by
-  let _ : Structure (LXIN ι) ℕ := stdIN P S
+  let _ : Tarski.Structure (LXIN ι) ℕ := stdIN P S
   refine Semantics.modelsSet_iff.mpr fun σ hσ => models_iff.mpr ?_
   rcases hσ with h | h | h
   · exact eval_of_eqAxiom P S h
@@ -585,14 +585,14 @@ theorem eval_of_mem_ID (hAp : FamilyPositive A) (hAb : FamilyLevelBounded A) (P 
 point is a model of `ID A`. -/
 theorem models_ID (hAp : FamilyPositive A) (hAb : FamilyLevelBounded A) (P : ℕ → Prop) :
     letI := stdIN P (lfpChain P A); ℕ↓[LXIN ι] ⊧* ID A := by
-  let _ : Structure (LXIN ι) ℕ := stdIN P (lfpChain P A)
+  let _ : Tarski.Structure (LXIN ι) ℕ := stdIN P (lfpChain P A)
   exact Semantics.modelsSet_iff.mpr fun σ hσ => models_iff.mpr (eval_of_mem_ID A hAp hAb P hσ)
 
 /-- **Every theorem of `ID A` is true in the standard model.** -/
 theorem eval_of_provable_ID (hAp : FamilyPositive A) (hAb : FamilyLevelBounded A)
     (P : ℕ → Prop) {σ : Sentence (LXIN ι)} (h : ID A ⊢ σ) :
     Semiformula.Eval (s := stdIN P (lfpChain P A)) ![] Empty.elim σ := by
-  let _ : Structure (LXIN ι) ℕ := stdIN P (lfpChain P A)
+  let _ : Tarski.Structure (LXIN ι) ℕ := stdIN P (lfpChain P A)
   exact models_iff.mp (models_of_provable (models_ID A hAp hAb P) h)
 
 /-- **`ID A` is consistent**, for every positive, level-bounded family. -/

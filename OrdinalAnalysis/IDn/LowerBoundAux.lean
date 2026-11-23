@@ -37,9 +37,10 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.StageSemantics
 public import OrdinalAnalysis.IDn.Theorem
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -49,7 +50,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDn.Upper
 
 variable {n : ℕ}
@@ -263,7 +264,7 @@ section Models
 
 variable {A : Fin n → Semisentence (LXIn n) 1} (k0 : Fin n)
   (hAX : ∀ k : Fin n, NoXN (Rewriting.emb (A k) : Semiformula (LXIn n) ℕ 1))
-  {M : Type} [Nonempty M] (s : Structure (LXIn n) M)
+  {M : Type} [Nonempty M] (s : Tarski.Structure (LXIn n) M)
 
 include hAX in
 theorem noXN_closureAxAt (k : Fin n) : NoXN (closureAxAt k (A k)) :=
@@ -287,9 +288,9 @@ theorem eval_swap_of_mem_IDn (hEq : ∀ a b : M,
     {σ : Sentence (LXIn n)} (hσ : σ ∈ IDn n A) :
     Semiformula.Eval (s := s.lMap (swapXIN k0)) ![] Empty.elim σ := by
   rcases mem_ID A |>.mp hσ with h | h | h | ⟨k, rfl | ⟨F, rfl⟩⟩
-  · let _ : Structure (LXIn n) M := s.lMap (swapXIN k0)
-    have _ : Structure.Eq (LXIn n) M := ⟨fun a b => hEq a b⟩
-    have := Structure.Eq.models_eq (LXIn n) M
+  · let _ : Tarski.Structure (LXIn n) M := s.lMap (swapXIN k0)
+    have _ : Tarski.Structure.Eq (LXIn n) M := ⟨fun a b => hEq a b⟩
+    have := Tarski.Structure.Eq.models_eq (LXIn n) M
     exact Theory.models M (𝗘𝗤 (LXIn n)) h
   · obtain ⟨τ, hτ, rfl⟩ := h
     rw [Semiformula.eval_lMap]

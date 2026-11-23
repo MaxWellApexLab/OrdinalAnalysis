@@ -45,7 +45,7 @@ set_option maxHeartbeats 1600000
 namespace OrdinalAnalysis.Gentzen.InternalVeblenCode
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -67,7 +67,7 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 /-! ## The Veblen graph `Veb(y, a, g)` -/
 
 /-- `Veb(y, a, g)`: `a` and `g` are normal codes and `y = φ_a(g)`. -/
-def vebDef₁ : 𝚺₁.Semisentence 3 := .mkSigma
+def vebDef₁ : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y a g. !isNFb₁Def 1 a ∧ !isNFb₁Def 1 g ∧ !iveblenDef y a g”
 
 @[simp] theorem eval_vebDef₁ (y a g : V) :
@@ -82,7 +82,7 @@ def vebAt (vebCode : Semiformula LX ℕ 3) {n : ℕ}
     (y a g : Semiterm LX ℕ n) : Semiformula LX ℕ n :=
   Rew.subst ![y, a, g] ▹ vebCode
 
-@[simp] theorem eval_vebAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_vebAt {M : Type*} [Tarski.Structure LX M]
     (vebCode : Semiformula LX ℕ 3) {n : ℕ} (y a g : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (vebAt vebCode y a g).Eval e f ↔
@@ -92,7 +92,7 @@ def vebAt (vebCode : Semiformula LX ℕ 3) {n : ℕ}
 /-! ## The three guards -/
 
 /-- `Fix_a(e)`: `e` is a normal code and a fixed point of `φ_a`. -/
-def vebFixDef₁ : 𝚺₁.Semisentence 2 := .mkSigma
+def vebFixDef₁ : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “a e. !isNFb₁Def 1 e ∧ !vebFixIndicDef 1 a e”
 
 @[simp] theorem eval_vebFixDef₁ (a e : V) :
@@ -104,7 +104,7 @@ def vebFixCode₁ : Semiformula LX ℕ 2 := liftCode vebFixDef₁
 
 /-- `Base_a(e)`: `e` is a normal code in the *range* of `φ_a`.  This is the guard (EPSMONO)
 needs — see the module docstring. -/
-def vebBaseDef₁ : 𝚺₁.Semisentence 2 := .mkSigma
+def vebBaseDef₁ : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “a e. !isNFb₁Def 1 e ∧ !vebBaseIndicDef 1 a e”
 
 @[simp] theorem eval_vebBaseDef₁ (a e : V) :
@@ -116,7 +116,7 @@ def vebBaseCode₁ : Semiformula LX ℕ 2 := liftCode vebBaseDef₁
 
 /-- `TowBase_a(e)`: `e` is a normal code which is `0` or a fixed point of `φ_a` — the level-`a`
 analogue of `VeblenSuccStep.baseDef₁`. -/
-def vebTowBaseDef₁ : 𝚺₁.Semisentence 2 := .mkSigma
+def vebTowBaseDef₁ : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “a e. !isNFb₁Def 1 e ∧ (e = 0 ∨ !vebFixIndicDef 1 a e)”
 
 @[simp] theorem eval_vebTowBaseDef₁ (a e : V) :
@@ -130,7 +130,7 @@ def vebTowBaseCode₁ : Semiformula LX ℕ 2 := liftCode vebTowBaseDef₁
 
 /-- `VebTow(u, k, a, c)`: `a` and `c` are normal codes and `u` is the `k`-th `φ_a`-tower stage
 over `c`.  The level-`a` analogue of `VeblenTower.towerDef₁`. -/
-def vebTowDef₁ : 𝚺₁.Semisentence 4 := .mkSigma
+def vebTowDef₁ : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “u k a c. !isNFb₁Def 1 a ∧ !isNFb₁Def 1 c ∧ !ivebTowerDef u a c k”
 
 @[simp] theorem eval_vebTowDef₁ (u k a c : V) :
@@ -145,7 +145,7 @@ def vebTowAt (towCode : Semiformula LX ℕ 4) {n : ℕ}
     (u k a c : Semiterm LX ℕ n) : Semiformula LX ℕ n :=
   Rew.subst ![u, k, a, c] ▹ towCode
 
-@[simp] theorem eval_vebTowAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_vebTowAt {M : Type*} [Tarski.Structure LX M]
     (towCode : Semiformula LX ℕ 4) {n : ℕ} (u k a c : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (vebTowAt towCode u k a c).Eval e f ↔
@@ -280,7 +280,7 @@ theorem arithmetic_vebCover : 𝗜𝚺₁ ⊢ arithmeticVebCoverStatement := by
   simp [arithmeticVebCoverStatement, arithNfAt, arithVebTowBaseAt, arithPrecAt, arithLeqAt,
     arithAddAt, arithVebTowAt, eval_nfDef₁, eval_vebTowBaseDef₁, eval_precDef₁, eval_leqDef₁,
     eval_vebTowDef₁, safeIadd₁_defined.iff,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   intro a x
   by_cases hna : isNF₁ a
   · right
@@ -298,6 +298,36 @@ theorem arithmetic_vebCover : 𝗜𝚺₁ ⊢ arithmeticVebCoverStatement := by
     exact hna
 
 /-! ## Transport to `PA[X]` -/
+
+/-- The `lMap` transport of the (EPSMONO)-at-level-`a` body, for abstract `Σ₁` definitions (so
+that the kernel never unfolds the concrete formulas of `nfDef₁`, `vebBaseDef₁`, `vebDef₁`,
+`precDef₁`). -/
+private lemma map_vebMono_gen (ν : 𝚺ᴬ₁.Semisentence 1) (β : 𝚺ᴬ₁.Semisentence 2)
+    (υ : 𝚺ᴬ₁.Semisentence 3) (π : 𝚺ᴬ₁.Semisentence 2) :
+    Semiformula.lMap toLX
+        (∀¹ ∀¹ ∀¹ ∀¹
+          (∼(Rew.subst ![(#3 : Semiterm ℒₒᵣ ℕ 4)] ▹ Rewriting.emb ν.val) ⋎
+            (∼(Rew.subst ![(#3 : Semiterm ℒₒᵣ ℕ 4), #2] ▹ Rewriting.emb β.val) ⋎
+              (∼(Rew.subst ![(#1 : Semiterm ℒₒᵣ ℕ 4)] ▹ Rewriting.emb ν.val) ⋎
+                (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 4), #3, #1] ▹ Rewriting.emb υ.val) ⋎
+                  (∼(Rew.subst ![(#2 : Semiterm ℒₒᵣ ℕ 4), #0] ▹ Rewriting.emb π.val) ⋎
+                    (∃¹
+                      ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 5)] ▹ Rewriting.emb ν.val) ⋏
+                        ((Rew.subst ![(#3 : Semiterm ℒₒᵣ ℕ 5), #4, #0] ▹
+                            Rewriting.emb υ.val) ⋏
+                          (Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 5), #2] ▹
+                            Rewriting.emb π.val)))))))))) =
+      (∀¹ ∀¹ ∀¹ ∀¹
+        (∼(formulaAt (liftCode ν) (#3 : Semiterm LX ℕ 4)) ⋎
+          (∼(precAt (liftCode β) #3 #2) ⋎
+            (∼(formulaAt (liftCode ν) (#1 : Semiterm LX ℕ 4)) ⋎
+              (∼(vebAt (liftCode υ) (#0 : Semiterm LX ℕ 4) #3 #1) ⋎
+                (∼(precAt (liftCode π) #2 #0) ⋎
+                  (∃¹
+                    (formulaAt (liftCode ν) (#0 : Semiterm LX ℕ 5) ⋏
+                      (vebAt (liftCode υ) (#3 : Semiterm LX ℕ 5) #4 #0 ⋏
+                        precAt (liftCode π) #0 #2))))))))) := by
+  simp [formulaAt, precAt, vebAt, liftCode, Semiformula.lMap_subst]
 
 private lemma map_vebMono_body :
     Semiformula.lMap toLX
@@ -320,9 +350,38 @@ private lemma map_vebMono_body :
                   (∃¹
                     (formulaAt nfCode₁ (#0 : Semiterm LX ℕ 5) ⋏
                       (vebAt vebCode₁ (#3 : Semiterm LX ℕ 5) #4 #0 ⋏
-                        precAt precCode₁ #0 #2))))))))) := by
-  simp [arithNfAt, arithVebBaseAt, arithVebAt, arithPrecAt, formulaAt, precAt, vebAt,
-    nfCode₁, vebBaseCode₁, vebCode₁, precCode₁, liftCode, Semiformula.lMap_subst]
+                        precAt precCode₁ #0 #2))))))))) :=
+  map_vebMono_gen nfDef₁ vebBaseDef₁ vebDef₁ precDef₁
+
+/-- The `lMap` transport of the (COV_a) body, for abstract `Σ₁` definitions of the normal-form
+predicate, the tower base, the order, the addition and the Veblen tower, and an abstract
+numeral `c`. -/
+private lemma map_vebCover_gen (ν : 𝚺ᴬ₁.Semisentence 1) (τ : 𝚺ᴬ₁.Semisentence 2)
+    (ℓ : 𝚺ᴬ₁.Semisentence 2) (α : 𝚺ᴬ₁.Semisentence 3) (θ : 𝚺ᴬ₁.Semisentence 4)
+    (π : 𝚺ᴬ₁.Semisentence 2) (c : ℕ) :
+    Semiformula.lMap toLX
+        (∀¹ ∀¹
+          (∼(Rew.subst ![(#1 : Semiterm ℒₒᵣ ℕ 2)] ▹ Rewriting.emb ν.val) ⋎
+            (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 2)] ▹ Rewriting.emb ν.val) ⋎
+              (∃¹ ∃¹ ∃¹ ∃¹
+                ((Rew.subst ![(#5 : Semiterm ℒₒᵣ ℕ 6), #3] ▹ Rewriting.emb τ.val) ⋏
+                  ((Rew.subst ![(#3 : Semiterm ℒₒᵣ ℕ 6), #4] ▹ Rewriting.emb ℓ.val) ⋏
+                    ((Rew.subst ![(#2 : Semiterm ℒₒᵣ ℕ 6), #3, (c : Semiterm ℒₒᵣ ℕ 6)] ▹
+                        Rewriting.emb α.val) ⋏
+                      ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 6), #1, #5, #2] ▹
+                          Rewriting.emb θ.val) ⋏
+                        (Rew.subst ![(#4 : Semiterm ℒₒᵣ ℕ 6), #0] ▹
+                          Rewriting.emb π.val))))))))) =
+      (∀¹ ∀¹
+        (∼(formulaAt (liftCode ν) (#1 : Semiterm LX ℕ 2)) ⋎
+          (∼(formulaAt (liftCode ν) (#0 : Semiterm LX ℕ 2)) ⋎
+            (∃¹ ∃¹ ∃¹ ∃¹
+              (precAt (liftCode τ) #5 #3 ⋏
+                (precAt (liftCode ℓ) #3 #4 ⋏
+                  (addAt (liftCode α) #2 #3 (c : Semiterm LX ℕ 6) ⋏
+                    (vebTowAt (liftCode θ) #0 #1 #5 #2 ⋏
+                      precAt (liftCode π) #4 #0)))))))) := by
+  simp [formulaAt, precAt, addAt, vebTowAt, liftCode, Semiformula.lMap_subst, lMap_numeral]
 
 private lemma map_vebCover_body :
     Semiformula.lMap toLX
@@ -343,26 +402,25 @@ private lemma map_vebCover_body :
                 (precAt leqCode₁ #3 #4 ⋏
                   (addAt addCode₁ #2 #3 ((gamma0Code 1 : ℕ) : Semiterm LX ℕ 6) ⋏
                     (vebTowAt vebTowCode₁ #0 #1 #5 #2 ⋏
-                      precAt precCode₁ #4 #0)))))))) := by
-  simp [arithNfAt, arithVebTowBaseAt, arithPrecAt, arithLeqAt, arithAddAt, arithVebTowAt,
-    formulaAt, precAt, addAt, vebTowAt, nfCode₁, vebTowBaseCode₁, precCode₁, leqCode₁,
-    addCode₁, vebTowCode₁, liftCode, Semiformula.lMap_subst, lMap_numeral]
+                      precAt precCode₁ #4 #0)))))))) :=
+  map_vebCover_gen nfDef₁ vebTowBaseDef₁ leqDef₁ safeIadd₁Def vebTowDef₁ precDef₁
+    (gamma0Code 1)
 
 lemma models_vebMono_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ vebMonoStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticVebMonoStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [vebMonoStatement, arithmeticVebMonoStatement, Semiformula.eval_univCl]
   rw [← map_vebMono_body]
   simp [Semiformula.eval_lMap]
 
 lemma models_vebCover_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ vebCoverStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticVebCoverStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [vebCoverStatement, arithmeticVebCoverStatement, Semiformula.eval_univCl]
   rw [← map_vebCover_body]
@@ -384,8 +442,8 @@ theorem concrete_vebCover : paLX ⊢ vebCoverStatement := by
 
 /-! ## Semantic form, for the second-order layer -/
 
-theorem models_vebMonoStatement {M : Type*} [Nonempty M] [Structure LX M]
-    [Structure.Eq LX M] :
+theorem models_vebMonoStatement {M : Type*} [Nonempty M] [Tarski.Structure LX M]
+    [Tarski.Structure.Eq LX M] :
     M↓[LX] ⊧ vebMonoStatement ↔
       ∀ f : ℕ → M, ∀ a e g u : M,
         nfCode₁.Eval ![a] f →

@@ -3,10 +3,10 @@
 
   Source: A. Freund, *Impredicativity and trees with gap condition: a second course on
   ordinal analysis*, arXiv:2204.09321, §6, before Proposition 6.4 (the translation
-  `ψ ↦ ψ⁺`, `I_φ ↦ I^{≺Ω}_φ`) and the proof of Theorem 6.5 (the universal quantifier case,
+  `ψ ↦ ψˡ⁺`, `I_φ ↦ I^{≺Ω}_φ`) and the proof of Theorem 6.5 (the universal quantifier case,
   after Theorem 3.7 of the first lecture).
 
-  **The translation.**  Freund's `ψ⁺` replaces the predicate `I` by `I^{≺Ω}`; that is
+  **The translation.**  Freund's `ψˡ⁺` replaces the predicate `I` by `I^{≺Ω}`; that is
   `embed`.  The language `LXI` also has the free predicate `X`, which Freund's `L_ID` does
   not have, and the identity clause `idX` of the calculus compares the arguments of
   `X`-literals syntactically, so `X`-literals with compound closed arguments cannot be
@@ -16,7 +16,7 @@
       killX φ  :=  φ with every `X t` replaced by `⊥` and every `¬X t` by `⊤`,
       embK φ   :=  embed (killX φ).
 
-  For an `X`-free formula `embK φ = embed φ = φ⁺` (`embK_eq_embed`).  Both maps commute
+  For an `X`-free formula `embK φ = embed φ = φˡ⁺` (`embK_eq_embed`).  Both maps commute
   with every rewriting (`killX_rew`, and Foundation's `lMap_*` lemmas), with negation and
   with the connectives.
 
@@ -38,6 +38,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.Evaluate
 
 @[expose] public section
@@ -48,9 +49,9 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 /-! ### Reading `X` as empty -/
 
@@ -190,7 +191,7 @@ section EmbK
 
 variable {ξ : Type*}
 
-/-- **The embedding** `LXI → LIinf`: `I ↦ I^{≺Ω}` (Freund's `ψ⁺`), with `X` read as empty. -/
+/-- **The embedding** `LXI → LIinf`: `I ↦ I^{≺Ω}` (Freund's `ψˡ⁺`), with `X` read as empty. -/
 def embK {n : ℕ} (φ : Semiformula LXI ξ n) : Semiformula LIinf ξ n := embed (killX φ)
 
 /-- The term part of the embedding. -/
@@ -338,10 +339,10 @@ theorem numSubst_shift (f : ℕ → ℕ) (n : ℕ) (φ : Proposition LIinf) :
   simpa [← comp_app] using smul_ext' <| by ext x <;> simp [Rew.comp_app]
 
 theorem seqSubst_shifts (f : ℕ → ℕ) (n : ℕ) (Γ : Sequent LIinf) :
-    seqSubst (n :>ₙ f) Γ⁺ = seqSubst f Γ := by
+    seqSubst (n :>ₙ f) Γˡ⁺ = seqSubst f Γ := by
   induction Γ with
   | nil => rfl
-  | cons φ Γ ih => simp [seqSubst, Rewriting.shifts_cons, numSubst_shift] at ih ⊢; exact ih
+  | cons φ Γ ih => simp [seqSubst, Rewriting.lshifts_cons, numSubst_shift] at ih ⊢; exact ih
 
 /-- **The `exs` premise**: the witness becomes the closed term `numSubst f t`. -/
 theorem numSubst_subst (f : ℕ → ℕ) (t : SyntacticTerm LIinf) (φ : Semiproposition LIinf 1) :

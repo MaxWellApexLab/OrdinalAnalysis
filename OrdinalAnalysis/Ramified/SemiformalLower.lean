@@ -22,7 +22,7 @@
   (`Ramified/PredicativeCutGeneral.lean`) needs a cut rank below `ω^{e ⊕ 1}` for the
   *natural*-sum successor `e ⊕ 1 = Gamma0Note.nadd e 1`, which is the genuine order-theoretic
   successor of `e` (`Order.succ e`, always strictly above `e`) and does **not** collapse at
-  infinite `e`.  So the two candidate readings of "`1 + γ`" that the design note leaves open
+  infinite `e`.  So the two candidate readings of "`1 + γ`" that are left open
   really are different notations once `γ` is infinite:
 
   * `onePlusNote γ` (real `1 + γ`) is the *exact* value of `blk (ω^γ)`, and can equal `γ`
@@ -170,7 +170,7 @@ namespace Ramified
 
 open OrdinalAnalysis.Gamma0Note (veblenNote epsilonNote VeblenBelow)
 open OrdinalAnalysis.Ramified.OmegaDerivableR (veblenIter veblenIter_lt_veblen)
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The semiformal bound at `ω^γ`, any `γ ≥ 1` -/
 
@@ -221,7 +221,7 @@ theorem ramified_lower_bound_omegaPow' (γ : Gamma0Note) (hγ : (1 : Gamma0Note)
     RAlt (Gamma0Note.omegaPow γ) ⊬
       (Semiformula.univCl (TIR (vebSegOrderR (Gamma0Note.nadd γ 1) 0
         (Gamma0Note.zero_lt_nadd_one γ)).prec) : Sentence LRA) := by
-  rintro ⟨h⟩
+  intro h
   set L := Gamma0Note.omegaPow γ with hLdef
   set C := vebSegOrderR (Gamma0Note.nadd γ 1) 0 (Gamma0Note.zero_lt_nadd_one γ) with hCdef
   have hL1 : 1 ≤ L := (Gamma0Note.one_lt_omegaPow hγ).le

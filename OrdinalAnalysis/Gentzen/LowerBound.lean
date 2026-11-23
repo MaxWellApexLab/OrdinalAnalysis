@@ -23,6 +23,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.Embed
 public import OrdinalAnalysis.Gentzen.AxiomsLogic
 public import OrdinalAnalysis.Gentzen.AxiomsInduction
@@ -35,7 +37,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.LowerBound
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen OrdinalAnalysis.Gentzen.StandardLX
 open OrdinalAnalysis.Gentzen.LowerSyntax OrdinalAnalysis.Gentzen.Evaluate
 open OrdinalAnalysis.Gentzen.EvInst OrdinalAnalysis.Gentzen.Embed
@@ -92,7 +94,7 @@ theorem closed_neg_embed (Δ : List (Sentence LX)) :
 /-- **The lower bound.**  `PA[X]` does not prove `TI(≺)`. -/
 theorem gentzen_lower_bound : paLX ⊬ (TI precCode).univCl := by
   intro hprov
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp hprov
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp hprov
   have hclosed : ∀ φ ∈ (((TI precCode).univCl : Proposition LX) :: ∼Sequent.embed Δ),
       Semiformula.freeVariables φ = ∅ := by
     intro φ hφ

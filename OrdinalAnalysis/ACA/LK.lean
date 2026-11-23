@@ -51,6 +51,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACA.Syntax
 
 @[expose] public section
@@ -59,16 +60,16 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 
 /-! ### The calculus -/
 
 /-- **Second-order one-sided LK with arithmetical comprehension.**
 
-Foundation's `LO.SecondOrder.Derivation`, verbatim, except that `exs₂` carries
+Foundation's `FFL.SecondOrder.Derivation`, verbatim, except that `exs₂` carries
 the hypothesis `Arith ψ`. -/
 inductive Derivation : SecondOrder.Sequent ℒₒᵣ → Type
   | identity {φ : Proposition ℒₒᵣ} : Derivation [φ, ∼φ]
@@ -305,9 +306,9 @@ set *and* number parameters, universally closed.**  Foundation's second-order
 syntax already carries both closure operators, and `allNums`/`allSets` are
 local names for them:
 
-* `LO.FirstOrder.allClosure` (`∀¹*`) iterates `∀¹`, closing every bound
+* `FFL.FirstOrder.allClosure` (`∀¹*`) iterates `∀¹`, closing every bound
   *number* slot;
-* `LO.SecondOrder.allClosure` (`∀²*`) iterates `∀²`, closing every bound *set*
+* `FFL.SecondOrder.allClosure` (`∀²*`) iterates `∀²`, closing every bound *set*
   slot.
 
 The de Bruijn convention throughout is Foundation's, forced by `Rew.q` /
@@ -393,7 +394,7 @@ theorem noSetFvar_setInduction : NoSetFvar setInduction := by
 
 /-- **Set extensionality.**  `∀²X ∀x∀y (x = y → x ∈ X → y ∈ X)` — the image
 under `lift` of `𝗘𝗤 LX`'s `relExt (Sum.inr XRel.X)`, which the old `ACA₀` had
-no counterpart for at all (defect (D1) of the design note).  Without it,
+no counterpart for at all (defect (D1) of the construction).  Without it,
 `congruence` (`Translate.lean`) has no base case.
 
 The equality atom is written as the primitive `Semiformula.rel FirstOrder.Language.Eq.eq`
@@ -484,7 +485,7 @@ def indBody {N n : ℕ} (φ : Semiproposition ℒₒᵣ N (n + 1)) : Semiproposi
     🡒 (∀¹ φ)
 
 /-- **An induction axiom for an arbitrary second-order formula**, universally
-closed over all its parameters.  This is defect (D2) of the design note and its
+closed over all its parameters.  This is defect (D2) of the construction and its
 fix, in the standard form: no free variable of either kind survives, so
 `shift₁ (indScheme₂ φ) = indScheme₂ φ` (and likewise for `shift₀`). -/
 def indScheme₂ {N n : ℕ} (φ : Semiproposition ℒₒᵣ N (n + 1)) : Proposition ℒₒᵣ :=

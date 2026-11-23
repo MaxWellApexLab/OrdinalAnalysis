@@ -40,6 +40,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Evaluate
 public import OrdinalAnalysis.IDn.NumSubst
 public import OrdinalAnalysis.IDn.Sound
@@ -123,7 +124,7 @@ end ThetaWNoteD
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Structural helpers -/
 
@@ -726,8 +727,8 @@ section Semantics
 
 theorem stdInfN_lMap_eq :
     stdInfN.lMap (embedHom (n := n)) = stdIN (fun _ => False) (fun _ : Fin n => (∅ : Set ℕ)) := by
-  unfold Structure.lMap
-  show Structure.mk _ _ = Structure.mk _ _
+  unfold Tarski.Structure.lMap
+  show Tarski.Structure.mk _ _ = Tarski.Structure.mk _ _
   congr 1
   · funext k f v
     rcases f with f | f
@@ -790,8 +791,8 @@ end Semantics
 
 section Closure
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 variable {A : Fin n → Semisentence (LXIn n) 1} {ρ : ThetaWNoteD} {H : Set ThetaWNoteD → Set ThetaWNoteD}
 

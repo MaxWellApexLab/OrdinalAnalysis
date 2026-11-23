@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Evaluate
 public import OrdinalAnalysis.IDw.NumSubst
 public import OrdinalAnalysis.IDw.Sound
@@ -130,7 +131,7 @@ end ThetaVNoteD
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- **`rk φ ∈ H(X)`** once every stage parameter of `φ` is in `H(X)`: `Jlev` atoms (`Ω_k + 1`,
 `Ω_ω`) and arithmetic (`0`) never obstruct, since they lie in every nice hull.  (The bare-`S`
@@ -858,8 +859,8 @@ section Semantics
 
 theorem stdW_lMap_eq :
     stdW.lMap embedW = stdJ (fun _ => False) (fun _ : ℕ => (∅ : Set ℕ)) := by
-  unfold Structure.lMap
-  show Structure.mk _ _ = Structure.mk _ _
+  unfold Tarski.Structure.lMap
+  show Tarski.Structure.mk _ _ = Tarski.Structure.mk _ _
   congr 1
   · funext k f v
     rcases f with f | f
@@ -922,8 +923,8 @@ end Semantics
 
 section Closure
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 variable {A : Semisentence LForm 2} {ρ : ThetaVNoteD} {H : Set ThetaVNoteD → Set ThetaVNoteD}
 

@@ -5,8 +5,7 @@
   place of the whole collapsing proof where `μ` itself is inspected.
 
   Source: W. Buchholz, *A simplified version of local predicativity* (1992), p. 28 (the step
-  (□), cases 4.1, 4.2, 4.3) and p. 29; A. Freund, arXiv:2204.09321, Theorem 6.7 (`cutI`);
-  the design notes
+  (□), cases 4.1, 4.2, 4.3) and p. 29; A. Freund, arXiv:2204.09321, Theorem 6.7 (`cutI`).
 
   **Where the cut rank sits.**  `rk C ≺ μ = muBarW m`.
   * `m = ↑(m₁ + 1)` (`IDn`): `rk C ⪯ Ω_{m₁+1}`.
@@ -32,6 +31,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Collapsing.Statement
 
 @[expose] public section
@@ -44,7 +44,7 @@ namespace IDw
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {A : FormJ}
 

@@ -59,6 +59,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.EvInst
 public import OrdinalAnalysis.Gentzen.NumSubst
 public import OrdinalAnalysis.Omega.Identity
@@ -69,8 +70,8 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.AxiomsInduction
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 open OrdinalAnalysis.Gentzen OrdinalAnalysis.Gentzen.StandardLX
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.OmegaTruth
 open OrdinalAnalysis.Gentzen.EvInst

@@ -55,14 +55,14 @@
 
 module
 
-public import Foundation.FirstOrder.Basic.CutFree
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ordinal.Notation
 
 @[expose] public section
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 open ONote
 
 variable {L : Language}

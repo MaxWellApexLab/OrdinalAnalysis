@@ -39,7 +39,7 @@ set_option maxHeartbeats 1600000
 namespace OrdinalAnalysis.Gentzen.InternalEpsCover
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -214,9 +214,9 @@ theorem tower_cover_zero {x : V} (hx : isNF₁ x)
 
 /-! ## The object-language statements -/
 
-/-- `x ≼₁ y` packaged as a single `𝚺₁` graph, so that the cover statement needs no
+/-- `x ≼₁ y` packaged as a single `𝚺ᴬ₁` graph, so that the cover statement needs no
 object-language equality atom. -/
-def leqDef₁ : 𝚺₁.Semisentence 2 := .mkSigma
+def leqDef₁ : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “x y. !isNFb₁Def 1 x ∧ !isNFb₁Def 1 y ∧ (!icmp₁Def 0 x y ∨ x = y)”
 
 @[simp] theorem eval_leqDef₁ (x y : V) :
@@ -296,7 +296,7 @@ theorem arithmetic_coverZero : 𝗜𝚺₁ ⊢ arithmeticCoverZeroStatement := b
   rw [models_iff]
   simp [arithmeticCoverZeroStatement, arithNfAt, arithPrecAt, arithTowerAt,
     eval_nfDef₁, eval_precDef₁, eval_towerDef₁,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   intro x
   have hone : ((gamma0Code 1 : ℕ) : M) = vcVadd 0 0 1 0 := modelCode_one
   have heps : ((gamma0Code (epsilonNote 0) : ℕ) : M) =
@@ -323,7 +323,7 @@ theorem arithmetic_cover : 𝗜𝚺₁ ⊢ arithmeticCoverStatement := by
   simp [arithmeticCoverStatement, arithNfAt, arithBaseAt, arithPrecAt, arithLeqAt,
     arithAddAt, arithTowerAt, eval_nfDef₁, eval_baseDef₁, eval_precDef₁, eval_leqDef₁,
     eval_towerDef₁, safeIadd₁_defined.iff,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   intro x
   have hone : ((gamma0Code 1 : ℕ) : M) = vcVadd 0 0 1 0 := modelCode_one
   by_cases hx : isNF₁ x
@@ -378,10 +378,10 @@ private lemma map_cover_body :
     addCode₁, towerCode₁, liftCode, Semiformula.lMap_subst, lMap_numeral]
 
 lemma models_coverZero_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ coverZeroStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticCoverZeroStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [coverZeroStatement, arithmeticCoverZeroStatement,
     Semiformula.eval_univCl]
@@ -389,10 +389,10 @@ lemma models_coverZero_iff_arithmetic {M : Type*} [Nonempty M]
   simp [Semiformula.eval_lMap]
 
 lemma models_cover_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ coverStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticCoverStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [coverStatement, arithmeticCoverStatement, Semiformula.eval_univCl]
   rw [← map_cover_body]

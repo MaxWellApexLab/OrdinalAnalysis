@@ -25,6 +25,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.PredicativeCutGeneral
 
 @[expose] public section
@@ -35,7 +36,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 namespace OmegaDerivableR
 

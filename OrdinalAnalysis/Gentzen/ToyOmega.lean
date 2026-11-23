@@ -9,7 +9,7 @@
     for every `n : ℕ`,   `PA[X] ⊢ TIupto (<) (numeral n)`.
 
   The proof is semantic, in the idiom of `Idiom.lean`.  Fix an arbitrary model
-  `M` of `PA[X]` and pass to `Structure.Model LX M`, which is how Foundation
+  `M` of `PA[X]` and pass to `Tarski.Structure.Model LX M`, which is how Foundation
   reads the arithmetic operations `0, 1, +, *, <` off an arbitrary structure as
   genuine Lean operations.  The resulting carrier `V` is a model of `PA⁻` (its
   arithmetic reduct is, and that reduct *is* Foundation's `standardModel V`),
@@ -47,7 +47,7 @@ namespace Gentzen
 
 namespace ToyOmega
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.Idiom
 
 /-! ### The ordering -/
@@ -64,13 +64,13 @@ def ltFormula : Semiformula LX ℕ 2 := “#0 < #1”
 Foundation's `PA⁻` library is stated for `[ORingStructure V]` with the
 *standard* structure `standardModel V`.  A `PA[X]`-model `V` whose
 `LX`-structure is compatible with `0, 1, +, *, <, =` on `V` (that is,
-`[Structure.ORing LX V]`) has `standardModel V` equal to its arithmetic reduct,
-so everything transfers.  `Structure.Model LX M` is such a `V` for every model
+`[Tarski.Structure.ORing LX V]`) has `standardModel V` equal to its arithmetic reduct,
+so everything transfers.  `Tarski.Structure.Model LX M` is such a `V` for every model
 `M`; that is the whole point of passing to it in `toy` below. -/
 
 section Arithmetic
 
-variable {V : Type*} [ORingStructure V] [sV : Structure LX V] [Structure.ORing LX V]
+variable {V : Type*} [ORingStructure V] [sV : Tarski.Structure LX V] [Tarski.Structure.ORing LX V]
 
 @[simp] lemma eval_ltFormula (y x : V) (f : ℕ → V) :
     ltFormula.Eval ![y, x] f ↔ y < x := by
@@ -82,36 +82,36 @@ arithmetic reduct of the `LX`-structure.
 Three elaboration hazards, none of them mathematical.  (i) The hypotheses of
 `standardModel_unique'` are elaborated against its *explicit* argument `s`, so
 `s` has to be introduced as a local instance first — otherwise Lean re-synthesises
-`Structure ℒₒᵣ V` and picks `standardModel V`.  (ii) With `s` in place,
+`Tarski.Structure ℒₒᵣ V` and picks `standardModel V`.  (ii) With `s` in place,
 `Add`/`Mul`/`Eq`/`LT` hold definitionally, because `(Language.Add.add : LX.Func 2)`
-*is* `Sum.inl Language.Add.add` and `Structure.lMap` is composition with
+*is* `Sum.inl Language.Add.add` and `Tarski.Structure.lMap` is composition with
 `toLX.func`.  (iii) `Zero`/`One` are not: the operator term is
 `Semiterm.func Language.Zero.zero ![]`, whose value is
-`Structure.func _ (fun i => Semiterm.val _ _ (![] i))`, and `Fin 0` has no eta,
+`Tarski.Structure.func _ (fun i => Semiterm.val _ _ (![] i))`, and `Fin 0` has no eta,
 so `Matrix.empty_eq` is needed to turn that argument back into `![]`. -/
 lemma standardModel_eq_reduct : standardModel V = sV.lMap toLX := by
-  let s : Structure ℒₒᵣ V := sV.lMap toLX
-  have hZero : Structure.Zero ℒₒᵣ V := ⟨by
+  let s : Tarski.Structure ℒₒᵣ V := sV.lMap toLX
+  have hZero : Tarski.Structure.Zero ℒₒᵣ V := ⟨by
     simp only [Semiterm.Operator.val, Semiterm.Operator.Zero.term_eq, Semiterm.val_func,
-      Matrix.empty_eq, s, Structure.lMap_func, Language.Hom.func_add₁]
-    exact Structure.zero_eq_of_lang (L := LX) ![]⟩
-  have hOne : Structure.One ℒₒᵣ V := ⟨by
+      Matrix.empty_eq, s, Tarski.Structure.lMap_func, Language.Hom.func_add₁]
+    exact Tarski.Structure.zero_eq_of_lang (L := LX) ![]⟩
+  have hOne : Tarski.Structure.One ℒₒᵣ V := ⟨by
     simp only [Semiterm.Operator.val, Semiterm.Operator.One.term_eq, Semiterm.val_func,
-      Matrix.empty_eq, s, Structure.lMap_func, Language.Hom.func_add₁]
-    exact Structure.one_eq_of_lang (L := LX) ![]⟩
-  have hAdd : Structure.Add ℒₒᵣ V := ⟨Structure.Add.add (L := LX) (M := V)⟩
-  have hMul : Structure.Mul ℒₒᵣ V := ⟨Structure.Mul.mul (L := LX) (M := V)⟩
-  have hEq : Structure.Eq ℒₒᵣ V := ⟨Structure.Eq.eq (L := LX) (M := V)⟩
-  have hLT : Structure.LT ℒₒᵣ V := ⟨Structure.LT.lt (L := LX) (M := V)⟩
+      Matrix.empty_eq, s, Tarski.Structure.lMap_func, Language.Hom.func_add₁]
+    exact Tarski.Structure.one_eq_of_lang (L := LX) ![]⟩
+  have hAdd : Tarski.Structure.Add ℒₒᵣ V := ⟨Tarski.Structure.Add.add (L := LX) (M := V)⟩
+  have hMul : Tarski.Structure.Mul ℒₒᵣ V := ⟨Tarski.Structure.Mul.mul (L := LX) (M := V)⟩
+  have hEq : Tarski.Structure.Eq ℒₒᵣ V := ⟨Tarski.Structure.Eq.eq (L := LX) (M := V)⟩
+  have hLT : Tarski.Structure.LT ℒₒᵣ V := ⟨Tarski.Structure.LT.lt (L := LX) (M := V)⟩
   exact (standardModel_unique' V s hZero hOne hAdd hMul hEq hLT).symm
 
 variable [Nonempty V]
 
-omit [ORingStructure V] [Structure.ORing LX V] in
+omit [ORingStructure V] [Tarski.Structure.ORing LX V] in
 /-- The arithmetic reduct of a `PA[X]`-model satisfies `PA⁻`: the `PA⁻` half of
 `paLX` is `Theory.lMap toLX 𝗣𝗔⁻`, and `Semiformula.models_lMap` strips the
 translation.  (Stated for the reduct itself, so neither `ORingStructure V` nor
-`Structure.ORing LX V` is used.) -/
+`Tarski.Structure.ORing LX V` is used.) -/
 lemma reduct_models_peanoMinus [V↓[LX] ⊧* paLX] :
     (sV.lMap toLX).toStruc ⊧* 𝗣𝗔⁻ := by
   refine ⟨?_⟩
@@ -141,7 +141,7 @@ lemma val_numeral [V↓[ℒₒᵣ] ⊧* 𝗣𝗔⁻] (n : ℕ) (f : ℕ → V) :
 
 /-- The induction axiom of `PA[X]` at an arbitrary formula of `LX`, read in a
 model whose arithmetic is genuine: `Idiom.paLX_induction` keeps the numerals as
-term values because an arbitrary `Structure LX M` carries no `Zero M`/`Add M`;
+term values because an arbitrary `Tarski.Structure LX M` carries no `Zero M`/`Add M`;
 here they reduce to `0` and `x + 1`. -/
 lemma induction_eval [V↓[LX] ⊧* paLX] (φ : Semiformula LX ℕ 1) (f : ℕ → V) :
     φ.Eval ![0] f →
@@ -195,26 +195,26 @@ end Arithmetic
 
 /-! ### Completeness in the shape this file needs -/
 
-/-- `Idiom.paLX_proves_of_models_eq` hands back a bare `Structure LX M`, which
-carries no Lean-level `0, +, <`.  Foundation's fix is `Structure.Model LX M`:
+/-- `Idiom.paLX_proves_of_models_eq` hands back a bare `Tarski.Structure LX M`, which
+carries no Lean-level `0, +, <`.  Foundation's fix is `Tarski.Structure.Model LX M`:
 an isomorphic copy on which the `LX`-operators *are* the Lean operations, so
-that `ORingStructure` and `Structure.ORing LX` are available.  Elementary
+that `ORingStructure` and `Tarski.Structure.ORing LX` are available.  Elementary
 equivalence transports the sentence back.
 
 The universe instantiation `.{0, 0}` is what makes `M : Type 0`, so that
-`Structure.Model LX M : Type 0` and no universe metavariable is left; the
+`Tarski.Structure.Model LX M : Type 0` and no universe metavariable is left; the
 packaged `Theory.Proof.complete_on_eq_models` cannot be used here for exactly
 that reason. -/
 theorem paLX_proves_of_models_ORing {σ : Sentence LX}
-    (h : ∀ (V : Type) [ORingStructure V] [Nonempty V] [Structure LX V]
-      [Structure.ORing LX V] [V↓[LX] ⊧* paLX], V↓[LX] ⊧ σ) :
+    (h : ∀ (V : Type) [ORingStructure V] [Nonempty V] [Tarski.Structure LX V]
+      [Tarski.Structure.ORing LX V] [V↓[LX] ⊧* paLX], V↓[LX] ⊧ σ) :
     paLX ⊢ σ := by
   apply Theory.Proof.complete.{0, 0}
   rw [consequence_iff_eq']
   intro M _ _ _ hM
-  have e : M ≡ₑ[LX] Structure.Model LX M := Structure.Model.elementaryEquiv LX M
-  have hV : (Structure.Model LX M)↓[LX] ⊧* paLX := e.modelsTheory.mp hM
-  exact e.models.mpr (h (Structure.Model LX M))
+  have e : M ≡ₑ[LX] Tarski.Structure.Model LX M := Tarski.Structure.Model.elementaryEquiv LX M
+  have hV : (Tarski.Structure.Model LX M)↓[LX] ⊧* paLX := e.modelsTheory.mp hM
+  exact e.models.mpr (h (Tarski.Structure.Model LX M))
 
 /-! ### The theorem -/
 

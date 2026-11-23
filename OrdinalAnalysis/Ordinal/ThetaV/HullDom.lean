@@ -4,10 +4,9 @@
    ported: `ThetaW/HullDom.lean`'s second half (from its own `/-! ### The merged per-level
    operators -/` section on: `tB`, `hA`, `t15`, `t05`, `not_dom_add_omegaPow_Hop`,
    `exists_mem_Hop_not_dom`, `not_Hop_zero_subset_Hop_one`, `not_Hop_one_subset_Hop_zero`,
-   `not_nice_zero_Hop_one`, `theta0_Omega99_*`). That section is the historical adjudication
+   `not_nice_zero_Hop_one`, `theta0_Omega99_*`). That section is the historical decision
    against `ThetaW/Hull.lean`'s rejected per-level design (`Hop`/`CsetT`/`HullHyp`/`Nice`), none of
-   which exists in `ThetaV` (the design notes
-   §1: `Hull`/`HullCofinal` "not copied") — there is nothing left for those theorems to be about.
+   which exists in `ThetaV` (`Hull`/`HullCofinal` are not copied) — there is nothing left for those theorems to be about.
    Only the first half (the domain lemma survives for the level-free operator) is ported. -/
 /-
   The domain lemma of the collapsing theorem, for the level-free operator of `HullSingle.lean`.

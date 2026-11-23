@@ -26,7 +26,7 @@ set_option maxHeartbeats 800000
 namespace OrdinalAnalysis.Gentzen.VeblenSuccStep
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -63,7 +63,7 @@ lemma iadd₁_term_one {p q : V} (hp : p ≠ 0) :
 
 /-- `Base(e)`: `e` is a normal code which is `0` or a single Veblen term `φ_p(q)` with
 `p ≠ 0`, i.e. `0` or an ε-number. -/
-def baseDef₁ : 𝚺₁.Semisentence 1 := .mkSigma
+def baseDef₁ : 𝚺ᴬ₁.Semisentence 1 := .mkSigma
   “e. !isNFb₁Def 1 e ∧ (e = 0 ∨ !fixIndicDef 1 e)”
 
 @[simp] theorem eval_baseDef₁ (e : V) :
@@ -126,7 +126,7 @@ theorem arithmetic_succGeneral : 𝗜𝚺₁ ⊢ arithmeticSuccGeneralStatement 
   rw [models_iff]
   simp [arithmeticSuccGeneralStatement, arithBaseAt, arithAddAt, arithPrecAt,
     eval_baseDef₁, eval_precDef₁, safeIadd₁_defined.iff,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   intro e s y
   have hone : ((gamma0Code 1 : ℕ) : M) = vcVadd 0 0 1 0 := modelCode_one
   have key :
@@ -146,8 +146,8 @@ theorem arithmetic_succGeneral : 𝗜𝚺₁ ⊢ arithmeticSuccGeneralStatement 
 /-- The `lMap` transport of the general successor step, for abstract `Σ₁` definitions of the
 guard (`β`), the addition graph (`α`) and the order (`π`), and an abstract numeral (`c`): the
 kernel never unfolds the concrete formulas. -/
-private lemma map_succGeneral_gen (β : 𝚺₁.Semisentence 1) (α : 𝚺₁.Semisentence 3)
-    (π : 𝚺₁.Semisentence 2) (c : ℕ) :
+private lemma map_succGeneral_gen (β : 𝚺ᴬ₁.Semisentence 1) (α : 𝚺ᴬ₁.Semisentence 3)
+    (π : 𝚺ᴬ₁.Semisentence 2) (c : ℕ) :
     Semiformula.lMap toLX
         (∀¹ ∀¹ ∀¹
           (∼(Rew.subst ![(#2 : Semiterm ℒₒᵣ ℕ 3)] ▹ Rewriting.emb β.val) ⋎
@@ -172,8 +172,8 @@ private lemma map_succGeneral_gen (β : 𝚺₁.Semisentence 1) (α : 𝚺₁.Se
     exact ⟨rfl, rfl⟩
 
 private lemma models_succGeneral_gen {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (β : 𝚺₁.Semisentence 1) (α : 𝚺₁.Semisentence 3)
-    (π : 𝚺₁.Semisentence 2) (c : ℕ) :
+    [sLX : Tarski.Structure LX M] (β : 𝚺ᴬ₁.Semisentence 1) (α : 𝚺ᴬ₁.Semisentence 3)
+    (π : 𝚺ᴬ₁.Semisentence 2) (c : ℕ) :
     M↓[LX] ⊧ ((∀¹ ∀¹ ∀¹
         (∼(formulaAt (liftCode β) (#2 : Semiterm LX ℕ 3)) ⋎
           (∼(addAt (liftCode α) #1 #2 (c : Semiterm LX ℕ 3)) ⋎
@@ -187,7 +187,7 @@ private lemma models_succGeneral_gen {M : Type*} [Nonempty M]
               (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), #1] ▹ Rewriting.emb π.val) ⋎
                 ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), #2] ▹ Rewriting.emb π.val) ⋎
                   (“#0 = #2” : Semiformula ℒₒᵣ ℕ 3)))))).univCl : ArithmeticSentence) := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [Semiformula.eval_univCl]
   rw [← map_succGeneral_gen]
@@ -210,7 +210,7 @@ private lemma map_succGeneral_body :
   map_succGeneral_gen baseDef₁ safeIadd₁Def precDef₁ (gamma0Code 1)
 
 lemma models_succGeneral_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ succGeneralStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticSuccGeneralStatement :=
   models_succGeneral_gen baseDef₁ safeIadd₁Def precDef₁ (gamma0Code 1)
@@ -225,8 +225,8 @@ theorem concrete_succ_general : paLX ⊢ succGeneralStatement := by
 
 /-! ## Semantic form, and the `closedTI₁` lifting -/
 
-theorem models_succGeneralStatement {M : Type*} [Nonempty M] [Structure LX M]
-    [Structure.Eq LX M] :
+theorem models_succGeneralStatement {M : Type*} [Nonempty M] [Tarski.Structure LX M]
+    [Tarski.Structure.Eq LX M] :
     M↓[LX] ⊧ succGeneralStatement ↔
       ∀ f : ℕ → M, ∀ e s y : M,
         baseCode₁.Eval ![e] f →

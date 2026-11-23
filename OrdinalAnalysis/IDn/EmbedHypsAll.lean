@@ -19,7 +19,7 @@
                                  `EmbedHypsPA.lean`'s header comment was written, which still
                                  calls it "not yet on disk").
   * `closure_axiom`             `IDn.closure_axiom` (`AxiomsIDCases/closure_derivable.lean`),
-                                 checked green today (`remote_build.sh` on that module alone
+                                 checked green today (compiling that module alone
                                  exits 0), at the same `wForms_levelBounded` for its own extra
                                  `FamilyLevelBounded A` hypothesis. Matches the field on the nose
                                  modulo that one extra hypothesis, exactly the `taut`/`eq_axiom`
@@ -28,7 +28,7 @@
 
   The seventh field, `indAx_axiom`, is **taken as an explicit hypothesis `hind`**: the shard
   meant to discharge it, `AxiomsIDCases/indBody_inst.lean`, is red today — checked with
-  `remote_build.sh` on that module alone, which surfaces genuine elaboration errors (`Unknown
+  compiling that module alone, which surfaces genuine elaboration errors (`Unknown
   identifier IDerivable`, type-class synthesis failures, application type mismatches at lines
   60–174), not stale-import noise: its `AxDerivable`/`IDerivable`/`OmegaTwo` resolve to
   `AxiomsIDCases/Defs.lean`'s *single-formula* (`A : Semisentence (LXIn n) 1`) ID₁-per-level
@@ -73,10 +73,10 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
-open LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDn.Upper
 
 variable {n : ℕ}

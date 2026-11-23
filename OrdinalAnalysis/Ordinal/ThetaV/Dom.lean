@@ -334,7 +334,7 @@ private theorem not_acc_of_desc {β : Type} {r : β → β → Prop} (f : ℕ �
 /-- Without the domain condition the order on normal terms is not well founded. -/
 theorem not_wellFoundedLT : ¬ WellFoundedLT ThetaVNote := by
   intro h
-  exact not_acc_of_desc descSeqW descSeqW_succ_lt (h.wf.apply (descSeqW 0)) 0 rfl
+  exact not_acc_of_desc descSeqW descSeqW_succ_lt (h.apply (descSeqW 0)) 0 rfl
 
 /-- The terms of the sequence leave the domain from the second term on. -/
 theorem not_dom_descSeqW (m : ℕ) : ¬ ThetaVTerm.Dom (descSeqW (m + 1)).1 :=

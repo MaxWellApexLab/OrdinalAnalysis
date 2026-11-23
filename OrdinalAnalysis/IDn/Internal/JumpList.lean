@@ -26,11 +26,13 @@ public import OrdinalAnalysis.IDn.Internal.OrderE
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ID1.Internal (bor band beq bor_eq_one band_eq_one beq_eq_one covVal
   covVal_unfold covValDef covVal_defined)
 
@@ -43,23 +45,23 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 /-- The value stored in a table `S` at `⟪x, y⟫`. -/
 noncomputable def rdPair (S x y : V) : V := znth S ⟪x, y⟫
 
-def rdPairDef : 𝚺₁.Semisentence 4 := .mkSigma
+def rdPairDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “r S x y. ∃ i, !pairDef i x y ∧ !znthDef r S i”
 
-instance rdPair_defined : 𝚺₁-Function₃ (rdPair : V → V → V → V) via rdPairDef := .mk fun v ↦ by
+instance rdPair_defined : 𝚺ᴬ₁-Function₃ (rdPair : V → V → V → V) via rdPairDef := .mk fun v ↦ by
   simp [rdPairDef, rdPair, pair_defined.iff, znth_defined.iff]
 
 /-- The concatenation of two lists, one step. -/
 noncomputable def appF (s t S : V) : V :=
   if kind s = 3 then tcCons (tcHd s) (rdPair S (tcTl s) t) else t
 
-def appFDef : 𝚺₁.Semisentence 4 := .mkSigma
+def appFDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “r s t S. ∃ ks, !kindDef ks s ∧
     ( (ks ≠ 3 ∧ r = t)
     ∨ (ks = 3 ∧ ∃ x, !tcHdDef x s ∧ ∃ u, !tcTlDef u s ∧ ∃ w, !rdPairDef w S u t ∧
         !tcConsDef r x w))”
 
-instance appF_defined : 𝚺₁-Function₃ (appF : V → V → V → V) via appFDef := .mk fun v ↦ by
+instance appF_defined : 𝚺ᴬ₁-Function₃ (appF : V → V → V → V) via appFDef := .mk fun v ↦ by
   simp [appFDef, appF, kind_defined.iff, tcHd_defined.iff, tcTl_defined.iff,
     rdPair_defined.iff, tcCons_defined.iff]
   by_cases h1 : kind (v 1) = 3 <;> simp [h1]
@@ -67,10 +69,10 @@ instance appF_defined : 𝚺₁-Function₃ (appF : V → V → V → V) via app
 /-- The step of the concatenation table at position `⟪s, t⟫`. -/
 noncomputable def appStep (i S : V) : V := appF (π₁ i) (π₂ i) S
 
-def appStepDef : 𝚺₁.Semisentence 3 := .mkSigma
+def appStepDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “r i S. ∃ s, !pi₁Def s i ∧ ∃ t, !pi₂Def t i ∧ !appFDef r s t S”
 
-instance appStep_defined : 𝚺₁-Function₂ (appStep : V → V → V) via appStepDef :=
+instance appStep_defined : 𝚺ᴬ₁-Function₂ (appStep : V → V → V) via appStepDef :=
   .mk fun v ↦ by simp [appStepDef, appStep, pi₁_defined.iff, pi₂_defined.iff,
     appF_defined.iff]
 
@@ -78,14 +80,14 @@ instance appStep_defined : 𝚺₁-Function₂ (appStep : V → V → V) via app
 as the empty list). -/
 noncomputable def iapp (s t : V) : V := covVal appStep appStepDef ⟪s, t⟫
 
-def iappDef : 𝚺₁.Semisentence 3 := .mkSigma
+def iappDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “r s t. ∃ i, !pairDef i s t ∧ !(covValDef appStepDef) r i”
 
-instance iapp_defined : 𝚺₁-Function₂ (iapp : V → V → V) via iappDef := .mk fun v ↦ by
+instance iapp_defined : 𝚺ᴬ₁-Function₂ (iapp : V → V → V) via iappDef := .mk fun v ↦ by
   simp [iappDef, iapp, pair_defined.iff, (covVal_defined appStep appStepDef).iff]
 
-instance iapp_definable : 𝚺₁-Function₂ (iapp : V → V → V) := iapp_defined.to_definable
-instance iapp_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₂ (iapp : V → V → V) :=
+instance iapp_definable : 𝚺ᴬ₁-Function₂ (iapp : V → V → V) := iapp_defined.to_definable
+instance iapp_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₂ (iapp : V → V → V) :=
   iapp_definable.of_sigmaOne
 
 lemma iapp_unfold (s t : V) :
@@ -114,7 +116,7 @@ lemma iapp_ne_zero {t : V} (s : V) (ht : t ≠ 0) : iapp s t ≠ 0 := by
 /-- `s ++ ⟨y⟩`: the list `s` with the exponent `y` appended at the end. -/
 noncomputable def isnocL (s y : V) : V := iapp s (tcCons y 0)
 
-instance isnocL_definable (Γ) (m : ℕ) : Γ-[m + 1]-Function₂ (isnocL : V → V → V) := by
+instance isnocL_definable (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₂ (isnocL : V → V → V) := by
   unfold isnocL; definability
 
 @[simp] lemma isnocL_zero (y : V) : isnocL 0 y = tcCons y 0 := by simp [isnocL]
@@ -170,13 +172,13 @@ lemma tcHd_iapp_cons (s z w w' : V) :
 one before. -/
 def isSL (s : V) : Prop := sumK s = 1 ∧ nfA s = 1 ∧ isDom s
 
-def isSLDef : 𝚺₁.Semisentence 1 := .mkSigma
+def isSLDef : 𝚺ᴬ₁.Semisentence 1 := .mkSigma
   “s. !sumKDef 1 s ∧ !nfADef 1 s ∧ !isDombDef 1 s”
 
-instance isSL_defined : 𝚺₁-Predicate (isSL : V → Prop) via isSLDef := .mk fun v ↦ by
+instance isSL_defined : 𝚺ᴬ₁-Predicate (isSL : V → Prop) via isSLDef := .mk fun v ↦ by
   simp [isSLDef, isSL, isDom, sumK_defined.iff, nfA_defined.iff, isDomb_defined.iff, eq_comm]
 
-instance isSL_definable (Γ) (m : ℕ) : Γ-[m + 1]-Predicate (isSL : V → Prop) := by
+instance isSL_definable (Γ) (m : ℕ) : Γᴬ_[m + 1]-Predicate (isSL : V → Prop) := by
   unfold isSL; definability
 
 lemma isSL_zero : isSL (0 : V) := ⟨sumK_zero, nfA_zero, isDom_at_zero⟩
@@ -326,17 +328,17 @@ lemma iltb_isnocL_cases {s y z : V} (hs : isSL s) (hz : isSL z)
 /-- The exponent list of a code: `⟨c⟩` for the principal codes, `c` itself otherwise. -/
 noncomputable def expList (c : V) : V := if kind c = 1 ∨ kind c = 2 then tcCons c 0 else c
 
-def expListDef : 𝚺₁.Semisentence 2 := .mkSigma
+def expListDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ k, !kindDef k c ∧ (((k = 1 ∨ k = 2) ∧ !tcConsDef y c 0) ∨ (k ≠ 1 ∧ k ≠ 2 ∧ y = c))”
 
-instance expList_defined : 𝚺₁-Function₁ (expList : V → V) via expListDef := .mk fun v ↦ by
+instance expList_defined : 𝚺ᴬ₁-Function₁ (expList : V → V) via expListDef := .mk fun v ↦ by
   simp [expListDef, expList, kind_defined.iff, tcCons_defined.iff]
   by_cases h : kind (v 1) = 1 ∨ kind (v 1) = 2
   · rw [if_pos h]; tauto
   · rw [if_neg h]; rw [not_or] at h; tauto
 
-instance expList_definable : 𝚺₁-Function₁ (expList : V → V) := expList_defined.to_definable
-instance expList_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (expList : V → V) :=
+instance expList_definable : 𝚺ᴬ₁-Function₁ (expList : V → V) := expList_defined.to_definable
+instance expList_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (expList : V → V) :=
   expList_definable.of_sigmaOne
 
 lemma expList_of_prin {c : V} (h : kind c = 1 ∨ kind c = 2) : expList c = tcCons c 0 := by

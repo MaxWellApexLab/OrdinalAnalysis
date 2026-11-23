@@ -20,11 +20,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Predicates plugged into an operator form -/
@@ -35,7 +35,7 @@ section Plug
 variable (P : Pred n)
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem rew_plugI_num (f : ℕ → ℕ) (G : Semiformula (LIinfN n) ℕ 1) (φ : Semiformula (LIinfN n) ℕ 1) :
     (numSubst₁ (n := n) f) ▹ plugI k (predOf G) φ =

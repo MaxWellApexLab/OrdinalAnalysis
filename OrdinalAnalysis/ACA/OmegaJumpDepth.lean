@@ -32,10 +32,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX XRel Xat toLX paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁)
 open OrdinalAnalysis.Gentzen.CodedVeblenJump (addCode₁ omegaPowCode₁)
@@ -57,7 +57,13 @@ theorem towerZero_lifted :
   have hfvEq : (“#0 = #1” : FirstOrder.Semiformula LX ℕ 2).freeVariables = ∅ := by
     rw [FirstOrder.Semiformula.Operator.eq_def, FirstOrder.Semiformula.freeVariables_rel]
     decide
-  rw [TowerSyntax.emb_univCl_of_closed (by simp [hfv, hfvEq])] at h
+  -- The closure statement is supplied explicitly: letting `rw` infer it from `h` leaves the kernel
+  -- to compare two differently-elaborated copies of the (large) coded formula (kernel memory, v4.35).
+  have e := TowerSyntax.emb_univCl_of_closed (χ := ∀¹ ∀¹
+    (∼(Gentzen.VeblenTower.towerAt Gentzen.VeblenTower.towerCode₁
+        (#0 : FirstOrder.Semiterm LX ℕ 2) ((0 : ℕ) : FirstOrder.Semiterm LX ℕ 2) #1) ⋎
+      (“#0 = #1” : FirstOrder.Semiformula LX ℕ 2))) (by simp [hfv, hfvEq])
+  rw [e] at h
   exact h
 
 theorem towerSucc_lifted :
@@ -82,7 +88,14 @@ theorem towerSucc_lifted :
   have hfv3 : FirstOrder.Semiformula.freeVariables (Gentzen.omegaPowAt omegaPowCode₁
       (#1 : FirstOrder.Semiterm LX ℕ 4) #0) = ∅ :=
     TowerSyntax.freeVariables_omegaPowAt (by simp) (by simp)
-  rw [TowerSyntax.emb_univCl_of_closed (by simp [hfv1, hfv2, hfv3])] at h
+  have e := TowerSyntax.emb_univCl_of_closed (χ := ∀¹ ∀¹ ∀¹
+    (∼(Gentzen.VeblenTower.towerAt Gentzen.VeblenTower.towerCode₁
+        (#0 : FirstOrder.Semiterm LX ℕ 3) (‘(#1 + 1)’ : FirstOrder.Semiterm LX ℕ 3) #2) ⋎
+      (∃¹ (Gentzen.VeblenTower.towerAt Gentzen.VeblenTower.towerCode₁
+          (#0 : FirstOrder.Semiterm LX ℕ 4) #2 #3 ⋏
+        Gentzen.omegaPowAt omegaPowCode₁ (#1 : FirstOrder.Semiterm LX ℕ 4) #0))))
+    (by simp [hfv1, hfv2, hfv3])
+  rw [e] at h
   exact h
 
 end OrdinalAnalysis.ACA

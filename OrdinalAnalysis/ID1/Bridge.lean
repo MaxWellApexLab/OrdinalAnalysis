@@ -25,7 +25,7 @@ namespace InductiveDef
 
 namespace WellOrdering
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.ID1.Internal
 open ThetaNote (omegaTower)
 

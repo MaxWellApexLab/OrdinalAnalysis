@@ -205,7 +205,7 @@ end CollapsingLevel
 Not consumed by anything in this file or by `ThetaInstance.lean`; kept only because the bare
 structure (no instance) compiles with no `sorry`.  Buchholz's Theorem 4.8 moves along these
 cross-level facts (`κ := π`, `μ' ≺ μ`).  Not an ID₁ concept — `ThetaNote` has a single level, so
-there is no `CollapsingTower ThetaNote` instance; `ThetaWNoteD`'s instance is N1/C4 work and is
+there is no `CollapsingTower ThetaNote` instance; `ThetaWNoteD`'s instance is separate work and is
 not attempted here (it needs the hull fields of `ThetaWHullFacts`, `ThetaWInstance.lean`, plus two
 more facts that are not yet proved anywhere). -/
 structure CollapsingTower (O : Type) [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O]

@@ -35,9 +35,9 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA
 open OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedVeblen (precN₁ precN₁_code_iff)
@@ -95,7 +95,7 @@ theorem freeVariables_precSegVeb₀ (a b : Gamma0Note) :
     refine Fin.forall_fin_two.mpr ⟨by simp, ?_⟩
     simp only [FirstOrder.Rew.subst_bvar, Matrix.cons_val_one, Matrix.cons_val_fin_one]
     simp [numAt]
-  simp [precSegVeb₀, h]
+  exact freeVariables_and_empty freeVariables_precFO₁ h
 
 /-- `m ≺ₐ,ᵦ' n`: `m ≺₁ n` and `n ≺₁ (code of φ_a(b))`. -/
 def precNSegVeb (a b : Gamma0Note) (m n : ℕ) : Prop :=
@@ -165,7 +165,7 @@ def vebSegOrder₂ (a b : Gamma0Note) (ha : 0 < a) : CodedOrder₂ (VeblenBelow 
     (vebSegOrder₂ a b ha).precN = precNSegVeb a b := rfl
 
 /-- **`TI₂(≺₁, X)` has no cut-free `ACA_∞`-derivation at any height below `φ_a(b)`, for
-`0 < a`.**  The `Γ₀` boundedness lemma at the segment `φ_a(0)` mentioned in the design notes
+`0 < a`.**  The `Γ₀` boundedness lemma at the segment `φ_a(0)` mentioned in the plan
 is the case `b := 0`. -/
 theorem not_derivable_TI₂_vebSeg (a b : Gamma0Note) (ha : 0 < a)
     [OrdinalNotation (VeblenBelow a b)] (α : VeblenBelow a b) :

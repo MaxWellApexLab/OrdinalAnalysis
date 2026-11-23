@@ -1,7 +1,7 @@
 /-
   The language of ramified analysis, design **D2** of `gamma0_design.md` §4 G2.
 
-  The decisive finding of that design note (§2) is that *levels must be in the
+  The decisive finding is that *levels must be in the
   syntax*: no monotone function of a structural depth can serve as a level,
   because substitution adds depths while ramification needs a tag that
   substitution does not move.  D1 puts the tag on second-order quantifiers and
@@ -56,7 +56,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Levels
 
@@ -264,7 +264,7 @@ set_option warn.classDefReducibility false in
 /-- A throwaway reading of the fresh symbols.  `RALang` has no function symbols,
 so only `rel` has to be decided, and the choice is irrelevant: the numerals are
 `X`- and `∈̇`-free, so their values do not see it. -/
-def raStrucAux : Structure RALang ℕ where
+def raStrucAux : Tarski.Structure RALang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
@@ -272,7 +272,7 @@ set_option warn.classDefReducibility false in
 /-- Arithmetic standard, the fresh symbols read arbitrarily.  Deliberately *not*
 an instance: the standard model of `LRA` belongs with the atomic axioms, not
 here. -/
-def stdAux : Structure LRA ℕ := Structure.add ℒₒᵣ RALang ℕ (str₂ := raStrucAux)
+def stdAux : Tarski.Structure LRA ℕ := Tarski.Structure.add ℒₒᵣ RALang ℕ (str₂ := raStrucAux)
 
 private theorem val_num_aux (k : ℕ) :
     Semiterm.val (s := stdAux) ![] (fun _ => 0) (num k) = k := by
@@ -281,7 +281,7 @@ private theorem val_num_aux (k : ℕ) :
   have key : Semiterm.val (s := stdAux) ![] (fun _ : ℕ => (0 : ℕ))
       (Semiterm.lMap toLRA ((k : ℕ) : Semiterm ℒₒᵣ ℕ 0))
       = Semiterm.val (M := ℕ) ![] (fun _ => 0) ((k : ℕ) : Semiterm ℒₒᵣ ℕ 0) :=
-    Structure.val_lMap_add₁ (str₂ := raStrucAux) _ _ _
+    Tarski.Structure.val_lMap_add₁ (str₂ := raStrucAux) _ _ _
   rw [h, key]
   simp
 

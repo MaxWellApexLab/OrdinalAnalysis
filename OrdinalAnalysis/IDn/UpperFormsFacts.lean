@@ -28,7 +28,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-- **Every form of `WFormsOmega F` is positive in its own predicate.** Same instantiation
 (`ix := id`) as `idlt_wForms_consistent`'s inline use of `positiveIn_wForm`. -/

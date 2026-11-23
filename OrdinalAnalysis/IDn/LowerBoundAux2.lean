@@ -24,11 +24,12 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.LowerBoundAux
 public import OrdinalAnalysis.IDn.StageSemantics
 public import OrdinalAnalysis.IDn.UpperBound
 public import OrdinalAnalysis.IDn.Internal.OrderBridge
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -38,7 +39,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDn.Upper
 open OrdinalAnalysis.IDn.Internal (code)
 
@@ -231,10 +232,10 @@ section Provable
 
 /-- A sentence provable in `IDn n A` is true in every structure satisfying its axioms. -/
 theorem eval_of_provable_of_axiomsN {A : Fin n → Semisentence (LXIn n) 1} {M : Type}
-    [Nonempty M] (s : Structure (LXIn n) M)
+    [Nonempty M] (s : Tarski.Structure (LXIn n) M)
     (hM : ∀ σ ∈ IDn n A, Semiformula.Eval (s := s) ![] Empty.elim σ) {σ : Sentence (LXIn n)}
     (h : IDn n A ⊢ σ) : Semiformula.Eval (s := s) ![] Empty.elim σ := by
-  let _ : Structure (LXIn n) M := s
+  let _ : Tarski.Structure (LXIn n) M := s
   have hT : M↓[LXIn n] ⊧* IDn n A :=
     Semantics.modelsSet_iff.mpr fun τ hτ => models_iff.mpr (hM τ hτ)
   exact models_iff.mp (models_of_provable hT h)

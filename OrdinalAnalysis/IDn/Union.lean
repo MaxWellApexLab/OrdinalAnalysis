@@ -54,7 +54,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The embeddings -/
 
@@ -226,11 +226,11 @@ theorem lMap_embedSucc_embedOmega (n : ℕ) {ξ : Type*} {m : ℕ} (φ : Semifor
 
 section Expand
 
-variable {M : Type*} (n : ℕ) (N : Structure (LXIn n) M) (E : ℕ → Set M)
+variable {M : Type*} (n : ℕ) (N : Tarski.Structure (LXIn n) M) (E : ℕ → Set M)
 
 /-- The fresh predicates of the expanded structure: copy `N` below `n`, use `E` at and
 above `n`. -/
-@[instance_reducible] def expandIx : Structure (IXLangN ℕ) M where
+@[instance_reducible] def expandIx : Tarski.Structure (IXLangN ℕ) M where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | IXRelN.X => N.rel (Sum.inr IXRelN.X) v
@@ -238,8 +238,8 @@ above `n`. -/
 
 /-- **The expanded `LXIomega`-structure**: arithmetic exactly as in `N`, `X` and the
 levels `< n` exactly as in `N`, the levels `≥ n` read by `E`. -/
-@[instance_reducible] def expandStruc : Structure LXIomega M :=
-  Structure.add ℒₒᵣ (IXLangN ℕ) M (str₁ := N.lMap (toLXIN (Fin n))) (str₂ := expandIx n N E)
+@[instance_reducible] def expandStruc : Tarski.Structure LXIomega M :=
+  Tarski.Structure.add ℒₒᵣ (IXLangN ℕ) M (str₁ := N.lMap (toLXIN (Fin n))) (str₂ := expandIx n N E)
 
 /-- **Term values translate correctly into the expansion**: a term of `N` evaluates the
 same way after translation into the expanded structure, for any reading `E`. -/
@@ -360,8 +360,8 @@ theorem eval_expandStruc {ξ : Type*} {m : ℕ} (e : Fin m → M) (f : ξ → M)
 theorem models_expand [Nonempty M] (A : Fin n → Semisentence (LXIn n) 1)
     (hN : letI := N; M↓[LXIn n] ⊧* IDn n A) :
     letI := expandStruc n N E; M↓[LXIomega] ⊧* Theory.lMap (embedOmega n) (IDn n A) := by
-  let _ : Structure (LXIn n) M := N
-  let _ : Structure LXIomega M := expandStruc n N E
+  let _ : Tarski.Structure (LXIn n) M := N
+  let _ : Tarski.Structure LXIomega M := expandStruc n N E
   refine Semantics.modelsSet_iff.mpr fun σ hσ => ?_
   obtain ⟨σ', hσ', rfl⟩ := hσ
   refine models_iff.mpr ?_

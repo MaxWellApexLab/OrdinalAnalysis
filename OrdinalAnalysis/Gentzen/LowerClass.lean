@@ -40,7 +40,7 @@
     but in this namespace and under these names, so nothing moved as far as any
     other file is concerned.
 
-  * **Head clashes are decided by a numeric tag.**  the pitfall notes: `⋏`, `⋎`,
+  * **Head clashes are decided by a numeric tag.**  the pitfalls: `⋏`, `⋎`,
     `∀¹`, `∃¹` are `LogicalConnective`/`Quantifier` *notation*, not
     constructors, so `injection` and `noConfusion` cannot be pointed at an
     equation between two of them.  `head : Semiformula LX ℕ n → ℕ` tags the
@@ -60,14 +60,15 @@
     Sum.inl r`, even after ascribing the type to a literal `⊕`: the universe
     metavariable of `noConfusion` is never solved.  `simp at h` does work — the
     `reduceCtorEq` simproc sees the constructors.
-  * `Structure XLang ℕ` must *not* become an instance: `Gentzen/StandardLX.lean`
+  * `Tarski.Structure XLang ℕ` must *not* become an instance: `Gentzen/StandardLX.lean`
     owns the standard model of `LX`.  The one place a model is needed here —
-    numerals are injective — uses a `private def` of type `Structure LX ℕ`
+    numerals are injective — uses a `private def` of type `Tarski.Structure LX ℕ`
     passed explicitly as `(str₂ := …)`, so nothing is registered.
 -/
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.CodedOrder
 public import OrdinalAnalysis.Gentzen.Code
 public import OrdinalAnalysis.Omega.Calculus
@@ -78,7 +79,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.LowerClass
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.LowerSyntax
@@ -188,7 +189,7 @@ def head {n : ℕ} : Semiformula LX ℕ n → ℕ
 /-! ### Numerals are injective
 
 `Semiterm.numeral` has no syntactic injectivity lemma in Foundation and the only
-cheap proof is semantic.  `Structure.add` (Foundation/FirstOrder/Basic/
+cheap proof is semantic.  `Tarski.Structure.add` (Foundation/FirstOrder/Basic/
 Model.lean:92) is an *instance*, so the `XLang` summand is supplied explicitly
 as `(str₂ := xStrucAux)` and nothing is registered: the standard model of `LX`
 belongs to `Gentzen/StandardLX.lean`, not here. -/
@@ -196,13 +197,13 @@ belongs to `Gentzen/StandardLX.lean`, not here. -/
 set_option warn.classDefReducibility false in
 /-- A throwaway reading of the fresh predicate.  `XLang` has no function
 symbols, so only `rel` has to be decided, and the choice is irrelevant. -/
-def xStrucAux : Structure XLang ℕ where
+def xStrucAux : Tarski.Structure XLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
 set_option warn.classDefReducibility false in
 /-- Arithmetic standard, `X` empty.  Deliberately *not* an instance. -/
-def stdAux : Structure LX ℕ := Structure.add ℒₒᵣ XLang ℕ (str₂ := xStrucAux)
+def stdAux : Tarski.Structure LX ℕ := Tarski.Structure.add ℒₒᵣ XLang ℕ (str₂ := xStrucAux)
 
 private theorem val_numLX_aux (k : ℕ) :
     Semiterm.val (s := stdAux) ![] (fun _ => 0) (numLX k) = k := by
@@ -211,7 +212,7 @@ private theorem val_numLX_aux (k : ℕ) :
   have key : Semiterm.val (s := stdAux) ![] (fun _ : ℕ => (0 : ℕ))
       (Semiterm.lMap toLX ((k : ℕ) : Semiterm ℒₒᵣ ℕ 0))
       = Semiterm.val (M := ℕ) ![] (fun _ => 0) ((k : ℕ) : Semiterm ℒₒᵣ ℕ 0) :=
-    Structure.val_lMap_add₁ (str₂ := xStrucAux) _ _ _
+    Tarski.Structure.val_lMap_add₁ (str₂ := xStrucAux) _ _ _
   rw [h, key]
   simp
 

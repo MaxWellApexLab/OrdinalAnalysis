@@ -12,6 +12,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.EvInst
 
 @[expose] public section
@@ -20,7 +21,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.CutAxioms
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.StandardLX (trueArithLits)
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.EvInst

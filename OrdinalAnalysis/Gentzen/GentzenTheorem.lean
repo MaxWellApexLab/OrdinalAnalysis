@@ -27,7 +27,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 open OrdinalAnalysis.Gentzen.UpperBound OrdinalAnalysis.Gentzen.OmegaTower
 open OrdinalAnalysis.Gentzen.NotationBridge OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.Order OrdinalAnalysis.Gentzen.InternalONote

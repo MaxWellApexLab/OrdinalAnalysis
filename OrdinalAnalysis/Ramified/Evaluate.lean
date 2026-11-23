@@ -8,7 +8,7 @@
   `t ∈̇_ν s` is an ordinary binary relation atom whose two arguments happen to be
   numbers, and `evR` evaluates both of them exactly as it evaluates the two
   arguments of `t = s`.  That is the whole of what D2's new atom kinds cost here,
-  and it is the reason the design note's `{Evaluate,NumSubst,Embed}` row is a
+  and it is the reason the `{Evaluate,NumSubst,Embed}` row is a
   *port* rather than new mathematics; the second-order design D1 would instead
   have had to evaluate underneath a set variable.
 
@@ -16,7 +16,7 @@
 
   * The value of a term is taken in a standard model of `LRA`.  Which reading of
     the fresh symbols is irrelevant, and the file says so by being parametric:
-    every statement is over `raStd s₂` for an arbitrary `Structure RALang ℕ`.
+    every statement is over `raStd s₂` for an arbitrary `Tarski.Structure RALang ℕ`.
     `Ramified/Literals.lean`'s `stdLRA` is `raStd raStruc` on the nose, and
     `stdR P M` — `X ↦ P`, `∈̇_ν ↦ M ν` — is the family the boundedness port will
     want, supplied here because `Language.lean` has none.
@@ -60,7 +60,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The term evaluator -/
 
@@ -131,7 +131,7 @@ theorem groundR_evTR {n : ℕ} {t : Semiterm LRA ℕ n} (h : GroundR t) : Ground
         exact congrArg (Semiterm.func f) (funext fun i => ih i)
 
 /-- **`evTR` does not change what a term denotes**, under every environment. -/
-theorem val_evTR (s₂ : Structure RALang ℕ) {n : ℕ} (t : Semiterm LRA ℕ n) (e : Fin n → ℕ)
+theorem val_evTR (s₂ : Tarski.Structure RALang ℕ) {n : ℕ} (t : Semiterm LRA ℕ n) (e : Fin n → ℕ)
     (f : ℕ → ℕ) :
     Semiterm.val (s := raStd s₂) e f (evTR t) = Semiterm.val (s := raStd s₂) e f t := by
   induction t with
@@ -367,7 +367,7 @@ numeral of its value cannot change the value of an atom — and a set atom is an
 atom like any other. -/
 
 /-- **`evR` preserves truth in every standard model of `LRA`.** -/
-theorem eval_evR (s₂ : Structure RALang ℕ) (f : ℕ → ℕ) :
+theorem eval_evR (s₂ : Tarski.Structure RALang ℕ) (f : ℕ → ℕ) :
     ∀ {n : ℕ} (φ : Semiformula LRA ℕ n) (e : Fin n → ℕ),
       (Semiformula.Eval (s := raStd s₂) e f (evR φ)
         ↔ Semiformula.Eval (s := raStd s₂) e f φ) := by
@@ -398,7 +398,7 @@ theorem eval_evR (s₂ : Structure RALang ℕ) (f : ℕ → ℕ) :
       exact exists_congr fun x => ih (x :> e)
 
 /-- The form the ω-completeness lemma uses. -/
-theorem eval_evR_zero (s₂ : Structure RALang ℕ) (f : ℕ → ℕ) (φ : Proposition LRA) :
+theorem eval_evR_zero (s₂ : Tarski.Structure RALang ℕ) (f : ℕ → ℕ) (φ : Proposition LRA) :
     Semiformula.Eval (s := raStd s₂) ![] f (evR φ)
       ↔ Semiformula.Eval (s := raStd s₂) ![] f φ :=
   eval_evR s₂ f φ ![]
@@ -412,7 +412,7 @@ theorem eval_evR_stdR (P : ℕ → Prop) (M : Lv → ℕ → ℕ → Prop) (f : 
 
 /-! ### Congruence: normalising before a rewriting does not change the result -/
 
-theorem val_rew_evTR (s₂ : Structure RALang ℕ) {n₁ n₂ : ℕ} (ω : Rew LRA ℕ n₁ ℕ n₂)
+theorem val_rew_evTR (s₂ : Tarski.Structure RALang ℕ) {n₁ n₂ : ℕ} (ω : Rew LRA ℕ n₁ ℕ n₂)
     (t : Semiterm LRA ℕ n₁) (e : Fin n₂ → ℕ) (f : ℕ → ℕ) :
     Semiterm.val (s := raStd s₂) e f (ω (evTR t))
       = Semiterm.val (s := raStd s₂) e f (ω t) := by
@@ -495,7 +495,7 @@ theorem evR_rew_evR {n₁ : ℕ} :
 
 /-! ### Value dependence -/
 
-theorem val_congr_of_evTR (s₂ : Structure RALang ℕ) {n : ℕ} {t u : Semiterm LRA ℕ n}
+theorem val_congr_of_evTR (s₂ : Tarski.Structure RALang ℕ) {n : ℕ} {t u : Semiterm LRA ℕ n}
     (h : evTR t = evTR u) (e : Fin n → ℕ) (f : ℕ → ℕ) :
     Semiterm.val (s := raStd s₂) e f t = Semiterm.val (s := raStd s₂) e f u := by
   rw [← val_evTR s₂ t e f, ← val_evTR s₂ u e f, h]
@@ -622,7 +622,7 @@ theorem evR_subst_key {t : SyntacticTerm LRA} (ht : GroundR t) (φ : Semiproposi
 
 /-- Substituting a ground term and substituting the numeral of its value give
 formulas true together — for *every* `φ`. -/
-theorem eval_subst_ground (s₂ : Structure RALang ℕ) (f : ℕ → ℕ) {n : ℕ}
+theorem eval_subst_ground (s₂ : Tarski.Structure RALang ℕ) (f : ℕ → ℕ) {n : ℕ}
     (φ : Semiformula LRA ℕ 1) (e : Fin n → ℕ) {t : Semiterm LRA ℕ n} (ht : GroundR t) :
     (Semiformula.Eval (s := raStd s₂) e f (φ/[t])
       ↔ Semiformula.Eval (s := raStd s₂) e f (φ/[numAtR (evTermR t)])) := by

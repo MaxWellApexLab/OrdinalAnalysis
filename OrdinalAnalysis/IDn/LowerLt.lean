@@ -40,7 +40,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 open OrdinalAnalysis.IDn.Upper
 
 variable {n : ℕ}

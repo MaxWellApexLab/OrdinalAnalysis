@@ -63,6 +63,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.Rank
 public import OrdinalAnalysis.Ordinal.Theta.Hull
 
@@ -74,20 +75,20 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The true literals of arithmetic -/
 
 /-- The fresh symbols read as empty; only the arithmetic part matters for the literals
 below. -/
 @[instance_reducible]
-def iinfFalse : Structure IInfLang ℕ where
+def iinfFalse : Tarski.Structure IInfLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
 /-- The standard structure: arithmetic standard, `X` and every stage empty. -/
 @[instance_reducible]
-def stdInf : Structure LIinf ℕ := Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfFalse)
+def stdInf : Tarski.Structure LIinf ℕ := Tarski.Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfFalse)
 
 /-- Truth of a formula in `stdInf` under the zero assignment; for closed formulas of
 arithmetic this is truth in `ℕ`. -/

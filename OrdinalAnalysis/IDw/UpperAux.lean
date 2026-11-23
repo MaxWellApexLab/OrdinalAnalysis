@@ -33,11 +33,13 @@ public import OrdinalAnalysis.Ordinal.ThetaV.Dom
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 
 /-- **The internal facts about the order used by the well-ordering proof**, for predicates
@@ -107,21 +109,21 @@ structure OrderAxioms (V : Type) [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜�
 `NF` and `Dom`. -/
 structure OrderFormulas where
   /-- `x ≺ y`, slot `0` the smaller element. -/
-  ltDef : 𝚺₁.Semisentence 2
-  nfDef : 𝚺₁.Semisentence 1
-  domDef : 𝚺₁.Semisentence 1
+  ltDef : 𝚺ᴬ₁.Semisentence 2
+  nfDef : 𝚺ᴬ₁.Semisentence 1
+  domDef : 𝚺ᴬ₁.Semisentence 1
 
 /-- **The hypothesis structure**: `Σ₁` definitions of the internal order `≺`, of `NF`, `Dom`,
 of the descending lists and of list concatenation, satisfying `OrderAxioms` in every model of
 `IΣ₁`. -/
 structure InternalOrderFacts extends OrderFormulas where
   /-- Descending lists of normal domain codes. -/
-  slDef : 𝚺₁.Semisentence 1
+  slDef : 𝚺ᴬ₁.Semisentence 1
   /-- Concatenation of sum codes. -/
   app : ∀ {V : Type} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁], V → V → V
-  appDef : 𝚺₁.Semisentence 3
+  appDef : 𝚺ᴬ₁.Semisentence 3
   app_defined : ∀ {V : Type} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁],
-    𝚺₁-Function₂ (app : V → V → V) via appDef
+    𝚺ᴬ₁-Function₂ (app : V → V → V) via appDef
   axioms : ∀ (V : Type) [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁],
     OrderAxioms V (fun x y => ltDef.val.Evalb ![x, y]) (fun x => nfDef.val.Evalb ![x])
       (fun x => domDef.val.Evalb ![x]) (fun x => slDef.val.Evalb ![x]) app
@@ -145,23 +147,23 @@ def fld (x : V) : Prop := F.nf x ∧ F.dom x
 /-- `x ≼ y`. -/
 def le (x y : V) : Prop := F.lt x y ∨ x = y
 
-instance lt_defined : 𝚺₁-Relation (F.lt : V → V → Prop) via F.ltDef :=
+instance lt_defined : 𝚺ᴬ₁-Relation (F.lt : V → V → Prop) via F.ltDef :=
   .mk fun v => by simp only [lt]; rw [← Matrix.fun_eq_vec_two]
 
-instance nf_defined : 𝚺₁-Predicate (F.nf : V → Prop) via F.nfDef :=
+instance nf_defined : 𝚺ᴬ₁-Predicate (F.nf : V → Prop) via F.nfDef :=
   .mk fun v => by simp only [nf]; rw [← Matrix.fun_eq_vec_one]
 
-instance dom_defined : 𝚺₁-Predicate (F.dom : V → Prop) via F.domDef :=
+instance dom_defined : 𝚺ᴬ₁-Predicate (F.dom : V → Prop) via F.domDef :=
   .mk fun v => by simp only [dom]; rw [← Matrix.fun_eq_vec_one]
 
-instance lt_definable : 𝚺₁-Relation (F.lt : V → V → Prop) := (lt_defined F).to_definable
-instance nf_definable : 𝚺₁-Predicate (F.nf : V → Prop) := (nf_defined F).to_definable
-instance dom_definable : 𝚺₁-Predicate (F.dom : V → Prop) := (dom_defined F).to_definable
+instance lt_definable : 𝚺ᴬ₁-Relation (F.lt : V → V → Prop) := (lt_defined F).to_definable
+instance nf_definable : 𝚺ᴬ₁-Predicate (F.nf : V → Prop) := (nf_defined F).to_definable
+instance dom_definable : 𝚺ᴬ₁-Predicate (F.dom : V → Prop) := (dom_defined F).to_definable
 
-instance fld_definable : 𝚺₁-Predicate (F.fld : V → Prop) := by
+instance fld_definable : 𝚺ᴬ₁-Predicate (F.fld : V → Prop) := by
   unfold fld; definability
 
-instance le_definable : 𝚺₁-Relation (F.le : V → V → Prop) := by
+instance le_definable : 𝚺ᴬ₁-Relation (F.le : V → V → Prop) := by
   unfold le; definability
 
 end OrderFormulas
@@ -175,17 +177,17 @@ variable (hJ : InternalOrderFacts) {V : Type} [ORingStructure V]
 /-- `x` is a descending list of normal domain codes. -/
 def sl (x : V) : Prop := hJ.slDef.val.Evalb ![x]
 
-instance sl_defined : 𝚺₁-Predicate (hJ.sl : V → Prop) via hJ.slDef :=
+instance sl_defined : 𝚺ᴬ₁-Predicate (hJ.sl : V → Prop) via hJ.slDef :=
   .mk fun v => by simp only [sl]; rw [← Matrix.fun_eq_vec_one]
 
-instance sl_definable : 𝚺₁-Predicate (hJ.sl : V → Prop) := (sl_defined hJ).to_definable
+instance sl_definable : 𝚺ᴬ₁-Predicate (hJ.sl : V → Prop) := (sl_defined hJ).to_definable
 
 variable [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
-instance app_defined' : 𝚺₁-Function₂ (hJ.app : V → V → V) via hJ.appDef := hJ.app_defined
+instance app_defined' : 𝚺ᴬ₁-Function₂ (hJ.app : V → V → V) via hJ.appDef := hJ.app_defined
 
-instance app_definable : 𝚺₁-Function₂ (hJ.app : V → V → V) := (app_defined' hJ).to_definable
-instance app_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₂ (hJ.app : V → V → V) :=
+instance app_definable : 𝚺ᴬ₁-Function₂ (hJ.app : V → V → V) := (app_defined' hJ).to_definable
+instance app_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₂ (hJ.app : V → V → V) :=
   (app_definable hJ).of_sigmaOne
 
 /-- The axioms in `V`, for the predicates defined by the formulas. -/

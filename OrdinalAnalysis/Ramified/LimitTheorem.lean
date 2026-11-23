@@ -8,7 +8,7 @@
   limit of the finite iteration of `φ_1` starting at `ε₀`.
 
   **Lower half** (`ramified_lower_bound_univ`).  A hypothetical `RAlt ω`-proof of
-  `TI(≺_{φ_2(0)}, X)` unpacks, by `Theory.Proof.provable_iff`, into a raw `LK`
+  `TI(≺_{φ_2(0)}, X)` unpacks, by `Theory.Proof.provable_iff_list`, into a raw `LK`
   derivation together with a *finite* list of axioms of `RAlt ω`.  Every such
   axiom has a finite level, so the list has a common finite level bound `ν`, and
   an axiom of level `≤ ν` already satisfies the level guard of `RAlt (ν+1)`
@@ -38,6 +38,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
 public import OrdinalAnalysis.Ramified.UpperBound
 
 @[expose] public section
@@ -55,7 +56,7 @@ open OrdinalAnalysis.Ramified.OmegaDerivableR (veblenIter veblenIter_zero)
 /-! ### `φ_2(0)`, restated for the ramified calculus
 
 This section is entirely about `Gamma0Note`/`Ordinal` arithmetic, and deliberately
-does *not* open `LO`/`LO.FirstOrder`/`LO.FirstOrder.Arithmetic` (done further down,
+does *not* open `FFL`/`FFL.FirstOrder`/`FFL.FirstOrder.Arithmetic` (done further down,
 just before the model-theoretic sections that need them): opening those together
 with mathlib's ordinal fixed-point API confuses instance search for `Ordinal`'s
 order structure.
@@ -110,7 +111,7 @@ theorem veblenIter_one_le_succ (n : ℕ) (x : Gamma0Note) :
   rw [veblenIter_succ']
   exact Gamma0Note.le_veblenNote_right 1 _
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
 
 /-! ### The finite levels
@@ -191,7 +192,7 @@ directly, the outer bound `b` is free. -/
 
 section Model
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν : ℕ}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν : ℕ}
 
 /-- **The upper bound in a model, at an arbitrary outer segment `b`.**  Verbatim
 `upper_M`, with the outer bound generalised from `veblenIter 1 ν (epsilonNote 0)`

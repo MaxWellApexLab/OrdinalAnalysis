@@ -52,7 +52,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁)
 open OrdinalAnalysis.Gentzen.InternalVNoteJump (safeIadd₁Def)
 open OrdinalAnalysis.Gentzen.VeblenSuccStep (baseDef₁)
@@ -70,7 +70,7 @@ theorem shape_copyBody {κ μ : Lv} (h : κ < μ) : Shape μ (copyBody κ) :=
 theorem lvlOf_copyBody (κ : Lv) : lvlOf (copyBody κ) = κ := by
   rw [copyBody, lvlOf_memAt]
 
-theorem eval_copyBody {M : Type} [s : Structure LRA M] (κ : Lv) (x z : M) :
+theorem eval_copyBody {M : Type} [s : Tarski.Structure LRA M] (κ : Lv) (x z : M) :
     Semiformula.Eval (s := s) ![x] (fun _ => z) (copyBody κ) ↔ memM κ x z := by
   rw [copyBody, eval_memAt]
   rfl
@@ -99,7 +99,7 @@ theorem good_codeP {μ : Lv} {A : Semiformula LRA ℕ 1} (h0 : 0 < μ) (hA : Sha
     Good (codeP μ A p) :=
   good_mkCode h0 hA (Nat.lt_succ_self _)
 
-theorem eval_body_codeP {M : Type*} [s : Structure LRA M] (μ : Lv) (A : Semiformula LRA ℕ 1)
+theorem eval_body_codeP {M : Type*} [s : Tarski.Structure LRA M] (μ : Lv) (A : Semiformula LRA ℕ 1)
     (p : ℕ) (x : M) (f : ℕ → M) :
     Semiformula.Eval (s := s) ![x] f (body (codeP μ A p))
       ↔ Semiformula.Eval (s := s) ![x] (fun _ => numVal M p) A := by
@@ -189,9 +189,9 @@ theorem copy_naming_provable {ν μ κ : Lv} (hκ : κ < μ) (hμ : μ < ν) (p 
 
 section Model
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν μ κ : Lv}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν μ κ : Lv}
 
-omit [Structure.Eq LRA M] in
+omit [Tarski.Structure.Eq LRA M] in
 /-- **The copy lemma in a model.** -/
 theorem copyM (hM : M↓[LRA] ⊧* RAlt ν) (hκ : κ < μ) (hμ : μ < ν) (z : M) :
     ∃ w : M, ∀ x : M, memM μ x w ↔ memM κ x z := by
@@ -199,7 +199,7 @@ theorem copyM (hM : M↓[LRA] ⊧* RAlt ν) (hκ : κ < μ) (hμ : μ < ν) (z :
     (shape_copyBody hκ) z
   exact ⟨w, fun x => (hw x).trans (eval_copyBody κ x z)⟩
 
-omit [Structure.Eq LRA M] in
+omit [Tarski.Structure.Eq LRA M] in
 /-- **`TI_μ(a) → TI_κ(a)`** in a model, for `κ < μ < ν`. -/
 theorem TImu_copy (hM : M↓[LRA] ⊧* RAlt ν) (hκ : κ < μ) (hμ : μ < ν) {a : M}
     (h : TImu μ a) : TImu κ a := by
@@ -212,7 +212,7 @@ theorem TImu_down (hM : M↓[LRA] ⊧* RAlt ν) (hν : 1 ≤ ν) {a x : M} (hx :
     (h : TImu κ a) : TImu κ x :=
   fun z hprog y hy => h z hprog y (precM_trans hM hν hy hx)
 
-omit [Structure.Eq LRA M] in
+omit [Tarski.Structure.Eq LRA M] in
 /-- **Instantiation** in a model: `TI_μ(a) → TI(≺₁, a, F)` for a closed formula
 `F` of level `< μ`, `μ < ν`. -/
 theorem TImu_inst (hM : M↓[LRA] ⊧* RAlt ν) (hμ : μ < ν) {F : Semiformula LRA ℕ 1}
@@ -260,7 +260,7 @@ theorem lvlOf_tiSuccR_le (κ : Lv) : lvlOf (tiSuccR κ) ≤ κ := by
 
 section Eval
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 theorem eval_tiCopyR (μ κ : Lv) (a : M) (f : ℕ → M) :
     Semiformula.Eval (s := s) ![a] f (tiCopyR μ κ) ↔ (TImu μ a → TImu κ a) := by
@@ -453,7 +453,7 @@ theorem lvlOf_tiUptoSegBody (b a : Gamma0Note) : lvlOf (tiUptoSegBody b a) = 0 :
 
 section SegModel
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν : Lv}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν : Lv}
 
 /-- The downward step for the segment sentences, in a model. -/
 theorem segBody_down (hM : M↓[LRA] ⊧* RAlt ν) (hν : 1 ≤ ν) {b a a' : Gamma0Note}

@@ -16,11 +16,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Proposition 6.2: the closure axiom -/
@@ -31,7 +31,7 @@ section Closure
 variable {A : Semisentence (LXIn n) 1}
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem closure_inst (A : Semisentence (LXIn n) 1) (m : ℕ) :
     (∼(bodyTop k A) ⋎ IOmegaAt k (#0 : Semiterm (LIinfN n) ℕ 1))/[numI m] =

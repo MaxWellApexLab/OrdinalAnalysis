@@ -32,7 +32,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDn.Internal
 
 namespace OrderFormulas
@@ -40,10 +40,10 @@ namespace OrderFormulas
 variable (F : OrderFormulas)
 
 /-- `fld(x)`: a normal domain code. -/
-def fldWDef : 𝚺₁.Semisentence 1 := .mkSigma “x. !F.nfDef x ∧ !F.domDef x”
+def fldWDef : 𝚺ᴬ₁.Semisentence 1 := .mkSigma “x. !F.nfDef x ∧ !F.domDef x”
 
 /-- `fld(y) ∧ fld(x) ∧ y ≺ x` (slot `0` the smaller element). -/
-def precWDef : 𝚺₁.Semisentence 2 :=
+def precWDef : 𝚺ᴬ₁.Semisentence 2 :=
   .mkSigma “y x. !F.nfDef y ∧ !F.domDef y ∧ !F.nfDef x ∧ !F.domDef x ∧ !F.ltDef y x”
 
 /-- **The order of the upper bound**: `y ≺ x` on the field (normal domain codes). -/
@@ -112,7 +112,7 @@ section EvalForms
 
 variable (F : OrderFormulas) {ι : Type} (ix : ℕ → ι)
 variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
-variable (S : Structure (LXIN ι) N) (hS : S.lMap (toLXIN ι) = Arithmetic.standardModel N)
+variable (S : Tarski.Structure (LXIN ι) N) (hS : S.lMap (toLXIN ι) = Arithmetic.standardModel N)
 
 omit [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] in
 include hS in

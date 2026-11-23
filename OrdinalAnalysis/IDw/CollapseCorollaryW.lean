@@ -35,7 +35,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDw.Upper
 
 /-- **The collapsing corollary for `ID_ω`** (`CollapseCorollary`, proved), for every positive

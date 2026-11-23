@@ -38,6 +38,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ordinal.NaturalSumMono
 public import OrdinalAnalysis.Proof.Inversion
 public import OrdinalAnalysis.Proof.InversionAll
@@ -46,7 +47,7 @@ public import OrdinalAnalysis.Proof.InversionAll
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 open ONote
 
 variable {L : Language}
@@ -164,19 +165,19 @@ theorem drop_falsum {r : ℕ} :
         rcases this with hbot | hm
         · exact absurd hbot (by simp)
         · exact hm
-      have key := ih (Θ := χ.free :: Θ⁺) (by
+      have key := ih (Θ := χ.free :: Θˡ⁺) (by
         intro x hx
-        simp only [Rewriting.shifts_cons, List.mem_cons] at hx ⊢
+        simp only [Rewriting.lshifts_cons, List.mem_cons] at hx ⊢
         rcases hx with rfl | hx
         · tauto
-        · simp only [Rewriting.shifts, List.mem_map] at hx
+        · simp only [Rewriting.lshifts, List.mem_map] at hx
           obtain ⟨y, hy, rfl⟩ := hx
           have := hss (show y ∈ (∀¹ χ) :: Γ' by simp only [List.mem_cons]; tauto)
           simp only [List.mem_cons] at this
           rcases this with rfl | hm
           · left; simp
           · right; right
-            simp only [Rewriting.shifts, List.mem_map]
+            simp only [Rewriting.lshifts, List.mem_map]
             exact ⟨y, hm, rfl⟩)
       exact .contraction (by
         intro x hx
@@ -496,31 +497,31 @@ private theorem reduction_or {r : ℕ} {s α α₀ : NONote}
       have hr' : ((Rewriting.shift χ) ⋎ (Rewriting.shift ρ)).complexity ≤ r := by
         simpa using hr
       have key := ih hs' (χ := Rewriting.shift χ) (ρ := Rewriting.shift ρ)
-        (Γ₁ := Γ₁⁺) (Θ := ψ.free :: Θ⁺) hr' hprem.shift
+        (Γ₁ := Γ₁ˡ⁺) (Θ := ψ.free :: Θˡ⁺) hr' hprem.shift
         (by
           intro x hx
-          simp only [Rewriting.shifts, List.mem_map] at hx
+          simp only [Rewriting.lshifts, List.mem_map] at hx
           obtain ⟨y, hy, rfl⟩ := hx
           have := hssL hy
           simp only [List.mem_cons] at this ⊢
           rcases this with rfl | hm
           · left; rfl
           · right; right
-            simp only [Rewriting.shifts, List.mem_map]
+            simp only [Rewriting.lshifts, List.mem_map]
             exact ⟨y, hm, rfl⟩)
         (by
           intro x hx
           simp only [List.mem_cons] at hx
           rcases hx with rfl | hx
           · simp
-          · simp only [Rewriting.shifts, List.mem_map] at hx
+          · simp only [Rewriting.lshifts, List.mem_map] at hx
             obtain ⟨y, hy, rfl⟩ := hx
             have := hssR (List.mem_cons_of_mem _ hy)
             simp only [List.mem_cons] at this ⊢
             rcases this with rfl | hm
             · left; simp
             · right; right
-              simp only [Rewriting.shifts, List.mem_map]
+              simp only [Rewriting.lshifts, List.mem_map]
               exact ⟨y, hm, rfl⟩)
       exact drop_head (BoundedDerivable.all (NONote.redOrd_lt_right α hlt) key) hmem
   | @exs δ' δ₀ ψ Δ₁ t hlt _ ih =>
@@ -789,31 +790,31 @@ private theorem reduction_and {r : ℕ} {s α α₀ α₁ : NONote}
       have hr' : ((Rewriting.shift χ) ⋏ (Rewriting.shift ρ)).complexity ≤ r := by
         simpa using hr
       have key := ih hs' (χ := Rewriting.shift χ) (ρ := Rewriting.shift ρ)
-        (Γ₁ := Γ₁⁺) (Θ := ψ.free :: Θ⁺) hr' hp.shift hq.shift
+        (Γ₁ := Γ₁ˡ⁺) (Θ := ψ.free :: Θˡ⁺) hr' hp.shift hq.shift
         (by
           intro x hx
-          simp only [Rewriting.shifts, List.mem_map] at hx
+          simp only [Rewriting.lshifts, List.mem_map] at hx
           obtain ⟨y, hy, rfl⟩ := hx
           have := hssL hy
           simp only [List.mem_cons] at this ⊢
           rcases this with rfl | hm
           · left; rfl
           · right; right
-            simp only [Rewriting.shifts, List.mem_map]
+            simp only [Rewriting.lshifts, List.mem_map]
             exact ⟨y, hm, rfl⟩)
         (by
           intro x hx
           simp only [List.mem_cons] at hx
           rcases hx with rfl | hx
           · simp
-          · simp only [Rewriting.shifts, List.mem_map] at hx
+          · simp only [Rewriting.lshifts, List.mem_map] at hx
             obtain ⟨y, hy, rfl⟩ := hx
             have := hssR (List.mem_cons_of_mem _ hy)
             simp only [List.mem_cons] at this ⊢
             rcases this with rfl | hm
             · left; simp
             · right; right
-              simp only [Rewriting.shifts, List.mem_map]
+              simp only [Rewriting.lshifts, List.mem_map]
               exact ⟨y, hm, rfl⟩)
       exact drop_head (BoundedDerivable.all (NONote.redOrd_lt_right α hlt) key) hmem
   | @exs δ' δ₀ ψ Δ₁ t hlt _ ih =>
@@ -1082,37 +1083,37 @@ private theorem reduction_exs {r : ℕ} {s α α₀ : NONote}
           rw [← TransitiveRewriting.comp_app, ← TransitiveRewriting.comp_app,
             Rew.shift_comp_subst1]
         have hpremS : BoundedDerivable r α₀
-            (((Rewriting.shift χ)/[Rew.shift t₀] : Proposition L) :: Γ₁⁺) := by
+            (((Rewriting.shift χ)/[Rew.shift t₀] : Proposition L) :: Γ₁ˡ⁺) := by
           have hk := hprem.shift
-          simp only [Rewriting.shifts, List.map_cons] at hk ⊢
+          simp only [Rewriting.lshifts, List.map_cons] at hk ⊢
           rw [← hcomm]
           exact hk
         have key := ih hs' (χ := Rewriting.shift χ) (t₀ := Rew.shift t₀)
-          (Γ₁ := Γ₁⁺) (Θ := ψ.free :: Θ⁺) hr' hpremS
+          (Γ₁ := Γ₁ˡ⁺) (Θ := ψ.free :: Θˡ⁺) hr' hpremS
           (by
             intro x hx
-            simp only [Rewriting.shifts, List.mem_map] at hx
+            simp only [Rewriting.lshifts, List.mem_map] at hx
             obtain ⟨y, hy, rfl⟩ := hx
             have := hssL hy
             simp only [List.mem_cons] at this ⊢
             rcases this with rfl | hm
             · left; simp
             · right; right
-              simp only [Rewriting.shifts, List.mem_map]
+              simp only [Rewriting.lshifts, List.mem_map]
               exact ⟨y, hm, rfl⟩)
           (by
             intro x hx
             simp only [List.mem_cons] at hx
             rcases hx with rfl | hx
             · simp
-            · simp only [Rewriting.shifts, List.mem_map] at hx
+            · simp only [Rewriting.lshifts, List.mem_map] at hx
               obtain ⟨y, hy, rfl⟩ := hx
               have := hssR (List.mem_cons_of_mem _ hy)
               simp only [List.mem_cons] at this ⊢
               rcases this with rfl | hm
               · left; simp
               · right; right
-                simp only [Rewriting.shifts, List.mem_map]
+                simp only [Rewriting.lshifts, List.mem_map]
                 exact ⟨y, hm, rfl⟩)
         exact drop_head (BoundedDerivable.all (NONote.redOrd_lt_right α hlt) key) hmem
   | @exs δ' δ₀ ψ Δ₁ t hlt _ ih =>
@@ -1191,7 +1192,7 @@ The non-principal cases are written differently from the propositional lemmas,
 and better.  They hand `ih2` the *whole* left derivation rather than its premise,
 which matters in the right's `∀` case: that rule shifts the context, and
 shifting a whole derivation is immediate, whereas shifting a premise of the form
-`χ.free :: Γ⁺` is not — `free` and `shift` do not commute, they disagree about
+`χ.free :: Γˡ⁺` is not — `free` and `shift` do not commute, they disagree about
 where the fresh variable lands. -/
 private theorem reduction_all {r : ℕ} {s α α₀ : NONote}
     (ih2 : RedIH2 L r s) (hα₀ : α₀ < α) :
@@ -1199,7 +1200,7 @@ private theorem reduction_all {r : ℕ} {s α α₀ : NONote}
       NONote.nadd α δ ≤ s →
       ∀ {χ : Semiproposition L 1} {Γ₁ Θ : Sequent L},
         (∀¹ χ).complexity ≤ r →
-        BoundedDerivable r α₀ (Semiformula.free χ :: Γ₁⁺) →
+        BoundedDerivable r α₀ (Semiformula.free χ :: Γ₁ˡ⁺) →
         Γ₁ ⊆ (∀¹ χ) :: Θ →
         Δ₀ ⊆ ∼(∀¹ χ) :: Θ →
           BoundedDerivable r (NONote.redOrd α δ) Θ := by
@@ -1303,26 +1304,26 @@ private theorem reduction_all {r : ℕ} {s α α₀ : NONote}
       -- Shift the whole left derivation.  This is the step that would be
       -- painful if the left premise were carried instead.
       have hdS : BoundedDerivable r α
-          ((Rewriting.shift ((∀¹ χ : Proposition L))) :: Γ₁⁺) := by
+          ((Rewriting.shift ((∀¹ χ : Proposition L))) :: Γ₁ˡ⁺) := by
         have hk := (BoundedDerivable.all hα₀ hprem).shift
-        simpa only [Rewriting.shifts, List.map_cons] using hk
+        simpa only [Rewriting.lshifts, List.map_cons] using hk
       have hrS : (Rewriting.shift ((∀¹ χ : Proposition L))).complexity ≤ r := by
         simpa using hr
       have key := ih2 α δ₀ (lt_of_lt_of_le (NONote.nadd_lt_nadd_right α hlt) hs)
-        hdS hrS (Θ := Semiformula.free ψ :: Θ⁺)
+        hdS hrS (Θ := Semiformula.free ψ :: Θˡ⁺)
         (by
           intro x hx
           simp only [List.mem_cons] at hx
           rcases hx with rfl | hx
           · simp
-          · simp only [Rewriting.shifts, List.mem_map] at hx
+          · simp only [Rewriting.lshifts, List.mem_map] at hx
             obtain ⟨y, hy, rfl⟩ := hx
             have := hssL hy
             simp only [List.mem_cons] at this ⊢
             rcases this with rfl | hm
             · left; rfl
             · right; right
-              simp only [Rewriting.shifts, List.mem_map]
+              simp only [Rewriting.lshifts, List.mem_map]
               exact ⟨y, hm, rfl⟩)
         hpr
         (by
@@ -1330,14 +1331,14 @@ private theorem reduction_all {r : ℕ} {s α α₀ : NONote}
           simp only [List.mem_cons] at hx
           rcases hx with rfl | hx
           · simp
-          · simp only [Rewriting.shifts, List.mem_map] at hx
+          · simp only [Rewriting.lshifts, List.mem_map] at hx
             obtain ⟨y, hy, rfl⟩ := hx
             have := hssR (List.mem_cons_of_mem _ hy)
             simp only [List.mem_cons] at this ⊢
             rcases this with rfl | hm
             · left; simp
             · right; right
-              simp only [Rewriting.shifts, List.mem_map]
+              simp only [Rewriting.lshifts, List.mem_map]
               exact ⟨y, hm, rfl⟩)
       exact drop_head (BoundedDerivable.all (NONote.redOrd_lt_right α hlt) key) hmem
   | @exs δ' δ₀ ψ Δ₁ t hlt hpr _ =>
@@ -1643,32 +1644,32 @@ private theorem reduction_aux {r : ℕ} :
             le_of_lt (lt_of_lt_of_le (NONote.nadd_lt_nadd_left γ hb) hs)
           -- the rule shifts its context, so the cut formula shifts with it
           have hφ' : (Rewriting.shift φ).complexity ≤ r := by simpa using hφ
-          have key := ihp hs' hφ' (Θ := Semiformula.free χ :: Θ⁺)
+          have key := ihp hs' hφ' (Θ := Semiformula.free χ :: Θˡ⁺)
             (by
               intro x hx
               simp only [List.mem_cons] at hx ⊢
               rcases hx with rfl | hx
               · tauto
-              · simp only [Rewriting.shifts, List.mem_map] at hx
+              · simp only [Rewriting.lshifts, List.mem_map] at hx
                 obtain ⟨y, hy, rfl⟩ := hx
                 have := hss (show y ∈ (∀¹ χ) :: Γ' by simp only [List.mem_cons]; tauto)
                 simp only [List.mem_cons] at this
                 rcases this with rfl | hm
                 · left; rfl
                 · right; right
-                  simp only [Rewriting.shifts, List.mem_map]
+                  simp only [Rewriting.lshifts, List.mem_map]
                   exact ⟨y, hm, rfl⟩)
             he.shift
             (by
               intro x hx
-              simp only [Rewriting.shifts, List.mem_map] at hx
+              simp only [Rewriting.lshifts, List.mem_map] at hx
               obtain ⟨y, hy, rfl⟩ := hx
               have := hst hy
               simp only [List.mem_cons] at this ⊢
               rcases this with rfl | hm
               · left; simp
               · right; right
-                simp only [Rewriting.shifts, List.mem_map]
+                simp only [Rewriting.lshifts, List.mem_map]
                 exact ⟨y, hm, rfl⟩)
           exact drop_head (BoundedDerivable.all (NONote.redOrd_lt_left γ hb) key) hmem
     | @exs α' α₀ χ Γ' t hb hprem ihp =>

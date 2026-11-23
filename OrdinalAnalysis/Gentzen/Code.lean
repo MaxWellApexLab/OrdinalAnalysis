@@ -199,7 +199,7 @@ theorem ltb_iff_cmp {a b : ONote} : ltb a b = true ↔ a.cmp b = Ordering.lt := 
   unfold ltb
   exact decide_eq_true_iff
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic in
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic in
 /-- `ltb` agrees with the internal comparator of the bridge: on any model of
 IΣ₁ the code of `a` compares below the code of `b` exactly when `ltb a b`. -/
 theorem ltb_iff_icmp_modelCode {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
@@ -242,7 +242,7 @@ end OrdinalAnalysis.Gentzen.NotationBridge
 
 namespace OrdinalAnalysis.Gentzen
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- The closed term of `LX` naming the code of `o`: `S^{code o} 0`, built by
 Foundation's `Semiterm.numeral` (Foundation/FirstOrder/Basic/Operator.lean:695,

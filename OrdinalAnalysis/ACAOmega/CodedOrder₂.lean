@@ -52,9 +52,9 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA
 
 /-! ### The missing substitution lemmas for the second-order `Eval`
@@ -64,7 +64,7 @@ it would drag in the whole `ACA` axiom layer. -/
 
 section EvalSO
 
-variable {M : Type*} [s : FirstOrder.Structure ℒₒᵣ M]
+variable {M : Type*} [s : FirstOrder.Tarski.Structure ℒₒᵣ M]
 
 /-- **First-order rewriting under the second-order `Eval`.** -/
 theorem evalSO_rew {N : ℕ} {n₁ n₂ : ℕ} {𝕊 : Set (Set M)} {F : ℕ → Set M}
@@ -76,11 +76,11 @@ theorem evalSO_rew {N : ℕ} {n₁ n₂ : ℕ} {𝕊 : Set (Set M)} {F : ℕ →
   match φ with
   | .rel r v =>
       simp only [Semiformula.rew_rel, Semiformula.eval_rel, Function.comp_def]
-      exact Iff.of_eq (congrArg (FirstOrder.Structure.rel (M := M) r)
+      exact Iff.of_eq (congrArg (FirstOrder.Tarski.Structure.rel (M := M) r)
         (funext fun i => FirstOrder.Semiterm.val_rew ω (v i)))
   | .nrel r v =>
       simp only [Semiformula.rew_nrel, Semiformula.eval_nrel, Function.comp_def]
-      exact not_congr (Iff.of_eq (congrArg (FirstOrder.Structure.rel (M := M) r)
+      exact not_congr (Iff.of_eq (congrArg (FirstOrder.Tarski.Structure.rel (M := M) r)
         (funext fun i => FirstOrder.Semiterm.val_rew ω (v i))))
   | t ∈# X => simp [FirstOrder.Semiterm.val_rew]
   | t ∉# X => simp [FirstOrder.Semiterm.val_rew]
@@ -561,7 +561,7 @@ theorem eval_precSeg₀ (a : Gamma0Note) (m n : ℕ) (f : ℕ → ℕ) :
 /-- **The evaluation bridge for a lifted ordering.**  Substituting numerals into
 the lift and reading it in the ω-structure is reading the first-order original
 at the two numbers. -/
-theorem eval_precAt₂_lift {M : Type*} [FirstOrder.Structure ℒₒᵣ M]
+theorem eval_precAt₂_lift {M : Type*} [FirstOrder.Tarski.Structure ℒₒᵣ M]
     (prec₀ : FirstOrder.Semiformula ℒₒᵣ ℕ 2) (𝕊 : Set (Set M)) (F : ℕ → Set M)
     (f : ℕ → M) (m n : ℕ) :
     Semiformula.Eval 𝕊 F f ![] ![]

@@ -44,7 +44,7 @@ open OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.Order
 open OrdinalAnalysis.Gentzen.UpperBound
 open OrdinalAnalysis.Gentzen.StandardLX
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 
 /-! ### The field of `≺` and its order type -/

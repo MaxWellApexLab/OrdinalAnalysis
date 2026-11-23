@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.PredCutCases.CaseLiteral
 public import OrdinalAnalysis.IDn.PredCutCases.CaseVerum
 public import OrdinalAnalysis.IDn.PredCutCases.CaseIdX
@@ -20,8 +21,8 @@ set_option autoImplicit false
 namespace OrdinalAnalysis
 namespace IDn
 
-open LO LO.FirstOrder
--- case_skeleton: generated header ends here
+open FFL FFL.FirstOrder
+-- generated header ends here
 
 theorem predCut_aux
     {n : ℕ}

@@ -20,8 +20,7 @@
   `fix` each carry an explicit level `k : Fin n`, their local stage variables have type
   `IDn.StageAt k.val` (**not** the packaged `IDn.Stage n`, which only appears wrapped as
   `⟨k, ·⟩` where an actual `LIinfN n`-atom or its parameter is formed — this is the one
-  systematic fix the mechanical `id1_to_idn.py` rewrite cannot make on its own, see
-  `tools/README_id1_to_idn.md`'s measured residue for `Boundedness.lean`); (ii) the unfolding
+  systematic fix the mechanical rewrite cannot make on its own); (ii) the unfolding
   `unfold A g t` of `ID1` becomes `unfold (A k) k g t`; (iii) the control condition
   `paramsList Γ ⊆ H ∅` becomes `IDn.paramsVal Γ ⊆ H ∅` (`IDn/CalculusAux.lean`), since
   `paramsList` returns a set of `Stage n` (level and bound together) but the level-free operator
@@ -45,6 +44,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.CalculusAux
 public import OrdinalAnalysis.Tactic.Order
 
@@ -56,7 +56,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ}
 
@@ -549,7 +549,7 @@ theorem inv_nstage (hH : ThetaWNoteD.NiceS H) {k : Fin n} {a g : StageAt k.val}
 
 end IDnDerivable
 
-/-! ### Smoke test (design §4.3): `n = 2`
+/-! ### Smoke test: `n = 2`
 
 `I_0`'s closure form is `⊤` (so `I_0` holds of everything trivially); `I_1`'s closure form is
 `I_1(x) ↔ I_0(x)`, a positive reference to the lower level. With the trivial operator

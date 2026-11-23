@@ -607,7 +607,7 @@ theorem acc (a : ThetaWNoteD) : Acc (· < ·) a :=
     (InvImage.accessible Subtype.val (ThetaWTerm.accD a.2.1 a.2.2))
 
 /-- **The multi-level ϑ-order on the normal domain terms of all levels is well founded.** -/
-instance wellFoundedLT : WellFoundedLT ThetaWNoteD := ⟨⟨acc⟩⟩
+instance wellFoundedLT : WellFoundedLT ThetaWNoteD := ⟨acc⟩
 
 end ThetaWNoteD
 

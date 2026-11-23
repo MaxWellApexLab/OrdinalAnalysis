@@ -16,15 +16,14 @@
 
   * the discriminator `head` is unchanged — `head_ev` is `rfl` in every case, and
     with it every "these two shapes cannot be equal" step is again the numeric
-    clash of the pitfall notes;
+    clash of the pitfalls;
   * the shapes of the evaluated members are the evaluated shapes of the members
     (`ev_TI_eq`, `ev_negProg_eq`, `ev_belowAt_eq`, `ev_P_eq`, `ev_precOrXat_eq`);
   * the premise computations of `LowerClass.lean` become premise computations for
     `evInst.inst` by one application of `evInst_inst_ev`, which is the congruence
     law `ev (ω ▹ ev φ) = ev (ω ▹ φ)` of `Evaluate.lean`.
 
-  Two traps govern the spelling, both recorded in
-  the design notes.
+  Two traps govern the spelling.
 
   * **`XLang` is a `def`.**  `simp`/`rw` refuse to enter a term containing
     `Sum.inr XRel.X : LX.Rel 1`, so — exactly as in `LowerSyntax.lean` and
@@ -44,6 +43,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.LowerClass
 public import OrdinalAnalysis.Gentzen.EvInst
 public import OrdinalAnalysis.Gentzen.PrecStandard
@@ -54,7 +54,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.LowerClassEv
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 -- `Gentzen.belowAt` (Jump.lean) is a *different* formula of the same name, and it
 -- is visible here through the enclosing namespace, which no `open … hiding` can
 -- suppress.  So `belowAt` is written `LowerClass.belowAt` throughout.

@@ -2,7 +2,7 @@
   The finitary theory of ramified analysis, `RA Λ` — design **D2**.
 
   The theory is a Foundation **first-order** theory, `RA (Λ : Set Lv) : Theory
-  LRA`, i.e. a set of `Sentence LRA`.  So `Theory.Proof.provable_iff` applies
+  LRA`, i.e. a set of `Sentence LRA`.  So `Theory.Proof.provable_iff_list` applies
   unchanged — a proof unpacks to an `LK` derivation of `σ :: ∼axioms`, which
   `Ramified/Embed.lean` replays into `RA_∞` — and so does everything else
   Foundation has for first-order theories (soundness, completeness,
@@ -83,6 +83,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.Guard
 
 @[expose] public section
@@ -93,7 +95,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The per-code naming formulas
 
@@ -412,13 +414,13 @@ negations of finitely many axioms.  `Ramified/Embed.lean`'s `replayR` takes that
 derivation into `RA_∞`. -/
 theorem RA_provable_iff {Λ : Set Lv} {σ : Sentence LRA} :
     RA Λ ⊢ σ ↔ ∃ Γ : List (Sentence LRA), (∀ ψ ∈ Γ, ψ ∈ RA Λ) ∧
-      Nonempty (⊢ᴸᴷ¹ (σ : Proposition LRA) :: ∼Sequent.embed Γ) :=
-  Theory.Proof.provable_iff
+      Nonempty (⊢ᶠ¹ (σ : Proposition LRA) :: ∼Sequent.embed Γ) :=
+  Theory.Proof.provable_iff_list
 
 theorem RAlt_provable_iff {ν : Lv} {σ : Sentence LRA} :
     RAlt ν ⊢ σ ↔ ∃ Γ : List (Sentence LRA), (∀ ψ ∈ Γ, ψ ∈ RAlt ν) ∧
-      Nonempty (⊢ᴸᴷ¹ (σ : Proposition LRA) :: ∼Sequent.embed Γ) :=
-  Theory.Proof.provable_iff
+      Nonempty (⊢ᶠ¹ (σ : Proposition LRA) :: ∼Sequent.embed Γ) :=
+  Theory.Proof.provable_iff_list
 
 end Ramified
 

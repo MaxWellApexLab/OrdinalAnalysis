@@ -36,7 +36,7 @@ namespace InductiveDef
 
 namespace UpperBound
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.ID1.Internal
 open Lift (ArithStd precM Imem Xmem provable_of_models models_iSigma₁ ind_definable definable_xmem)
 open LowerBound (precLXI progX tiFieldSentence)
@@ -62,9 +62,9 @@ theorem tiUptoSentence_Omega : tiUptoSentence ThetaNote.Omega = tiFieldSentence 
 
 section Model
 
-variable {N : Type*} [ORingStructure N] [Structure LXI N] [ArithStd N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
+variable {N : Type*} [ORingStructure N] [Tarski.Structure LXI N] [ArithStd N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
-omit [Structure LXI N] [ArithStd N] in
+omit [Tarski.Structure LXI N] [ArithStd N] in
 theorem eval_belowC (a : ThetaNote) (x : N) :
     Semiformula.Evalb (M := N) ![x] (belowC a) ↔ precM precC x (mc (V := N) a.1) := by
   unfold belowC precM

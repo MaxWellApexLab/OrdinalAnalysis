@@ -34,16 +34,16 @@ set_option linter.unusedSectionVars false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 
 section Jump
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 /-! ### Order-free facts about exponent lists -/
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 /-- The coefficients of the exponent list of a code are those of the code. -/
 theorem iinE_expList (k g x : N) : iinE k g (expList x) = 1 ↔ iinE k g x = 1 := by
   by_cases h : kind x = 1 ∨ kind x = 2 ∨ kind x = 4
@@ -51,13 +51,13 @@ theorem iinE_expList (k g x : N) : iinE k g (expList x) = 1 ↔ iinE k g x = 1 :
     simp
   · simp [expList, h]
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 theorem expList_ne_zero {x : N} (hx : x ≠ 0) : expList x ≠ 0 := by
   by_cases h : kind x = 1 ∨ kind x = 2 ∨ kind x = 4
   · rw [expList_of_prin h]; exact tcCons_ne_zero _ _
   · simpa [expList, h] using hx
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 /-- The head of a nonempty descending list is in the field. -/
 theorem fldW_tcHd {r : N} (hr : isSL r) (hr0 : r ≠ 0) : fldW (tcHd r) := by
   obtain ⟨z, w, rfl⟩ := isSL_eq_cons hr hr0
@@ -90,39 +90,39 @@ include M
 
 /-! ### J1a. Definability -/
 
-theorem dfn_ClsW {B : N → Prop} (hB : 𝚺₁.DefinablePred B) : LXJ.DefinablePred (ClsW B) := by
+theorem dfn_ClsW {B : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) : LXJ.DefinablePred (ClsW B) := by
   have h1 : LXJ.DefinablePred fun x : N => fldW x :=
-    M.dfn_arith (ℌ := 𝚺₁) (by unfold fldW; definability)
+    M.dfn_arith (ℌ := 𝚺ᴬ₁) (by unfold fldW; definability)
   exact Language.Definable.of_iff (Language.Definable.and h1 (dfn_coef M hB)) fun v => Iff.rfl
 
 theorem dfn_compW {m : ℕ} {Q : N → Prop} (hQ : LXJ.DefinablePred Q)
-    {f : (Fin m → N) → N} (hf : 𝚺₁.DefinableFunction f) :
+    {f : (Fin m → N) → N} (hf : 𝚺ᴬ₁.DefinableFunction f) :
     LXJ.Definable fun v : Fin m → N => Q (f v) :=
   @Language.DefinablePred.comp LXJ N _ Q m f hQ (M.dfn_arith hf)
 
-theorem dfn_HLW {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
+theorem dfn_HLW {B F : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
     LXJ.DefinablePred (HLW B F) := by
   have h : LXJ.Definable fun w : Fin 2 → N =>
       ClsW B (w 0) → iltb (expList (w 0)) (w 1) = 1 → F (w 0) :=
     Language.Definable.imp (dfn_pred (dfn_ClsW M hB) 0)
-      (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability)) (dfn_pred hF 0))
+      (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability)) (dfn_pred hF 0))
   exact Language.Definable.of_iff (dfn_forall h) fun v => Iff.rfl
 
 /-- J1a. -/
-theorem dfn_JFW {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
+theorem dfn_JFW {B F : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
     LXJ.DefinablePred (JFW (s := s) B F) := by
-  have hi : 𝚺₁.DefinableFunction fun w : Fin 2 → N => isnocL (w 0) (w 1) := by definability
+  have hi : 𝚺ᴬ₁.DefinableFunction fun w : Fin 2 → N => isnocL (w 0) (w 1) := by definability
   have h := dfn_forall (m := 1)
     (R := fun w : Fin 2 → N => isSL (w 0) → isSL (isnocL (w 0) (w 1)) →
       HLW B F (w 0) → HLW B F (isnocL (w 0) (w 1)))
-    (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+    (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
       (Language.Definable.imp
-        (dfn_compW M (Q := isSL) (M.dfn_arith (ℌ := 𝚺₁) (by definability)) hi)
+        (dfn_compW M (Q := isSL) (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability)) hi)
         (Language.Definable.imp (dfn_pred (dfn_HLW M hB hF) 0)
           (dfn_compW M (dfn_HLW M hB hF) hi))))
   exact Language.Definable.of_iff h fun v => Iff.rfl
 
-theorem dfn_hl_app {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
+theorem dfn_hl_app {B F : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
     LXJ.DefinablePred fun r : N => r ≠ 0 → isSL r → CoefW B r →
       (∀ y, ClsW B y → (iltb y (tcHd r) = 1 ∨ y = tcHd r) → JFW B F y) →
       ∀ η, isSL η → isSL (iapp η r) → HLW B F η → HLW B F (iapp η r) := by
@@ -130,28 +130,28 @@ theorem dfn_hl_app {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.D
     (R := fun w : Fin 2 → N => ClsW B (w 0) → (iltb (w 0) (tcHd (w 1)) = 1 ∨ w 0 = tcHd (w 1)) →
       JFW B F (w 0))
     (Language.Definable.imp (dfn_pred (dfn_ClsW M hB) 0)
-      (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+      (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
         (dfn_pred (dfn_JFW M hB hF) 0)))
-  have hf : 𝚺₁.DefinableFunction fun w : Fin 2 → N => iapp (w 0) (w 1) := by definability
+  have hf : 𝚺ᴬ₁.DefinableFunction fun w : Fin 2 → N => iapp (w 0) (w 1) := by definability
   have h3 := dfn_forall (m := 1)
     (R := fun w : Fin 2 → N => isSL (w 0) → isSL (iapp (w 0) (w 1)) → HLW B F (w 0) →
       HLW B F (iapp (w 0) (w 1)))
-    (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+    (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
       (Language.Definable.imp
-        (dfn_compW M (Q := isSL) (M.dfn_arith (ℌ := 𝚺₁) (by definability)) hf)
+        (dfn_compW M (Q := isSL) (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability)) hf)
         (Language.Definable.imp (dfn_pred (dfn_HLW M hB hF) 0)
           (dfn_compW M (dfn_HLW M hB hF) hf))))
   refine Language.Definable.imp ?_ (Language.Definable.imp ?_
     (Language.Definable.imp (dfn_pred (dfn_coef M hB) 0) (Language.Definable.imp ?_ ?_)))
-  · exact M.dfn_arith (ℌ := 𝚺₁) (by definability)
-  · exact M.dfn_arith (ℌ := 𝚺₁) (by definability)
+  · exact M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability)
+  · exact M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability)
   · exact Language.Definable.of_iff h2 fun v => by simp
   · exact Language.Definable.of_iff h3 fun v => by simp
 
 /-! ### J1b. The jump is progressive -/
 
 /-- **Iterating the jump along a list** (the finite iteration in Gentzen's Lemma B). -/
-theorem hl_app {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
+theorem hl_app {B F : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) (hF : LXJ.DefinablePred F) :
     ∀ r : N, r ≠ 0 → isSL r → CoefW B r →
       (∀ y, ClsW B y → (iltb y (tcHd r) = 1 ∨ y = tcHd r) → JFW B F y) →
       ∀ η, isSL η → isSL (iapp η r) → HLW B F η → HLW B F (iapp η r) := by
@@ -176,7 +176,7 @@ theorem hl_app {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.Defin
       (isTerm_of_fldW hz) hle (hdesc.resolve_left hr'0)
 
 /-- J1b. **The jump is progressive** (Gentzen's Lemma B; IDn `jump_prog`, with `hl_app`). -/
-theorem jump_prog {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.DefinablePred F)
+theorem jump_prog {B F : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) (hF : LXJ.DefinablePred F)
     (hP : ProgW (ClsW B) F) : ProgW (ClsW B) (JFW B F) := by
   intro y hy ih η hη _ hHL ξ hξ hlt
   have hSLξ : isSL (expList ξ) := isSL_expList hξ.1.1 hξ.1.2
@@ -198,7 +198,7 @@ theorem jump_prog {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.De
 /-! ### J1c. Using the jump -/
 
 /-- J1c. **Using the jump** (IDn `holds_of_jump`). -/
-theorem holds_of_jump {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LXJ.DefinablePred F)
+theorem holds_of_jump {B F : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) (hF : LXJ.DefinablePred F)
     (hP : ProgW (ClsW B) F) {ξ : N} (hξ : ClsW B ξ)
     (hJ : ∀ y, ClsW B y → (iltb y (tcHd (expList ξ)) = 1 ∨ y = tcHd (expList ξ)) → JFW B F y) :
     F ξ := by
@@ -218,9 +218,9 @@ theorem holds_of_jump {B F : N → Prop} (hB : 𝚺₁.DefinablePred B) (hF : LX
 progressive by the induction scheme of level `k`). -/
 theorem W_cons : ConsStmt N := by
   intro k z w hD hz hB
-  have hBd : 𝚺₁.DefinablePred fun j : N => j < k := by definability
+  have hBd : 𝚺ᴬ₁.DefinablePred fun j : N => j < k := by definability
   have hF : LXJ.DefinablePred fun ξ : N => iltb ξ (tcOmega k) = 1 → Jm k ξ :=
-    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
       (dfn_Jm M (a := fun _ => k) (b := fun u => u 0) (by definability) (by definability))
   have hP : ProgW (ClsW fun j : N => j < k) fun ξ : N => iltb ξ (tcOmega k) = 1 → Jm k ξ := by
     intro ξ hξ ih hBξ

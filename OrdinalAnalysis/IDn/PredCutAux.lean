@@ -31,6 +31,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Elimination
 public import OrdinalAnalysis.IDn.Collapsing.Basic
 public import OrdinalAnalysis.Ordinal.ThetaW.VeblenOrder2
@@ -168,7 +169,7 @@ end ThetaWNoteD
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ}
 

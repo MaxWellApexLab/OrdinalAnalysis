@@ -47,11 +47,13 @@ public import OrdinalAnalysis.IDn.Internal.Codes
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ThetaWTerm
 open OrdinalAnalysis.ID1.Internal (bor band beq borDef bandDef beqDef bor_defined band_defined
   beq_defined bor_eq_one band_eq_one beq_eq_one covVal covVal_unfold covVal_zero covVal_succ
@@ -69,14 +71,14 @@ noncomputable def posP (c : V) : V := ⟪0, c⟫
 /-- The "code `c` at level `i`" position tag. -/
 noncomputable def posL (i c : V) : V := ⟪1, ⟪i, c⟫⟫
 
-def posPDef : 𝚺₁.Semisentence 2 := .mkSigma “y c. !pairDef y 0 c”
+def posPDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “y c. !pairDef y 0 c”
 
-def posLDef : 𝚺₁.Semisentence 3 := .mkSigma “y i c. ∃ q, !pairDef q i c ∧ !pairDef y 1 q”
+def posLDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma “y i c. ∃ q, !pairDef q i c ∧ !pairDef y 1 q”
 
-instance posP_defined : 𝚺₁-Function₁ (posP : V → V) via posPDef := .mk fun v ↦ by
+instance posP_defined : 𝚺ᴬ₁-Function₁ (posP : V → V) via posPDef := .mk fun v ↦ by
   simp [posPDef, posP, pair_defined.iff]
 
-instance posL_defined : 𝚺₁-Function₂ (posL : V → V → V) via posLDef := .mk fun v ↦ by
+instance posL_defined : 𝚺ᴬ₁-Function₂ (posL : V → V → V) via posLDef := .mk fun v ↦ by
   simp [posLDef, posL, pair_defined.iff]
 
 @[simp] lemma pi1_posP (c : V) : π₁ (posP c) = 0 := by simp [posP]
@@ -142,31 +144,31 @@ noncomputable def rdAll (s k x y : V) : V := znth s ⟪posL k x, posP y⟫
 /-- The `ex_k` flag stored in a table `s`: `∃ g ∈ E_k(y), x ≼ g`. -/
 noncomputable def rdEx (s k x y : V) : V := znth s ⟪posP x, posL k y⟫
 
-def rdLtDef : 𝚺₁.Semisentence 4 := .mkSigma
+def rdLtDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “r s x y. ∃ px, !posPDef px x ∧ ∃ py, !posPDef py y ∧ ∃ p, !pairDef p px py ∧ !znthDef r s p”
 
-def rdAllDef : 𝚺₁.Semisentence 5 := .mkSigma
+def rdAllDef : 𝚺ᴬ₁.Semisentence 5 := .mkSigma
   “r s k x y. ∃ px, !posLDef px k x ∧ ∃ py, !posPDef py y ∧ ∃ p, !pairDef p px py ∧ !znthDef r s p”
 
-def rdExDef : 𝚺₁.Semisentence 5 := .mkSigma
+def rdExDef : 𝚺ᴬ₁.Semisentence 5 := .mkSigma
   “r s k x y. ∃ px, !posPDef px x ∧ ∃ py, !posLDef py k y ∧ ∃ p, !pairDef p px py ∧ !znthDef r s p”
 
-instance rdLt_defined : 𝚺₁-Function₃ (rdLt : V → V → V → V) via rdLtDef := .mk fun v ↦ by
+instance rdLt_defined : 𝚺ᴬ₁-Function₃ (rdLt : V → V → V → V) via rdLtDef := .mk fun v ↦ by
   simp [rdLtDef, rdLt, posP_defined.iff, pair_defined.iff, znth_defined.iff]
 
-instance rdAll_defined : 𝚺₁-Function₄ (rdAll : V → V → V → V → V) via rdAllDef := .mk fun v ↦ by
+instance rdAll_defined : 𝚺ᴬ₁-Function₄ (rdAll : V → V → V → V → V) via rdAllDef := .mk fun v ↦ by
   simp [rdAllDef, rdAll, posL_defined.iff, posP_defined.iff, pair_defined.iff, znth_defined.iff]
 
-instance rdEx_defined : 𝚺₁-Function₄ (rdEx : V → V → V → V → V) via rdExDef := .mk fun v ↦ by
+instance rdEx_defined : 𝚺ᴬ₁-Function₄ (rdEx : V → V → V → V → V) via rdExDef := .mk fun v ↦ by
   simp [rdExDef, rdEx, posP_defined.iff, posL_defined.iff, pair_defined.iff, znth_defined.iff]
 
 /-- The level of a principal code (`Omega` or `theta`). -/
 noncomputable def princLev (c : V) : V := if kind c = 1 then tcOmegaLev c else tcLev c
 
-def princLevDef : 𝚺₁.Semisentence 2 := .mkSigma
+def princLevDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ k, !kindDef k c ∧ ((k = 1 ∧ !tcOmegaLevDef y c) ∨ (k ≠ 1 ∧ !tcLevDef y c))”
 
-instance princLev_defined : 𝚺₁-Function₁ (princLev : V → V) via princLevDef := .mk fun v ↦ by
+instance princLev_defined : 𝚺ᴬ₁-Function₁ (princLev : V → V) via princLevDef := .mk fun v ↦ by
   simp only [princLevDef, princLev, kind_defined.iff]
   by_cases h : kind (v 1) = 1 <;> simp [h, tcOmegaLev_defined.iff, tcLev_defined.iff]
 
@@ -180,26 +182,26 @@ noncomputable def ltCP (c1 c2 s : V) : V := rdLt s (tcHd c1) c2
 /-- The `lt` flag at a principal code against a cons code: `≼` the first entry. -/
 noncomputable def ltPC (c1 c2 s : V) : V := bor (rdLt s c1 (tcHd c2)) (beq c1 (tcHd c2))
 
-def ltCCDef : 𝚺₁.Semisentence 4 := .mkSigma
+def ltCCDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y c1 c2 s. ∃ h1, !tcHdDef h1 c1 ∧ ∃ h2, !tcHdDef h2 c2 ∧ ∃ t1, !tcTlDef t1 c1 ∧
     ∃ t2, !tcTlDef t2 c2 ∧ ∃ r1, !rdLtDef r1 s h1 h2 ∧ ∃ r2, !rdLtDef r2 s t1 t2 ∧
     ∃ e, !beqDef e h1 h2 ∧ ∃ a, !bandDef a e r2 ∧ !borDef y r1 a”
 
-def ltCPDef : 𝚺₁.Semisentence 4 := .mkSigma
+def ltCPDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y c1 c2 s. ∃ h1, !tcHdDef h1 c1 ∧ !rdLtDef y s h1 c2”
 
-def ltPCDef : 𝚺₁.Semisentence 4 := .mkSigma
+def ltPCDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y c1 c2 s. ∃ h2, !tcHdDef h2 c2 ∧ ∃ r, !rdLtDef r s c1 h2 ∧ ∃ e, !beqDef e c1 h2 ∧
     !borDef y r e”
 
-instance ltCC_defined : 𝚺₁-Function₃ (ltCC : V → V → V → V) via ltCCDef := .mk fun v ↦ by
+instance ltCC_defined : 𝚺ᴬ₁-Function₃ (ltCC : V → V → V → V) via ltCCDef := .mk fun v ↦ by
   simp [ltCCDef, ltCC, tcHd_defined.iff, tcTl_defined.iff, rdLt_defined.iff,
     beq_defined.iff, band_defined.iff, bor_defined.iff]
 
-instance ltCP_defined : 𝚺₁-Function₃ (ltCP : V → V → V → V) via ltCPDef := .mk fun v ↦ by
+instance ltCP_defined : 𝚺ᴬ₁-Function₃ (ltCP : V → V → V → V) via ltCPDef := .mk fun v ↦ by
   simp [ltCPDef, ltCP, tcHd_defined.iff, rdLt_defined.iff]
 
-instance ltPC_defined : 𝚺₁-Function₃ (ltPC : V → V → V → V) via ltPCDef := .mk fun v ↦ by
+instance ltPC_defined : 𝚺ᴬ₁-Function₃ (ltPC : V → V → V → V) via ltPCDef := .mk fun v ↦ by
   simp [ltPCDef, ltPC, tcHd_defined.iff, rdLt_defined.iff, beq_defined.iff, bor_defined.iff]
 
 /-- The `lt` flag between two principal codes (`kind ∈ {1,2}`): position first, the ϑ_i-ϑ_i
@@ -217,7 +219,7 @@ noncomputable def ltPP (c1 c2 s : V) : V :=
   else
     (if princLev c1 < princLev c2 then 1 else 0)
 
-def ltPPDef : 𝚺₁.Semisentence 4 := .mkSigma
+def ltPPDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y c1 c2 s. ∃ k1, !kindDef k1 c1 ∧ ∃ k2, !kindDef k2 c2 ∧ ∃ i, !princLevDef i c1 ∧
     ∃ j, !princLevDef j c2 ∧
     ( (k1 = 2 ∧ k2 = 2 ∧
@@ -229,7 +231,7 @@ def ltPPDef : 𝚺₁.Semisentence 4 := .mkSigma
     ∨ ((k1 ≠ 2 ∨ k2 ≠ 2) ∧ k1 = 2 ∧ k2 = 1 ∧ ((i ≤ j ∧ y = 1) ∨ (j < i ∧ y = 0)))
     ∨ ((k1 ≠ 2 ∨ k2 ≠ 2) ∧ (k1 ≠ 2 ∨ k2 ≠ 1) ∧ ((i < j ∧ y = 1) ∨ (j ≤ i ∧ y = 0))) )”
 
-instance ltPP_defined : 𝚺₁-Function₃ (ltPP : V → V → V → V) via ltPPDef := .mk fun v ↦ by
+instance ltPP_defined : 𝚺ᴬ₁-Function₃ (ltPP : V → V → V → V) via ltPPDef := .mk fun v ↦ by
   simp only [ltPPDef, ltPP, kind_defined.iff, princLev_defined.iff, tcThetaArg_defined.iff,
     rdLt_defined.iff, rdAll_defined.iff, rdEx_defined.iff, band_defined.iff, bor_defined.iff]
   by_cases h1 : kind (v 1) = 2
@@ -259,7 +261,7 @@ noncomputable def ltStep (c1 c2 s : V) : V :=
   else if kind c2 = 3 then ltPC c1 c2 s
   else ltPP c1 c2 s
 
-def ltStepDef : 𝚺₁.Semisentence 4 := .mkSigma
+def ltStepDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y c1 c2 s. ∃ k1, !kindDef k1 c1 ∧ ∃ k2, !kindDef k2 c2 ∧
     ( (k1 = 0 ∧ k2 = 0 ∧ y = 0)
     ∨ (k1 = 0 ∧ k2 ≠ 0 ∧ y = 1)
@@ -269,7 +271,7 @@ def ltStepDef : 𝚺₁.Semisentence 4 := .mkSigma
     ∨ (k1 ≠ 0 ∧ k1 ≠ 3 ∧ k2 = 3 ∧ !ltPCDef y c1 c2 s)
     ∨ (k1 ≠ 0 ∧ k1 ≠ 3 ∧ k2 ≠ 0 ∧ k2 ≠ 3 ∧ !ltPPDef y c1 c2 s) )”
 
-instance ltStep_defined : 𝚺₁-Function₃ (ltStep : V → V → V → V) via ltStepDef := .mk fun v ↦ by
+instance ltStep_defined : 𝚺ᴬ₁-Function₃ (ltStep : V → V → V → V) via ltStepDef := .mk fun v ↦ by
   simp [ltStepDef, ltStep, kind_defined.iff, ltCC_defined.iff, ltCP_defined.iff,
     ltPC_defined.iff, ltPP_defined.iff]
   rcases kind_cases (v 1) with h1 | h1 | h1 | h1 | h1 <;>
@@ -290,7 +292,7 @@ noncomputable def allStep (pos s : V) : V :=
     band (znth s ⟪posL k (tcHd P), posP Q⟫) (znth s ⟪posL k (tcTl P), posP Q⟫)
   else 0
 
-def allStepDef : 𝚺₁.Semisentence 3 := .mkSigma
+def allStepDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y pos s. ∃ X, !pi₁Def X pos ∧ ∃ Y, !pi₂Def Y pos ∧ ∃ kX, !pi₂Def kX X ∧
     ∃ k, !pi₁Def k kX ∧ ∃ P, !pi₂Def P kX ∧ ∃ Q, !pi₂Def Q Y ∧ ∃ kd, !kindDef kd P ∧
     ( (kd = 0 ∧ y = 1)
@@ -305,7 +307,7 @@ def allStepDef : 𝚺₁.Semisentence 3 := .mkSigma
         ∃ r1, !znthDef r1 s ph ∧ ∃ r2, !znthDef r2 s pt ∧ !bandDef y r1 r2)
     ∨ (kd ≠ 0 ∧ kd ≠ 1 ∧ kd ≠ 2 ∧ kd ≠ 3 ∧ y = 0) )”
 
-instance allStep_defined : 𝚺₁-Function₂ (allStep : V → V → V) via allStepDef := .mk fun v ↦ by
+instance allStep_defined : 𝚺ᴬ₁-Function₂ (allStep : V → V → V) via allStepDef := .mk fun v ↦ by
   simp only [allStepDef, allStep]
   rcases kind_cases (π₂ (π₂ (π₁ (v 1)))) with h | h | h | h | h
   · simp [h]
@@ -335,7 +337,7 @@ noncomputable def exStep (pos s : V) : V :=
     bor (znth s ⟪posP P, posL k (tcHd Q)⟫) (znth s ⟪posP P, posL k (tcTl Q)⟫)
   else 0
 
-def exStepDef : 𝚺₁.Semisentence 3 := .mkSigma
+def exStepDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y pos s. ∃ X, !pi₁Def X pos ∧ ∃ Y, !pi₂Def Y pos ∧ ∃ P, !pi₂Def P X ∧
     ∃ kY, !pi₂Def kY Y ∧ ∃ k, !pi₁Def k kY ∧ ∃ Q, !pi₂Def Q kY ∧ ∃ kd, !kindDef kd Q ∧
     ( (kd = 0 ∧ y = 0)
@@ -350,7 +352,7 @@ def exStepDef : 𝚺₁.Semisentence 3 := .mkSigma
         ∃ r1, !znthDef r1 s ph ∧ ∃ r2, !znthDef r2 s pt ∧ !borDef y r1 r2)
     ∨ (kd ≠ 0 ∧ kd ≠ 1 ∧ kd ≠ 2 ∧ kd ≠ 3 ∧ y = 0) )”
 
-instance exStep_defined : 𝚺₁-Function₂ (exStep : V → V → V) via exStepDef := .mk fun v ↦ by
+instance exStep_defined : 𝚺ᴬ₁-Function₂ (exStep : V → V → V) via exStepDef := .mk fun v ↦ by
   simp only [exStepDef, exStep]
   rcases kind_cases (π₂ (π₂ (π₂ (v 1)))) with h | h | h | h | h
   · simp [h]
@@ -373,7 +375,7 @@ noncomputable def cmpStep (pos s : V) : V :=
   else if π₁ (π₁ pos) = 0 ∧ π₁ (π₂ pos) = 1 then exStep pos s
   else 0
 
-def cmpStepDef : 𝚺₁.Semisentence 3 := .mkSigma
+def cmpStepDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y pos s. ∃ X, !pi₁Def X pos ∧ ∃ Y, !pi₂Def Y pos ∧ ∃ kX, !pi₁Def kX X ∧ ∃ kY, !pi₁Def kY Y ∧
     ( (kX = 0 ∧ kY = 0 ∧ ∃ c1, !pi₂Def c1 X ∧ ∃ c2, !pi₂Def c2 Y ∧ !ltStepDef y c1 c2 s)
     ∨ (kX = 1 ∧ kY = 0 ∧ !allStepDef y pos s)
@@ -382,7 +384,7 @@ def cmpStepDef : 𝚺₁.Semisentence 3 := .mkSigma
     ∨ (kX = 1 ∧ kY ≠ 0 ∧ y = 0)
     ∨ (kX = 0 ∧ kY ≠ 0 ∧ kY ≠ 1 ∧ y = 0) )”
 
-instance cmpStep_defined : 𝚺₁-Function₂ (cmpStep : V → V → V) via cmpStepDef := .mk fun v ↦ by
+instance cmpStep_defined : 𝚺ᴬ₁-Function₂ (cmpStep : V → V → V) via cmpStepDef := .mk fun v ↦ by
   simp only [cmpStepDef, cmpStep]
   by_cases h1 : π₁ (π₁ (v 1)) = 0
   · by_cases h2 : π₁ (π₂ (v 1)) = 0
@@ -399,9 +401,9 @@ instance cmpStep_defined : 𝚺₁-Function₂ (cmpStep : V → V → V) via cmp
 /-- The value of the comparison table at position `p`. -/
 noncomputable def cmpVal (p : V) : V := covVal cmpStep cmpStepDef p
 
-def cmpValDef : 𝚺₁.Semisentence 2 := covValDef cmpStepDef
+def cmpValDef : 𝚺ᴬ₁.Semisentence 2 := covValDef cmpStepDef
 
-instance cmpVal_defined : 𝚺₁-Function₁ (cmpVal : V → V) via cmpValDef :=
+instance cmpVal_defined : 𝚺ᴬ₁-Function₁ (cmpVal : V → V) via cmpValDef :=
   covVal_defined cmpStep cmpStepDef
 
 /-- **The internal order** as a `0/1` flag: `iltb c1 c2 = 1` iff `c1 ≺ c2`. -/
@@ -413,25 +415,25 @@ noncomputable def iall (k c1 c2 : V) : V := cmpVal ⟪posL k c1, posP c2⟫
 /-- `iex k c1 c2 = 1` iff `c1 ≼ γ` for some element `γ` of `E_k(c2)`. -/
 noncomputable def iex (k c1 c2 : V) : V := cmpVal ⟪posP c1, posL k c2⟫
 
-def iltbDef : 𝚺₁.Semisentence 3 := .mkSigma
+def iltbDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y c1 c2. ∃ p1, !posPDef p1 c1 ∧ ∃ p2, !posPDef p2 c2 ∧ ∃ p, !pairDef p p1 p2 ∧
     !cmpValDef y p”
 
-def iallDef : 𝚺₁.Semisentence 4 := .mkSigma
+def iallDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y k c1 c2. ∃ p1, !posLDef p1 k c1 ∧ ∃ p2, !posPDef p2 c2 ∧ ∃ p, !pairDef p p1 p2 ∧
     !cmpValDef y p”
 
-def iexDef : 𝚺₁.Semisentence 4 := .mkSigma
+def iexDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y k c1 c2. ∃ p1, !posPDef p1 c1 ∧ ∃ p2, !posLDef p2 k c2 ∧ ∃ p, !pairDef p p1 p2 ∧
     !cmpValDef y p”
 
-instance iltb_defined : 𝚺₁-Function₂ (iltb : V → V → V) via iltbDef := .mk fun v ↦ by
+instance iltb_defined : 𝚺ᴬ₁-Function₂ (iltb : V → V → V) via iltbDef := .mk fun v ↦ by
   simp [iltbDef, iltb, posP_defined.iff, pair_defined.iff, cmpVal_defined.iff]
 
-instance iall_defined : 𝚺₁-Function₃ (iall : V → V → V → V) via iallDef := .mk fun v ↦ by
+instance iall_defined : 𝚺ᴬ₁-Function₃ (iall : V → V → V → V) via iallDef := .mk fun v ↦ by
   simp [iallDef, iall, posL_defined.iff, posP_defined.iff, pair_defined.iff, cmpVal_defined.iff]
 
-instance iex_defined : 𝚺₁-Function₃ (iex : V → V → V → V) via iexDef := .mk fun v ↦ by
+instance iex_defined : 𝚺ᴬ₁-Function₃ (iex : V → V → V → V) via iexDef := .mk fun v ↦ by
   simp [iexDef, iex, posP_defined.iff, posL_defined.iff, pair_defined.iff, cmpVal_defined.iff]
 
 /-! ### The recursion law of the comparison table -/
@@ -781,12 +783,12 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 noncomputable def sok (c : V) : V :=
   if kind c = 3 ∧ tcTl c = 0 ∧ (kind (tcHd c) = 1 ∨ kind (tcHd c) = 2) then 0 else 1
 
-def sokDef : 𝚺₁.Semisentence 2 := .mkSigma
+def sokDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ k, !kindDef k c ∧ ∃ t, !tcTlDef t c ∧ ∃ h, !tcHdDef h c ∧ ∃ kh, !kindDef kh h ∧
     ((k = 3 ∧ t = 0 ∧ (kh = 1 ∨ kh = 2) ∧ y = 0) ∨
       ((k ≠ 3 ∨ t ≠ 0 ∨ (kh ≠ 1 ∧ kh ≠ 2)) ∧ y = 1))”
 
-instance sok_defined : 𝚺₁-Function₁ (sok : V → V) via sokDef := .mk fun v ↦ by
+instance sok_defined : 𝚺ᴬ₁-Function₁ (sok : V → V) via sokDef := .mk fun v ↦ by
   simp [sokDef, sok, kind_defined.iff, tcTl_defined.iff, tcHd_defined.iff]
   by_cases h : kind (v 1) = 3 ∧ tcTl (v 1) = 0 ∧ (kind (tcHd (v 1)) = 1 ∨ kind (tcHd (v 1)) = 2)
   · obtain ⟨h1, h2, h3⟩ := h
@@ -804,11 +806,11 @@ instance sok_defined : 𝚺₁-Function₁ (sok : V → V) via sokDef := .mk fun
 noncomputable def descOk (c : V) : V :=
   if tcTl c = 0 then 1 else bor (iltb (tcHd (tcTl c)) (tcHd c)) (beq (tcHd (tcTl c)) (tcHd c))
 
-def descOkDef : 𝚺₁.Semisentence 2 := .mkSigma
+def descOkDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ t, !tcTlDef t c ∧ ((t = 0 ∧ y = 1) ∨ (t ≠ 0 ∧ ∃ h, !tcHdDef h c ∧
     ∃ h2, !tcHdDef h2 t ∧ ∃ r, !iltbDef r h2 h ∧ ∃ e, !beqDef e h2 h ∧ !borDef y r e))”
 
-instance descOk_defined : 𝚺₁-Function₁ (descOk : V → V) via descOkDef := .mk fun v ↦ by
+instance descOk_defined : 𝚺ᴬ₁-Function₁ (descOk : V → V) via descOkDef := .mk fun v ↦ by
   simp [descOkDef, descOk, tcTl_defined.iff, tcHd_defined.iff, iltb_defined.iff,
     beq_defined.iff, bor_defined.iff]
   by_cases h : tcTl (v 1) = 0 <;> simp [h]
@@ -823,7 +825,7 @@ noncomputable def nfStep (c s : V) : V :=
       (band (znth s (tcTl c)) (band (sumK (tcTl c)) (descOk c)))
   else 0
 
-def nfStepDef : 𝚺₁.Semisentence 3 := .mkSigma
+def nfStepDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y c s. ∃ k, !kindDef k c ∧
     ( (k = 0 ∧ y = 1)
     ∨ (k = 1 ∧ y = 1)
@@ -834,7 +836,7 @@ def nfStepDef : 𝚺₁.Semisentence 3 := .mkSigma
         ∃ b3, !bandDef b3 r2 b2 ∧ !bandDef y b1 b3)
     ∨ (k ≠ 0 ∧ k ≠ 1 ∧ k ≠ 2 ∧ k ≠ 3 ∧ y = 0) )”
 
-instance nfStep_defined : 𝚺₁-Function₂ (nfStep : V → V → V) via nfStepDef := .mk fun v ↦ by
+instance nfStep_defined : 𝚺ᴬ₁-Function₂ (nfStep : V → V → V) via nfStepDef := .mk fun v ↦ by
   simp [nfStepDef, nfStep, kind_defined.iff, tcThetaArg_defined.iff, znth_defined.iff,
     sok_defined.iff, band_defined.iff, tcHd_defined.iff, tcTl_defined.iff,
     sumK_defined.iff, descOk_defined.iff]
@@ -849,14 +851,14 @@ noncomputable def isNFb (c : V) : V := band (nfA c) (sok c)
 /-- `c` is the code of a term in normal form. -/
 def isNF (c : V) : Prop := isNFb c = 1
 
-def nfADef : 𝚺₁.Semisentence 2 := covValDef nfStepDef
+def nfADef : 𝚺ᴬ₁.Semisentence 2 := covValDef nfStepDef
 
-instance nfA_defined : 𝚺₁-Function₁ (nfA : V → V) via nfADef := covVal_defined nfStep nfStepDef
+instance nfA_defined : 𝚺ᴬ₁-Function₁ (nfA : V → V) via nfADef := covVal_defined nfStep nfStepDef
 
-def isNFbDef : 𝚺₁.Semisentence 2 := .mkSigma
+def isNFbDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ a, !nfADef a c ∧ ∃ o, !sokDef o c ∧ !bandDef y a o”
 
-instance isNFb_defined : 𝚺₁-Function₁ (isNFb : V → V) via isNFbDef := .mk fun v ↦ by
+instance isNFb_defined : 𝚺ᴬ₁-Function₁ (isNFb : V → V) via isNFbDef := .mk fun v ↦ by
   simp [isNFbDef, isNFb, nfA_defined.iff, sok_defined.iff, band_defined.iff]
 
 lemma nfA_unfold (c : V) : ∃ S : V, nfA c = nfStep c S ∧ ∀ k < c, znth S k = nfA k :=
@@ -975,7 +977,7 @@ noncomputable def domOkStep (i s : V) : V :=
       (znth s ⟪π₁ i, ⟪π₁ (π₂ i), tcTl (π₂ (π₂ i))⟫⟫)
   else 1
 
-def domOkStepDef : 𝚺₁.Semisentence 3 := .mkSigma
+def domOkStepDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y i s. ∃ bound, !pi₁Def bound i ∧ ∃ kc, !pi₂Def kc i ∧ ∃ k, !pi₁Def k kc ∧
     ∃ c, !pi₂Def c kc ∧ ∃ kd, !kindDef kd c ∧
     ( (kd = 2 ∧ ∃ jl, !tcLevDef jl c ∧
@@ -989,7 +991,7 @@ def domOkStepDef : 𝚺₁.Semisentence 3 := .mkSigma
         ∃ r1, !znthDef r1 s qh ∧ ∃ r2, !znthDef r2 s qt ∧ !bandDef y r1 r2)
     ∨ (kd ≠ 2 ∧ kd ≠ 3 ∧ y = 1) )”
 
-instance domOkStep_defined : 𝚺₁-Function₂ (domOkStep : V → V → V) via domOkStepDef :=
+instance domOkStep_defined : 𝚺ᴬ₁-Function₂ (domOkStep : V → V → V) via domOkStepDef :=
   .mk fun v ↦ by
   simp only [domOkStepDef, domOkStep]
   rcases kind_cases (π₂ (π₂ (v 1))) with h | h | h | h | h
@@ -1008,12 +1010,12 @@ instance domOkStep_defined : 𝚺₁-Function₂ (domOkStep : V → V → V) via
 /-- **`domOk bound k c = 1`** iff every member of `G_k(c)` is `≺ bound`. -/
 noncomputable def domOk (bound k c : V) : V := covVal domOkStep domOkStepDef ⟪bound, ⟪k, c⟫⟫
 
-def domOkValDef : 𝚺₁.Semisentence 2 := covValDef domOkStepDef
+def domOkValDef : 𝚺ᴬ₁.Semisentence 2 := covValDef domOkStepDef
 
-def domOkDef : 𝚺₁.Semisentence 4 := .mkSigma
+def domOkDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “y bound k c. ∃ kc, !pairDef kc k c ∧ ∃ i, !pairDef i bound kc ∧ !domOkValDef y i”
 
-instance domOk_defined : 𝚺₁-Function₃ (domOk : V → V → V → V) via domOkDef := .mk fun v ↦ by
+instance domOk_defined : 𝚺ᴬ₁-Function₃ (domOk : V → V → V → V) via domOkDef := .mk fun v ↦ by
   simp [domOkDef, domOk, pair_defined.iff, (covVal_defined domOkStep domOkStepDef).iff,
     domOkValDef]
 
@@ -1098,7 +1100,7 @@ noncomputable def domStep (c s : V) : V :=
   else if kind c = 3 then band (znth s (tcHd c)) (znth s (tcTl c))
   else 0
 
-def domStepDef : 𝚺₁.Semisentence 3 := .mkSigma
+def domStepDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y c s. ∃ k, !kindDef k c ∧
     ( (k = 0 ∧ y = 1)
     ∨ (k = 1 ∧ y = 1)
@@ -1108,7 +1110,7 @@ def domStepDef : 𝚺₁.Semisentence 3 := .mkSigma
         ∃ r2, !znthDef r2 s t ∧ !bandDef y r1 r2)
     ∨ (k ≠ 0 ∧ k ≠ 1 ∧ k ≠ 2 ∧ k ≠ 3 ∧ y = 0) )”
 
-instance domStep_defined : 𝚺₁-Function₂ (domStep : V → V → V) via domStepDef := .mk fun v ↦ by
+instance domStep_defined : 𝚺ᴬ₁-Function₂ (domStep : V → V → V) via domStepDef := .mk fun v ↦ by
   simp [domStepDef, domStep, kind_defined.iff, tcThetaArg_defined.iff, znth_defined.iff,
     tcLev_defined.iff, domOk_defined.iff, band_defined.iff, tcHd_defined.iff, tcTl_defined.iff]
   rcases kind_cases (v 1) with h | h | h | h | h <;> simp [h]
@@ -1119,9 +1121,9 @@ noncomputable def isDomb (c : V) : V := covVal domStep domStepDef c
 /-- `c` is the code of a domain term (Wilken's `∀ subterms ϑ_k ξ, G_k(ξ) ≺ ξ`). -/
 def isDom (c : V) : Prop := isDomb c = 1
 
-def isDombDef : 𝚺₁.Semisentence 2 := covValDef domStepDef
+def isDombDef : 𝚺ᴬ₁.Semisentence 2 := covValDef domStepDef
 
-instance isDomb_defined : 𝚺₁-Function₁ (isDomb : V → V) via isDombDef :=
+instance isDomb_defined : 𝚺ᴬ₁-Function₁ (isDomb : V → V) via isDombDef :=
   covVal_defined domStep domStepDef
 
 lemma isDomb_unfold (c : V) :
@@ -1169,28 +1171,31 @@ end Model
 /-! ## The arithmetic formulas, and the ℕ-model bridge -/
 
 /-- `x` is the code of a term in normal form. -/
-def thNFDef : 𝚺₁.Semisentence 1 := .mkSigma “x. !isNFbDef 1 x”
+def thNFDef : 𝚺ᴬ₁.Semisentence 1 := .mkSigma “x. !isNFbDef 1 x”
 
 /-- **The order of the notation system**: `y` and `x` are codes of normal forms and `y ≺ x`. -/
-def thPrecDef : 𝚺₁.Semisentence 2 := .mkSigma
+def thPrecDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y x. !isNFbDef 1 y ∧ !isNFbDef 1 x ∧ !iltbDef 1 y x”
 
 /-- `x` is the code of a domain term. -/
-def thDomDef : 𝚺₁.Semisentence 1 := .mkSigma “x. !isDombDef 1 x”
+def thDomDef : 𝚺ᴬ₁.Semisentence 1 := .mkSigma “x. !isDombDef 1 x”
 
 section Model
 
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 @[simp] theorem eval_thNFDef (x : V) : thNFDef.val.Evalb ![x] ↔ isNF x := by
-  simp [thNFDef, isNF, isNFb_defined.iff, eq_comm]
+  simp only [thNFDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [isNF, isNFb_defined.iff, eq_comm]
 
 @[simp] theorem eval_thPrecDef (y x : V) :
     thPrecDef.val.Evalb ![y, x] ↔ isNF y ∧ isNF x ∧ iltb y x = 1 := by
-  simp [thPrecDef, isNF, isNFb_defined.iff, iltb_defined.iff, eq_comm]
+  simp only [thPrecDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [isNF, isNFb_defined.iff, iltb_defined.iff, eq_comm]
 
 @[simp] theorem eval_thDomDef (x : V) : thDomDef.val.Evalb ![x] ↔ isDom x := by
-  simp [thDomDef, isDom, isDomb_defined.iff, eq_comm]
+  simp only [thDomDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [isDom, isDomb_defined.iff, eq_comm]
 
 theorem eval_thNFDef_mc (t : ThetaWTerm) : thNFDef.val.Evalb ![mc (V := V) t] ↔ NF t := by
   simpa using isNF_mc (V := V) t

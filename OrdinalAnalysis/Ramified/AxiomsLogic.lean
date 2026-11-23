@@ -93,8 +93,8 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
 /-- **A rewriting fixes a numeral, one level up.**  `numAtR_zero` identifies
 `num m` with `numAtR m` only at arity `0`; the ω-rule's substitutions and the
@@ -429,15 +429,15 @@ theorem paMinus_axiom_derivable {σ : Sentence LRA} (h : σ ∈ Theory.lMap toLR
 
 set_option linter.style.haveILetI false in
 /-- **Every axiom of `𝗘𝗤 LRA` holds in `stdLRA`.**  `stdLRA` reads `=` as
-equality on `ℕ` (`Structure.add`'s arithmetic summand is
+equality on `ℕ` (`Tarski.Structure.add`'s arithmetic summand is
 `Arithmetic.standardModel ℕ`), so it models `𝗘𝗤 LRA` — including `relExt X` and
 `relExt (∈̇_ν)`, which are true here even though ω-completeness fails for
 them. -/
 theorem eval_of_eqAxiom {σ : Sentence LRA} (h : σ ∈ 𝗘𝗤 LRA) :
     Semiformula.Eval (s := stdLRA) ![] Empty.elim σ := by
-  letI : Structure LRA ℕ := stdLRA
-  haveI : Structure.Eq LRA ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
-  haveI : ℕ↓[LRA] ⊧* 𝗘𝗤 LRA := Structure.Eq.models_eq LRA ℕ
+  letI : Tarski.Structure LRA ℕ := stdLRA
+  haveI : Tarski.Structure.Eq LRA ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
+  haveI : ℕ↓[LRA] ⊧* 𝗘𝗤 LRA := Tarski.Structure.Eq.models_eq LRA ℕ
   exact Theory.models ℕ (𝗘𝗤 LRA) h
 
 /-! ### The `R`-free equality axioms

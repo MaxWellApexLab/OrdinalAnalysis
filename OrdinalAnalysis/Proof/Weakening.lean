@@ -9,13 +9,14 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Proof.Bounded
 
 @[expose] public section
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 open ONote
 
 variable {L : Language}

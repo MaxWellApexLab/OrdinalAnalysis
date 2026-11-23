@@ -29,13 +29,13 @@ set_option linter.unusedSectionVars false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 open OrdinalAnalysis.ID1.Internal (bor band beq bor_eq_one band_eq_one beq_eq_one)
 
 section Tower
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 /-- The code of `Ω_ω + 1 = ⟨Ω_ω, 0⟩`. -/
 noncomputable def omegaSuccW : N := tcCons tcOmegaW (tcCons 0 0)
@@ -47,16 +47,16 @@ noncomputable def tauW : ℕ → N
 
 /-! ### T3a. Below `Ω_ω + 1`, and the shape of `τ_m` -/
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 theorem fldW_tcOmegaW : fldW (tcOmegaW : N) :=
   ⟨by simp [isNF, isNFb], by simp [isDom]⟩
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 /-- The one-entry list `⟨0⟩` is a descending list (of normal domain codes). -/
 theorem isSL_single_zero : isSL (tcCons 0 0 : N) :=
   (isSL_cons_iff 0 0).mpr ⟨⟨isNF_zero', by simp⟩, isSL_zero, Or.inl rfl⟩
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 /-- T3a. Below `Ω_ω + 1`: a normal code below `⟨Ω_ω, 0⟩` is below `Ω_ω` or is `Ω_ω` (IDn
 `lt_Omega_succ_cases`). -/
 theorem lt_OmegaW_succ_cases {ξ : N} (hξ : fldW ξ) (h : iltb ξ omegaSuccW = 1) :
@@ -85,7 +85,7 @@ theorem lt_OmegaW_succ_cases {ξ : N} (hξ : fldW ξ) (h : iltb ξ omegaSuccW = 
         · exact not_iltb_zero_right _ h
   · exact Or.inr rfl
 
-omit [s : Structure LXJ N] in
+omit [s : Tarski.Structure LXJ N] in
 /-- `τ_m` is a normal domain sum, without coefficients and without collapse arguments. -/
 theorem tauW_props : ∀ m : ℕ, fldW (tauW (N := N) m) ∧ kind (tauW (N := N) m) = 3 ∧
     (∀ j g : N, iinE j g (tauW m) ≠ 1) ∧ (∀ j y : N, iinG j y (tauW m) ≠ 1)
@@ -124,7 +124,7 @@ end Tower
 
 section TI
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 variable (M : WModel N)
 include M
 
@@ -147,7 +147,7 @@ TI up to `ω^β = ⟨β⟩`. -/
 theorem ti_jump {β : N} (hβ : MMW β) (hβk : kind β = 3) (h : TIW MMW β) :
     TIW MMW (tcCons β 0) := by
   intro F hF hP ξ hξ hlt
-  have hB : 𝚺₁.DefinablePred fun _ : N => True := by definability
+  have hB : 𝚺ᴬ₁.DefinablePred fun _ : N => True := by definability
   have hPc : ProgW (ClsW fun _ : N => True) F := fun x hx ih =>
     hP x ((mmW_iff_cls x).mpr hx) fun y hy hlt => ih y ((mmW_iff_cls y).mp hy) hlt
   have hPj : ProgW MMW (JFW (fun _ : N => True) F) := fun y hy ih =>

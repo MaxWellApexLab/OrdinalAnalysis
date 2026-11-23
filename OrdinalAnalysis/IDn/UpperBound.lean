@@ -31,7 +31,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDn.Internal OrdinalAnalysis.IDn.Lift InternalOrderFacts
 open ThetaWNoteD (omegaTower)
 
@@ -64,7 +64,7 @@ end Sentences
 section Eval
 
 variable {F : OrderFormulas} {ι : Type}
-variable {N : Type} [ORingStructure N] [s : Structure (LXIN ι) N] [ArithStd ι N]
+variable {N : Type} [ORingStructure N] [s : Tarski.Structure (LXIN ι) N] [ArithStd ι N]
   [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 theorem eval_belowC (a : ThetaWNoteD) (x : N) :

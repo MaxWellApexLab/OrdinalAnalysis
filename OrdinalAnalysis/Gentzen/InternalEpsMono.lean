@@ -7,7 +7,7 @@
       `ψ₀(g) :≡ ∀²X TIupto(≺₁, ε_g, X)`,
 
   so it has to turn that `e` back into an *index*: `e = ε_h` for some `h`, and `h ≺₁ g`
-  whenever `e ≼₁ x ≺₁ ε_g`.  That is design §2 (EPSMONO), and it needs the internal `φ_1`.
+  whenever `e ≼₁ x ≺₁ ε_g`.  This step needs the internal `φ_1`.
 
   `iepsilon` mirrors `VNote.veblenNote 1`: it is total, and it returns `g` itself when `g` is
   already a fixed point of `φ_1` — syntactically, when `g` is a single Veblen term `φ_p(q)`
@@ -30,13 +30,15 @@ public import OrdinalAnalysis.Gentzen.InternalEpsCover
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 set_option maxHeartbeats 1600000
 
 namespace OrdinalAnalysis.Gentzen.InternalEpsMono
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -55,21 +57,21 @@ noncomputable def epsFixIndic (g : V) : V :=
   if g ≠ 0 ∧ vcCoeff g = 1 ∧ vcTail g = 0 ∧
       icmp₁ (vcVadd 0 0 1 0) (vcFst g) = 0 then 1 else 0
 
-def _root_.LO.FirstOrder.Arithmetic.epsFixIndicDef : 𝚺₁.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.epsFixIndicDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y g. ∃ n, !vcCoeffDef n g ∧ ∃ t, !sndIdxDef t g ∧ ∃ a, !vcFstDef a g ∧
     ∃ o, !vcVaddDef o 0 0 1 0 ∧ ∃ c, !icmp₁Def c o a ∧
     ((g ≠ 0 ∧ n = 1 ∧ t = 0 ∧ c = 0 ∧ y = 1) ∨
       ((g = 0 ∨ n ≠ 1 ∨ t ≠ 0 ∨ c ≠ 0) ∧ y = 0))”
 
 instance epsFixIndic_defined :
-    𝚺₁-Function₁ (epsFixIndic : V → V) via epsFixIndicDef := .mk fun v ↦ by
+    𝚺ᴬ₁-Function₁ (epsFixIndic : V → V) via epsFixIndicDef := .mk fun v ↦ by
   simp [epsFixIndicDef, epsFixIndic, vcCoeff_defined.iff, vcTail, sndIdx_defined.iff,
     vcFst_defined.iff, vcVadd_defined.iff, icmp₁_defined.iff]
   by_cases h0 : v 1 = 0 <;> by_cases h1 : vcCoeff (v 1) = 1 <;>
     by_cases h2 : sndIdx (v 1) = 0 <;>
     by_cases h3 : icmp₁ (vcVadd 0 0 1 0) (vcFst (v 1)) = 0 <;> simp [h0, h1, h2, h3]
 
-instance epsFixIndic_definable : 𝚺₁-Function₁ (epsFixIndic : V → V) :=
+instance epsFixIndic_definable : 𝚺ᴬ₁-Function₁ (epsFixIndic : V → V) :=
   epsFixIndic_defined.to_definable
 
 lemma epsFixIndic_eq_one_iff (g : V) :
@@ -93,17 +95,17 @@ lemma epsFix_destruct {g : V} (h : epsFixIndic g = 1) :
 noncomputable def iepsilon (g : V) : V :=
   if epsFixIndic g = 1 then g else vcVadd (vcVadd 0 0 1 0) g 1 0
 
-def _root_.LO.FirstOrder.Arithmetic.iepsilonDef : 𝚺₁.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.iepsilonDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y g. ∃ q, !epsFixIndicDef q g ∧
     ((q = 1 ∧ y = g) ∨
       (q ≠ 1 ∧ ∃ o, !vcVaddDef o 0 0 1 0 ∧ !vcVaddDef y o g 1 0))”
 
 instance iepsilon_defined :
-    𝚺₁-Function₁ (iepsilon : V → V) via iepsilonDef := .mk fun v ↦ by
+    𝚺ᴬ₁-Function₁ (iepsilon : V → V) via iepsilonDef := .mk fun v ↦ by
   simp [iepsilonDef, iepsilon, epsFixIndic_defined.iff, vcVadd_defined.iff]
   by_cases h : epsFixIndic (v 1) = 1 <;> simp [h]
 
-instance iepsilon_definable : 𝚺₁-Function₁ (iepsilon : V → V) :=
+instance iepsilon_definable : 𝚺ᴬ₁-Function₁ (iepsilon : V → V) :=
   iepsilon_defined.to_definable
 
 lemma iepsilon_of_fix {g : V} (h : epsFixIndic g = 1) : iepsilon g = g := by

@@ -70,7 +70,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder Gamma0Note
+open FFL FFL.FirstOrder Gamma0Note
 
 /-! ### `ω ^ ν` at a finite level
 

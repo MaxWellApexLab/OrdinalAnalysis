@@ -25,6 +25,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ordinal.NONatSum
 public import OrdinalAnalysis.Proof.CutRank
 
@@ -32,7 +33,7 @@ public import OrdinalAnalysis.Proof.CutRank
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 open ONote
 
 variable {L : Language}
@@ -53,7 +54,7 @@ inductive BoundedDerivable (r : ℕ) : NONote → Sequent L → Prop
       BoundedDerivable r β (φ :: Γ) → BoundedDerivable r γ (ψ :: Γ) →
       BoundedDerivable r α (φ ⋏ ψ :: Γ)
   | all {α β : NONote} {φ : Semiproposition L 1} {Γ : Sequent L} :
-      β < α → BoundedDerivable r β (φ.free :: Γ⁺) →
+      β < α → BoundedDerivable r β (φ.free :: Γˡ⁺) →
       BoundedDerivable r α ((∀¹ φ) :: Γ)
   | exs {α β : NONote} {φ : Semiproposition L 1} {Γ : Sequent L} (t) :
       β < α → BoundedDerivable r β (φ/[t] :: Γ) →

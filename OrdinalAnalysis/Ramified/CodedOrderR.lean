@@ -25,15 +25,15 @@
     `SetFree`, defined in `Ramified/LowerClass.lean` where it is first used.
 
   * **The syntactic bridge is stated over an arbitrary reading of *both*
-    fresh symbols**, `raStd s₂` for `s₂ : Structure RALang ℕ`, rather than
+    fresh symbols**, `raStd s₂` for `s₂ : Tarski.Structure RALang ℕ`, rather than
     over a reading of `X` alone: `Ramified/Evaluate.lean`'s `raStd`/`stdR`
     already package exactly this, and a `CodedOrderR`'s `prec` is `XFree`, so
     the reading is invisible to it regardless.
 
   * **The coded ordering itself is reconstructed directly, not transported
     generically.**  A generic transport of `Gentzen.CodedOrder O` along a
-    language map `LX →ᵥ LRA` would need a Structure-level compatibility lemma
-    for that map (`Structure.lMap` agreeing with `raStd`), which is more
+    language map `LX →ᵥ LRA` would need a Tarski.Structure-level compatibility lemma
+    for that map (`Tarski.Structure.lMap` agreeing with `raStd`), which is more
     machinery than the coded ordering below actually needs: `gamma0OrderR` is
     built by replaying `Gentzen/CodedVeblen.lean`'s construction of
     `gamma0Order` with `toLX` replaced by `toLRA` (`Ramified/Language.lean`),
@@ -66,7 +66,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### Not mentioning `X` or `∈̇_ν`
 
@@ -309,7 +309,7 @@ structure CodedOrderR (O : Type) [LinearOrder O] where
   precN : ℕ → ℕ → Prop
   /-- **The syntactic bridge.**  At a pair of numerals, in any reading of the
   fresh symbols, `prec` says `precN`. -/
-  eval_precAt_numeral : ∀ (s₂ : Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ),
+  eval_precAt_numeral : ∀ (s₂ : Tarski.Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ),
     Semiformula.Eval (s := raStd s₂) ![] f (precAt prec (numAtR m) (numAtR n)) ↔ precN m n
   /-- **The semantic bridge.**  Standard codes are ordered as the notations
   are. -/
@@ -363,18 +363,18 @@ def precCode₁R : Semiformula LRA ℕ 2 :=
 
 /-- `precCode₁R` evaluates in any standard structure of `LRA` as `precN₁`,
 whatever the fresh symbols are read as. -/
-theorem eval_precCode₁R (s₂ : Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ) :
+theorem eval_precCode₁R (s₂ : Tarski.Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ) :
     Semiformula.Eval (s := raStd s₂) ![m, n] f precCode₁R ↔ precN₁ m n := by
   unfold precCode₁R precN₁
   rw [eval_lMap_toLRA]
   simp
 
-@[simp] theorem val_numAtR (s₂ : Structure RALang ℕ) {n : ℕ} (m : ℕ) (e : Fin n → ℕ)
+@[simp] theorem val_numAtR (s₂ : Tarski.Structure RALang ℕ) {n : ℕ} (m : ℕ) (e : Fin n → ℕ)
     (f : ℕ → ℕ) : Semiterm.val (s := raStd s₂) e f (numAtR m : Semiterm LRA ℕ n) = m := by
   rw [val_groundR s₂ (groundR_numAtR m) e f, evTermR_numAtR]
 
 /-- **The instance the boundedness induction meets.** -/
-theorem eval_precAt₁R_numeral (s₂ : Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ) :
+theorem eval_precAt₁R_numeral (s₂ : Tarski.Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ) :
     Semiformula.Eval (s := raStd s₂) ![] f
       (precAt precCode₁R (numAtR m) (numAtR n)) ↔ precN₁ m n := by
   unfold precAt

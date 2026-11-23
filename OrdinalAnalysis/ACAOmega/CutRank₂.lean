@@ -32,6 +32,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACA.LK
 public import OrdinalAnalysis.Ordinal.Notation
 
@@ -41,7 +42,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega
 
-open LO LO.SecondOrder
+open FFL FFL.SecondOrder
 open OrdinalAnalysis.ACA
 
 /-- The cut rank of an `ACA.Derivation`: `0` if it uses no `cut`, and otherwise

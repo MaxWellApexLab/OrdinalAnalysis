@@ -4,13 +4,13 @@
   file's header for sources, the doubled-`μ` deviation and the changes from `IDn`), assembled
   from the fourteen per-case obligations `CollapseCases A` (`Statement.lean`), taken here as a
   hypothesis: the case files `IDw/Collapsing/Case<Rule>.lean` prove them one by one
-  (`collapse_case_<rule> hyp`), and the main line builds `CollapseCases A` from them.
+  (`collapse_case_<rule> hyp`), and the caller builds `CollapseCases A` from them.
 
   Transcribed from `IDn/Collapsing/Theorem.lean`.  Changes: the main induction runs over
   `m : WithTop ℕ` (`WellFoundedLT (WithTop ℕ)`), with no bound `m ≤ n`; the dispatch has the two
   new clauses `jlev`, `njlev`; the case lemmas enter through `C : CollapseCases A` instead of
   imports; `collapse_top`/`collapse_zero_top` are the limit instances used by the lower bound
-  (design §4: embed, eliminate `Ω_ω + r → Ω_ω`, collapse at `m = ⊤`, `k = 0`, `γ = 0`, `X = ∅`).
+  (embed, eliminate `Ω_ω + r → Ω_ω`, collapse at `m = ⊤`, `k = 0`, `γ = 0`, `X = ∅`).
 
   `collapseHyps_of` discharges `bound`/`negStage` from the merged `IDw/Boundedness.lean`
   (`boundedness`, `neg_stage_bound`), exactly as `IDn`; `positive` and `predCut` remain.
@@ -18,6 +18,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Collapsing.Statement
 public import OrdinalAnalysis.IDw.Boundedness
 
@@ -31,7 +32,7 @@ namespace IDw
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {A : FormJ}
 
@@ -139,7 +140,7 @@ theorem collapse_zero (C : CollapseCases A) {m : WithTop ℕ} (k : ℕ)
     (by rw [Hg_zero_empty]; exact d)
   rwa [Hg_empty_eq, hat_zero] at h
 
-/-- **The corollary at the limit** (`m = ⊤`, the lower bound's use, design §4):
+/-- **The corollary at the limit** (`m = ⊤`, the lower bound's use):
 `H_0 ⊢^α_{Ω_ω} Γ ⇒ H_η ⊢^{ψ_k η}_{ψ_k η} Γ`, `η = ω^{Ω_ω + Ω_ω + α}`. -/
 theorem collapse_zero_top (C : CollapseCases A) (k : ℕ)
     {α : ThetaVNoteD} {Γ : Sequent LIinfW} (hΓ : ∀ φ ∈ Γ, SigmaW k φ)
@@ -150,7 +151,7 @@ theorem collapse_zero_top (C : CollapseCases A) (k : ℕ)
       (psi k (ThetaVNoteD.omegaPow (ThetaVNoteD.OmegaW + ThetaVNoteD.OmegaW + α))) Γ :=
   collapse_zero C (m := ⊤) k hΓ d
 
-/-- **The corollary followed by boundedness at level `k`** (design note §2.7, steps 4–5):
+/-- **The corollary followed by boundedness at level `k`**:
 `H_0 ⊢^α_{Ω̄_m} φ`, `φ ∈ Σ(Ω_{k+1})` give `H_η ⊢^β_β φ^β` with `β = ψ_k(ω^{Ω̄_m+Ω̄_m+α}) ≺ Ω_{k+1}`. -/
 theorem collapse_zero_bound (hyp : CollapseHyps A) (C : CollapseCases A) {m : WithTop ℕ} (k : ℕ)
     {α : ThetaVNoteD} {φ : Proposition LIinfW} (hφ : SigmaW k φ)

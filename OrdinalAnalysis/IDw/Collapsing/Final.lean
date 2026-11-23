@@ -7,6 +7,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Collapsing.Hyps
 public import OrdinalAnalysis.IDw.Collapsing.CaseLiteral
 public import OrdinalAnalysis.IDw.Collapsing.CaseVerum
@@ -33,7 +34,7 @@ namespace IDw
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {A : FormJ}
 

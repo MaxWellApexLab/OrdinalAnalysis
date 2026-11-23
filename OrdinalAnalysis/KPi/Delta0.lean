@@ -34,7 +34,7 @@ namespace OrdinalAnalysis
 
 namespace KPi
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {ξ ξ₁ ξ₂ : Type*} {n n₁ n₂ : ℕ}
 

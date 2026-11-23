@@ -25,11 +25,13 @@ public import OrdinalAnalysis.IDw.Internal.Codes
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 open OrdinalAnalysis.ID1.Internal (bor beq bor_eq_one beq_eq_one)
 
@@ -43,17 +45,17 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 `kind ∈ {1,2,4}`), `c` itself otherwise. -/
 noncomputable def itoL (c : V) : V := if kind c = 1 ∨ kind c = 2 ∨ kind c = 4 then tcCons c 0 else c
 
-def itoLDef : 𝚺₁.Semisentence 2 := .mkSigma
+def itoLDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ k, !kindDef k c ∧ (((k = 1 ∨ k = 2 ∨ k = 4) ∧ !tcConsDef y c 0) ∨ (k ≠ 1 ∧ k ≠ 2 ∧ k ≠ 4 ∧ y = c))”
 
-instance itoL_defined : 𝚺₁-Function₁ (itoL : V → V) via itoLDef := .mk fun v ↦ by
+instance itoL_defined : 𝚺ᴬ₁-Function₁ (itoL : V → V) via itoLDef := .mk fun v ↦ by
   simp [itoLDef, itoL, kind_defined.iff, tcCons_defined.iff]
   by_cases h : kind (v 1) = 1 ∨ kind (v 1) = 2 ∨ kind (v 1) = 4
   · rw [if_pos h]; tauto
   · rw [if_neg h]; simp only [not_or] at h; tauto
 
-instance itoL_definable : 𝚺₁-Function₁ (itoL : V → V) := itoL_defined.to_definable
-instance itoL_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (itoL : V → V) :=
+instance itoL_definable : 𝚺ᴬ₁-Function₁ (itoL : V → V) := itoL_defined.to_definable
+instance itoL_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (itoL : V → V) :=
   itoL_definable.of_sigmaOne
 
 @[simp] lemma itoL_zero : itoL (0 : V) = 0 := by simp [itoL]

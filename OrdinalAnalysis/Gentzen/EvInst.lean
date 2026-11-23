@@ -18,6 +18,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Omega.Transfer
 public import OrdinalAnalysis.Gentzen.Evaluate
 public import OrdinalAnalysis.Gentzen.OmegaTruth
@@ -28,7 +29,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.EvInst
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen OrdinalAnalysis.Gentzen.StandardLX
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.OmegaTruth
 

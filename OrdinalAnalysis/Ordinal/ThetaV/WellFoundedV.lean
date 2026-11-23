@@ -544,7 +544,7 @@ theorem acc (a : ThetaVNoteD) : Acc (· < ·) a :=
     (InvImage.accessible Subtype.val (ThetaVTerm.accD a.2.1 a.2.2))
 
 /-- **The ϑ-order with `Ω_ω` on the normal domain terms of all levels is well founded.** -/
-instance wellFoundedLT : WellFoundedLT ThetaVNoteD := ⟨⟨acc⟩⟩
+instance wellFoundedLT : WellFoundedLT ThetaVNoteD := ⟨acc⟩
 
 /-- The same, as `WellFounded`. -/
 theorem wellFounded : WellFounded (α := ThetaVNoteD) (· < ·) := ⟨acc⟩

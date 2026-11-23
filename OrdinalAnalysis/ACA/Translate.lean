@@ -3,7 +3,7 @@
   first-order-to-second-order derivation translator `translate ψ`, and the
   commutation lemmas the capstone `lift_paLX` (`Lift.lean`) needs.
 
-  The route (design note §0.2): the only place `paLX` (`Gentzen/Setup.lean`)
+  The route: the only place `paLX` (`Gentzen/Setup.lean`)
   mentions the fresh predicate `X` is through `Xat t`; `toSOAtB ψ` replaces
   every such atom by `ψ/[unTerm t]` for an arbitrary second-order `ψ` (set
   quantifiers in `ψ` are fine — it is a formula of the *ambient* ACA syntax,
@@ -27,6 +27,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACA.Toolkit
 
 @[expose] public section
@@ -35,10 +36,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX XRel Xat toLX paLX)
 
 /-! ### Erasing the fresh predicate from a term
@@ -573,7 +574,7 @@ def translate (ψ : Semiformula ℒₒᵣ ℕ Empty 0 1) :
   | _, .and dp dq => Derivation.and (translate ψ dp) (translate ψ dq)
   | _, .all (φ := φ) (Γ := Γ) d =>
       Derivation.all₁ (Derivation.cast (translate ψ d) (by
-        simp [FirstOrder.Rewriting.shifts, SecondOrder.Sequent.shift₀, List.map_map,
+        simp [FirstOrder.Rewriting.lshifts, SecondOrder.Sequent.shift₀, List.map_map,
           Function.comp_def]))
   | _, .exs (φ := φ) (t := t) (Γ := Γ) d =>
       Derivation.exs₁ (t := unTerm t) (Derivation.cast (translate ψ d) (by simp))

@@ -19,7 +19,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 open OrdinalAnalysis.IDn.Upper
 
 variable {n : ℕ}

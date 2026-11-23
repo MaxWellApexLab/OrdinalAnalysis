@@ -1,6 +1,9 @@
 module
 
 public import OrdinalAnalysis.Basic
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
+public import OrdinalAnalysis.ListLK.SecondOrder
 public import OrdinalAnalysis.Ordinal.NaturalSum
 public import OrdinalAnalysis.Ordinal.NaturalSumMono
 public import OrdinalAnalysis.Ordinal.NONatSum
@@ -554,6 +557,18 @@ public import OrdinalAnalysis.KPi.RS.StarAxFinal
 public import OrdinalAnalysis.KPi.RS.StarCol
 public import OrdinalAnalysis.KPi.RS.StarColSim
 public import OrdinalAnalysis.KPi.RS.StarColAx
+public import OrdinalAnalysis.KPi.RS.Hcontrol
+public import OrdinalAnalysis.KPi.RS.HNice
+public import OrdinalAnalysis.KPi.RS.HChild
+public import OrdinalAnalysis.KPi.RS.HRules
+public import OrdinalAnalysis.KPi.RS.HSim
+public import OrdinalAnalysis.KPi.RS.EmbedTr
+public import OrdinalAnalysis.KPi.RS.EmbedWin
+public import OrdinalAnalysis.KPi.RS.EmbedRules
+public import OrdinalAnalysis.KPi.RS.Embed
+public import OrdinalAnalysis.KPi.RS.EmbedUnion
+public import OrdinalAnalysis.Frontier.FinFun
+public import OrdinalAnalysis.Frontier.FinFunModel
 
 @[expose] public section
 

@@ -1,5 +1,5 @@
 /- Source: OrdinalAnalysis/IDn/StageSemantics.lean (ID_n -> ID_omega: levels `k : ℕ`, one uniform form
-`A : FormJ`, new atoms `Jlev ℓ`; the design notes "Stage semantics"). -/
+`A : FormJ`, new atoms `Jlev ℓ`). -/
 
 /-
   The stage semantics of `ID_ω^∞`, and soundness below `Ω₁`.
@@ -62,6 +62,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Calculus
 public import OrdinalAnalysis.IDw.Sound
 public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
@@ -76,7 +77,7 @@ namespace IDw
 
 namespace StageSem
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Structures reading the stages by a given family of sets -/
 
@@ -84,7 +85,7 @@ open LO LO.FirstOrder
 `Jlev ℓ (s, t)` as "`val s < ℓ` and `val t ∈ S (top (val s))`" (the full stage set of level
 `val s`). -/
 @[instance_reducible]
-def iinfStrucN (P : ℕ → Prop) (S : Stage → Set ℕ) : Structure IInfLangW ℕ where
+def iinfStrucN (P : ℕ → Prop) (S : Stage → Set ℕ) : Tarski.Structure IInfLangW ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | IInfRelW.X => P (v 0)
@@ -94,10 +95,10 @@ def iinfStrucN (P : ℕ → Prop) (S : Stage → Set ℕ) : Structure IInfLangW 
 /-- The `LIinfW`-structure on `ℕ`: arithmetic standard, `X` read by `P`, `I_k^{≺a}` by
 `S ⟨k,a⟩`, `Jlev ℓ` through the full stage sets `S (top j)`. -/
 @[instance_reducible]
-def stageStrucN (P : ℕ → Prop) (S : Stage → Set ℕ) : Structure LIinfW ℕ :=
-  Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfStrucN P S)
+def stageStrucN (P : ℕ → Prop) (S : Stage → Set ℕ) : Tarski.Structure LIinfW ℕ :=
+  Tarski.Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfStrucN P S)
 
-section Struc
+section Tarski.Struc
 
 variable (P : ℕ → Prop) (S : Stage → Set ℕ)
 
@@ -125,9 +126,9 @@ theorem numeral_lMap_toLIinfN {ξ : Type*} {m : ℕ} (t : ℕ) :
     (f : ξ → ℕ) :
     Semiterm.val (s := stageStrucN P S) e f ((t : ℕ) : Semiterm LIinfW ξ m) = t := by
   rw [← numeral_lMap_toLIinfN t]
-  show Semiterm.val (s := Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfStrucN P S)) e f
+  show Semiterm.val (s := Tarski.Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfStrucN P S)) e f
     (Semiterm.lMap (Language.Hom.add₁ ℒₒᵣ IInfLangW) ((t : ℕ) : Semiterm ℒₒᵣ ξ m)) = t
-  rw [Structure.val_lMap_add₁ (str₂ := iinfStrucN P S)]
+  rw [Tarski.Structure.val_lMap_add₁ (str₂ := iinfStrucN P S)]
   simp
 
 /-- `I_k^{≺a} t` holds when the value of `t` lies in `S ⟨k,a⟩`. -/
@@ -171,20 +172,20 @@ theorem eval_of_trueLit {φ : Proposition LIinfW} (h : TrueLit φ) :
     funext i
     exact val_stageStrucN_congr P S _ _ (v i)
   rcases hφ with rfl | rfl
-  · have ht' : Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+  · have ht' : Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
         (fun i => Semiterm.val (s := stdW) ![] (fun _ => 0) (v i)) := ht
-    show Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+    show Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
       (fun i => Semiterm.val (s := stageStrucN P S) ![] (fun _ => 0) (v i))
     rw [e]
     exact ht'
-  · have ht' : ¬Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+  · have ht' : ¬Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
         (fun i => Semiterm.val (s := stdW) ![] (fun _ => 0) (v i)) := ht
-    show ¬Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+    show ¬Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
       (fun i => Semiterm.val (s := stageStrucN P S) ![] (fun _ => 0) (v i))
     rw [e]
     exact ht'
 
-end Struc
+end Tarski.Struc
 
 /-! ### The operator of level `k`, and the unfolding under the stage structure -/
 
@@ -192,7 +193,7 @@ section Operator
 
 /-- The fresh symbols of `LForm`: `P` read by the set `T`, `Q` by the binary relation `Qr`. -/
 @[instance_reducible]
-def pqStruc (T : Set ℕ) (Qr : ℕ → ℕ → Prop) : Structure PQLang ℕ where
+def pqStruc (T : Set ℕ) (Qr : ℕ → ℕ → Prop) : Tarski.Structure PQLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | PQRel.P => v 0 ∈ T
@@ -200,8 +201,8 @@ def pqStruc (T : Set ℕ) (Qr : ℕ → ℕ → Prop) : Structure PQLang ℕ whe
 
 /-- The `LForm`-structure on `ℕ`: arithmetic standard, `P` read by `T`, `Q` by `Qr`. -/
 @[instance_reducible]
-def formStruc (T : Set ℕ) (Qr : ℕ → ℕ → Prop) : Structure LForm ℕ :=
-  Structure.add ℒₒᵣ PQLang ℕ (str₂ := pqStruc T Qr)
+def formStruc (T : Set ℕ) (Qr : ℕ → ℕ → Prop) : Tarski.Structure LForm ℕ :=
+  Tarski.Structure.add ℒₒᵣ PQLang ℕ (str₂ := pqStruc T Qr)
 
 /-- **The operator of level `k`** `Γ_k(T)`, with the lower levels read from the table `L`:
 `x ∈ Γ_k(T)` iff `A(x, k)` holds with `P := T` and `Q(j, t) := j < k ∧ t ∈ L j` (`J^{≺k}`, only
@@ -362,7 +363,7 @@ variable (P : ℕ → Prop) (A : FormJ)
 `stageSetN A ⟨k,a⟩` for every level `k` and every `a ⪯ Ω_{k+1}`, and `Jlev ℓ (s,t)` by
 "`val s < ℓ` and `t ∈ stageSetN A (top (val s))`". -/
 @[instance_reducible]
-noncomputable def stageModelN : Structure LIinfW ℕ := stageStrucN P (stageSetN A)
+noncomputable def stageModelN : Tarski.Structure LIinfW ℕ := stageStrucN P (stageSetN A)
 
 /-- Truth in the stage model, free variables read as `0`. -/
 def TrueSN (φ : Proposition LIinfW) : Prop :=

@@ -34,7 +34,7 @@
       `(Found)*` rule of RS* (B92 Def 2.2) corresponds to it.
 
   **NOTHING may be built on `KPi` until a soundness theorem (a model of `KPi`) exists** — project
-  rule; see the soundness proposal in the design notes.  This file contains
+  rule.  This file contains
   definitions and membership lemmas only.
 
   Contents.
@@ -57,7 +57,7 @@ namespace OrdinalAnalysis
 
 namespace KPi
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The individual axioms and schema bodies -/
 

@@ -26,13 +26,14 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Omega.Calculus
 
 @[expose] public section
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 variable {L : Language}
 variable {O : Type} [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O]

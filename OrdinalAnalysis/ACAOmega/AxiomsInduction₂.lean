@@ -68,6 +68,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACAOmega.AxiomsLogic₂
 public import OrdinalAnalysis.Ordinal.Veblen.Instance
 
@@ -77,9 +78,9 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA
 open OrdinalAnalysis.ACAOmega.OmegaTruth₂
 

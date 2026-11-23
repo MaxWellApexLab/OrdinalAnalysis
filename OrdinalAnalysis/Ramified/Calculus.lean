@@ -23,7 +23,7 @@
     set quantifier is a number quantifier over codes, so the ω-rule and `exs`
     already handle it.
 
-  Two design decisions recorded here because the prototype had to make them.
+  Two design decisions are recorded here.
 
   **Identity is atomic**, as in `Omega/Calculus.lean`, not general as in
   `ACAOmega/Calculus.lean`.  `ACAOmega` needs general identity because its
@@ -56,6 +56,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.Rank
 
 @[expose] public section
@@ -66,7 +67,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 /-! ### The instantiation -/
 

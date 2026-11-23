@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Reduction
 
 /-
@@ -23,7 +24,7 @@ public import OrdinalAnalysis.IDn.Reduction
   and `ω_{j+1}(α) = ω(ω_j(α))`.
 
   **Scope of this port.**  Freund's Corollary 7.2 (embedding + iterated Exercise 7.1 (c) +
-  collapsing, giving `H_η ⊢^{ϑη}_{ϑη} ψ⁺`) is *not* ported here.  This file covers Exercise 7.1 (b),(c) only; the multi-level
+  collapsing, giving `H_η ⊢^{ϑη}_{ϑη} ψˡ⁺`) is *not* ported here.  This file covers Exercise 7.1 (b),(c) only; the multi-level
   collapsing corollary is `IDn/Collapsing.lean`'s job (station C4, Buchholz Theorem 4.8, §2.4),
   a different statement (no `ω_m(Ω+1)`-indexed embedding search) that is not written yet.
   Dropped from the mechanical draft: `collapsing_embedded`, `theta_omegaTower_lt`,
@@ -67,7 +68,7 @@ variable {n : ℕ} (k : Fin n)
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Exercise 7.1 (c) -/
 

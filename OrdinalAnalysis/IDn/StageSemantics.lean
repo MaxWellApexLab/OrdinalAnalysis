@@ -18,7 +18,7 @@
 
       S^k_a  :=  ⋃_{γ≺a} Γ_{A_k}(S^k_γ),        Γ_{A_k}(T) = the set A_k defines at `T`,
 
-  every other level `j` read by `S^j_{Ω_{j+1}}` (design note §2.6). No positivity of any `A k`
+  every other level `j` read by `S^j_{Ω_{j+1}}`. No positivity of any `A k`
   is needed for this recursion, and none for soundness: the stage rules are sound because the
   stages satisfy their defining equation. `LevelBounded k (A k)` *is* needed, to relate the
   placeholder environment used inside the recursion (`∅` above level `k`) to the real one used
@@ -51,6 +51,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Calculus
 public import OrdinalAnalysis.IDn.Sound
 
@@ -64,7 +65,7 @@ namespace IDn
 
 namespace StageSem
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ}
 
@@ -72,7 +73,7 @@ variable {n : ℕ}
 
 /-- The fresh symbols of `LIinfN n`: `X` read by `P`, the stage `I_k^{≺a}` by `S ⟨k,a⟩`. -/
 @[instance_reducible]
-def iinfStrucN (P : ℕ → Prop) (S : Stage n → Set ℕ) : Structure (IInfLangN n) ℕ where
+def iinfStrucN (P : ℕ → Prop) (S : Stage n → Set ℕ) : Tarski.Structure (IInfLangN n) ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | IInfRelN.X => P (v 0)
@@ -81,10 +82,10 @@ def iinfStrucN (P : ℕ → Prop) (S : Stage n → Set ℕ) : Structure (IInfLan
 /-- The `LIinfN n`-structure on `ℕ`: arithmetic standard, `X` read by `P`, `I_k^{≺a}` by
 `S ⟨k,a⟩`. -/
 @[instance_reducible]
-def stageStrucN (P : ℕ → Prop) (S : Stage n → Set ℕ) : Structure (LIinfN n) ℕ :=
-  Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfStrucN P S)
+def stageStrucN (P : ℕ → Prop) (S : Stage n → Set ℕ) : Tarski.Structure (LIinfN n) ℕ :=
+  Tarski.Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfStrucN P S)
 
-section Struc
+section Tarski.Struc
 
 variable (P : ℕ → Prop) (S : Stage n → Set ℕ)
 
@@ -150,9 +151,9 @@ theorem numeral_lMap_toLIinfN {ξ : Type*} {m : ℕ} (t : ℕ) :
     (f : ξ → ℕ) :
     Semiterm.val (s := stageStrucN P S) e f ((t : ℕ) : Semiterm (LIinfN n) ξ m) = t := by
   rw [← numeral_lMap_toLIinfN t]
-  show Semiterm.val (s := Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfStrucN P S)) e f
+  show Semiterm.val (s := Tarski.Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfStrucN P S)) e f
     (Semiterm.lMap (Language.Hom.add₁ ℒₒᵣ (IInfLangN n)) ((t : ℕ) : Semiterm ℒₒᵣ ξ m)) = t
-  rw [Structure.val_lMap_add₁ (str₂ := iinfStrucN P S)]
+  rw [Tarski.Structure.val_lMap_add₁ (str₂ := iinfStrucN P S)]
   simp
 
 /-- `I_k^{≺a} t` holds when the value of `t` lies in `S ⟨k,a⟩`. -/
@@ -233,20 +234,20 @@ theorem eval_of_trueLit {φ : Proposition (LIinfN n)} (h : TrueLit φ) :
     funext i
     exact val_stageStrucN_congr P S _ _ (v i)
   rcases hφ with rfl | rfl
-  · have ht' : Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+  · have ht' : Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
         (fun i => Semiterm.val (s := stdInfN) ![] (fun _ => 0) (v i)) := ht
-    show Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+    show Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
       (fun i => Semiterm.val (s := stageStrucN P S) ![] (fun _ => 0) (v i))
     rw [e]
     exact ht'
-  · have ht' : ¬Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+  · have ht' : ¬Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
         (fun i => Semiterm.val (s := stdInfN) ![] (fun _ => 0) (v i)) := ht
-    show ¬Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+    show ¬Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
       (fun i => Semiterm.val (s := stageStrucN P S) ![] (fun _ => 0) (v i))
     rw [e]
     exact ht'
 
-end Struc
+end Tarski.Struc
 
 /-! ### The stages, iterated over the levels -/
 
@@ -359,7 +360,7 @@ variable (P : ℕ → Prop) (A : Fin n → Semisentence (LXIn n) 1)
 /-- **The stage model**: arithmetic standard, `X` read by `P`, and `I_k^{≺a}` read by the
 stage `stageSetN P A ⟨k,a⟩`, for every level `k` and every `a ⪯ Ω_{k+1}`. -/
 @[instance_reducible]
-noncomputable def stageModelN : Structure (LIinfN n) ℕ := stageStrucN P (stageSetN P A)
+noncomputable def stageModelN : Tarski.Structure (LIinfN n) ℕ := stageStrucN P (stageSetN P A)
 
 /-- Truth in the stage model, free variables read as `0`. -/
 def TrueSN (φ : Proposition (LIinfN n)) : Prop :=

@@ -6,7 +6,7 @@
 
   * `IDn/{AxiomsLogic,AxiomsPA,AxiomsID,Evaluate}` are either not yet ported (`AxiomsLogic`,
     which does not exist under `IDn/`) or red (`AxiomsPA`, `AxiomsID`, `Evaluate` all fail to
-    elaborate on sky4 today — checked with `lean_warm.py check`). None of their declarations
+    elaborate). None of their declarations
     are importable (a red file has no usable `.olean`), so every lemma this file's proof needs
     from those four files is instead taken as a field of **`EmbedHyps`**, a structure bundling
     exactly the facts `replay`/`ax_derivable_of_mem` invoke, stated per level where the source
@@ -18,7 +18,7 @@
     the calculus's meta-theory downstream of this file (`IDn/Collapsing/Theorem.lean`'s
     `collapse_zero_bound`, `IDn/Elimination.lean`'s `elimination_iter`,
     `IDn/PredCutAux.lean`'s `predicative_cut_elim`/`boundedness_self`) is all stated over
-    `NiceS`, and `Hop k`/`Nice k` is *not* the same family as `HopS`/`NiceS` (adjudicated in
+    `NiceS`, and `Hop k`/`Nice k` is *not* the same family as `HopS`/`NiceS` (settled in
     Lean: `NiceS ⇏ Nice k`) — so an `embedding_theorem` quantifying over `Nice n` operators
     could not be instantiated at the `HopS`-shaped operators the consumers actually use. Every
     `Omega_mem j` (every `j`, not just level `n`) is available from `NiceS` exactly as from
@@ -47,6 +47,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.NumSubst
 public import OrdinalAnalysis.IDn.ReductionAux
 
@@ -58,10 +60,10 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
-open LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Arithmetic
 
 variable {n : ℕ}
 
@@ -99,7 +101,7 @@ end AxDerivable
 
 /-- **What `replay`/`ax_derivable_of_mem` need from the not-yet-green four ID₁ files
 (`AxiomsLogic` — does not exist under `IDn/`; `AxiomsPA`, `AxiomsID`, `Evaluate` — red on
-sky4 today), lifted per level. Every field is the statement of a real ID₁ theorem (see the
+today), lifted per level. Every field is the statement of a real ID₁ theorem (see the
 file header); none of the four files is imported, so none of their names are usable, and
 these are taken as hypotheses rather than waited on. -/
 structure EmbedHyps (A : Fin n → Semisentence (LXIn n) 1) where
@@ -139,7 +141,7 @@ structure EmbedHyps (A : Fin n → Semisentence (LXIn n) 1) where
 variable {A : Fin n → Semisentence (LXIn n) 1}
 
 /-- The height of the replay of an `LK` derivation, above `Ω_n`. -/
-def hgt : {Γ : Sequent (LXIn n)} → ⊢ᴸᴷ¹ Γ → ℕ
+def hgt : {Γ : Sequent (LXIn n)} → ⊢ᶠ¹ Γ → ℕ
   | _, Derivation.identity _ _ => 0
   | _, Derivation.verum => 0
   | _, Derivation.cut dp dn => max (hgt dp) (hgt dn) + 1
@@ -150,7 +152,7 @@ def hgt : {Γ : Sequent (LXIn n)} → ⊢ᴸᴷ¹ Γ → ℕ
   | _, Derivation.exs d => hgt d + 1
 
 /-- One more than the largest complexity of an embedded cut formula. -/
-def cutCx : {Γ : Sequent (LXIn n)} → ⊢ᴸᴷ¹ Γ → ℕ
+def cutCx : {Γ : Sequent (LXIn n)} → ⊢ᶠ¹ Γ → ℕ
   | _, Derivation.identity _ _ => 0
   | _, Derivation.verum => 0
   | _, @Derivation.cut _ φ _ _ dp dn => max ((embK φ).complexity + 1) (max (cutCx dp) (cutCx dn))
@@ -185,11 +187,11 @@ theorem tr_free (f : ℕ → ℕ) (m : ℕ) (φ : Semiproposition (LXIn n) 1) :
   rw [tr, embK_free, numSubst_free]
 
 theorem tr_shifts (f : ℕ → ℕ) (m : ℕ) (Γ : Sequent (LXIn n)) :
-    (Γ⁺).map (tr (m :>ₙ f)) = Γ.map (tr f) := by
+    (Γˡ⁺).map (tr (m :>ₙ f)) = Γ.map (tr f) := by
   induction Γ with
   | nil => rfl
   | cons φ Γ ih =>
-    rw [Rewriting.shifts_cons, List.map_cons, List.map_cons, ih, tr, tr, embK_shift,
+    rw [Rewriting.lshifts_cons, List.map_cons, List.map_cons, ih, tr, tr, embK_shift,
       numSubst_shift]
 
 /-- **`embK_subst`, with no explicit level.** `embT` (`IDn.NumSubst`) needs an explicit
@@ -330,7 +332,7 @@ theorem subset_cons_cons {α : Type*} {a : α} {Γ Δ : List α} (h : Γ ⊆ Δ)
 assignment `f` of numerals to the free variables, a derivation of the embedded sequent at
 height `Ω_n + h` and cut rank `Ω_n + m`, with `h`, `m` read off the derivation. -/
 theorem replay (hyps : EmbedHyps A) (hX : ∀ k, XFreeL (A k)) (hH : ThetaWNoteD.NiceS H) :
-    ∀ {Γ : Sequent (LXIn n)} (d : ⊢ᴸᴷ¹ Γ) (f : ℕ → ℕ),
+    ∀ {Γ : Sequent (LXIn n)} (d : ⊢ᶠ¹ Γ) (f : ℕ → ℕ),
       IDnDerivable A (OmegaPlus (n := n) (cutCx d)) H (OmegaPlus (n := n) (hgt d)) (Γ.map (tr f))
   | _, Derivation.identity r v, f => by
     have hc : (tr f (Semiformula.rel r v)).freeVariables = ∅ := freeVariables_tr f _
@@ -570,7 +572,7 @@ theorem embedding_theorem (hyps : EmbedHyps A) (hA : FamilyPositive A) (hX : ∀
     ∃ m r : ℕ, ∀ H : Set ThetaWNoteD → Set ThetaWNoteD, ThetaWNoteD.NiceS H →
       IDnDerivable A (OmegaPlus (n := n) m) H (OmegaTwo (n := n) + ThetaWNoteD.ofNat r)
         [(Rewriting.emb (embK σ) : Proposition (LIinfN n))] := by
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp h
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp h
   have hax : ∀ θ ∈ Δ, AxDerivable A θ := fun θ hθ => ax_derivable_of_mem hyps hA hX (hΔ θ hθ)
   obtain ⟨N, hN⟩ := axDerivable_list Δ hax
   obtain ⟨m0, hm0⟩ := cx_list Δ
@@ -599,7 +601,7 @@ theorem embedding_theorem (hyps : EmbedHyps A) (hA : FamilyPositive A) (hX : ∀
     (ThetaWNoteD.ofNat_le_ofNat (le_max_left _ _)) (ThetaWNoteD.le_add_left _ _))
 
 /-- **Theorem 6.5 for `X`-free sentences**, in Freund's per-level form: `H ⊢^{Ω_n·2+r}_{Ω_n+m}
-σ⁺` with `σ⁺ = embed σ` (`I_k ↦ I_k^{≺Ω_{k+1}}`). -/
+σˡ⁺` with `σˡ⁺ = embed σ` (`I_k ↦ I_k^{≺Ω_{k+1}}`). -/
 theorem embedding_theorem_xfree (hyps : EmbedHyps A) (hA : FamilyPositive A)
     (hX : ∀ k, XFreeL (A k)) {σ : Sentence (LXIn n)} (hσ : XFreeL σ) (h : ID A ⊢ σ) :
     ∃ m r : ℕ, ∀ H : Set ThetaWNoteD → Set ThetaWNoteD, ThetaWNoteD.NiceS H →

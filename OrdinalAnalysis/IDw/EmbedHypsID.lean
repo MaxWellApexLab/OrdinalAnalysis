@@ -38,7 +38,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- **`EmbedHyps.closure_axiom`**, exactly. -/
 theorem embedHyps_closure_axiom {A : FormJ} : PositiveP A → AxDerivable A (closureAxJ A) :=

@@ -43,6 +43,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.Theory
 public import OrdinalAnalysis.Ramified.AxiomsLogic
 
@@ -54,7 +55,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation FFL.FirstOrder.Arithmetic
 
 /-! ### Closing a variable-free proposition is the identity -/
 

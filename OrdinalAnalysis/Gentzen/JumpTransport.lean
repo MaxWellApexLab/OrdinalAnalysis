@@ -20,7 +20,7 @@ set_option autoImplicit false
 namespace OrdinalAnalysis.Gentzen.JumpTransport
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.CodedNotation
 
@@ -42,7 +42,7 @@ lemma lMap_succ_four :
   · simp [Function.comp_def]
     exact Matrix.empty_eq _
 
-lemma map_iterZero_gen (σ : 𝚺₁.Semisentence 4) :
+lemma map_iterZero_gen (σ : 𝚺ᴬ₁.Semisentence 4) :
     Semiformula.lMap toLX
         (∀¹ ∀¹ ∀¹
           (∼(Rew.subst ![#0, #2, #1, ((0 : ℕ) : Semiterm ℒₒᵣ ℕ 3)] ▹
@@ -60,7 +60,7 @@ lemma map_iterZero_gen (σ : 𝚺₁.Semisentence 4) :
     rw [Fin.forall_fin_two]
     exact ⟨rfl, rfl⟩
 
-lemma map_iterSucc_gen (σ : 𝚺₁.Semisentence 4) (α : 𝚺₁.Semisentence 3) :
+lemma map_iterSucc_gen (σ : 𝚺ᴬ₁.Semisentence 4) (α : 𝚺ᴬ₁.Semisentence 3) :
     Semiformula.lMap toLX
         (∀¹ ∀¹ ∀¹ ∀¹
           (∼(Rew.subst ![#0, #3, #2, (‘(#1 + 1)’ : Semiterm ℒₒᵣ ℕ 4)] ▹
@@ -74,7 +74,7 @@ lemma map_iterSucc_gen (σ : 𝚺₁.Semisentence 4) (α : 𝚺₁.Semisentence 
   simp [iterAt, addAt, liftCode, Semiformula.lMap_subst]
   rw [lMap_succ_four]
 
-lemma map_noPredZero_gen (π : 𝚺₁.Semisentence 2) :
+lemma map_noPredZero_gen (π : 𝚺ᴬ₁.Semisentence 2) :
     Semiformula.lMap toLX
         (∀¹ ∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 1),
               ((0 : ℕ) : Semiterm ℒₒᵣ ℕ 1)] ▹ Rewriting.emb π.val)) =
@@ -84,7 +84,7 @@ lemma map_noPredZero_gen (π : 𝚺₁.Semisentence 2) :
   rw [lMap_zero]
 
 lemma models_iterSucc_gen {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (σ : 𝚺₁.Semisentence 4) (α : 𝚺₁.Semisentence 3) :
+    [sLX : Tarski.Structure LX M] (σ : 𝚺ᴬ₁.Semisentence 4) (α : 𝚺ᴬ₁.Semisentence 3) :
     M↓[LX] ⊧ iterSuccStatement (liftCode α) (liftCode σ) ↔
       (sLX.lMap toLX).toStruc ⊧
         ((∀¹ ∀¹ ∀¹ ∀¹
@@ -93,7 +93,7 @@ lemma models_iterSucc_gen {M : Type*} [Nonempty M]
             (∃¹ ((Rew.subst ![#0, #4, #3, #2] ▹ Rewriting.emb σ.val) ⋏
               (Rew.subst ![#1, #0, #3] ▹ Rewriting.emb α.val))))).univCl :
           Sentence ℒₒᵣ) := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [iterSuccStatement, Semiformula.eval_univCl]
   rw [← map_iterSucc_gen]

@@ -21,7 +21,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- **`EmbedHyps A` for every operator form `A`**: every field is a theorem. -/
 theorem embedHyps (A : FormJ) : EmbedHyps A where

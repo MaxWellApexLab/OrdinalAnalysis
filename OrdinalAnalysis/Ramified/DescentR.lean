@@ -33,7 +33,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-- The matrix of the descent: `TI_μ(b) → ψ_κ(b)`, with `b` the bound
 variable. -/
@@ -45,7 +45,7 @@ theorem lvlOf_descentR_le {μ κ : Lv} (hκ : κ < μ) : lvlOf (descentR μ κ) 
 
 section Model
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν μ κ : Lv}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν μ κ : Lv}
 
 /-- **(D_{μ,κ}) in a model**: `TI_μ(b) → ψ_κ(b)`, for `0 < κ < μ < ν`. -/
 theorem descent_M (hM : M↓[LRA] ⊧* RAlt ν) (h0 : 0 < κ) (hκ : κ < μ) (hμ : μ < ν) {b : M}

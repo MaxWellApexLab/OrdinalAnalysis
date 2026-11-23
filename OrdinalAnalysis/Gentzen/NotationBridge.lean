@@ -18,7 +18,7 @@ set_option autoImplicit false
 namespace OrdinalAnalysis.Gentzen.NotationBridge
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 
 /-- The primitive-recursive natural-number code of a mathlib ordinal notation. -/

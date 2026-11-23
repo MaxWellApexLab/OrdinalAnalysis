@@ -26,7 +26,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.PrecStandard
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.NotationBridge

@@ -25,11 +25,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### The two plugged forms -/
@@ -40,7 +40,7 @@ section PlugForms
 variable (P : Pred n)
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem params_predStage (g : StageAt k.val) (m : ℕ) (s : Semiterm (LIinfN n) ℕ m) :
     params (predStage k g m s) ⊆ {(⟨k, g⟩ : Stage n)} := subset_refl _

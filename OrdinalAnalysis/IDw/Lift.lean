@@ -34,9 +34,10 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Theory
 public import OrdinalAnalysis.IDw.Sound
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -48,19 +49,19 @@ namespace IDw
 
 namespace Lift
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 open scoped Classical
 
 /-! ### Arithmetically standard structures -/
 
 /-- The `ℒₒᵣ`-reduct of the `LXJ`-structure is the arithmetic of `N`. -/
-class ArithStd (N : Type*) [ORingStructure N] [s : Structure LXJ N] : Prop where
+class ArithStd (N : Type*) [ORingStructure N] [s : Tarski.Structure LXJ N] : Prop where
   lMap_eq : s.lMap toLXJ = Arithmetic.standardModel N
 
 section Std
 
-variable {N : Type*} [ORingStructure N] [s : Structure LXJ N] [ArithStd N]
+variable {N : Type*} [ORingStructure N] [s : Tarski.Structure LXJ N] [ArithStd N]
 
 /-- Arithmetic terms have their arithmetic values. -/
 theorem val_lMap {ξ : Type*} {n : ℕ} (t : Semiterm ℒₒᵣ ξ n) (e : Fin n → N) (f : ξ → N) :
@@ -78,7 +79,7 @@ end Std
 
 section Preds
 
-variable {N : Type*} [s : Structure LXJ N]
+variable {N : Type*} [s : Tarski.Structure LXJ N]
 
 /-- The binary relation read by `J`: `J y x` says `x` is in the `y`-th inductive set. -/
 def Jmem (y x : N) : Prop := s.rel (Sum.inr XJRel.J) ![y, x]
@@ -129,7 +130,7 @@ end Membership
 
 section Complete
 
-variable {M : Type*} (s : Structure LXJ M)
+variable {M : Type*} (s : Tarski.Structure LXJ M)
 
 set_option warn.classDefReducibility false in
 /-- The arithmetic operations of an `LXJ`-structure. -/
@@ -146,7 +147,7 @@ theorem arithStd_of
     (hEq : ∀ a b : M, s.rel (Language.Eq.eq : LXJ.Rel 2) ![a, b] ↔ a = b) :
     letI := oringOf s; ArithStd M := by
   let _ := oringOf s
-  refine ⟨Structure.ext (funext₃ fun k f v => ?_) (funext₃ fun k r v => ?_)⟩
+  refine ⟨Tarski.Structure.ext (funext₃ fun k f v => ?_) (funext₃ fun k r v => ?_)⟩
   · match k, f with
     | _, Language.ORing.Func.zero =>
       show s.func (Language.Zero.zero : LXJ.Func 0) v =
@@ -177,7 +178,7 @@ theorem arithStd_of
 /-- **Provability from truth in the arithmetically standard models.**  A sentence true in
 every arithmetically standard model of `IDw A` is a theorem of `IDw A`. -/
 theorem provable_of_models (A : FormJ) {σ : Sentence LXJ}
-    (H : ∀ (N : Type) [ORingStructure N] [Structure LXJ N] [ArithStd N],
+    (H : ∀ (N : Type) [ORingStructure N] [Tarski.Structure LXJ N] [ArithStd N],
       N↓[LXJ] ⊧* IDw A → N↓[LXJ] ⊧ σ) :
     IDw A ⊢ σ := by
   apply Theory.Proof.complete.{0, 0}
@@ -193,12 +194,12 @@ end Complete
 
 section WithJ
 
-variable {N : Type*} [s : Structure LXJ N]
+variable {N : Type*} [s : Tarski.Structure LXJ N]
 
 set_option warn.classDefReducibility false in
 /-- The structure `N` with the `y`-th column of `J` read as `T`, every other symbol and
 column unchanged. -/
-def withJAt (y : N) (T : N → Prop) : Structure LXJ N where
+def withJAt (y : N) (T : N → Prop) : Tarski.Structure LXJ N where
   func := fun {_} f v => s.func f v
   rel := fun {m} r v => match m, r with
     | _, Sum.inl r => s.rel (Sum.inl r) v
@@ -233,7 +234,7 @@ theorem withJAt_rel_X (y : N) (T : N → Prop) (x : N) :
 
 /-- Reading the `y`-th column of `J` as itself changes nothing. -/
 theorem withJAt_self (y : N) : withJAt y (Jmem (s := s) y) = s := by
-  refine Structure.ext (funext₃ fun _ _ _ => rfl) (funext₃ fun m r v => ?_)
+  refine Tarski.Structure.ext (funext₃ fun _ _ _ => rfl) (funext₃ fun m r v => ?_)
   match m, r with
   | _, Sum.inl r => rfl
   | _, Sum.inr XJRel.X => rfl
@@ -288,7 +289,7 @@ theorem eval_ltAt_iff {ξ : Type*} {n : ℕ} (a b : Semiterm LXJ ξ n) (e : Fin 
     have h1 : s.rel (Sum.inl Language.LT.lt) v =
         (s.lMap toLXJ).rel (Language.LT.lt : (ℒₒᵣ).Rel 2) v := rfl
     rw [h1, ArithStd.lMap_eq]
-    exact Structure.lt_lang
+    exact Tarski.Structure.lt_lang
   show s.rel (Sum.inl Language.LT.lt) _ ↔ _
   rw [h, key]
   rfl
@@ -394,7 +395,7 @@ end WithJ
 
 section Model
 
-variable {N : Type*} [ORingStructure N] [s : Structure LXJ N] [ArithStd N]
+variable {N : Type*} [ORingStructure N] [s : Tarski.Structure LXJ N] [ArithStd N]
 variable (A : FormJ)
 
 variable [hM : N↓[LXJ] ⊧* IDw A]
@@ -407,7 +408,7 @@ theorem eval_of_mem_IDwN {σ : Sentence LXJ} (h : σ ∈ IDw A) :
 
 omit [ORingStructure N] [ArithStd N] s hM in
 /-- **`AAt` with the `ξ = Empty` and `ξ = ℕ` copies of `A` agree** in every structure. -/
-theorem eval_AAt_embN (t : Structure LXJ N) (φ : Semiformula LForm Empty 2) (e : Fin 2 → N)
+theorem eval_AAt_embN (t : Tarski.Structure LXJ N) (φ : Semiformula LForm Empty 2) (e : Fin 2 → N)
     (f : ℕ → N) :
     Semiformula.Eval (s := t) e f
         (AAt (Jat #1 #0) (Rew.emb (#1 : Semiterm LXJ Empty 2)) (Rewriting.emb φ)) ↔
@@ -506,7 +507,7 @@ theorem val_succ_term (f : ℕ → N) (x : N) :
   simp [Semiterm.val_operator]
 
 /-- The instance of `succInd` at `φ`, unfolded. -/
-theorem eval_succInd_iff {L : Language} [L.ORing] {M : Type*} [Structure L M]
+theorem eval_succInd_iff {L : Language} [L.ORing] {M : Type*} [Tarski.Structure L M]
     (φ : Semiformula L ℕ 1) (f : ℕ → M) :
     Semiformula.Eval ![] f (succInd φ) ↔
       (Semiformula.Eval ![Semiterm.val ![] f ((0 : ℕ) : Semiterm L ℕ 0)] f φ →
@@ -619,11 +620,11 @@ theorem succ_induction_definable {Q : N → Prop} (hQ : LXJ.DefinablePred Q)
 omit [ORingStructure N] [ArithStd N] hM in
 /-- An arithmetic predicate with parameters is definable in `LXJ`. -/
 theorem definable_of_arith [ORingStructure N] [ArithStd N] {k : ℕ} {R : (Fin k → N) → Prop}
-    {ℌ : HierarchySymbol} (h : ℌ.Definable R) : LXJ.Definable R := by
+    {ℌ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]} (h : ℌ.Definable R) : LXJ.Definable R := by
   obtain ⟨φ, hφ⟩ := h.definable
   refine ⟨Semiformula.lMap toLXJ φ.val, fun v => ?_⟩
   rw [eval_lMap]
-  exact HierarchySymbol.IsDefinedByWithParam.df hφ v
+  exact Bounding.HierarchySymbol.IsDefinedByWithParam.df hφ v
 
 omit [ORingStructure N] [ArithStd N] hM in
 /-- Each column of `J` is definable, with the level as a parameter. -/
@@ -647,7 +648,7 @@ theorem order_induction_definable {Q : N → Prop} (hQ : LXJ.DefinablePred Q)
   have hQ' : LXJ.DefinablePred fun x : N => ∀ y < x, Q y := by
     refine Language.Definable.all ?_
     refine Language.Definable.imp ?_ ?_
-    · exact definable_of_arith (ℌ := 𝚺₀) (by definability)
+    · exact definable_of_arith (ℌ := 𝚺ᴬ₀) (by definability)
     · exact hQ.retraction ![0]
   have key := succ_induction_definable A hQ' (fun y hy => absurd hy (by simp))
     (fun x hx y hy => by

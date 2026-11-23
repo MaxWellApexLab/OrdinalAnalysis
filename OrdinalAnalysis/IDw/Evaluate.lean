@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Calculus
 public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
 
@@ -73,7 +74,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Formulas without `X`
 
@@ -212,7 +213,7 @@ end ThetaVNoteD
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The replacement relation -/
 

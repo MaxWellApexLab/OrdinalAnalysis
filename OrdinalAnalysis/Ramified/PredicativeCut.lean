@@ -38,7 +38,7 @@
     `SecondCut.lean`'s `chain_of_lt_omegaN` for `NONote`.  Together they give
     **`predicativeCut_omega`** and, over `Gamma0Note` heights,
     **`secondCutEliminationR`**: `⊢^α_ω Γ ⇒ ⊢^{ε_α}_0 Γ`.  That is the ν = 1
-    regression the design note asks for, reproducing the ε-jump in the ramified
+    regression, reproducing the ε-jump in the ramified
     calculus.
 
   ## What is missing, and why
@@ -77,6 +77,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.Reduction
 public import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
 
@@ -88,7 +89,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 namespace OmegaDerivableR
 

@@ -48,7 +48,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The levels of the equality axioms -/
 
@@ -87,11 +87,11 @@ theorem lvlOf_emb_memExt (κ : Lv) :
 
 section Trunc
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 set_option warn.classDefReducibility false in
 /-- `M` with every `∈̇_κ`, `κ ≥ ν`, read as the empty relation. -/
-def truncStr (ν : Lv) : Structure LRA M where
+def truncStr (ν : Lv) : Tarski.Structure LRA M where
   func := fun {_} f v => s.func f v
   rel := fun {k} r v => match k, r with
     | _, Sum.inl r => s.rel (Sum.inl r) v
@@ -225,12 +225,12 @@ end Trunc
 theorem of `RAlt ν`. -/
 theorem provable_of_eqModels {ν : Lv} (hν : 1 ≤ ν) {σ : Sentence LRA}
     (hσ : lvlOf (Rewriting.emb σ : Proposition LRA) < ν)
-    (H : ∀ (N : Type) [Nonempty N] [Structure LRA N] [Structure.Eq LRA N],
+    (H : ∀ (N : Type) [Nonempty N] [Tarski.Structure LRA N] [Tarski.Structure.Eq LRA N],
       N↓[LRA] ⊧* RAlt ν → N↓[LRA] ⊧ σ) :
     RAlt ν ⊢ σ := by
   apply Theory.Proof.complete.{0, 0}
   have : 𝗘𝗤 LRA ⪯ RAlt ν ∪ 𝗘𝗤 LRA := Entailment.WeakerThan.ofSubset Set.subset_union_right
-  have hT' : (RAlt ν ∪ 𝗘𝗤 LRA) ⊨[Struc.{0, 0} LRA] σ := by
+  have hT' : (RAlt ν ∪ 𝗘𝗤 LRA) ⊨[Tarski.Struc.{0, 0} LRA] σ := by
     rw [consequence_iff_eq]
     intro N _ _ _ hN
     exact H N (Semantics.ModelsSet.of_subset hN Set.subset_union_left)
@@ -245,11 +245,11 @@ theorem provable_of_eqModels {ν : Lv} (hν : 1 ≤ ν) {σ : Sentence LRA}
 
 section Lift
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 set_option warn.classDefReducibility false in
 /-- The `LX`-structure on a model of `LRA`: the same arithmetic, `X` read as `P`. -/
-def lxStr (P : M → Prop) : Structure Gentzen.LX M where
+def lxStr (P : M → Prop) : Tarski.Structure Gentzen.LX M where
   func := fun {_} f v => s.func (lxToLRA.func f) v
   rel := fun {k} r v => match k, r with
     | _, Sum.inl r => s.rel (Sum.inl r) v
@@ -348,7 +348,7 @@ theorem eval_substXB (B : Semiformula LRA ℕ 1) (h : ℕ → M) (P : M → Prop
     exact exists_congr fun x => ih (x :> e)
 
 
-theorem eval_succInd_iff {L : Language} [L.ORing] {N : Type} [Structure L N]
+theorem eval_succInd_iff {L : Language} [L.ORing] {N : Type} [Tarski.Structure L N]
     (φ : Semiformula L ℕ 1) (f : ℕ → N) :
     Semiformula.Eval ![] f (succInd φ) ↔
       (Semiformula.Eval ![Semiterm.val ![] f ((0 : ℕ) : Semiterm L ℕ 0)] f φ →
@@ -380,10 +380,10 @@ theorem lMap_succ_LX :
 
 
 /-- `lxStr P` has true equality when `M` has. -/
-theorem lxStr_eq (P : M → Prop) [Structure.Eq LRA M] :
-    letI := lxStr P; Structure.Eq Gentzen.LX M :=
+theorem lxStr_eq (P : M → Prop) [Tarski.Structure.Eq LRA M] :
+    letI := lxStr P; Tarski.Structure.Eq Gentzen.LX M :=
   letI := lxStr P
-  ⟨fun a b => Structure.Eq.eq (L := LRA) a b⟩
+  ⟨fun a b => Tarski.Structure.Eq.eq (L := LRA) a b⟩
 
 /-- Interleaving two assignments: even indices from `g`, odd ones from `f`. -/
 def interleave (g f : ℕ → M) : ℕ → M := fun k => if k % 2 = 0 then g (k / 2) else f (k / 2)
@@ -441,12 +441,12 @@ theorem lvlOf_substXB_le (B : Semiformula LRA ℕ 1) {n : ℕ} (φ : Semiformula
 
 /-- **`lxStr P` is a model of `PA[X]`** for every `P` defined, with parameters, by
 a formula of level `< ν` in a model of `RAlt ν` with true equality. -/
-theorem models_paLX_lxStr [Nonempty M] [Structure.Eq LRA M] {ν : Lv}
+theorem models_paLX_lxStr [Nonempty M] [Tarski.Structure.Eq LRA M] {ν : Lv}
     (hM : M↓[LRA] ⊧* RAlt ν) (B : Semiformula LRA ℕ 1) (hB : lvlOf B < ν) (fB : ℕ → M)
     (P : M → Prop) (hP : ∀ x, P x ↔ Semiformula.Eval (s := s) ![x] fB B) :
     letI := lxStr P; M↓[Gentzen.LX] ⊧* Gentzen.paLX := by
-  let _ : Structure Gentzen.LX M := lxStr P
-  have _ : Structure.Eq Gentzen.LX M := lxStr_eq P
+  let _ : Tarski.Structure Gentzen.LX M := lxStr P
+  have _ : Tarski.Structure.Eq Gentzen.LX M := lxStr_eq P
   refine Semantics.modelsSet_iff.mpr ?_
   rintro σ (hσ | hσ | hσ)
   · exact Theory.models M (𝗘𝗤 Gentzen.LX) hσ
@@ -478,12 +478,12 @@ theorem models_paLX_lxStr [Nonempty M] [Structure.Eq LRA M] {ν : Lv}
     exact hg
 
 /-- **Every theorem of `PA[X]` holds in `lxStr P`.** -/
-theorem models_of_paLX [Nonempty M] [Structure.Eq LRA M] {ν : Lv}
+theorem models_of_paLX [Nonempty M] [Tarski.Structure.Eq LRA M] {ν : Lv}
     (hM : M↓[LRA] ⊧* RAlt ν) (B : Semiformula LRA ℕ 1) (hB : lvlOf B < ν) (fB : ℕ → M)
     (P : M → Prop) (hP : ∀ x, P x ↔ Semiformula.Eval (s := s) ![x] fB B)
     {σ : Sentence Gentzen.LX} (h : Gentzen.paLX ⊢ σ) :
     letI := lxStr P; M↓[Gentzen.LX] ⊧ σ := by
-  let _ : Structure Gentzen.LX M := lxStr P
+  let _ : Tarski.Structure Gentzen.LX M := lxStr P
   have _ := models_paLX_lxStr hM B hB fB P hP
   exact consequence_iff'.mp (Theory.Proof.sound h) M
 

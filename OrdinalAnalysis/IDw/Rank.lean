@@ -1,7 +1,7 @@
 /-
   The rank of the formulas of the infinitary language `LIinfW` of `ID_ω`.
 
-  Source: the design notes §3.1 "Language `LIinfW`", read for the
+  Construction: the language `LIinfW`, read for the
   headline lemma list; `IDn/Rank.lean` is the template for everything about the stage predicates
   `I_k^{≺α}` (levels `k : ℕ` unbounded here, `IDn`'s `Fin n` dropped throughout — `IDw/Language.
   lean`'s `Stage := Σ k : ℕ, StageAt k` already made this change once, at the language level; this
@@ -25,10 +25,9 @@
   **Why no `OrdinalNotation`-generic section.** `IDn.Rank`'s final `Generic` section
   (`rk_and_succ`, …) rewrites the successor of the rank definition as `OrdinalNotation.succ`,
   using `ThetaWNoteD`'s registered `OrdinalNotation` instance (`ThetaW/Instance.lean`). No such
-  instance exists yet for `ThetaVNoteD` (`ThetaVNoteD.ordinalNotation` is stage `N1w`'s, still
-  in flight — confirmed absent by `dispatch_gate.py check L`, current HEAD); the *arithmetic*
+  instance exists yet for `ThetaVNoteD` (`ThetaVNoteD.ordinalNotation` is not available here); the *arithmetic*
   this file actually needs (`add`, `nadd`, `omegaPow`, `omegaMul`, `ofNat`, `succ`, their `dom_*`
-  lemmas — `ThetaV/Arith.lean`, independently `lean_warm.py`-verified green) is already merged
+  lemmas — `ThetaV/Arith.lean`) is already merged
   and is all that is used below, so that section is simply omitted, not stubbed.
 
   **The laws proved** (mirroring `IDn/Rank.lean`'s list, plus the `Jlev`/limit additions of the
@@ -232,7 +231,7 @@ end ThetaVNoteD
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The rank -/
 
@@ -521,7 +520,7 @@ theorem rk_unfold_le (A : FormJ) {k : ℕ} (g : StageAt k) (t : Semiterm LIinfW 
 
 /-- **The stage case**: `rk(unfoldW A k g t) ≺ rk(I_k^{≺a'} s)` for `g ≺ a'` at the *same* level
 `k` — the rank drop of the infinite disjunction `I_k^{≺a'} s ≃ ⋁_{g≺a'} A_k(s, I_k^{≺g})` and of
-the dual conjunction (design §3.1: "`rk(unfoldW A k g t) ≺ Ω_k + ω·a` for `g ≺ a` still holds",
+the dual conjunction (the construction: "`rk(unfoldW A k g t) ≺ Ω_k + ω·a` for `g ≺ a` still holds",
 `max(Ω_k+1, Ω_k+ω·g) + finite` folded into the single `+ (p+1)` slack of `rk_unfold_le` above —
 `add_omegaMul_nadd_ofNat_lt` tolerates *any* finite offset on the smaller side, so the extra `+1`
 costs nothing here). -/
@@ -809,7 +808,7 @@ def NoJlevTop {ξ : Type*} : {m : ℕ} → Semiformula LIinfW ξ m → Prop
   | _, .all φ => NoJlevTop φ
   | _, .exs φ => NoJlevTop φ
 
-/-- **A formula has rank `≺ Ω_ω` iff it contains no `Jlev ⊤` atom** (design §3.1's "for formulas
+/-- **A formula has rank `≺ Ω_ω` iff it contains no `Jlev ⊤` atom** (the construction "for formulas
 without top-level `Jlev ⊤`"). -/
 theorem rk_lt_OmegaW_iff {φ : Semiformula LIinfW ξ m} :
     rk φ < ThetaVNoteD.OmegaW ↔ NoJlevTop φ := by

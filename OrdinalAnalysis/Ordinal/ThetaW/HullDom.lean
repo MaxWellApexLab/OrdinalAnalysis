@@ -1,5 +1,5 @@
 /-
-  The domain lemma of the collapsing theorem, and the adjudication of the two hull designs.
+  The domain lemma of the collapsing theorem, and the decision of the two hull designs.
 
   **The domain lemma (true, for the level-free operator of `HullSingle.lean`).**
   `dom_add_omegaPow`: `HullHypS k α X`, `α ∈ H_α(X)` and `β ∈ H_α(X)` give

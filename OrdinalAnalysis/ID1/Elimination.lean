@@ -17,9 +17,9 @@
   gives `H ⊢^{ω_n(α)}_ρ Γ` when none of `ρ, …, ρ + n - 1` is `Ω`, where `ω₀(α) = α` and
   `ω_{k+1}(α) = ω(ω_k(α))`.
 
-  **Corollary 7.2.**  Freund's proof: the embedding (Theorem 6.5) gives `H_0 ⊢^β_{Ω+m} ψ⁺`;
+  **Corollary 7.2.**  Freund's proof: the embedding (Theorem 6.5) gives `H_0 ⊢^β_{Ω+m} ψˡ⁺`;
   iterated applications of Exercise 7.1 (c) reduce the rank to `Ω + 1`; collapsing
-  (Theorem 6.7) gives `H_η ⊢^{ϑη}_{ϑη} ψ⁺` for `η = ω(β')`.  Here the embedded derivation is
+  (Theorem 6.7) gives `H_η ⊢^{ϑη}_{ϑη} ψˡ⁺` for `η = ω(β')`.  Here the embedded derivation is
   the hypothesis, and the ordinals are explicit: from `H_0 ⊢^β_{Ω+(m+1)} Γ`, `Γ` a
   `Σ(Ω)`-sequent, Exercise 7.1 (c) applied `m` times gives `H_0 ⊢^{ω_m(β)}_{Ω+1} Γ`, and
   collapsing gives
@@ -46,6 +46,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.Reduction
 
 @[expose] public section
@@ -56,7 +57,7 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Exercise 7.1 (c) -/
 

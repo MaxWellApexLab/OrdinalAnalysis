@@ -23,8 +23,8 @@
   * **The main lemma** (`W_theta`, Arai 1.33 for `ϑ_k`), relative to a bound `τ`.
   * **The tower at the top level `n`** (`ti_tau`): transfinite induction on `Dc (n+1)` up to
     every `τ_m = ω_m(Ω_{n+1} + 1)`, for every definable predicate.
-  * **The ranges** (the repair of design §3.1 (E_k)): `C k ξ :≡ ξ ∈ Dc (k+1) ∧ G_k(ξ) ≺* τ`.
-    Design §3.1's "`D_{k−1} = D_k` below `ω_m(Ω_n+1)`" fails on `ϑ_1(Ω_7) ≺ Ω_2` (level-1
+  * **The ranges** (the repair): `C k ξ :≡ ξ ∈ Dc (k+1) ∧ G_k(ξ) ≺* τ`.
+    The earlier formulation "`D_{k−1} = D_k` below `ω_m(Ω_n+1)`" fails on `ϑ_1(Ω_7) ≺ Ω_2` (level-1
     coefficient needs induction up to `Ω_7`); on the ranges it holds (`cls_succ`): the level-`k`
     coefficients `ϑ_k d` of `ξ ∈ C (k−1)` have `d ∈ G_{k−1}(ξ)`, hence `d ≺ τ`, and
     `G_{k−1}(d) ⊆ G_{k−1}(ξ)`.  Transfinite induction on `C k` below `τ` passes from level
@@ -44,14 +44,14 @@ set_option linter.unusedSectionVars false
 
 namespace OrdinalAnalysis.IDn.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDn.Internal OrdinalAnalysis.IDn.Lift InternalOrderFacts
 
 /-! ### Definability in `LXIN ι` -/
 
 section Definability
 
-variable {ι : Type} {N : Type} [ORingStructure N] [Structure (LXIN ι) N] [ArithStd ι N]
+variable {ι : Type} {N : Type} [ORingStructure N] [Tarski.Structure (LXIN ι) N] [ArithStd ι N]
 
 theorem dfn_all {k : ℕ} {R : (Fin (k + 1) → N) → Prop} (h : (LXIN ι).Definable R) :
     (LXIN ι).Definable fun v : Fin k → N => ∀ x, R (x :> v) := by
@@ -64,11 +64,11 @@ theorem dfn_pred {k : ℕ} {Q : N → Prop} (hQ : (LXIN ι).DefinablePred Q) (i 
   Language.Definable.of_iff (hQ.retraction ![i]) fun v => by simp
 
 theorem dfn_comp {k : ℕ} {Q : N → Prop} (hQ : (LXIN ι).DefinablePred Q)
-    {f : (Fin k → N) → N} (hf : 𝚺₁.DefinableFunction f) :
+    {f : (Fin k → N) → N} (hf : 𝚺ᴬ₁.DefinableFunction f) :
     (LXIN ι).Definable fun v : Fin k → N => Q (f v) :=
   @Language.DefinablePred.comp (LXIN ι) N _ Q k f hQ (definable_of_arith hf)
 
-theorem dfn_sigma {k : ℕ} {R : (Fin k → N) → Prop} (h : 𝚺₁.Definable R) :
+theorem dfn_sigma {k : ℕ} {R : (Fin k → N) → Prop} (h : 𝚺ᴬ₁.Definable R) :
     (LXIN ι).Definable R :=
   definable_of_arith h
 
@@ -86,7 +86,7 @@ section Model
 
 variable {hJ : InternalOrderFacts} {ι : Type} [DecidableEq ι] {ix : ℕ → ι} {n : ℕ}
   {A : ι → Semisentence (LXIN ι) 1}
-  {N : Type} [ORingStructure N] [s : Structure (LXIN ι) N] [ArithStd ι N]
+  {N : Type} [ORingStructure N] [s : Tarski.Structure (LXIN ι) N] [ArithStd ι N]
   [hM : N↓[LXIN ι] ⊧* ID A] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 variable (ix) in
@@ -173,7 +173,7 @@ theorem definable_W (k : ℕ) : (LXIN ι).DefinablePred (W (s := s) ix k) := def
 
 theorem definable_Dc : ∀ k : ℕ, (LXIN ι).DefinablePred (Dc (s := s) hJ ix k)
   | 0 => by
-    have : 𝚺₁.Definable fun v : Fin 1 → N => hJ.fld (v 0) := by definability
+    have : 𝚺ᴬ₁.Definable fun v : Fin 1 → N => hJ.fld (v 0) := by definability
     exact Language.Definable.of_iff (dfn_sigma this) fun v => Iff.rfl
   | k + 1 => by
     have h1 := dfn_all (k := 1)
@@ -345,7 +345,7 @@ theorem dfn_HL (hF : (LXIN ι).DefinablePred F) :
 
 theorem dfn_JF (hF : (LXIN ι).DefinablePred F) :
     (LXIN ι).DefinablePred (JF (s := s) hJ ix k F) := by
-  have hi : 𝚺₁.DefinableFunction fun w : Fin 2 → N => isnoc hJ (w 0) (w 1) := by
+  have hi : 𝚺ᴬ₁.DefinableFunction fun w : Fin 2 → N => isnoc hJ (w 0) (w 1) := by
     unfold isnoc; definability
   have h := dfn_all (k := 1)
     (R := fun w : Fin 2 → N => hJ.sl (w 0) → hJ.sl (isnoc hJ (w 0) (w 1)) →
@@ -363,7 +363,7 @@ theorem dfn_hl_app (hF : (LXIN ι).DefinablePred F) :
     (R := fun w : Fin 2 → N => Dc hJ ix k (w 0) → hJ.le (w 0) (tcHd (w 1)) → JF hJ ix k F (w 0))
     (Language.Definable.imp (dfn_pred (definable_Dc k) 0)
       (Language.Definable.imp (dfn_sigma (by definability)) (dfn_pred (dfn_JF hF) 0)))
-  have hf : 𝚺₁.DefinableFunction fun w : Fin 2 → N => hJ.app (w 0) (w 1) := by definability
+  have hf : 𝚺ᴬ₁.DefinableFunction fun w : Fin 2 → N => hJ.app (w 0) (w 1) := by definability
   have h3 := dfn_all (k := 1)
     (R := fun w : Fin 2 → N => hJ.sl (w 0) → hJ.sl (hJ.app (w 0) (w 1)) → HL hJ ix k F (w 0) →
       HL hJ ix k F (hJ.app (w 0) (w 1)))

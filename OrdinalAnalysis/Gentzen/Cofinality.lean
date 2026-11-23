@@ -15,7 +15,7 @@ set_option autoImplicit false
 namespace OrdinalAnalysis.Gentzen.Cofinality
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 
 /-- External notation for `0, 1, ω, ω^ω, ...`, indexed exactly as

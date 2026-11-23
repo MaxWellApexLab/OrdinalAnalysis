@@ -29,13 +29,13 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 
 /-! ### The concrete formulas -/
 
 /-- `iltb x y = 1`, slot `0` the smaller element. -/
-def iltDef : 𝚺₁.Semisentence 2 := .mkSigma “x y. !iltbDef 1 x y”
+def iltDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “x y. !iltbDef 1 x y”
 
 /-- **The formulas of the internal order of `IDw/Internal/Order.lean`.** -/
 def orderFormulas : OrderFormulas := ⟨iltDef, thNFDef, thDomDef⟩

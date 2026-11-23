@@ -46,6 +46,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.Literals
 public import OrdinalAnalysis.Ramified.ReductionProbe
 
@@ -57,7 +58,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 /-! ### Head mismatch
 

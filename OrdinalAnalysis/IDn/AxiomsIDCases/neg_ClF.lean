@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
 public import OrdinalAnalysis.IDn.AxiomsIDCases.embK_substI
 public import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
@@ -17,11 +18,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Proposition 6.4: the induction axiom -/
@@ -32,7 +33,7 @@ section Induction
 variable {A : Semisentence (LXIn n) 1} {H : Set ThetaWNoteD → Set ThetaWNoteD}
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem neg_ClF (A : Semisentence (LXIn n) 1) (G : Semiformula (LIinfN n) ℕ 1) :
     ∼(ClF k A G) = ∃¹ (plugI k (predOf G) (bodyTop k A) ⋏ ∼G) := by
@@ -47,7 +48,7 @@ theorem numSubst₁_eq_self {φ : Semiformula (LIinfN n) ℕ 1} (h : φ.freeVari
   exact absurd hx' (by simp)
 
 /-- **The embedded induction axiom under a numeral assignment**: `¬Cl(G) ∨ ∀x (¬I x ∨ G(x))`
-with `G = F⁺` under the assignment. -/
+with `G = Fˡ⁺` under the assignment. -/
 theorem indAx_inst (hX : XFreeL A) (F : Semiformula (LXIn n) ℕ 1) (g : ℕ → ℕ) :
     numSubst g ▹ embK ((∀¹ (opAt k A F 🡒 F)) 🡒 ∀¹ (Iat k #0 🡒 F)) =
       ∼(ClF k A (numSubst₁ g ▹ embK F)) ⋎

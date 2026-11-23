@@ -27,7 +27,7 @@
     `f`: a function symbol is invisible to `XFree`, so the fresh ones (there are
     none, but the proof does not have to know that) cost nothing.  Truth is
     uniform over the whole family `stdLX P` and is Foundation's own
-    `Structure.Eq.models_eq`, because `stdLX P` reads `=` as equality on `ℕ` on
+    `Tarski.Structure.Eq.models_eq`, because `stdLX P` reads `=` as equality on `ℕ` on
     the nose — `⟨fun _ _ => iff_of_eq rfl⟩`, the very proof Foundation gives for
     `standardModel`.
 
@@ -44,7 +44,7 @@
   The `⊥` coming from `∼⊤` is a passenger throughout: carried in the context,
   never used.
 
-  Two traps of the pitfall notes govern the proofs.  The symbol
+  Two traps of the pitfalls govern the proofs.  The symbol
   `Sum.inr XRel.X : LX.Rel 1` is not type-correct at `implicit` transparency, so
   `rw`/`simp` must never see `Semiformula.rel (Sum.inr XRel.X) ![t]`: the atoms
   are wrapped in the opaque `XA`/`nXA` of this file (and, for symmetry,
@@ -77,7 +77,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.AxiomsLogic
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen OrdinalAnalysis.Gentzen.StandardLX
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.OmegaTruth
 open OrdinalAnalysis.Gentzen.EvInst
@@ -98,9 +98,9 @@ set_option linter.style.haveILetI false in
 `(s := stdLX P)` stops matching the one `Theory.models` produces. -/
 theorem eval_of_eqAxiom (P : ℕ → Prop) {σ : Sentence LX} (h : σ ∈ 𝗘𝗤 LX) :
     Semiformula.Eval (s := stdLX P) ![] Empty.elim σ := by
-  letI : Structure LX ℕ := stdLX P
-  haveI : Structure.Eq LX ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
-  haveI : ℕ↓[LX] ⊧* 𝗘𝗤 LX := Structure.Eq.models_eq LX ℕ
+  letI : Tarski.Structure LX ℕ := stdLX P
+  haveI : Tarski.Structure.Eq LX ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
+  haveI : ℕ↓[LX] ⊧* 𝗘𝗤 LX := Tarski.Structure.Eq.models_eq LX ℕ
   exact Theory.models ℕ (𝗘𝗤 LX) h
 
 /-! ### `X`-freeness helpers

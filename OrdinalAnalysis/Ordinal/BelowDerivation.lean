@@ -26,6 +26,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ordinal.Below
 public import OrdinalAnalysis.Omega.Calculus
 
@@ -35,7 +36,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {O : Type} [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O]
 

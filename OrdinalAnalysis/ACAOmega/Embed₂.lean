@@ -66,6 +66,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACAOmega.CutRank₂
 public import OrdinalAnalysis.ACAOmega.NumSubst₂
 
@@ -75,10 +76,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega.Embed₂
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA OrdinalAnalysis.ACAOmega
 open OrdinalAnalysis.ACAOmega.NumSubst₂
 

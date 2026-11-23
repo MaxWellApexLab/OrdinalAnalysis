@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.CalculusAux
 
 /-
@@ -33,8 +34,7 @@ public import OrdinalAnalysis.IDw.CalculusAux
   `fix` each carry an explicit level `k : ℕ`, their local stage variables have type
   `IDw.StageAt k` (**not** the packaged `IDw.Stage`, which only appears wrapped as
   `⟨k, ·⟩` where an actual `LIinfW`-atom or its parameter is formed — this is the one
-  systematic fix the mechanical `id1_to_idn.py` rewrite cannot make on its own, see
-  `tools/README_id1_to_idn.md`'s measured residue for `Boundedness.lean`); (ii) the unfolding
+  systematic fix the mechanical rewrite cannot make on its own); (ii) the unfolding
   `unfold A g t` of `ID1` becomes `unfoldW A k g t`; (iii) the control condition
   `paramsList Γ ⊆ H ∅` becomes `IDw.paramsVal Γ ⊆ H ∅` (`IDw/CalculusAux.lean`), since
   `paramsList` returns a set of `Stage` (level and bound together) but the level-free operator
@@ -65,7 +65,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 
 /-! ### The calculus -/

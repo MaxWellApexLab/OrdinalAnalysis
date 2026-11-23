@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Calculus
 public import OrdinalAnalysis.Ordinal.ThetaV.HullSingle
 public import OrdinalAnalysis.Ordinal.ThetaV.VeblenOrder2
@@ -170,7 +171,7 @@ end ThetaVNoteD
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 
 /-- `[Ω_s + 1, Ω_{s+1})` (Lean: `[Omega s + 1, Omega (s+1))`) contains no `Ω_j`. -/

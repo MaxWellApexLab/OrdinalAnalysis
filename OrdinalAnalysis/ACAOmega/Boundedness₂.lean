@@ -4,7 +4,7 @@
   A cut-free derivation of height `α` in the evaluating second-order ω-calculus,
   all of whose formulas lie in the class `InCe₂`, cannot prove `TI₂(≺, X)`.  This
   is `Gentzen/Boundedness.lean` with `ev` replaced by `ev₂` and `Xat n̄` by
-  `n̄ ∈ X`; the invariant is the two-parameter reading of the design notes,
+  `n̄ ∈ X`; the invariant is the two-parameter reading of the construction,
   unchanged:
 
   * `n̄ ∈ X` reads as "the ordinal coded by `n` is below `δ`";
@@ -38,6 +38,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACAOmega.LowerClass₂
 
 @[expose] public section
@@ -46,9 +47,9 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA
 
 variable {O : Type} [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O] {C : CodedOrder₂ O}

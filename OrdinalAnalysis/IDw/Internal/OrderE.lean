@@ -21,11 +21,13 @@ public import OrdinalAnalysis.IDw.Internal.OrderT
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ID1.Internal (bor band beq bor_eq_one band_eq_one beq_eq_one)
 
 section Model
@@ -324,7 +326,7 @@ lemma ile_of_iinE {k g a : V} (ha : isNF a) (h : iinE k g a = 1) : iltb g a = 1 
 /-- **`E_k(c)` is finite**: it is (the extension of) a unique finite set of the model; its
 elements are bounded by `c`. -/
 lemma iinE_finite (k c : V) : ∃! s : V, ∀ g, g ∈ s ↔ iinE k g c = 1 := by
-  have hP : 𝚺-[1]-Predicate (fun g : V => iinE k g c = 1) := by definability
+  have hP : 𝚺ᴬ_[1]-Predicate (fun g : V => iinE k g c = 1) := by definability
   exact finite_comprehension₁! hP ⟨c + 1, fun g hg => lt_succ_iff_le.mpr (iinE_le hg)⟩
 
 end Model

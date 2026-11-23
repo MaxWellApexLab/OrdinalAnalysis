@@ -16,8 +16,9 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.Setup
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -25,7 +26,7 @@ namespace OrdinalAnalysis
 
 namespace Gentzen
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### Generic progressiveness -/
 
@@ -117,33 +118,33 @@ def jumpBStatement (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3
 
 /-! ### Evaluation lemmas -/
 
-@[simp] theorem eval_precAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_precAt {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) {n : ℕ} (y x : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (precAt prec y x).Eval e f ↔ prec.Eval ![y.val e f, x.val e f] f := by
   simp [precAt]
 
-@[simp] theorem eval_formulaAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_formulaAt {M : Type*} [Tarski.Structure LX M]
     (φ : Semiformula LX ℕ 1) {n : ℕ} (x : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (formulaAt φ x).Eval e f ↔ φ.Eval ![x.val e f] f := by
   simp [formulaAt]
 
-@[simp] theorem eval_addAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_addAt {M : Type*} [Tarski.Structure LX M]
     (addCode : Semiformula LX ℕ 3) {n : ℕ} (z x y : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (addAt addCode z x y).Eval e f ↔
       addCode.Eval ![z.val e f, x.val e f, y.val e f] f := by
   simp [addAt]
 
-@[simp] theorem eval_omegaPowAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_omegaPowAt {M : Type*} [Tarski.Structure LX M]
     (omegaPowCode : Semiformula LX ℕ 2) {n : ℕ} (z x : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (omegaPowAt omegaPowCode z x).Eval e f ↔
       omegaPowCode.Eval ![z.val e f, x.val e f] f := by
   simp [omegaPowAt]
 
-@[simp] theorem eval_belowAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_belowAt {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (φ : Semiformula LX ℕ 1) {n : ℕ}
     (b : Semiterm LX ℕ n) (e : Fin n → M) (f : ℕ → M) :
     (belowAt prec φ b).Eval e f ↔
@@ -159,7 +160,7 @@ def jumpBStatement (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3
     · exact Or.inr (h y hy)
     · exact Or.inl hy
 
-@[simp] theorem eval_progAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_progAt {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (φ : Semiformula LX ℕ 1) {n : ℕ}
     (e : Fin n → M) (f : ℕ → M) :
     (progAt (n := n) prec φ).Eval e f ↔
@@ -181,7 +182,7 @@ def jumpBStatement (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3
       push Not at hx
       exact hx
 
-@[simp] theorem eval_tiUptoAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_tiUptoAt {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (φ : Semiformula LX ℕ 1) {n : ℕ}
     (a : Semiterm LX ℕ n) (e : Fin n → M) (f : ℕ → M) :
     (tiUptoAt prec φ a).Eval e f ↔
@@ -207,7 +208,7 @@ def jumpBStatement (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3
       push Not at hprog
       exact hprog
 
-@[simp] theorem eval_jumpAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_jumpAt {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3)
     (omegaPowCode : Semiformula LX ℕ 2) (φ : Semiformula LX ℕ 1) {n : ℕ}
     (a : Semiterm LX ℕ n) (e : Fin n → M) (f : ℕ → M) :
@@ -244,7 +245,7 @@ def jumpBStatement (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3
     · left
       exact hω
 
-@[simp] theorem eval_jump {M : Type*} [Structure LX M]
+@[simp] theorem eval_jump {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3)
     (omegaPowCode : Semiformula LX ℕ 2) (φ : Semiformula LX ℕ 1)
     (a : M) (f : ℕ → M) :

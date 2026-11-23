@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.TransferAux
 
 /-
@@ -47,7 +48,7 @@ namespace IDw
 
 namespace Transfer
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The formulas of the transfer -/
 
@@ -81,7 +82,7 @@ theorem trueN_ltW (j : SyntacticTerm LIinfW) (k : ℕ) : TrueN (ltW j (numI k)) 
     | 0 => rfl
     | 1 => exact val_numI k _ _
   simp only [e]
-  show Structure.rel (L := ℒₒᵣ) (Language.LT.lt : Language.Rel ℒₒᵣ 2) ![termVal j, k] ↔
+  show Tarski.Structure.rel (L := ℒₒᵣ) (Language.LT.lt : Language.Rel ℒₒᵣ 2) ![termVal j, k] ↔
     termVal j < k
   simp
 

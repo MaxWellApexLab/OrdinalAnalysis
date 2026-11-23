@@ -59,6 +59,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.EvInst
 public import OrdinalAnalysis.Gentzen.Jump
 public import OrdinalAnalysis.Gentzen.CodedOrder
@@ -70,7 +71,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.SubstX
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.Evaluate
 open OrdinalAnalysis.Gentzen.StandardLX (trueArithLits numLX IsArithLit)
@@ -330,7 +331,7 @@ end OrdinalAnalysis.Gentzen.SubstX
 
 namespace OrdinalAnalysis.OmegaDerivable
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.Evaluate
 open OrdinalAnalysis.Gentzen.StandardLX (trueArithLits numLX)

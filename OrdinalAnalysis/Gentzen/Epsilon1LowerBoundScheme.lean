@@ -18,6 +18,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.Epsilon1LowerBound
 public import OrdinalAnalysis.Gentzen.Epsilon1Scheme
 
@@ -27,7 +29,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.Epsilon1LowerBoundScheme
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.StandardLX (trueArithLits)
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.EvInst
@@ -59,7 +61,7 @@ transfinite induction along the coded ordering of the notations below `ε₁`. -
 theorem epsilon1_lower_bound_scheme :
     Epsilon1UpperBound.paLX₁ ⊬ (TI Epsilon1Order.epsilon1Order.prec).univCl := by
   intro hprov
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp hprov
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp hprov
   have hclosed : ∀ φ ∈ (((TI epsilon1Order.prec).univCl : Proposition LX) :: ∼Sequent.embed Δ),
       Semiformula.freeVariables φ = ∅ := by
     intro φ hφ
@@ -78,7 +80,7 @@ theorem epsilon1_lower_bound_scheme :
 /-- **Consistency of the scheme theory**, by the same chain. -/
 theorem paLX₁_scheme_consistent : Epsilon1UpperBound.paLX₁ ⊬ (⊥ : Sentence LX) := by
   intro hprov
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp hprov
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp hprov
   have hclosed : ∀ φ ∈ (((⊥ : Sentence LX) : Proposition LX) :: ∼Sequent.embed Δ),
       Semiformula.freeVariables φ = ∅ := by
     intro φ hφ

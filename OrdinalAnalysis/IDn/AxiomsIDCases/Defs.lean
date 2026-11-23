@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.NumSubst
 public import OrdinalAnalysis.IDn.Sound
 
@@ -18,7 +19,7 @@ public import OrdinalAnalysis.IDn.Sound
   `plugI P B` replaces in `B` every atom `I^{≺Ω} s` by `P(s)` and every `¬I^{≺Ω} s` by `¬P(s)`.
   Two predicates occur: the stage `I^{≺γ}` (`predStage γ`), for which
   `plugI (I^{≺γ}) (A(t, I^{≺Ω})) = A(t, I^{≺γ})` (`plugI_unfold`), and a formula `G` with one
-  free slot (`predOf G`), for which the embedded `A(x, F)` is `plugI (F⁺) (A(x, I^{≺Ω}))`
+  free slot (`predOf G`), for which the embedded `A(x, F)` is `plugI (Fˡ⁺) (A(x, I^{≺Ω}))`
   (`embK_substI`).  Both commute with the substitutions of the calculus (`rew_plugI`).
 
   **Exercise 6.3** (`ex63`): if `H ⊢^α_ρ Γ, ¬θ(s), ψ(s)` for every closed `s`, then
@@ -30,14 +31,14 @@ public import OrdinalAnalysis.IDn.Sound
   embedded closure axiom: Lemma 6.1 for `A(m'̄, I^{≺Ω})`, clause (Fix), two disjunctions and the
   ω-rule.
 
-  **Proposition 6.4** (`indAx_derivable`): for `Cl := ∀x (A(x, ψ⁺) → ψ⁺(x))`, by induction on
+  **Proposition 6.4** (`indAx_derivable`): for `Cl := ∀x (A(x, ψˡ⁺) → ψˡ⁺(x))`, by induction on
   `δ ⪯ Ω` (well-founded, on the notations),
 
-      H[δ] ⊢^{ω·β + ω·δ}_0 ¬Cl, ¬I^{≺δ} t, ψ⁺(t)        for every closed t,
+      H[δ] ⊢^{ω·β + ω·δ}_0 ¬Cl, ¬I^{≺δ} t, ψˡ⁺(t)        for every closed t,
 
-  `β := Ω ⊕ c` with `c` the complexity of `ψ⁺` (so `rk ψ⁺ ⪯ β`, as Freund's
-  `β = max{rk ψ⁺, 1}`, and `ω · β + ω · Ω = Ω · 2`).  The premise for `γ ≺ δ` of clause (V) on
-  `¬I^{≺δ} t` combines the induction hypothesis through Exercise 6.3, Lemma 6.1 for `ψ⁺(t)`,
+  `β := Ω ⊕ c` with `c` the complexity of `ψˡ⁺` (so `rk ψˡ⁺ ⪯ β`, as Freund's
+  `β = max{rk ψˡ⁺, 1}`, and `ω · β + ω · Ω = Ω · 2`).  The premise for `γ ≺ δ` of clause (V) on
+  `¬I^{≺δ} t` combines the induction hypothesis through Exercise 6.3, Lemma 6.1 for `ψˡ⁺(t)`,
   clause (V) on the conjunction, the replacement of `t` by the numeral of its value, and
   clause (W) on `¬Cl`.  At `δ = Ω` the ω-rule and two disjunctions give the axiom at height
   `Ω · 2 + 5`, and the universal closure adds its number of variables.
@@ -64,9 +65,9 @@ variable {n : ℕ} (k : Fin n)
 
 namespace IDn
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 /-! ### Predicates plugged into an operator form -/
 

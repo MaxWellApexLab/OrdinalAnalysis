@@ -2,7 +2,7 @@
   Helper infrastructure for `OrdinalAnalysis.IDw.Calculus`, the `IDw` (`k : ℕ`, ID_ω)
   counterpart of `OrdinalAnalysis.IDn.CalculusAux`.
 
-  Source: the design notes §3.1–§3.2; drafted mechanically from
+  Source: derived from
   `IDn/CalculusAux.lean` by mechanical translation (level `k : Fin n` generalised to `k : ℕ`), then
   hand-completed here: the script cannot produce anything mentioning `Jlev`, so every piece this
   file adds beyond the mechanical rename is new, hand-written content, listed below.
@@ -14,15 +14,15 @@
   HullSingle.lean`/`HullDom.lean`) acts on sets of *bare* `ThetaVNoteD` values.  `paramsVal`
   bridges the two.
 
-  **New beyond the mechanical port** (design §3.2, hand-written).
+  **New beyond the mechanical port**.
 
     * `stdW`, `termVal`         the standard-model value of a *closed* term of `LIinfW`, read
                                  through the same `stdInfN`/`TrueN` pattern this file already uses
                                  for closed *formulas* of arithmetic — needed because the (jlev)/
-                                 (njlev) rules' side condition "`val s < ℓ`" (design §3.2) is a
+                                 (njlev) rules' side condition "`val s < ℓ`" is a
                                  genuine semantic evaluation of the closed term `s`, not a
                                  syntactic numeral check (`s` may be any closed arithmetic term,
-                                 e.g. a code for `Ω_y`, design §3.2's third smoke test).
+                                 e.g. a code for `Ω_y`).
     * `relStage`                 the stage of a stage-relation symbol, `none` for `X`/`Jlev` —
                                  needed for `negHeadStage`, ported unchanged in *shape* from
                                  `IDn.Language` (which had this as a plain top-level `def`, not
@@ -35,7 +35,7 @@
     * `relParams_capRelAt`, `params_capAt`   `capAt`'s effect on parameters, ported from
                                  `IDn.Language`'s `Cap` section (not carried over automatically:
                                  `IDw/Language.lean`'s own `Cap` section stopped at the rank-facing
-                                 lemmas needed by stage `L`, design §3.1's own note deferring the
+                                 lemmas needed by stage `L`, deferring the
                                  "companion fact for `∼(unfoldW A k g t)`" to `C1`). The `Jlev`
                                  case is immediate: `capRelAt` fixes every `Jlev` symbol
                                  (`capRelAt`'s `jlev` clause, design "`capAt k` is the identity on
@@ -62,6 +62,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Rank
 public import OrdinalAnalysis.Ordinal.ThetaV.HullDom
 
@@ -73,7 +74,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The parameters of a sequent (not yet in `IDw/Language.lean`) -/
 
@@ -167,13 +168,13 @@ abbrev numI (t : ℕ) : SyntacticTerm LIinfW := Semiterm.numeral t
 /-- The fresh symbols read as empty; only the arithmetic part matters for the literals below and
 for `termVal`. -/
 @[instance_reducible]
-def iinfFalseW : Structure IInfLangW ℕ where
+def iinfFalseW : Tarski.Structure IInfLangW ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
 /-- The standard structure: arithmetic standard, `X`, every stage and every `Jlev` empty. -/
 @[instance_reducible]
-def stdW : Structure LIinfW ℕ := Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfFalseW)
+def stdW : Tarski.Structure LIinfW ℕ := Tarski.Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfFalseW)
 
 /-- Truth of a formula in `stdW` under the zero assignment; for closed formulas of arithmetic
 this is truth in `ℕ`. -/
@@ -186,7 +187,7 @@ def TrueN (φ : Proposition LIinfW) : Prop :=
 /-- **The standard-model value of a closed term of `LIinfW`** — `IInfLangW` contributes no
 function symbols (`Func := fun _ => PEmpty`), so `termVal` only ever evaluates the arithmetic
 part of `t`, exactly as `TrueN` only ever evaluates the arithmetic part of a literal. Needed for
-the (jlev)/(njlev) rules' side condition "`val s < ℓ`" (design §3.2): `s` ranges over an
+the (jlev)/(njlev) rules' side condition "`val s < ℓ`": `s` ranges over an
 arbitrary closed term of `LIinfW`, not necessarily a numeral (design's third smoke test uses a
 "code of `Ω_y`" term), so the level it denotes must be read off semantically. -/
 def termVal (t : SyntacticTerm LIinfW) : ℕ := Semiterm.val (s := stdW) ![] (fun _ => 0) t
@@ -249,9 +250,9 @@ theorem lMap_toLIinfW_numeral (t : ℕ) :
 @[simp] theorem val_numeral_stdW (p : ℕ) (e : Fin m → ℕ) (ε : ξ → ℕ) :
     Semiterm.val (s := stdW) e ε ((p : ℕ) : Semiterm LIinfW ξ m) = p := by
   rw [← lMap_toLIinfW_numeral p]
-  show Semiterm.val (s := Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfFalseW)) e ε
+  show Semiterm.val (s := Tarski.Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfFalseW)) e ε
     (Semiterm.lMap (Language.Hom.add₁ ℒₒᵣ IInfLangW) ((p : ℕ) : Semiterm ℒₒᵣ ξ m)) = p
-  rw [Structure.val_lMap_add₁ (str₂ := iinfFalseW)]
+  rw [Tarski.Structure.val_lMap_add₁ (str₂ := iinfFalseW)]
   simp
 
 /-- A numeral at any level has no free variable. -/
@@ -430,7 +431,7 @@ theorem relParams_capRelAt : ∀ {j : ℕ} (r : LIinfW.Rel j),
     · exact fun x hx => Or.inl hx
   | _, Sum.inr (IInfRelW.jlev _) => Set.empty_subset _
 
-/-- `k(φ^β) ⊆ k(φ) ∪ {(k,β)}`, at level `k` (design §3.1; the "companion fact for `∼(unfoldW A k
+/-- `k(φ^β) ⊆ k(φ) ∪ {(k,β)}`, at level `k` (the "companion fact for `∼(unfoldW A k
 g t)`" deferred there to this stage). -/
 theorem params_capAt {ξ : Type*} {m : ℕ} (φ : Semiformula LIinfW ξ m) :
     params (capAt k b φ) ⊆ params φ ∪ {(⟨k, b⟩ : Stage)} := by
@@ -540,7 +541,7 @@ theorem _root_.OrdinalAnalysis.ThetaVNoteD.NiceS.rk_mem' {ξ : Type*} {m : ℕ}
 
 end RankMem
 
-/-! ### The rank discipline of `jlev`/`njlev` (design §8.4 kill criterion)
+/-! ### The rank discipline of `jlev`/`njlev`
 
 The premise of `(jlev)`/`(njlev)` at a level `j < ℓ` has strictly smaller rank than the principal
 atom: `rk (I_j t) = Ω_{j+1}` against `rk (Jlev ℓ (s,t)) = Ω_ℓ + 1` (`ℓ : ℕ`, `Ω_ℓ = OmegaBelow ℓ`)

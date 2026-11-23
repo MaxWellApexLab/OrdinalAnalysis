@@ -25,7 +25,7 @@ set_option maxHeartbeats 800000
 namespace OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -193,7 +193,7 @@ theorem arithmetic_vtower_omegaPow (n : ℕ) :
   intro M _ _
   rw [models_iff]
   simp [arithmeticVTowerOmegaPowStatement, arithOmegaPowAt,
-    eval_omegaPowDef₁, Structure.numeral_eq_numeral, numeral_eq_natCast]
+    eval_omegaPowDef₁, Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   change isNF₁ (gamma0ModelCode (V := M) (vtower n)) ∧
     gamma0ModelCode (V := M) (vtower (n + 1)) =
       iomegaPow (gamma0ModelCode (V := M) (vtower n))
@@ -211,11 +211,11 @@ private lemma map_vtower_omegaPow_body (n : ℕ) :
   rw [lMap_numeral (gamma0Code (vtower (n + 1))), lMap_numeral (gamma0Code (vtower n))]
 
 lemma models_vtower_omegaPow_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (n : ℕ) :
+    [sLX : Tarski.Structure LX M] (n : ℕ) :
     M↓[LX] ⊧ (omegaPowAt omegaPowCode₁ (gamma0Term (vtower (n + 1)))
       (gamma0Term (vtower n))).univCl ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticVTowerOmegaPowStatement n := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [arithmeticVTowerOmegaPowStatement, Semiformula.eval_univCl]
   constructor

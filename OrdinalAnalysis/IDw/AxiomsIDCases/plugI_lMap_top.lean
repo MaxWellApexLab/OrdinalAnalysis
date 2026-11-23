@@ -24,11 +24,11 @@ variable (k : ℕ)
 namespace IDw
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### The two plugged forms -/
@@ -36,7 +36,7 @@ open LO.FirstOrder.LawfulSyntacticRewriting
 section PlugForms
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 /-- **Plugging `I_k^{≺g}` into the top-level unfolding of a schema gives the `g`-level unfolding**:
 `formHomAt k (Ω_{k+1})` composed with the plug is `formHomAt k g` (`P ↦ I_k^{≺g}`; `Q ↦ Jlev k`

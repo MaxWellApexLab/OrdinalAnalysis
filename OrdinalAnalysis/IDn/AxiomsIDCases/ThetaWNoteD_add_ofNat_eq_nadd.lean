@@ -13,11 +13,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Ordinal sums for Proposition 6.4 -/
@@ -27,7 +27,7 @@ section Sums
 
 open ThetaWTerm in
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 /-- Finite ordinal and natural increments agree: `α + m = α ⊕ m`. -/
 theorem ThetaWNoteD.add_ofNat_eq_nadd (a : ThetaWNoteD) :

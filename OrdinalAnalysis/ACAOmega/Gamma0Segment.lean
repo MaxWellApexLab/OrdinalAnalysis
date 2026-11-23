@@ -46,6 +46,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACAOmega.Gamma0Theorem
 public import OrdinalAnalysis.Ordinal.Veblen.VeblenStructureInstance
 
@@ -55,9 +56,9 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA
 open OrdinalAnalysis.ACAOmega.NumSubst₂
 open OrdinalAnalysis.Gamma0Note (veblenNote VeblenBelow)
@@ -181,7 +182,7 @@ theorem vebSeg_lower_bound (a b : Gamma0Note) (ha0 : 0 < a) (ha : (1 : Gamma0Not
 
 /-! ### The two named instances
 
-`φ_2(0)` and `φ_ω(0)` — the `ACA₀⁺`-strength and `Σ¹₁-DC₀`-strength
+`φ_2(0)` and `φ_ω(0)` — the `ACA₀ˡ⁺`-strength and `Σ¹₁-DC₀`-strength
 stations, on the `ACA + TI(<·)` side of the Avigad family. -/
 
 /-- `1 < 2`, in `Gamma0Note`. -/

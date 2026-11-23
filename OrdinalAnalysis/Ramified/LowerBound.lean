@@ -30,7 +30,7 @@
     `OmegaDerivableR.toBelow` transports the cut-free derivation into that
     segment's own notation system.
   * `Boundedness.lean`'s `not_derivable_TI_R` then refutes the very derivation
-    the assumption `RAlt (ν+1) ⊢! …` was shown to produce.
+    the assumption `RAlt (ν+1) ⊢ …` was shown to produce.
 
   The coarser statement at the segment below `φ_ν(ε₀)` follows at no cost,
   since `φ_1^ν(ε₀) ≤ φ_ν(ε₀)` (`veblenIter_one_le_veblenNote`).  For the
@@ -51,6 +51,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.SegOrder
 public import OrdinalAnalysis.Ramified.Embed
 public import OrdinalAnalysis.Ramified.Axioms
@@ -58,7 +60,7 @@ public import OrdinalAnalysis.Ramified.NamingAxioms
 public import OrdinalAnalysis.Ramified.CutAxioms
 public import OrdinalAnalysis.Ramified.BlockCut
 public import OrdinalAnalysis.Ramified.Boundedness
-public import Foundation.FirstOrder.Hauptsatz
+public import Foundation.FirstOrder.LK.Hauptsatz
 
 @[expose] public section
 
@@ -68,8 +70,8 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Derivation
-open LO.FirstOrder.Derivation.Canonical (hauptsatz)
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Derivation
+open FFL.FirstOrder.Derivation.Canonical (hauptsatz)
 open OrdinalAnalysis.Gamma0Note (veblenNote epsilonNote VeblenBelow)
 open OrdinalAnalysis.Ramified.OmegaDerivableR (Chain chain_nadd_ofNat veblenIter veblenIter_succ
   veblenIter_zero)
@@ -97,7 +99,7 @@ instance instDecidableEqLRA : Language.DecidableEq LRA :=
 induction is immediate at every other case. -/
 
 theorem cutRankR_eq_zero_of_isCutFree :
-    ∀ {Δ : Sequent LRA} {d : ⊢ᴸᴷ¹ Δ}, Derivation.IsCutFree d → cutRankR d = 0
+    ∀ {Δ : Sequent LRA} {d : ⊢ᶠ¹ Δ}, Derivation.IsCutFree d → cutRankR d = 0
   | _, _, .identity _ _ => rfl
   | _, _, .verum => rfl
   | _, _, .or h => by rw [cutRankR_or]; exact cutRankR_eq_zero_of_isCutFree h
@@ -120,7 +122,7 @@ private theorem succ_lt_epsilonNote_zero {x : Gamma0Note} (hx : x < epsilonNote 
   rw [OrdinalNotation.Gamma0Note_succ]
   exact Gamma0Note.nadd_lt_epsilon hx (Gamma0Note.one_lt_epsilon 0)
 
-theorem ordN_lt_epsilonNote : ∀ {Δ : Sequent LRA} (d : ⊢ᴸᴷ¹ Δ),
+theorem ordN_lt_epsilonNote : ∀ {Δ : Sequent LRA} (d : ⊢ᶠ¹ Δ),
     (ordN d : Gamma0Note) < epsilonNote 0 := by
   intro Δ d
   induction d with
@@ -346,15 +348,15 @@ future revision of `RAlt`/`RA` (for instance, codes gaining set parameters): the
 never inspects `T`'s definition, only the hypotheses `hax`/`hrk`/`hlvl` supplied at each
 call site. -/
 
-/-- **The replay of a finitary proof, generic in the theory.**  Unpacks `h : T ⊢! σ`
+/-- **The replay of a finitary proof, generic in the theory.**  Unpacks `h : T ⊢ σ`
 into a cut-free `LK` derivation of `σ` together with finitely many negated axioms of
 `T`, and replays it into `RA_∞` at cut rank `0` and at a height already known to be
 below `ε₀` (`ordN_lt_epsilonNote`). -/
-private theorem replay_of_provable {T : Theory LRA} {σ : Sentence LRA} (h : T ⊢! σ) :
+private theorem replay_of_provable {T : Theory LRA} {σ : Sentence LRA} (h : T ⊢ σ) :
     ∃ (Δ : List (Sentence LRA)) (α : Gamma0Note), (∀ τ ∈ Δ, τ ∈ T) ∧ α < epsilonNote 0 ∧
       OmegaDerivableR trueArithLitsR evInstR 0 α
         (((σ : Proposition LRA) :: ∼Sequent.embed Δ).map evR) := by
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp ⟨h⟩
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp h
   obtain ⟨d', hcf⟩ := hauptsatz d
   have hcr0 : cutRankR d' = 0 := cutRankR_eq_zero_of_isCutFree hcf
   have hclosed : ∀ φ ∈ ((σ : Proposition LRA) :: ∼Sequent.embed Δ), φ.freeVariables = ∅ := by
@@ -415,7 +417,7 @@ theorem provable_omegaDerivable_of (T : Theory LRA) {ρ : Gamma0Note}
     (hax : ∀ σ ∈ T, ∃ β : Gamma0Note, OmegaDerivableR trueArithLitsR evInstR 0 β
         [evR (Rewriting.emb σ : Proposition LRA)])
     (hrk : ∀ σ ∈ T, rank (evR (Rewriting.emb σ : Proposition LRA)) < ρ)
-    {σ : Sentence LRA} (h : T ⊢! σ) :
+    {σ : Sentence LRA} (h : T ⊢ σ) :
     ∃ α : Gamma0Note,
       OmegaDerivableR trueArithLitsR evInstR ρ α [evR (Rewriting.emb σ : Proposition LRA)] := by
   obtain ⟨Δ, α, hΔ, -, hreplay⟩ := replay_of_provable h
@@ -432,7 +434,7 @@ theorem provable_omegaDerivable_chain_of (T : Theory LRA) {ν : Lv}
     (hax : ∀ σ ∈ T, ∃ β : Gamma0Note, OmegaDerivableR trueArithLitsR evInstR 0 β
         [evR (Rewriting.emb σ : Proposition LRA)])
     (hlvl : ∀ σ ∈ T, lvlOf (Rewriting.emb σ : Proposition LRA) ≤ ν)
-    {σ : Sentence LRA} (h : T ⊢! σ) :
+    {σ : Sentence LRA} (h : T ⊢ σ) :
     ∃ (k : ℕ) (ρ α : Gamma0Note), Chain k (Gamma0Note.blkTop ν) ρ ∧
       OmegaDerivableR trueArithLitsR evInstR ρ α [evR (Rewriting.emb σ : Proposition LRA)] := by
   obtain ⟨Δ, α₀, hΔ, -, hreplay⟩ := replay_of_provable h
@@ -453,7 +455,7 @@ theory, but every individual finite proof only ever uses finitely many levels. -
 theorem provable_omegaDerivable_chain_of_exists (T : Theory LRA)
     (hax : ∀ σ ∈ T, ∃ β : Gamma0Note, OmegaDerivableR trueArithLitsR evInstR 0 β
         [evR (Rewriting.emb σ : Proposition LRA)])
-    {σ : Sentence LRA} (h : T ⊢! σ) :
+    {σ : Sentence LRA} (h : T ⊢ σ) :
     ∃ (ν : Lv), 1 ≤ ν ∧ ∃ (k : ℕ) (ρ α : Gamma0Note), Chain k (Gamma0Note.blkTop ν) ρ ∧
       OmegaDerivableR trueArithLitsR evInstR ρ α [evR (Rewriting.emb σ : Proposition LRA)] := by
   obtain ⟨Δ, α₀, hΔ, -, hreplay⟩ := replay_of_provable h
@@ -474,7 +476,7 @@ theorem provable_omegaDerivable_chain_of_exists (T : Theory LRA)
 /-! ### The `RAlt`/`RA Set.univ` instances of step 1 -/
 
 /-- **Step 1, plain, for `RAlt ν`**: cut rank `blkTop ν` (`ω · ν` at a finite `ν`). -/
-theorem provable_omegaDerivable {ν : Lv} (hν : 1 ≤ ν) {σ : Sentence LRA} (h : RAlt ν ⊢! σ) :
+theorem provable_omegaDerivable {ν : Lv} (hν : 1 ≤ ν) {σ : Sentence LRA} (h : RAlt ν ⊢ σ) :
     ∃ α : Gamma0Note, OmegaDerivableR trueArithLitsR evInstR (Gamma0Note.blkTop ν) α
       [evR (Rewriting.emb σ : Proposition LRA)] :=
   provable_omegaDerivable_of (RAlt ν) (RAlt_axiom_derivable' hν)
@@ -489,7 +491,7 @@ theorem lvlOf_emb_le_of_mem_RAlt_succ {ν : Lv} {τ : Sentence LRA}
 
 /-- **Step 1, sharp form, for `RAlt (ν ⊕ 1)`**: a chain above `blkTop ν`. -/
 theorem provable_omegaDerivable_chain {ν : Lv} {σ : Sentence LRA}
-    (h : RAlt (Gamma0Note.nadd ν 1) ⊢! σ) :
+    (h : RAlt (Gamma0Note.nadd ν 1) ⊢ σ) :
     ∃ (k : ℕ) (ρ α : Gamma0Note), Chain k (Gamma0Note.blkTop ν) ρ ∧
       OmegaDerivableR trueArithLitsR evInstR ρ α [evR (Rewriting.emb σ : Proposition LRA)] :=
   provable_omegaDerivable_chain_of (RAlt (Gamma0Note.nadd ν 1)) (ν := ν)
@@ -497,7 +499,7 @@ theorem provable_omegaDerivable_chain {ν : Lv} {σ : Sentence LRA}
     (fun _ hτ => lvlOf_emb_le_of_mem_RAlt_succ hτ) h
 
 /-- **Step 1, sharp form, for `RA Set.univ`.** -/
-theorem provable_omegaDerivable_univ {σ : Sentence LRA} (h : RA Set.univ ⊢! σ) :
+theorem provable_omegaDerivable_univ {σ : Sentence LRA} (h : RA Set.univ ⊢ σ) :
     ∃ (ν : Lv), 1 ≤ ν ∧ ∃ (k : ℕ) (ρ α : Gamma0Note), Chain k (Gamma0Note.blkTop ν) ρ ∧
       OmegaDerivableR trueArithLitsR evInstR ρ α [evR (Rewriting.emb σ : Proposition LRA)] :=
   provable_omegaDerivable_chain_of_exists (RA Set.univ) RA_univ_axiom_derivable' h
@@ -593,14 +595,14 @@ theorem veblenIter_one_le_veblenNote (x : Gamma0Note) :
             Gamma0Note.veblenStructure.veblen_veblen_of_lt hlt
 
 /-- **Step 2, generic in the theory.**  The replay-and-cut chain at a fixed finite
-level `ν`, followed by the block elimination of `BlockCut.lean`: `T ⊢! σ` yields a
+level `ν`, followed by the block elimination of `BlockCut.lean`: `T ⊢ σ` yields a
 cut-free derivation of `σ` at a height strictly below `φ_1^ν(ε₀)`, given a uniform
 per-axiom level bound at `ν` and axiom derivability *below `ε₀`*. -/
 theorem provable_cutFree_of (T : Theory LRA) {ν : ℕ}
     (hax : ∀ σ ∈ T, ∃ β : Gamma0Note, β < epsilonNote 0 ∧
         OmegaDerivableR trueArithLitsR evInstR 0 β [evR (Rewriting.emb σ : Proposition LRA)])
     (hlvl : ∀ σ ∈ T, lvlOf (Rewriting.emb σ : Proposition LRA) ≤ Gamma0Note.ofNat ν)
-    {σ : Sentence LRA} (h : T ⊢! σ) :
+    {σ : Sentence LRA} (h : T ⊢ σ) :
     ∃ β : Gamma0Note, β < veblenIter 1 ν (epsilonNote 0) ∧
       OmegaDerivableR trueArithLitsR evInstR 0 β [evR (Rewriting.emb σ : Proposition LRA)] := by
   obtain ⟨Δ, α₀, hΔ, hα₀, hreplay⟩ := replay_of_provable h
@@ -626,7 +628,7 @@ theorem lvlOf_emb_le_of_mem_RAlt_ofNat_succ {ν : ℕ} {τ : Sentence LRA}
 
 /-- **Step 2, for `RAlt (ν+1)`.**  The cuts, all at levels `≤ ν`, are eliminated
 block by block, landing at cut rank `0` and a height strictly below `φ_1^ν(ε₀)`. -/
-theorem provable_cutFree {ν : ℕ} {σ : Sentence LRA} (h : RAlt (Gamma0Note.ofNat (ν + 1)) ⊢! σ) :
+theorem provable_cutFree {ν : ℕ} {σ : Sentence LRA} (h : RAlt (Gamma0Note.ofNat (ν + 1)) ⊢ σ) :
     ∃ β : Gamma0Note, β < veblenIter 1 ν (epsilonNote 0) ∧
       OmegaDerivableR trueArithLitsR evInstR 0 β [evR (Rewriting.emb σ : Proposition LRA)] :=
   provable_cutFree_of (RAlt (Gamma0Note.ofNat (ν + 1)))
@@ -662,7 +664,7 @@ rank `blkTop ν ⊕ k`, where `ν` is `0` or the level of an axiom of `T`. -/
 theorem provable_rank_height_of_exists (T : Theory LRA)
     (hax : ∀ σ ∈ T, ∃ β : Gamma0Note, β < epsilonNote 0 ∧
         OmegaDerivableR trueArithLitsR evInstR 0 β [evR (Rewriting.emb σ : Proposition LRA)])
-    {σ : Sentence LRA} (h : T ⊢! σ) :
+    {σ : Sentence LRA} (h : T ⊢ σ) :
     ∃ (ν : Lv) (k : ℕ) (α : Gamma0Note),
       (ν = 0 ∨ ∃ τ ∈ T, ν = lvlOf (Rewriting.emb τ : Proposition LRA)) ∧ α < epsilonNote 0 ∧
       OmegaDerivableR trueArithLitsR evInstR
@@ -710,7 +712,7 @@ theorem not_provable_TIR_of_cutFree {ν : ℕ} (a b : Gamma0Note) (ha : 0 < a)
     (hbound : veblenIter 1 ν (epsilonNote 0) ≤ veblenNote a b) :
     RAlt (Gamma0Note.ofNat (ν + 1)) ⊬
       (Semiformula.univCl (TIR (vebSegOrderR a b ha).prec) : Sentence LRA) := by
-  rintro ⟨h⟩
+  intro h
   set C := vebSegOrderR a b ha with hCdef
   obtain ⟨β, hβ, hd⟩ := provable_cutFree h
   have hβ' : β < veblenNote a b := lt_of_lt_of_le hβ hbound

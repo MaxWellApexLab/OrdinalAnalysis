@@ -27,7 +27,7 @@ namespace OrdinalAnalysis
 
 namespace Gentzen
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### Finite iteration and its arithmetic laws -/
 
@@ -54,20 +54,20 @@ def iterBelowFormula (prec : Semiformula LX ℕ 2)
         (&0 : Semiterm LX ℕ 2) (&1 : Semiterm LX ℕ 2) #1) ⋎
       belowAt (shiftTwice prec) (shiftTwice φ) #0)
 
-@[simp] private theorem eval_shiftTwice {M : Type*} [Structure LX M]
+@[simp] private theorem eval_shiftTwice {M : Type*} [Tarski.Structure LX M]
     {n : ℕ} (φ : Semiformula LX ℕ n) (e : Fin n → M) (f : ℕ → M)
     (b w : M) :
     (shiftTwice φ).Eval e (b :>ₙ (w :>ₙ f)) ↔ φ.Eval e f := by
   simp [shiftTwice]
 
-@[simp] theorem eval_iterAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_iterAt {M : Type*} [Tarski.Structure LX M]
     (iterCode : Semiformula LX ℕ 4) {n : ℕ}
     (z b w k : Semiterm LX ℕ n) (e : Fin n → M) (f : ℕ → M) :
     (iterAt iterCode z b w k).Eval e f ↔
       iterCode.Eval ![z.val e f, b.val e f, w.val e f, k.val e f] f := by
   simp [iterAt]
 
-@[simp] private theorem eval_iterBelowFormula {M : Type*} [Structure LX M]
+@[simp] private theorem eval_iterBelowFormula {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (iterCode : Semiformula LX ℕ 4)
     (φ : Semiformula LX ℕ 1) (f : ℕ → M) (b w k : M) :
     (iterBelowFormula prec iterCode φ).Eval ![k] (b :>ₙ (w :>ₙ f)) ↔
@@ -125,7 +125,7 @@ def omegaCoverStatement (prec : Semiformula LX ℕ 2)
 
 /-! ### Semantic forms of the laws -/
 
-private lemma paLX_induction_eval {M : Type*} [Nonempty M] [Structure LX M]
+private lemma paLX_induction_eval {M : Type*} [Nonempty M] [Tarski.Structure LX M]
     [M↓[LX] ⊧* paLX] (ψ : Semiformula LX ℕ 1) (f : ℕ → M) :
     ψ.Eval ![((0 : ℕ) : Semiterm LX ℕ 0).val ![] f] f →
     (∀ x : M,
@@ -143,8 +143,8 @@ private lemma paLX_induction_eval {M : Type*} [Nonempty M] [Structure LX M]
   simpa [models_iff, Semiformula.eval_univCl, succInd,
     Semiformula.eval_substs, Matrix.constant_eq_singleton] using hInd
 
-theorem models_iterZeroStatement {M : Type*} [Nonempty M] [Structure LX M]
-    [Structure.Eq LX M] (iterCode : Semiformula LX ℕ 4) :
+theorem models_iterZeroStatement {M : Type*} [Nonempty M] [Tarski.Structure LX M]
+    [Tarski.Structure.Eq LX M] (iterCode : Semiformula LX ℕ 4) :
     M↓[LX] ⊧ iterZeroStatement iterCode ↔
       ∀ f : ℕ → M, ∀ b w z : M,
         iterCode.Eval
@@ -164,7 +164,7 @@ theorem models_iterZeroStatement {M : Type*} [Nonempty M] [Structure LX M]
     · exact Or.inr (h f b w z (by simpa using hiter))
     · exact Or.inl (by simpa using hiter)
 
-theorem models_iterSuccStatement {M : Type*} [Nonempty M] [Structure LX M]
+theorem models_iterSuccStatement {M : Type*} [Nonempty M] [Tarski.Structure LX M]
     (addCode : Semiformula LX ℕ 3) (iterCode : Semiformula LX ℕ 4) :
     M↓[LX] ⊧ iterSuccStatement addCode iterCode ↔
       ∀ f : ℕ → M, ∀ b w k z : M,
@@ -188,7 +188,7 @@ theorem models_iterSuccStatement {M : Type*} [Nonempty M] [Structure LX M]
     · exact Or.inl (by simpa using hiter)
 
 theorem models_omegaCoverStatement {M : Type*} [Nonempty M]
-    [Structure LX M] [Structure.Eq LX M]
+    [Tarski.Structure LX M] [Tarski.Structure.Eq LX M]
     (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3)
     (omegaPowCode : Semiformula LX ℕ 2) (iterCode : Semiformula LX ℕ 4) :
     M↓[LX] ⊧ omegaCoverStatement prec addCode omegaPowCode iterCode ↔
@@ -241,7 +241,7 @@ theorem models_omegaCoverStatement {M : Type*} [Nonempty M]
 /-! ### Lemma A -/
 
 private theorem model_iter_preserves_below {M : Type*} [Nonempty M]
-    [Structure LX M] [Structure.Eq LX M] [M↓[LX] ⊧* paLX]
+    [Tarski.Structure LX M] [Tarski.Structure.Eq LX M] [M↓[LX] ⊧* paLX]
     (prec : Semiformula LX ℕ 2) (addCode : Semiformula LX ℕ 3)
     (omegaPowCode : Semiformula LX ℕ 2) (iterCode : Semiformula LX ℕ 4)
     (φ : Semiformula LX ℕ 1) (f : ℕ → M)

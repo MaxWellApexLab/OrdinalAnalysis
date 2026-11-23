@@ -11,6 +11,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Omega.Calculus
 
 @[expose] public section
@@ -19,7 +20,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.OmegaDerivable
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {L : Language}
 variable {O O' : Type} [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O]

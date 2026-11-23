@@ -25,7 +25,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ID1.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedNotation (liftCode)
 open OrdinalAnalysis.ThetaTerm
@@ -33,25 +33,25 @@ open OrdinalAnalysis.ThetaTerm
 /-! ### The formulas -/
 
 /-- `z` is the ordinal sum of `x` and `y`. -/
-def thAddDef : 𝚺₁.Semisentence 3 := .mkSigma “z x y. !iaddDef z x y”
+def thAddDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma “z x y. !iaddDef z x y”
 
 /-- `z` is the natural sum of `x` and `y`. -/
-def thNaddDef : 𝚺₁.Semisentence 3 := .mkSigma “z x y. !inaddDef z x y”
+def thNaddDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma “z x y. !inaddDef z x y”
 
 /-- `z` is `ω^x`. -/
-def thOmegaPowDef : 𝚺₁.Semisentence 2 := .mkSigma “z x. !iomegaPowDef z x”
+def thOmegaPowDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “z x. !iomegaPowDef z x”
 
 /-- `z` is `ω · x`. -/
-def thOmegaMulDef : 𝚺₁.Semisentence 2 := .mkSigma “z x. !iomegaMulDef z x”
+def thOmegaMulDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “z x. !iomegaMulDef z x”
 
 /-- `z` is the code of the numeral `n`. -/
-def thNumDef : 𝚺₁.Semisentence 2 := .mkSigma “z n. !inumDef z n”
+def thNumDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “z n. !inumDef z n”
 
 /-- `z` is the successor of `x`. -/
-def thSuccDef : 𝚺₁.Semisentence 2 := .mkSigma “z x. !isuccDef z x”
+def thSuccDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “z x. !isuccDef z x”
 
 /-- `z` is the code of `1`. -/
-def thOneDef : 𝚺₁.Semisentence 1 := .mkSigma “z. !ioneDef z”
+def thOneDef : 𝚺ᴬ₁.Semisentence 1 := .mkSigma “z. !ioneDef z”
 
 /-- The ordinal sum as a formula of `ℒₒᵣ`. -/
 def addC : Semisentence ℒₒᵣ 3 := thAddDef.val
@@ -66,28 +66,35 @@ section Model
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 @[simp] theorem eval_thAddDef (z x y : V) : thAddDef.val.Evalb ![z, x, y] ↔ z = iadd x y := by
-  simp [thAddDef, iadd_defined.iff]
+  simp only [thAddDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [iadd_defined.iff]
 
 @[simp] theorem eval_thNaddDef (z x y : V) :
     thNaddDef.val.Evalb ![z, x, y] ↔ z = inadd x y := by
-  simp [thNaddDef, inadd_defined.iff]
+  simp only [thNaddDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [inadd_defined.iff]
 
 @[simp] theorem eval_thOmegaPowDef (z x : V) :
     thOmegaPowDef.val.Evalb ![z, x] ↔ z = iomegaPow x := by
-  simp [thOmegaPowDef, iomegaPow_defined.iff]
+  simp only [thOmegaPowDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [iomegaPow_defined.iff]
 
 @[simp] theorem eval_thOmegaMulDef (z x : V) :
     thOmegaMulDef.val.Evalb ![z, x] ↔ z = iomegaMul x := by
-  simp [thOmegaMulDef, iomegaMul_defined.iff]
+  simp only [thOmegaMulDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [iomegaMul_defined.iff]
 
 @[simp] theorem eval_thNumDef (z n : V) : thNumDef.val.Evalb ![z, n] ↔ z = inum n := by
-  simp [thNumDef, inum_defined.iff]
+  simp only [thNumDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [inum_defined.iff]
 
 @[simp] theorem eval_thSuccDef (z x : V) : thSuccDef.val.Evalb ![z, x] ↔ z = isucc x := by
-  simp [thSuccDef, isucc_defined.iff]
+  simp only [thSuccDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [isucc_defined.iff]
 
 @[simp] theorem eval_thOneDef (z : V) : thOneDef.val.Evalb ![z] ↔ z = ione := by
-  simp [thOneDef, ioneDef, ione, tcCons_defined.iff]
+  simp only [thOneDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [ioneDef, ione, tcCons_defined.iff]
 
 /-! ### Evaluation at standard codes -/
 

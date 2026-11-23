@@ -27,8 +27,9 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Theory
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -40,19 +41,19 @@ namespace IDn
 
 namespace Lift
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 variable {ι : Type}
 
 /-! ### Arithmetically standard structures -/
 
 /-- The `ℒₒᵣ`-reduct of the `LXIN ι`-structure is the arithmetic of `N`. -/
-class ArithStd (ι : Type) (N : Type*) [ORingStructure N] [s : Structure (LXIN ι) N] : Prop where
+class ArithStd (ι : Type) (N : Type*) [ORingStructure N] [s : Tarski.Structure (LXIN ι) N] : Prop where
   lMap_eq : s.lMap (toLXIN ι) = Arithmetic.standardModel N
 
 section Std
 
-variable {N : Type*} [ORingStructure N] [s : Structure (LXIN ι) N] [ArithStd ι N]
+variable {N : Type*} [ORingStructure N] [s : Tarski.Structure (LXIN ι) N] [ArithStd ι N]
 
 /-- Arithmetic terms have their arithmetic values. -/
 theorem val_lMap {ξ : Type*} {n : ℕ} (t : Semiterm ℒₒᵣ ξ n) (e : Fin n → N) (f : ξ → N) :
@@ -70,7 +71,7 @@ end Std
 
 section Preds
 
-variable {N : Type*} [s : Structure (LXIN ι) N]
+variable {N : Type*} [s : Tarski.Structure (LXIN ι) N]
 
 /-- The predicate read by `I_k`. -/
 def Imem (k : ι) (x : N) : Prop := s.rel (Sum.inr (IXRelN.I k)) ![x]
@@ -98,7 +99,7 @@ end Preds
 
 section Complete
 
-variable {M : Type*} (s : Structure (LXIN ι) M)
+variable {M : Type*} (s : Tarski.Structure (LXIN ι) M)
 
 set_option warn.classDefReducibility false in
 /-- The arithmetic operations of an `LXIN ι`-structure. -/
@@ -115,7 +116,7 @@ theorem arithStd_of
     (hEq : ∀ a b : M, s.rel (Language.Eq.eq : (LXIN ι).Rel 2) ![a, b] ↔ a = b) :
     letI := oringOf s; ArithStd ι M := by
   let _ := oringOf s
-  refine ⟨Structure.ext (funext₃ fun k f v => ?_) (funext₃ fun k r v => ?_)⟩
+  refine ⟨Tarski.Structure.ext (funext₃ fun k f v => ?_) (funext₃ fun k r v => ?_)⟩
   · match k, f with
     | _, Language.ORing.Func.zero =>
       show s.func (Language.Zero.zero : (LXIN ι).Func 0) v =
@@ -148,7 +149,7 @@ variable [DecidableEq ι]
 /-- **Provability from truth in the arithmetically standard models.**  A sentence true in
 every arithmetically standard model of `ID A` is a theorem of `ID A`. -/
 theorem provable_of_models (A : ι → Semisentence (LXIN ι) 1) {σ : Sentence (LXIN ι)}
-    (H : ∀ (N : Type) [ORingStructure N] [Structure (LXIN ι) N] [ArithStd ι N],
+    (H : ∀ (N : Type) [ORingStructure N] [Tarski.Structure (LXIN ι) N] [ArithStd ι N],
       N↓[LXIN ι] ⊧* ID A → N↓[LXIN ι] ⊧ σ) :
     ID A ⊢ σ := by
   apply Theory.Proof.complete.{0, 0}
@@ -164,11 +165,11 @@ end Complete
 
 section WithI
 
-variable [DecidableEq ι] {N : Type*} [s : Structure (LXIN ι) N]
+variable [DecidableEq ι] {N : Type*} [s : Tarski.Structure (LXIN ι) N]
 
 set_option warn.classDefReducibility false in
 /-- The structure `N` with `I_k` read as `T`, every other symbol unchanged. -/
-def withIAt (k : ι) (T : N → Prop) : Structure (LXIN ι) N where
+def withIAt (k : ι) (T : N → Prop) : Tarski.Structure (LXIN ι) N where
   func := fun {_} f v => s.func f v
   rel := fun {m} r v => match m, r with
     | _, Sum.inl r => s.rel (Sum.inl r) v
@@ -203,7 +204,7 @@ theorem withIAt_rel_X (k : ι) (T : N → Prop) (x : N) :
 
 /-- Reading `I_k` as itself changes nothing. -/
 theorem withIAt_self (k : ι) : withIAt k (Imem (s := s) k) = s := by
-  refine Structure.ext (funext₃ fun _ _ _ => rfl) (funext₃ fun m r v => ?_)
+  refine Tarski.Structure.ext (funext₃ fun _ _ _ => rfl) (funext₃ fun m r v => ?_)
   match m, r with
   | _, Sum.inl r => rfl
   | _, Sum.inr IXRelN.X => rfl
@@ -298,7 +299,7 @@ end WithI
 
 section Model
 
-variable [DecidableEq ι] {N : Type*} [ORingStructure N] [s : Structure (LXIN ι) N] [ArithStd ι N]
+variable [DecidableEq ι] {N : Type*} [ORingStructure N] [s : Tarski.Structure (LXIN ι) N] [ArithStd ι N]
 variable (A : ι → Semisentence (LXIN ι) 1)
 
 variable [hM : N↓[LXIN ι] ⊧* ID A]
@@ -376,7 +377,7 @@ theorem val_succ_term (f : ℕ → N) (x : N) :
   simp [Semiterm.val_operator]
 
 /-- The instance of `succInd` at `φ`, unfolded. -/
-theorem eval_succInd_iff {L : Language} [L.ORing] {M : Type*} [Structure L M]
+theorem eval_succInd_iff {L : Language} [L.ORing] {M : Type*} [Tarski.Structure L M]
     (φ : Semiformula L ℕ 1) (f : ℕ → M) :
     Semiformula.Eval ![] f (succInd φ) ↔
       (Semiformula.Eval ![Semiterm.val ![] f ((0 : ℕ) : Semiterm L ℕ 0)] f φ →
@@ -480,12 +481,12 @@ theorem succ_induction_definable {Q : N → Prop} (hQ : (LXIN ι).DefinablePred 
 
 omit [DecidableEq ι] hM in
 /-- An arithmetic predicate with parameters is definable in `LXIN ι`. -/
-theorem definable_of_arith {k : ℕ} {R : (Fin k → N) → Prop} {ℌ : HierarchySymbol}
+theorem definable_of_arith {k : ℕ} {R : (Fin k → N) → Prop} {ℌ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]}
     (h : ℌ.Definable R) : (LXIN ι).Definable R := by
   obtain ⟨φ, hφ⟩ := h.definable
   refine ⟨Semiformula.lMap (toLXIN ι) φ.val, fun v => ?_⟩
   rw [eval_lMap]
-  exact HierarchySymbol.IsDefinedByWithParam.df hφ v
+  exact Bounding.HierarchySymbol.IsDefinedByWithParam.df hφ v
 
 omit [DecidableEq ι] [ORingStructure N] [ArithStd ι N] hM in
 theorem definable_imem (k : ι) : (LXIN ι).DefinablePred (Imem (s := s) k) :=
@@ -503,7 +504,7 @@ theorem order_induction_definable {Q : N → Prop} (hQ : (LXIN ι).DefinablePred
   have hQ' : (LXIN ι).DefinablePred fun x : N => ∀ y < x, Q y := by
     refine Language.Definable.all ?_
     refine Language.Definable.imp ?_ ?_
-    · exact definable_of_arith (ℌ := 𝚺₀) (by definability)
+    · exact definable_of_arith (ℌ := 𝚺ᴬ₀) (by definability)
     · exact hQ.retraction ![0]
   have key := succ_induction_definable A hQ' (fun y hy => absurd hy (by simp))
     (fun x hx y hy => by

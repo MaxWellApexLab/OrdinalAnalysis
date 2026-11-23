@@ -22,7 +22,7 @@ set_option maxHeartbeats 800000
 namespace OrdinalAnalysis.Gentzen.UpperBound
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.OmegaTower
@@ -53,7 +53,7 @@ theorem arithmetic_nonote_prec {a b : NONote} (h : a < b) :
   intro M _ _
   rw [models_iff]
   simp [arithmeticNonotePrecStatement, arithPrecAt, eval_precDef,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   change isNF (nonoteModelCode (V := M) a) ∧
     isNF (nonoteModelCode (V := M) b) ∧
       icmp (nonoteModelCode (V := M) a)
@@ -72,10 +72,10 @@ private lemma map_nonote_prec_body (a b : NONote) :
   rw [lMap_numeral (nonoteCode a), lMap_numeral (nonoteCode b)]
 
 lemma models_nonote_prec_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (a b : NONote) :
+    [sLX : Tarski.Structure LX M] (a b : NONote) :
     M↓[LX] ⊧ closedPrec (notationTerm a) (notationTerm b) ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticNonotePrecStatement a b := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [closedPrec, arithmeticNonotePrecStatement,
     Semiformula.eval_univCl]

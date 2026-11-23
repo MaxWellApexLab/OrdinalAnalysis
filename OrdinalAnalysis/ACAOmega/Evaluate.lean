@@ -66,10 +66,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACAOmega
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA
 
 /-! ### Ground terms
@@ -139,7 +139,7 @@ theorem val_ground_congr {n : ℕ} (e e' : Fin n → ℕ) (f f' : ℕ → ℕ) :
       intro h
       have hv := (ground_func_iff fn v).mp h
       simp only [FirstOrder.Semiterm.val_func, Function.comp_def]
-      exact congrArg (FirstOrder.Structure.func (M := ℕ) fn) (funext fun i => ih i (hv i))
+      exact congrArg (FirstOrder.Tarski.Structure.func (M := ℕ) fn) (funext fun i => ih i (hv i))
 
 /-- The value of a ground term *is* `evTerm`. -/
 theorem val_ground {n : ℕ} {t : FirstOrder.Semiterm ℒₒᵣ ℕ n} (h : Ground t)
@@ -230,7 +230,7 @@ theorem ground_subst_emb {n : ℕ} :
 theorem evTerm_func {n k : ℕ} (f : (ℒₒᵣ : FirstOrder.Language).Func k)
     (v : Fin k → FirstOrder.Semiterm ℒₒᵣ ℕ n) :
     evTerm (FirstOrder.Semiterm.func f v)
-      = FirstOrder.Structure.func (M := ℕ) f fun i => evTerm (v i) := rfl
+      = FirstOrder.Tarski.Structure.func (M := ℕ) f fun i => evTerm (v i) := rfl
 
 /-! ### The term evaluator -/
 
@@ -316,7 +316,7 @@ theorem val_evT {n : ℕ} (t : FirstOrder.Semiterm ℒₒᵣ ℕ n) (e : Fin n �
       · rw [evT_of_ground h, val_ground (ground_numAt _) e f, evTerm_numAt, val_ground h e f]
       · rw [evT_func_of_not_ground fn v h]
         simp only [FirstOrder.Semiterm.val_func, Function.comp_def]
-        exact congrArg (FirstOrder.Structure.func (M := ℕ) fn) (funext fun i => ih i)
+        exact congrArg (FirstOrder.Tarski.Structure.func (M := ℕ) fn) (funext fun i => ih i)
 
 theorem evTerm_evT {n : ℕ} (t : FirstOrder.Semiterm ℒₒᵣ ℕ n) : evTerm (evT t) = evTerm t :=
   val_evT t _ _
@@ -434,7 +434,7 @@ theorem evT_congr {n₁ n₂ : ℕ} {ω ω' : FirstOrder.Rew ℒₒᵣ ℕ n₁ 
           (ground_func_iff f _).mpr fun i => (hgi i).mp ((ground_func_iff f _).mp hg i)
         rw [evT_of_ground hg, evT_of_ground hg', evTerm_func, evTerm_func]
         exact congrArg (fun m => (numAt m : FirstOrder.Semiterm ℒₒᵣ ℕ n₂))
-          (congrArg (FirstOrder.Structure.func (M := ℕ) f)
+          (congrArg (FirstOrder.Tarski.Structure.func (M := ℕ) f)
             (funext fun i => evTerm_congr_of_evT (ih i)))
       · have hg' : ¬Ground (FirstOrder.Semiterm.func f fun i => ω' (v i)) := fun hc =>
           hg ((ground_func_iff f _).mpr fun i => (hgi i).mpr ((ground_func_iff f _).mp hc i))
@@ -854,12 +854,12 @@ theorem eval_ev₂ (𝕊 : Set (Set ℕ)) (F : ℕ → Set ℕ) (f : ℕ → ℕ
   | hRel r v =>
       intro E e
       simp only [ev₂_rel, Semiformula.eval_rel, Function.comp_def]
-      exact Iff.of_eq (congrArg (FirstOrder.Structure.rel (M := ℕ) r)
+      exact Iff.of_eq (congrArg (FirstOrder.Tarski.Structure.rel (M := ℕ) r)
         (funext fun i => val_evT (v i) e f))
   | hNrel r v =>
       intro E e
       simp only [ev₂_nrel, Semiformula.eval_nrel, Function.comp_def]
-      exact not_congr (Iff.of_eq (congrArg (FirstOrder.Structure.rel (M := ℕ) r)
+      exact not_congr (Iff.of_eq (congrArg (FirstOrder.Tarski.Structure.rel (M := ℕ) r)
         (funext fun i => val_evT (v i) e f)))
   | hBvar X t => intro E e; simp only [ev₂_bvar, Semiformula.eval_bvar, val_evT]
   | hNbvar X t => intro E e; simp only [ev₂_nbvar, Semiformula.eval_nbvar, val_evT]

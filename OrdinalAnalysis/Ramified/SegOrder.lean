@@ -26,6 +26,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.CodedOrderR
 public import OrdinalAnalysis.Ordinal.Veblen.VeblenBelow
 public import OrdinalAnalysis.Ordinal.BelowDerivation
@@ -38,7 +39,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁)
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precN₁ precN₁_code_iff)
@@ -78,7 +79,7 @@ pair of numerals reads, in any standard reading of the fresh symbols, as
 the first conjunct is `Ramified.eval_precAt₁R_numeral` outright, and the second
 reduces to it after chasing the composed substitution back to `precAt` at
 `(numAtR n, numAtR (code of the bound))` via `Ramified.rew_precAt`. -/
-theorem eval_precSegVebR (a b : Gamma0Note) (s₂ : Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ) :
+theorem eval_precSegVebR (a b : Gamma0Note) (s₂ : Tarski.Structure RALang ℕ) (m n : ℕ) (f : ℕ → ℕ) :
     Semiformula.Eval (s := raStd s₂) ![] f
       (precAt (precSegVebR a b) (numAtR m) (numAtR n)) ↔ precNSegVebR a b m n := by
   have hrw : precAt (precSegVebR a b) (numAtR m : Semiterm LRA ℕ 0) (numAtR n : Semiterm LRA ℕ 0)

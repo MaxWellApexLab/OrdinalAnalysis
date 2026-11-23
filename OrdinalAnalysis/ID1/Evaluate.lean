@@ -49,6 +49,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.Calculus
 
 @[expose] public section
@@ -59,7 +60,7 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Numerals denote their values -/
 
@@ -117,9 +118,9 @@ theorem lMap_toLIinf_numeral (k : ℕ) :
 @[simp] theorem val_numeral_stdInf (m : ℕ) (e : Fin n → ℕ) (ε : ξ → ℕ) :
     Semiterm.val (s := stdInf) e ε ((m : ℕ) : Semiterm LIinf ξ n) = m := by
   rw [← lMap_toLIinf_numeral m]
-  show Semiterm.val (s := Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfFalse)) e ε
+  show Semiterm.val (s := Tarski.Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfFalse)) e ε
     (Semiterm.lMap (Language.Hom.add₁ ℒₒᵣ IInfLang) ((m : ℕ) : Semiterm ℒₒᵣ ξ n)) = m
-  rw [Structure.val_lMap_add₁ (str₂ := iinfFalse)]
+  rw [Tarski.Structure.val_lMap_add₁ (str₂ := iinfFalse)]
   simp
 
 @[simp] theorem val_numI (m : ℕ) (e : Fin 0 → ℕ) (ε : ℕ → ℕ) :

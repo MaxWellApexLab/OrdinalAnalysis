@@ -18,7 +18,7 @@
     Veblen rule, which compares an argument `b` against a *whole* term `L'` that is not
     below the other code in the maximum order.
 
-  Everything is proved semantically in an arbitrary model of `IΣ₁`, by `𝚺₁`-order
+  Everything is proved semantically in an arbitrary model of `IΣ₁`, by `𝚺ᴬ₁`-order
   induction; nothing about ordinals is used.
 -/
 
@@ -34,7 +34,7 @@ set_option maxHeartbeats 2000000
 namespace OrdinalAnalysis.Gentzen.InternalVNoteOrder
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 

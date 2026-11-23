@@ -21,6 +21,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Collapsing.CaseFix
 public import OrdinalAnalysis.IDn.Collapsing.CaseCut
 public import OrdinalAnalysis.IDn.Collapsing.CaseStage
@@ -45,7 +46,7 @@ namespace IDn
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ} {A : Fin n → Semisentence (LXIn n) 1}
 
@@ -147,7 +148,7 @@ theorem collapse_zero (hyp : CollapseHyps A) {m : ℕ} (hm : m ≤ n) (k : Fin n
     (by rw [Hg_zero_empty]; exact d)
   rwa [Hg_empty_eq, hat_zero] at h
 
-/-- **The corollary followed by boundedness at level `k`** (design note §2.7, steps 4–5):
+/-- **The corollary followed by boundedness at level `k`**:
 `H_0 ⊢^α_{Ω̄_m} φ`, `φ ∈ Σ(Ω_{k+1})` give `H_η ⊢^β_β φ^β` with `β = ψ_k(ω^{Ω̄_m+Ω̄_m+α}) ≺ Ω_{k+1}`. -/
 theorem collapse_zero_bound (hyp : CollapseHyps A) {m : ℕ} (hm : m ≤ n) (k : Fin n)
     {α : ThetaWNoteD} {φ : Proposition (LIinfN n)} (hφ : SigmaW k φ)

@@ -16,7 +16,7 @@
 
   It also contains the one genuinely new **first-order** lemma the assembly needs,
   the *relativisation* of progressiveness from `≺₁` to the `ε_{ε₀}`-segment
-  ordering `precSeg` of `ACA/TI.lean` (design note §4, C5: "the relativised
+  ordering `precSeg` of `ACA/TI.lean` (C5: "the relativised
   progressiveness as a `paLX` theorem lifted").  It is first-order, so it is
   proved in `paLX` and lifted, exactly as the two-layer discipline requires.
 -/
@@ -35,7 +35,7 @@ set_option maxHeartbeats 1000000
 
 namespace OrdinalAnalysis.ACA.Relativise
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedVeblen
 open OrdinalAnalysis.Gentzen.CodedVeblenJump
@@ -56,7 +56,7 @@ def segGuard : Semiformula LX ℕ 1 :=
   ∼(precAt precCode₁ (#0 : Semiterm LX ℕ 1) (Semiterm.numeral segBound)) ⋎
     Xat (#0 : Semiterm LX ℕ 1)
 
-private theorem val_numeral_eq {M : Type*} [Nonempty M] [Structure LX M] (k : ℕ) {n : ℕ}
+private theorem val_numeral_eq {M : Type*} [Nonempty M] [Tarski.Structure LX M] (k : ℕ) {n : ℕ}
     (e : Fin n → M) (f : ℕ → M) :
     (Semiterm.numeral k : Semiterm LX ℕ n).val e f =
       (Semiterm.numeral k : Semiterm LX ℕ 0).val ![] f := by
@@ -150,10 +150,10 @@ end OrdinalAnalysis.ACA.Relativise
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX Xat TIupto paLX)
 
 /-! ### `∀²`-introduction over the free set variable
@@ -236,7 +236,7 @@ theorem specSO (ψ : Semiformula ℒₒᵣ ℕ Empty 0 1)
 /-! ### The arithmetical witness `Jump(X₀)`
 
 Instantiating a `∀²` at this witness is *the* use of arithmetical comprehension
-in the tower induction (design note §2: "this IS arithmetical comprehension =
+in the tower induction ("this IS arithmetical comprehension =
 the `exs₂` rule; no `compAx` needed"). -/
 
 /-- `Jump(φ)` for `φ := X₀`, as a second-order formula in one number variable. -/
@@ -472,7 +472,7 @@ induction along the `ε_{ε₀}`-*segment* ordering below `ā`.  Relativise.lean
 turns the `≺₁`-bound into it, inside `paLX`; `lift_tiUptoSeg` carries it over. -/
 
 /-- **Transfinite induction along the segment ordering, below every notation
-`c < ε₀`.**  This is milestone `M0` of the design note in the form the lower
+`c < ε₀`.**  This is milestone `M0` of the construction in the form the lower
 half (`ACAOmega/ACATheorem.lean`) refutes the unrestricted version of. -/
 theorem aca_tiUptoSeg_of_lt_eps0 (c : Gamma0Note) (hc : c < Gamma0Note.epsilonNote 0) :
     Provable ACA (tiUptoSegSO c) :=

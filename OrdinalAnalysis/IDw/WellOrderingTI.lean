@@ -1,8 +1,7 @@
 /-
   The class `Q = ⋃_k J(k, ·)`, BP78 Theorem 1 (`Q = M ∩ Ω_ω`), (10) (`Prog[Q, X] → Q ⊆ X`) and (12)
   (`TI[M, Ω_ω]`), inside models `N` of `IDw WFormWc` (`WModel N`), BP78 pp. 121–123 with `σ = ω`.
-  Continues `IDw/WellOrderingW.lean` (skeleton items T1a, T1b, T1c, T10, T12 of
-  `IDw/_draft/WellOrderingW_skel.lean`).
+  Continues `IDw/WellOrderingW.lean` (skeleton items T1a, T1b, T1c, T10, T12).
 
   Lemma 1 (`ConsStmt N`, BP78 Lemma 1, the Gentzen jump on `D_k`) is a hypothesis of `Q_iff` and
   `ti_M_OmegaW`: the direction `M ∩ Ω_ω ⊆ Q` uses `W_of_E`, which uses it.  `ti_Q` needs only
@@ -21,7 +20,7 @@ set_option linter.unusedSectionVars false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 
 /-! ### T1a, T1b: internal facts (no model needed) -/
@@ -62,7 +61,7 @@ end Codes
 
 section Model
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 /-- T1b. **`Ω_ω ∈ M`** (BP78 Theorem 1, first half). -/
 theorem mmW_OmegaW : MMW (s := s) (tcOmegaW : N) :=
@@ -139,7 +138,7 @@ end Model
 
 section Bridge
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 /-- **`WModel` from an arithmetically standard model of `IDw WFormWc`**: closure and induction
 are the axioms, order induction is `Lift.order_induction_definable`. -/

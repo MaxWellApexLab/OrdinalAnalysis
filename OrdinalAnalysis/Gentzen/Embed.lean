@@ -37,6 +37,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Proof.Bridge
 public import OrdinalAnalysis.Gentzen.EvInst
 public import OrdinalAnalysis.Gentzen.NumSubst
@@ -47,7 +48,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.Embed
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen OrdinalAnalysis.Gentzen.StandardLX
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.NumSubst
 open OrdinalAnalysis.Gentzen.EvInst
@@ -57,7 +58,7 @@ variable {O : Type} [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O]
 /-- **The replay.**  An LK derivation of `Γ` yields, for every assignment `f`,
 an ω-derivation of the evaluated `f`-instance of `Γ`, at the same rank and
 height. -/
-theorem replay : ∀ {Γ : Sequent LX} (d : ⊢ᴸᴷ¹ Γ) (f : ℕ → ℕ),
+theorem replay : ∀ {Γ : Sequent LX} (d : ⊢ᶠ¹ Γ) (f : ℕ → ℕ),
     OmegaDerivable trueArithLits evInst (cutRank d) (ordN d : O) ((seqSubst f Γ).map ev)
   | _, Derivation.identity rl v, f => by
       simp only [seqSubst_cons, seqSubst_nil, List.map_cons, List.map_nil,
@@ -111,7 +112,7 @@ theorem replay : ∀ {Γ : Sequent LX} (d : ⊢ᴸᴷ¹ Γ) (f : ℕ → ℕ),
       exact h.mono_rank (by simp [cutRank])
 
 /-- **The replay of a closed sequent** is a derivation of its evaluation. -/
-theorem replay_closed {Γ : Sequent LX} (d : ⊢ᴸᴷ¹ Γ)
+theorem replay_closed {Γ : Sequent LX} (d : ⊢ᶠ¹ Γ)
     (hc : ∀ φ ∈ Γ, Semiformula.freeVariables φ = ∅) :
     OmegaDerivable trueArithLits evInst (cutRank d) (ordN d : O) (Γ.map ev) := by
   have h := replay (O := O) d (fun _ => 0)

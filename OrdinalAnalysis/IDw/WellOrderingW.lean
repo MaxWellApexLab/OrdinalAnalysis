@@ -36,8 +36,7 @@
   * (BP78 Theorem 2) `W_theta_zero_of_TI`: transfinite induction on `M` up to `c ∈ M` gives
     `ϑ₀ c ∈ J(0, ·)`.
 
-  The three lemmas the main lemma uses and that are proved elsewhere (the skeleton
-  `IDw/_draft/WellOrderingW_skel.lean`) are explicit hypotheses, stated once as `Prop`s:
+  The three lemmas the main lemma uses and that are proved elsewhere are explicit hypotheses, stated once as `Prop`s:
   `ConsStmt` (BP78 Lemma 1, sums; Gentzen's jump on `D_k`), `MonoStmt` (BP78 Lemma 2,
   `J(j, ·) ⊆ J(k, ·)` for `j ≤ k`), `OmegaStmt` (BP78 Lemma 3, `Ω_{j+1} ∈ J(k, ·)` for `j < k`).
 -/
@@ -55,7 +54,7 @@ set_option linter.unusedSectionVars false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.IDw.Internal
 open OrdinalAnalysis.ID1.Internal (bor band beq bor_eq_one band_eq_one beq_eq_one)
 
@@ -139,7 +138,7 @@ end Codes
 
 section Model
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 variable (N) in
 /-- **A model of `IDw WFormWc`, as the well-ordering proof uses it**: standard arithmetic, the
@@ -176,12 +175,12 @@ def CoefW (B : N → Prop) (x : N) : Prop := ∀ j, B j → ∀ g, iinE j g x = 
 variable (M : WModel N)
 include M
 
-theorem WModel.dfn_arith {k : ℕ} {R : (Fin k → N) → Prop} {ℌ : HierarchySymbol}
+theorem WModel.dfn_arith {k : ℕ} {R : (Fin k → N) → Prop} {ℌ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]}
     (h : ℌ.Definable R) : LXJ.Definable R := by
   obtain ⟨φ, hφ⟩ := h.definable
   refine ⟨Semiformula.lMap toLXJ φ.val, fun v => ?_⟩
   rw [Semiformula.eval_lMap, M.arith]
-  exact HierarchySymbol.IsDefinedByWithParam.df hφ v
+  exact Bounding.HierarchySymbol.IsDefinedByWithParam.df hφ v
 
 omit M in
 theorem dfn_forall {m : ℕ} {R : (Fin (m + 1) → N) → Prop} (h : LXJ.Definable R) :
@@ -199,24 +198,24 @@ omit M in
 theorem dfn_Jm_rel : LXJ.DefinableRel (Jm (s := s)) :=
   ⟨Jat #0 #1, fun v => by rw [eval_Jat_Jm]; rfl⟩
 
-theorem dfn_Jm {m : ℕ} {a b : (Fin m → N) → N} (ha : 𝚺₁.DefinableFunction a)
-    (hb : 𝚺₁.DefinableFunction b) : LXJ.Definable fun v => Jm (a v) (b v) :=
+theorem dfn_Jm {m : ℕ} {a b : (Fin m → N) → N} (ha : 𝚺ᴬ₁.DefinableFunction a)
+    (hb : 𝚺ᴬ₁.DefinableFunction b) : LXJ.Definable fun v => Jm (a v) (b v) :=
   Language.DefinableRel.comp (hP := dfn_Jm_rel) (M.dfn_arith ha) (M.dfn_arith hb)
 
-theorem dfn_coef {B : N → Prop} (hB : 𝚺₁.DefinablePred B) :
+theorem dfn_coef {B : N → Prop} (hB : 𝚺ᴬ₁.DefinablePred B) :
     LXJ.DefinablePred (CoefW B) := by
   have h3 : LXJ.Definable fun u : Fin 3 → N => iinE (u 1) (u 0) (u 2) = 1 → Jm (u 1) (u 0) :=
-    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
       (dfn_Jm M (a := fun u => u 1) (b := fun u => u 0) (by definability) (by definability))
   have h2 := dfn_forall h3
   have h2' : LXJ.Definable fun w : Fin 2 → N => B (w 0) → ∀ g, iinE (w 0) g (w 1) = 1 → Jm (w 0) g :=
-    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
       (Language.Definable.of_iff h2 fun w => by simp)
   exact Language.Definable.of_iff (dfn_forall h2') fun v => by simp [CoefW]
 
 theorem dfn_DkW (k : N) : LXJ.DefinablePred (DkW (s := s) k) := by
   have h1 : LXJ.DefinablePred fun x : N => fldW x :=
-    M.dfn_arith (ℌ := 𝚺₁) (by unfold fldW; definability)
+    M.dfn_arith (ℌ := 𝚺ᴬ₁) (by unfold fldW; definability)
   exact Language.Definable.of_iff
     (Language.Definable.and h1 (dfn_coef M (B := fun j => j < k) (by definability)))
     fun v => Iff.rfl
@@ -230,7 +229,7 @@ theorem dfn_MallW : LXJ.DefinablePred (MallW (s := s)) :=
 /-- `J(k, ·) ⊆ D_k ∩ Ω_{k+1}`. -/
 theorem W_sub {k x : N} (hx : Jm k x) : DkW k x ∧ iltb x (tcOmega k) = 1 := by
   have hP : LXJ.DefinablePred fun x : N => DkW k x ∧ iltb x (tcOmega k) = 1 :=
-    Language.Definable.and (dfn_DkW M k) (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+    Language.Definable.and (dfn_DkW M k) (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
   exact M.ind k hP (fun x h => ⟨h.1, h.2.1⟩) x hx
 
 omit M in
@@ -241,7 +240,7 @@ theorem W_down {k x y : N} (hx : Jm k x) (hy : DkW k y) (hlt : iltb y x = 1) : J
   have hP : LXJ.DefinablePred fun x : N => ∀ y, DkW k y → iltb y x = 1 → Jm k y := by
     have h : LXJ.Definable fun u : Fin 2 → N => DkW k (u 0) → iltb (u 0) (u 1) = 1 → Jm k (u 0) :=
       Language.Definable.imp (dfn_pred (dfn_DkW M k) 0)
-        (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+        (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
           (dfn_Jm M (a := fun _ => k) (b := fun u => u 0) (by definability) (by definability)))
     exact Language.Definable.of_iff (dfn_forall h) fun v => by simp
   refine M.ind k hP (fun x hA y hy hlt => ?_) x hx y hy hlt
@@ -278,7 +277,7 @@ end Model
 
 section Main
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 variable (N) in
 /-- **BP78 Lemma 1** (sums): a normal sum of `D_k` below `Ω_{k+1}` is in `J(k, ·)` once its
@@ -301,8 +300,8 @@ include M
 theorem dfn_mallParts (k x : N) : LXJ.DefinablePred fun ξ : N =>
     fldW ξ → CoefW (fun j => j ≤ k) ξ → (∀ ζ, iinG k ζ ξ = 1 → iltb ζ x = 1) → MallW ξ := by
   have hG : LXJ.DefinablePred fun ξ : N => ∀ ζ, iinG k ζ ξ = 1 → iltb ζ x = 1 :=
-    M.dfn_arith (ℌ := 𝚷₁) (by definability)
-  exact Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by unfold fldW; definability))
+    M.dfn_arith (ℌ := 𝚷ᴬ₁) (by definability)
+  exact Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by unfold fldW; definability))
     (Language.Definable.imp (dfn_coef M (B := fun j => j ≤ k) (by definability))
       (Language.Definable.imp hG (dfn_MallW M)))
 
@@ -336,7 +335,7 @@ theorem mall_of_parts {x : N} (H : HypW x) (k : N) :
 theorem dfn_below (k x : N) : LXJ.DefinablePred fun γ : N =>
     DkW k γ → iltb γ (tcTheta k x) = 1 → Jm k γ :=
   Language.Definable.imp (dfn_pred (dfn_DkW M k) 0)
-    (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+    (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
       (dfn_Jm M (a := fun _ => k) (b := fun u => u 0) (by definability) (by definability)))
 
 include hMono in
@@ -401,7 +400,7 @@ end Main
 
 section Levels
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 variable (M : WModel N)
 include M
 
@@ -440,7 +439,7 @@ theorem W_mono : MonoStmt N := by
       Language.Definable.imp
         (dfn_Jm M (a := fun _ => j) (b := fun u => u 0) (by definability) (by definability))
         (dfn_Jm M (a := fun u => u 1) (b := fun u => u 0) (by definability) (by definability))
-    exact Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₀) (by definability))
+    exact Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₀) (by definability))
       (Language.Definable.of_iff (dfn_forall h) fun v => by simp)
   refine M.oind hP ?_
   intro k ih hjk y hy
@@ -469,27 +468,27 @@ theorem W_of_E : ∀ k y : N, DkW k y → iltb y (tcOmega k) = 1 →
       (∀ g, iinE k g y = 1 → Jm k g) → Jm k y := fun k => by
     have hE : LXJ.DefinablePred fun y : N => ∀ g, iinE k g y = 1 → Jm k g := by
       have h : LXJ.Definable fun u : Fin 2 → N => iinE k (u 0) (u 1) = 1 → Jm k (u 0) :=
-        Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+        Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
           (dfn_Jm M (a := fun _ => k) (b := fun u => u 0) (by definability) (by definability))
       exact Language.Definable.of_iff (dfn_forall h) fun v => by simp
     exact Language.Definable.imp (dfn_DkW M k)
-      (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+      (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
         (Language.Definable.imp hE
           (dfn_Jm M (a := fun _ => k) (b := fun u => u 0) (by definability) (by definability))))
   have hPk : LXJ.DefinablePred fun k : N => ∀ y, DkW k y → iltb y (tcOmega k) = 1 →
       (∀ g, iinE k g y = 1 → Jm k g) → Jm k y := by
     have hE : LXJ.Definable fun u : Fin 3 → N => iinE (u 2) (u 0) (u 1) = 1 → Jm (u 2) (u 0) :=
-      Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+      Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
         (dfn_Jm M (a := fun u => u 2) (b := fun u => u 0) (by definability) (by definability))
     have hE' : LXJ.Definable fun u : Fin 2 → N => ∀ g, iinE (u 1) g (u 0) = 1 → Jm (u 1) g :=
       Language.Definable.of_iff (dfn_forall hE) fun v => by simp
     have hD : LXJ.Definable fun u : Fin 2 → N => DkW (u 1) (u 0) := by
       have h1 : LXJ.Definable fun u : Fin 2 → N => fldW (u 0) :=
-        M.dfn_arith (ℌ := 𝚺₁) (by unfold fldW; definability)
+        M.dfn_arith (ℌ := 𝚺ᴬ₁) (by unfold fldW; definability)
       have h3 : LXJ.Definable fun u : Fin 4 → N =>
           u 1 < u 3 → iinE (u 1) (u 0) (u 2) = 1 → Jm (u 1) (u 0) :=
-        Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₀) (by definability))
-          (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+        Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₀) (by definability))
+          (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
             (dfn_Jm M (a := fun u => u 1) (b := fun u => u 0) (by definability)
               (by definability)))
       have h2 := dfn_forall (dfn_forall h3)
@@ -500,7 +499,7 @@ theorem W_of_E : ∀ k y : N, DkW k y → iltb y (tcOmega k) = 1 →
     have h : LXJ.Definable fun u : Fin 2 → N => DkW (u 1) (u 0) →
         iltb (u 0) (tcOmega (u 1)) = 1 → (∀ g, iinE (u 1) g (u 0) = 1 → Jm (u 1) g) →
           Jm (u 1) (u 0) :=
-      Language.Definable.imp hD (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by definability))
+      Language.Definable.imp hD (Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by definability))
         (Language.Definable.imp hE'
           (dfn_Jm M (a := fun u => u 1) (b := fun u => u 0) (by definability) (by definability))))
     exact Language.Definable.of_iff (dfn_forall h) fun v => by simp
@@ -542,7 +541,7 @@ end Levels
 
 section Collapse
 
-variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Structure LXJ N]
+variable {N : Type} [ORingStructure N] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] [s : Tarski.Structure LXJ N]
 
 /-- BP78's `M` as a class: normal domain codes all of whose coefficients are distinguished. -/
 def MMW (x : N) : Prop := fldW x ∧ MallW x
@@ -569,7 +568,7 @@ omit hCons in
 theorem dfn_thetaIn : LXJ.DefinablePred (ThetaIn (s := s)) := by
   have h : LXJ.Definable fun u : Fin 2 → N =>
       fldW (tcTheta (u 0) (u 1)) → Jm (u 0) (tcTheta (u 0) (u 1)) :=
-    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺₁) (by unfold fldW; definability))
+    Language.Definable.imp (M.dfn_arith (ℌ := 𝚺ᴬ₁) (by unfold fldW; definability))
       (dfn_Jm M (a := fun u => u 0) (b := fun u => tcTheta (u 0) (u 1)) (by definability)
         (by definability))
   exact Language.Definable.of_iff (dfn_forall h) fun v => by simp [ThetaIn]

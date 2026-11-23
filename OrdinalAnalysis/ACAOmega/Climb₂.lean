@@ -60,6 +60,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACAOmega.SubstX₂
 public import OrdinalAnalysis.ACAOmega.OmegaTruth₂
 public import OrdinalAnalysis.ACAOmega.Gamma0Order₂
@@ -71,9 +72,9 @@ set_option maxHeartbeats 400000
 
 namespace OrdinalAnalysis.ACAOmega.Climb₂
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.ACA
 open OrdinalAnalysis.Gentzen.CodedVeblen (precN₁ precN₁_dom lt_of_precN₁_code)
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)

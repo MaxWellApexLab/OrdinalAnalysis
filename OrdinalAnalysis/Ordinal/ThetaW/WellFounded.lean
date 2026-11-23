@@ -470,7 +470,7 @@ theorem acc (a : ThetaW2Note) : Acc (· < ·) a :=
     (InvImage.accessible Subtype.val (ThetaWTerm.isAcc a.2.1 a.2.2))
 
 /-- **The two-level ϑ-order on normal terms is well founded.** -/
-instance wellFoundedLT : WellFoundedLT ThetaW2Note := ⟨⟨acc⟩⟩
+instance wellFoundedLT : WellFoundedLT ThetaW2Note := ⟨acc⟩
 
 end ThetaW2Note
 

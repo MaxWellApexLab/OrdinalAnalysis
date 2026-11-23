@@ -18,11 +18,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Predicates plugged into an operator form -/
@@ -33,7 +33,7 @@ section Plug
 variable (P : Pred n)
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem predOf_rew (G : Semiformula (LIinfN n) ℕ 1) {n₁ n₂ : ℕ} {ω : Rew (LIinfN n) ℕ n₁ ℕ n₂}
     (hω : FixF ω) (s : Semiterm (LIinfN n) ℕ n₁) : ω ▹ predOf G n₁ s = predOf G n₂ (ω s) := by

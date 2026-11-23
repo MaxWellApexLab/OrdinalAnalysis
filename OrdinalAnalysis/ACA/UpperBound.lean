@@ -24,13 +24,13 @@
 
   ### State of the upper half in this file
 
-  Delivered here: every `a < ε₀` (milestone `M0` of the design note), by
+  Delivered here: every `a < ε₀` (milestone `M0` of the construction), by
   `ACA/Lifted.lean` — Gentzen's `ε₀` bound over the Veblen coding, lifted at the
   parameter `segWitness` through `ACA/Lift.lean`'s bridge, and relativised from
   `≺₁` to the segment ordering inside `paLX`.
 
   Not yet delivered: `ε₀ ≤ a < ε_{ε₀}`.  That range needs the internal ω-tower
-  induction (⋆⋆) of design note §2 — `ACA ⊢ ∀c∀n∀u (Tower(u,n,c) → (∀²X TI(c,X))
+  induction (⋆⋆) of the construction — `ACA ⊢ ∀c∀n∀u (Tower(u,n,c) → (∀²X TI(c,X))
   → (∀²X TI(u,X)))`, the single use of the full second-order induction scheme,
   and the one place where `ACA` outruns `ACA₀` — together with the
   `ε`-progressiveness (Prog) built on top of it.  `aca_theorem_of` below is the
@@ -51,8 +51,8 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open scoped FFL.FirstOrder
 
 /-! ### Picking the notation: `ε_{ε₀}` is the sup of `ε_c` over notations `c < ε₀`
 
@@ -155,7 +155,7 @@ theorem aca_consistent : ¬ Provable ACA (⊥ : Proposition ℒₒᵣ) :=
 Its only content is that the two halves are about the *same* sentence — the
 `Provable ACA (tiUptoSegSO a)` that `ACA/TI.lean` defines and that
 `ACAOmega/LowerBound₂.lean` refutes the unrestricted version of — which is the
-integration risk the design note's §5.3 contract exists to retire.  It is
+integration risk a separate contract would exist to retire.  It is
 discharged here by type-checking, not by comment. -/
 
 /-- **`|ACA| = ε_{ε₀}`, given the upper half.**  The hypothesis is exactly the
@@ -171,7 +171,7 @@ theorem aca_theorem_of
 `ACA/TowerInduction.lean`'s `towerInduction` (design-note (⋆⋆)) and
 `ACA/SegmentBridge.lean`'s `aca_tiUptoSeg_of_allTI` (the relativisation as a
 `paLX`-implication, plus `exists_lt_epsilon_of_lt_epsEps`) shrink that hypothesis
-to the single remaining mathematical input of the design note: **one `ACA`-proof
+to the single remaining mathematical input of the construction: **one `ACA`-proof
 of `∀²X TI(≺₁, ε̄_c, X)` for each external `c < ε₀`** — i.e. items (Prog) +
 (TIψ) + (Final).  Nothing else is missing. -/
 

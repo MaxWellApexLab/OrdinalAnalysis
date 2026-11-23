@@ -4,6 +4,7 @@ AxiomsLogic` not yet ported). -/
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.NumSubst
 public import OrdinalAnalysis.IDn.Sound
 
@@ -13,7 +14,7 @@ public import OrdinalAnalysis.IDn.Sound
   Source: A. Freund, *Impredicativity and trees with gap condition: a second course on
   ordinal analysis*, arXiv:2204.09321, proof of Theorem 6.5: "the axioms of `PA ⊆ ID₁`,
   including induction for the extended language `L_ID`, are treated as in the proof of
-  Theorem 3.7 from the first lecture". Per §2.5 of the design note, the multi-level statement
+  Theorem 3.7 from the first lecture". Here the multi-level statement
   has no mathematics beyond `ID1.AxiomsPA`: every height is measured against the *top* `Ω_n`
   (`ThetaWNoteD.Omega (n - 1)`), since the induction scheme ranges over all of `L_ID` (which may
   mention any `I_k`) but is otherwise level-free.
@@ -114,10 +115,10 @@ end ThetaWNoteD
 
 namespace IDn
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
-open LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Arithmetic
 
 /-! ### The `Set ThetaWNoteD` view of a single formula's parameters -/
 

@@ -3,15 +3,15 @@
   `Fin n`), stage predicates `I_k^{≺α}` exactly as in `IDn/Language.lean`, plus a genuinely new
   binary atom family `Jlev ℓ`, `ℓ : WithTop ℕ`.
 
-  Source: the design notes §3.1 "Language `LIinfW`"; the
+  Construction: the
   multi-level `IDn/Language.lean` is the template (ported almost verbatim for `StageAt`/
   `Stage`/stage atoms/`params`/`SigmaW`/`capAt`), generalised from `k : Fin n` to `k : ℕ` and
   extended with `Jlev`. `IDw/Theory.lean` (`LXJ`, `LForm`, `FormJ`, `PQRel`) is the finitary
   theory this language embeds/unfolds; both are read as of `IDw/Theory.lean`'s current,
-  `lean_warm.py`-verified-green state (its `termCast` now goes through a proper
+  compiling state (its `termCast` now goes through a proper
   `homLFormLXJ : LForm →ᵥ LXJ`, the same pattern followed here for `formHomAt`).
 
-  **`Jlev`, and why it is unavoidable** (design §3.1, §8.4's kill criterion). `IDw A`'s theory
+  **`Jlev`, and why it is unavoidable**. `IDw A`'s theory
   is *uniform*: one binary predicate `J(y,x)`, one schema `A(x,y)` reused at every level, with
   `y` a genuine *bound variable* of the closure/induction axioms — not something Lean case-splits
   on (`IDw/Theory.lean`'s header). An infinitary derivation must still expose, level by level,
@@ -19,8 +19,7 @@
   rank-bearing formula; a *unary* per-level family alone cannot express "for all `y`, …" as one
   atom. Hence `Jlev ℓ (s, t)` : "`val s < ℓ` and `t ∈ I_{val s}`" — `Jlev ⊤` is the full,
   unrestricted `J`; `Jlev k` (`k : ℕ`, i.e. `↑k : WithTop ℕ`) is `J` *read through levels `< k`
-  only*, exactly Pohlers' `J^{≺y}` at `y = k̄`. There is no level-`ω` stage predicate (design §0
-  item 3): `Jlev` is the only new relation, and it takes the place a hypothetical "`I_ω`" would
+  only*, exactly Pohlers' `J^{≺y}` at `y = k̄`. There is no level-`ω` stage predicate: `Jlev` is the only new relation, and it takes the place a hypothetical "`I_ω`" would
   have had to play, without ever needing one.
 
   **Two translations out of the finitary language(s), both by a plain `Language.Hom`** (design:
@@ -47,7 +46,7 @@
       *fixed* atoms `I_k^{≺g}`/`Jlev k` at every depth, not a substituted formula `F/[t,Y]`), then
       the 2-ary numeral/argument substitution `/[t, k̄]`.
 
-  **`params`, `Σ(Ω_{k+1})`, `capAt` for `Jlev`** (design §3.1, verbatim): `params (Jlev ℓ …) = ∅`
+  **`params`, `Σ(Ω_{k+1})`, `capAt` for `Jlev`**: `params (Jlev ℓ …) = ∅`
   (a `Jlev`-atom is not a stage-family index, so it never contributes a `Stage` parameter — this
   is what makes `unfoldW`'s parameter set *exactly* `{⟨k,g⟩}`, no "other levels" term at all,
   the source of the boundedness-free lemmas above); `RelSigmaW k`/`NrelSigmaW k` at `Jlev ℓ` both
@@ -84,7 +83,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Stages (levels `k : ℕ`, unbounded — cf. `IDn.StageAt`/`IDn.Stage`, `k : Fin n`) -/
 
@@ -119,7 +118,7 @@ theorem ne_top_iff {k : ℕ} {a : StageAt k} : a ≠ top k ↔ a.1 < ThetaVNoteD
 end StageAt
 
 /-- The stage indices of `ID_ω`: a level `k : ℕ` together with a bound `α ⪯ Ω_{k+1}`. No top
-bound on `k` (`IDn.Stage n`'s `Fin n` becomes plain `ℕ`, design §3.1). -/
+bound on `k` (`IDn.Stage n`'s `Fin n` becomes plain `ℕ`). -/
 abbrev Stage : Type := Σ k : ℕ, StageAt k
 
 namespace Stage
@@ -321,14 +320,14 @@ def formAtW (A : FormJ) (k : ℕ) (g : StageAt k) : Semisentence LIinfW 2 :=
 
 variable {ξ : Type*} {m : ℕ}
 
-/-- **The stage unfolding** `A[y := k̄, x := t]`, `P ↦ I_k^{≺g}`, `Q ↦ Jlev k` (design §3.1). -/
+/-- **The stage unfolding** `A[y := k̄, x := t]`, `P ↦ I_k^{≺g}`, `Q ↦ Jlev k`. -/
 def unfoldW (A : FormJ) (k : ℕ) (g : StageAt k) (t : Semiterm LIinfW ξ m) :
     Semiformula LIinfW ξ m :=
   (Rewriting.emb (formAtW A k g) : Semiformula LIinfW ξ 2)/[t, (Semiterm.numeral k : Semiterm LIinfW ξ m)]
 
 end UnfoldW
 
-/-! ### The parameters `k(φ)` (`Jlev` contributes nothing, design §3.1: `params (Jlev …) = ∅`) -/
+/-! ### The parameters `k(φ)` (`Jlev` contributes nothing: `params (Jlev …) = ∅`) -/
 
 section Params
 
@@ -512,7 +511,7 @@ end Params
 section Sigma
 
 /-- A positive atom is allowed in `Σ(Ω_{k+1})` iff its stage level is `≤ k`, or it is `Jlev ℓ`
-with `ℓ ≤ k` (design §3.1: "add `Jlev ℓ` for `ℓ ≤ k` in both polarities"). -/
+with `ℓ ≤ k`. -/
 def RelSigmaW (k : ℕ) : {m : ℕ} → LIinfW.Rel m → Prop
   | _, Sum.inl _ => True
   | _, Sum.inr IInfRelW.X => True
@@ -527,7 +526,7 @@ def NrelSigmaW (k : ℕ) : {m : ℕ} → LIinfW.Rel m → Prop
   | _, Sum.inr (IInfRelW.stage s) => s.lvl ≤ k ∧ s ≠ Stage.top k
   | _, Sum.inr (IInfRelW.jlev ℓ) => ℓ ≤ (k : WithTop ℕ)
 
-/-- **`Σ(Ω_{k+1})`** (Buchholz's `Σ(κ)` at `κ = Ω_{k+1}`, design §3.1). -/
+/-- **`Σ(Ω_{k+1})`** (Buchholz's `Σ(κ)` at `κ = Ω_{k+1}`). -/
 def SigmaW (k : ℕ) {ξ : Type*} : {m : ℕ} → Semiformula LIinfW ξ m → Prop
   | _, .verum => True
   | _, .falsum => True
@@ -639,7 +638,7 @@ theorem sigmaW_formAtW_of_ne_top {k : ℕ} {g : StageAt k} (hg : g ≠ StageAt.t
   | hall φ ih => rw [Semiformula.lMap_all]; exact ih
   | hexs φ ih => rw [Semiformula.lMap_exs]; exact ih
 
-/-- **`L`-stage consumer probe (design §8.3: "`sigmaW_unfoldW`") — below the top of level `k`,
+/-- **`L`-stage consumer probe — below the top of level `k`,
 the unfolding is `Σ(Ω_{k+1})`.** The companion fact for `∼(unfoldW A k g t)` (needed together with
 this one for the (jlev)/(njlev) calculus rules) is deferred to stage `C1`
 (`IDw/{Calculus,CalculusAux}`), where the exact shape `∼φ` takes for `φ = unfoldW A k g t` is
@@ -654,7 +653,7 @@ theorem sigmaW_unfoldW_of_ne_top (A : FormJ) {k : ℕ} {g : StageAt k} (hg : g �
 
 end Sigma
 
-/-! ### Bounding: `φ ↦ φ^β` at level `k` (identity on `Jlev`, design §3.1) -/
+/-! ### Bounding: `φ ↦ φ^β` at level `k` (identity on `Jlev`) -/
 
 section Cap
 

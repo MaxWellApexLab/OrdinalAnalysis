@@ -2,7 +2,7 @@
   The first-order carries of the
   ε-progressiveness step.
 
-  The design note's (Prog) is the statement that
+  The progressiveness statement (Prog) is that
 
       `ψ₀(g) :≡ ∀u (Eps(u,g) → ∀²X TI(≺₁, u, X))`
 
@@ -40,7 +40,7 @@ set_option maxHeartbeats 1600000
 namespace OrdinalAnalysis.Gentzen.ProgStep
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -84,7 +84,7 @@ noncomputable def goodBody : Semiformula LX ℕ 2 :=
 noncomputable def goodAt {n : ℕ} (s g : Semiterm LX ℕ n) : Semiformula LX ℕ n :=
   Rew.subst ![s, g] ▹ goodBody
 
-@[simp] theorem eval_goodAt {M : Type*} [Structure LX M] {n : ℕ}
+@[simp] theorem eval_goodAt {M : Type*} [Tarski.Structure LX M] {n : ℕ}
     (s g : Semiterm LX ℕ n) (e : Fin n → M) (f : ℕ → M) :
     (goodAt s g).Eval e f ↔ goodBody.Eval ![s.val e f, g.val e f] f := by
   simp [goodAt]
@@ -162,7 +162,7 @@ theorem arithmetic_coverGood : 𝗜𝚺₁ ⊢ arithmeticCoverGoodStatement := b
   simp [arithmeticCoverGoodStatement, arithGoodAt, arithGoodBody, arithBaseAt,
     arithPrecAt, arithEpsAt, arithAddAt, arithTowerAt,
     eval_baseDef₁, eval_precDef₁, eval_epsDef₁, eval_towerDef₁,
-    safeIadd₁_defined.iff, Structure.numeral_eq_numeral, numeral_eq_natCast,
+    safeIadd₁_defined.iff, Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast,
     Rew.q_subst]
   intro a b x
   have hone : ((gamma0Code 1 : ℕ) : M) = vcVadd 0 0 1 0 := modelCode_one
@@ -220,10 +220,10 @@ private lemma map_coverGood_body :
     baseCode₁, precCode₁, addCode₁, towerCode₁, epsCode₁, liftCode,
     Semiformula.lMap_subst, lMap_numeral, Rew.q_subst]
 
-lemma models_coverGood_iff_arithmetic {M : Type*} [Nonempty M] [sLX : Structure LX M] :
+lemma models_coverGood_iff_arithmetic {M : Type*} [Nonempty M] [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ coverGoodStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticCoverGoodStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [coverGoodStatement, arithmeticCoverGoodStatement, Semiformula.eval_univCl]
   rw [← map_coverGood_body]
@@ -238,8 +238,8 @@ theorem concrete_coverGood : paLX ⊢ coverGoodStatement := by
 
 /-! ## Semantic form -/
 
-theorem models_coverGoodStatement {M : Type*} [Nonempty M] [Structure LX M]
-    [Structure.Eq LX M] :
+theorem models_coverGoodStatement {M : Type*} [Nonempty M] [Tarski.Structure LX M]
+    [Tarski.Structure.Eq LX M] :
     M↓[LX] ⊧ coverGoodStatement ↔
       ∀ f : ℕ → M, ∀ g u x : M,
         epsCode₁.Eval ![u, g] f →
@@ -299,7 +299,7 @@ noncomputable def progCoverStatement : Sentence LX := (∀¹ ∀¹ ∀¹ progCov
 
 /-- Positive reading of `progHypBody` (proved in this form so that the kernel never has to unfold
 the negation of the large concrete block). -/
-theorem eval_progHypBody {M : Type*} [Structure LX M] (f : ℕ → M) (a b c : M) :
+theorem eval_progHypBody {M : Type*} [Tarski.Structure LX M] (f : ℕ → M) (a b c : M) :
     Semiformula.Eval ![a, b, c] f progHypBody ↔
       ∀ s, Semiformula.Eval ![s, c] f goodBody →
         ∀ n w, Semiformula.Eval ![w, n, s] f towerCode₁ →
@@ -421,7 +421,7 @@ theorem arithmetic_epsValue (c : Gamma0Note) : 𝗜𝚺₁ ⊢ arithmeticEpsValu
   intro M _ _
   rw [models_iff]
   simp [arithmeticEpsValueStatement, arithEpsAt, eval_epsDef₁,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   exact ⟨isNF₁_gamma0ModelCode c, (iepsilon_gamma0ModelCode (V := M) c).symm⟩
 
 private lemma map_epsValue_body (c : Gamma0Note) :
@@ -432,11 +432,11 @@ private lemma map_epsValue_body (c : Gamma0Note) :
   simp [arithEpsAt, epsAt, epsCode₁, liftCode, gamma0Term, Semiformula.lMap_subst]
   rw [lMap_numeral (gamma0Code (epsilonNote c)), lMap_numeral (gamma0Code c)]
 
-lemma models_epsValue_iff_arithmetic {M : Type*} [Nonempty M] [sLX : Structure LX M]
+lemma models_epsValue_iff_arithmetic {M : Type*} [Nonempty M] [sLX : Tarski.Structure LX M]
     (c : Gamma0Note) :
     M↓[LX] ⊧ epsValueStatement c ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticEpsValueStatement c := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [epsValueStatement, arithmeticEpsValueStatement, Semiformula.eval_univCl]
   constructor

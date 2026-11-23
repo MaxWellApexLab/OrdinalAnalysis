@@ -8,12 +8,12 @@
 
   Source: W. Buchholz, *A simplified version of local predicativity* (Leeds 1990, CUP 1992),
   p. 26 (Lemma 4.6, `K̄`, `𝒜(Θ; γ, κ, μ)`, Lemma 4.7), p. 27 (Theorem 4.8), p. 28 ((□), cases
-  4.1–4.3); A. Freund, arXiv:2204.09321, Theorem 6.7; the design notes
+  4.1–4.3); A. Freund, arXiv:2204.09321, Theorem 6.7.
 
   **Changes from `IDn`.**
   * The main induction index is `m : WithTop ℕ` (well founded), `μ = muBarW m ∈ {0} ∪ {Ω_j + 1 |
     j ≥ 1} ∪ {Ω_ω}`; there is no bound `m ≤ n`. At `m = ⊤`, `μ = Ω_ω` is singular (`Ω̄_ω = Ω_ω`,
-    Buchholz p. 26); the embedding delivers ranks `Ω_ω + r`, eliminated to `Ω_ω` (design §4), and
+    Buchholz p. 26); the embedding delivers ranks `Ω_ω + r`, eliminated to `Ω_ω`, and
     the corollary is taken at `m = ⊤`.  `ψ_{Ω_ω}` is never used (B92 collapses only at `κ ∈ R`):
     `κ = Ω_{k+1}`, `k : ℕ`, as before.
   * `CollapseHyps`: `levelBounded` is gone (automatic in `ID_ω`: `Q ↦ Jlev j`); `positive` is
@@ -24,7 +24,7 @@
     `k : ℕ`, plus `jlev`, `njlev`) as fields, so `Theorem.lean` assembles without importing the
     case files.  The case file `Case<Rule>.lean` proves
     `theorem collapse_case_<rule> (hyp : CollapseHyps A) <field binders> : Concl A k γ X m α Γ`
-    with the field's binders verbatim; the main line then fills `<rule> := collapse_case_<rule> hyp`.
+    with the field's binders verbatim; the caller then fills `<rule> := collapse_case_<rule> hyp`.
 
   **Reading for `ID_ω` (`IDw/Calculus.lean`).**  As for `IDn`: `κ = Ω_{k+1}` (Lean `Omega k`),
   `Σ(κ)` is `SigmaW k` (`Jlev ℓ` allowed iff `ℓ ≤ k`), `ψ_κ = ϑ_k = psi k`, `H_γ[Θ] = Hg γ X`,
@@ -33,6 +33,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Collapsing.Basic
 
 @[expose] public section
@@ -45,7 +46,7 @@ namespace IDw
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- **The results of other stages used by Theorem 4.8, as hypotheses**: the schema is positive
 in `P`; boundedness and Exercise 6.6 at every level `k : ℕ`; predicative cut elimination on every

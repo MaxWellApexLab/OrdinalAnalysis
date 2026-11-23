@@ -86,7 +86,7 @@ private theorem not_acc_of_desc {β : Type} {r : β → β → Prop} (f : ℕ �
 /-- **The order on normal terms of all levels is not well founded.** -/
 theorem not_wellFoundedLT : ¬ WellFoundedLT ThetaWNote := by
   intro h
-  exact not_acc_of_desc descSeq descSeq_succ_lt (h.wf.apply (descSeq 0)) 0 rfl
+  exact not_acc_of_desc descSeq descSeq_succ_lt (h.apply (descSeq 0)) 0 rfl
 
 end ThetaWNote
 

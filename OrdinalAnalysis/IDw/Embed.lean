@@ -1,5 +1,5 @@
-/- Source: OrdinalAnalysis/IDn/Embed.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega;
-  the design notes "Embedding"). Freund arXiv:2204.09321 Thm 6.5, uniform.
+/- Source: OrdinalAnalysis/IDn/Embed.lean (level `k : Fin n` generalised to `k : ℕ`, ID_n -> ID_omega).
+  Freund arXiv:2204.09321 Thm 6.5, uniform.
 
   **Statement.** `IDw A ⊢ σ ⇒ ∃ m r, ∀ H, NiceS H → IDwDerivable A (Ω_ω + m) H (Ω_ω·2 + r) [embK σ]`
   (`OmegaPlus m := OmegaW + ofNat m` is the cut rank, `OmegaTwo + ofNat r := OmegaW + OmegaW +
@@ -42,6 +42,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.NumSubst
 public import OrdinalAnalysis.IDw.Evaluate
 public import OrdinalAnalysis.IDw.ReductionAux
@@ -56,10 +58,10 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
-open LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Arithmetic
 
 /-! ### `AxDerivable`, self-contained -/
 
@@ -133,7 +135,7 @@ theorem replaceHeadNumI {ρ : ThetaVNoteD} {H : Set ThetaVNoteD → Set ThetaVNo
 variable {A : FormJ}
 
 /-- The height of the replay of an `LK` derivation, above `Ω_ω`. -/
-def hgt : {Γ : Sequent LXJ} → ⊢ᴸᴷ¹ Γ → ℕ
+def hgt : {Γ : Sequent LXJ} → ⊢ᶠ¹ Γ → ℕ
   | _, Derivation.identity _ _ => 0
   | _, Derivation.verum => 0
   | _, Derivation.cut dp dn => max (hgt dp) (hgt dn) + 1
@@ -144,7 +146,7 @@ def hgt : {Γ : Sequent LXJ} → ⊢ᴸᴷ¹ Γ → ℕ
   | _, Derivation.exs d => hgt d + 1
 
 /-- One more than the largest complexity of an embedded cut formula. -/
-def cutCx : {Γ : Sequent LXJ} → ⊢ᴸᴷ¹ Γ → ℕ
+def cutCx : {Γ : Sequent LXJ} → ⊢ᶠ¹ Γ → ℕ
   | _, Derivation.identity _ _ => 0
   | _, Derivation.verum => 0
   | _, @Derivation.cut _ φ _ _ dp dn => max ((embK φ).complexity + 1) (max (cutCx dp) (cutCx dn))
@@ -179,11 +181,11 @@ theorem tr_free (f : ℕ → ℕ) (m : ℕ) (φ : Semiproposition LXJ 1) :
   rw [tr, embK_free, numSubst_free]
 
 theorem tr_shifts (f : ℕ → ℕ) (m : ℕ) (Γ : Sequent LXJ) :
-    (Γ⁺).map (tr (m :>ₙ f)) = Γ.map (tr f) := by
+    (Γˡ⁺).map (tr (m :>ₙ f)) = Γ.map (tr f) := by
   induction Γ with
   | nil => rfl
   | cons φ Γ ih =>
-    rw [Rewriting.shifts_cons, List.map_cons, List.map_cons, ih, tr, tr, embK_shift,
+    rw [Rewriting.lshifts_cons, List.map_cons, List.map_cons, ih, tr, tr, embK_shift,
       numSubst_shift]
 
 theorem tr_subst (f : ℕ → ℕ) (φ : Semiproposition LXJ 1) (t : SyntacticTerm LXJ) :
@@ -340,7 +342,7 @@ theorem subset_cons_cons {α : Type*} {a : α} {Γ Δ : List α} (h : Γ ⊆ Δ)
 assignment `f` of numerals to the free variables, a derivation of the embedded sequent at
 height `Ω_ω + h` and cut rank `Ω_ω + m`, with `h`, `m` read off the derivation. -/
 theorem replay (hyps : EmbedHyps A) (hH : ThetaVNoteD.NiceS H) :
-    ∀ {Γ : Sequent LXJ} (d : ⊢ᴸᴷ¹ Γ) (f : ℕ → ℕ),
+    ∀ {Γ : Sequent LXJ} (d : ⊢ᶠ¹ Γ) (f : ℕ → ℕ),
       IDwDerivable A (OmegaPlus (cutCx d)) H (OmegaPlus (hgt d)) (Γ.map (tr f))
   | _, Derivation.identity r v, f => by
     have hc : (tr f (Semiformula.rel r v)).freeVariables = ∅ := freeVariables_tr f _
@@ -581,7 +583,7 @@ theorem embedding_theorem (hyps : EmbedHyps A) (hA : PositiveP A)
     ∃ m r : ℕ, ∀ H : Set ThetaVNoteD → Set ThetaVNoteD, ThetaVNoteD.NiceS H →
       IDwDerivable A (OmegaPlus m) H (OmegaTwo + ThetaVNoteD.ofNat r)
         [(Rewriting.emb (embK σ) : Proposition LIinfW)] := by
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp h
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp h
   have hax : ∀ θ ∈ Δ, AxDerivable A θ := fun θ hθ => ax_derivable_of_mem hyps hA (hΔ θ hθ)
   obtain ⟨N, hN⟩ := axDerivable_list Δ hax
   obtain ⟨m0, hm0⟩ := cx_list Δ
@@ -609,7 +611,7 @@ theorem embedding_theorem (hyps : EmbedHyps A) (hA : PositiveP A)
     (ThetaVNoteD.ofNat_le_ofNat (le_max_left _ _)) (ThetaVNoteD.le_add_left _ _))
 
 /-- **Theorem 6.5 for `X`-free sentences**,: `H ⊢^{Ω_ω·2+r}_{Ω_ω+m}
-σ⁺` with `σ⁺ = embed σ` (`I_k ↦ I_k^{≺Ω_{k+1}}`). -/
+σˡ⁺` with `σˡ⁺ = embed σ` (`I_k ↦ I_k^{≺Ω_{k+1}}`). -/
 theorem embedding_theorem_xfree (hyps : EmbedHyps A) (hA : PositiveP A)
     {σ : Sentence LXJ} (hσ : XFreeL σ) (h : IDw A ⊢ σ) :
     ∃ m r : ℕ, ∀ H : Set ThetaVNoteD → Set ThetaVNoteD, ThetaVNoteD.NiceS H →

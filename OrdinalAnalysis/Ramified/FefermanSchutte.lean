@@ -89,7 +89,7 @@ theorem le_onePlusNote_self (β : Gamma0Note) : β ≤ Gamma0Note.onePlusNote β
   rw [Gamma0Note.le_def, Gamma0Note.repr_onePlusNote]
   exact le_add_self
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
 
 /-! ### Transfinite induction along an initial segment -/
@@ -111,9 +111,9 @@ theorem lvlOf_tiSegR (a : Gamma0Note) : lvlOf (tiSegR a) = 0 := by
 
 section Model
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν : Lv}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν : Lv}
 
-omit [Nonempty M] [Structure.Eq LRA M] in
+omit [Nonempty M] [Tarski.Structure.Eq LRA M] in
 /-- Reading `TI(≺_a, X)` in a model, in the direction used. -/
 theorem eval_tiSegR_of (a : Gamma0Note) (f : ℕ → M)
     (h : (∀ x : M, (∀ y : M, precM y x ∧ precM x (numVal M (gamma0Code a)) → XM y) → XM x) →

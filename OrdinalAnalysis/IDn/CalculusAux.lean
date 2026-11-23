@@ -8,7 +8,7 @@
   `Stage n` (a level *and* a bound), because a sequent of `LIinfN n` can mention every level at
   once.  The operator `H : Set ThetaWNoteD → Set ThetaWNoteD` of `IDn/Calculus.lean` (as in
   `ID1/Calculus.lean`, one level-free operator, now phrased against `ThetaWNoteD.HopS`/
-  `ThetaWNoteD.NiceS`/`ThetaWNoteD.HullHypGe` per the operator adjudication in
+  `ThetaWNoteD.NiceS`/`ThetaWNoteD.HullHypGe` per the operator decision in
   `Ordinal/ThetaW/HullSingle.lean`/`HullDom.lean`) acts on sets of *bare* `ThetaWNoteD` values.
   `paramsVal` bridges the two: it is `paramsList` composed with `Stage.val`, so that the control
   condition of Definition 5.6 reads `paramsVal Γ ⊆ H ∅`, exactly `ID1.paramsList Γ ⊆ H ∅` with
@@ -30,6 +30,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Rank
 public import OrdinalAnalysis.Ordinal.ThetaW.HullDom
 
@@ -41,7 +42,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ}
 
@@ -139,13 +140,13 @@ abbrev numI (t : ℕ) : SyntacticTerm (LIinfN n) := Semiterm.numeral t
 
 /-- The fresh symbols read as empty; only the arithmetic part matters for the literals below. -/
 @[instance_reducible]
-def iinfFalseN : Structure (IInfLangN n) ℕ where
+def iinfFalseN : Tarski.Structure (IInfLangN n) ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
 /-- The standard structure: arithmetic standard, `X` and every level's every stage empty. -/
 @[instance_reducible]
-def stdInfN : Structure (LIinfN n) ℕ := Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfFalseN)
+def stdInfN : Tarski.Structure (LIinfN n) ℕ := Tarski.Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfFalseN)
 
 /-- Truth of a formula in `stdInfN` under the zero assignment; for closed formulas of arithmetic
 this is truth in `ℕ`. -/

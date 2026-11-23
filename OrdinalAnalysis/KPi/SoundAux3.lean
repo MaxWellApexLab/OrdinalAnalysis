@@ -8,7 +8,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.KPi.Sound
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {M : Type*} (r : M → M → Prop) (P : M → Prop)
 

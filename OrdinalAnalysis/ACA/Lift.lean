@@ -23,6 +23,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACA.Combinators
 public import OrdinalAnalysis.ACA.Congruence
 public import OrdinalAnalysis.ACA.LiftInduction
@@ -34,10 +36,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX XRel Xat toLX paLX)
 
 /-! ### The reduction to the axiom images -/
@@ -48,7 +50,7 @@ theorem lift_of_axiomImages (ψ : Semiformula ℒₒᵣ ℕ Empty 0 1)
     (himg : ∀ σ ∈ paLX, Provable ACA (toSOAt ψ (FirstOrder.Rewriting.emb σ)))
     {σ : FirstOrder.Sentence LX} (h : paLX ⊢ σ) :
     Provable ACA (toSOAt ψ (FirstOrder.Rewriting.emb σ)) := by
-  obtain ⟨Γ, hΓ, ⟨d⟩⟩ := FirstOrder.Theory.Proof.provable_iff.mp h
+  obtain ⟨Γ, hΓ, ⟨d⟩⟩ := FirstOrder.Theory.Proof.provable_iff_list.mp h
   have d' := translate ψ d
   have hneg : ∀ L : List (FirstOrder.Semiformula LX ℕ 0),
       List.map (toSOAt ψ) (List.map (fun x => ∼x) L) =

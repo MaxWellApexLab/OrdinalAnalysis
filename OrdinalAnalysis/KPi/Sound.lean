@@ -29,10 +29,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.KPi.Sound
 
-open LO LO.FirstOrder OrdinalAnalysis.KPi.RS Ordinal
+open FFL FFL.FirstOrder OrdinalAnalysis.KPi.RS Ordinal
 
 /-- The `ℒ_Ad`-structure on the RS term model. -/
-instance instStructureRSModel (p : Params) : Structure LAd (RSModel p) :=
+instance instStructureRSModel (p : Params) : Tarski.Structure LAd (RSModel p) :=
   adStruc (RSModel.rel p) (RSModel.ad p)
 
 namespace RSModel

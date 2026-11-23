@@ -15,11 +15,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Ordinal sums for Proposition 6.4 -/
@@ -29,7 +29,7 @@ section Sums
 
 open ThetaWTerm in
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 /-- `(Ω ⊕ y) + Ω = Ω · 2` for `y ≺ Ω` (`Ω := Ω_n = Ω_{n-1}` of `AxiomsPA`'s top-level
 convention): the summands of `y` are absorbed. -/

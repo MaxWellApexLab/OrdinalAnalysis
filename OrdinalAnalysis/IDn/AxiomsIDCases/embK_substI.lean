@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
 public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
 public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_or
@@ -22,11 +23,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### The two plugged forms -/
@@ -34,9 +35,9 @@ open LO.FirstOrder.LawfulSyntacticRewriting
 section PlugForms
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
-/-- **The embedded `A(x, F)` is `A(x, I_k^{≺Ω_{k+1}})` with `F⁺` plugged in.** -/
+/-- **The embedded `A(x, F)` is `A(x, I_k^{≺Ω_{k+1}})` with `Fˡ⁺` plugged in.** -/
 theorem embK_substI (F : Semiformula (LXIn n) ℕ 1) :
     ∀ {m : ℕ} (φ : Semiformula (LXIn n) ℕ m),
       embK (substIAt k F φ) = plugI k (predOf (embK F)) (embK φ) := by

@@ -27,6 +27,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Calculus
 public import OrdinalAnalysis.Ordinal.ThetaV.WellFoundedV
 
@@ -40,7 +41,7 @@ namespace IDw
 
 namespace Transfer
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Height arithmetic -/
 

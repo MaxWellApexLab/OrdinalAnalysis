@@ -28,7 +28,7 @@ set_option maxHeartbeats 800000
 namespace OrdinalAnalysis.Gentzen.CodedVeblenJump
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -39,7 +39,7 @@ open OrdinalAnalysis.Gentzen.CodedVeblen
 /-! ## The arithmetic graph formulas -/
 
 /-- `u = ω ^ a`, for normal `a`. -/
-def omegaPowDef₁ : 𝚺₁.Semisentence 2 := .mkSigma
+def omegaPowDef₁ : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “z a. !isNFb₁Def 1 a ∧ !iomegaPowDef z a”
 
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
@@ -254,10 +254,10 @@ private lemma map_zeroAdd_body :
   rw [lMap_zero]
 
 lemma models_iterZero_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ iterZeroStatement iterCode₁ ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticIterZeroStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [iterZeroStatement, arithmeticIterZeroStatement,
     Semiformula.eval_univCl]
@@ -265,16 +265,16 @@ lemma models_iterZero_iff_arithmetic {M : Type*} [Nonempty M]
   simp [Semiformula.eval_lMap]
 
 lemma models_iterSucc_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ iterSuccStatement addCode₁ iterCode₁ ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticIterSuccStatement :=
   JumpTransport.models_iterSucc_gen safeIter₁Def safeIadd₁Def
 
 lemma models_noPredZero_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ noPredZeroStatement precCode₁ ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticNoPredZeroStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [noPredZeroStatement, arithmeticNoPredZeroStatement,
     Semiformula.eval_univCl]
@@ -282,10 +282,10 @@ lemma models_noPredZero_iff_arithmetic {M : Type*} [Nonempty M]
   simp [Semiformula.eval_lMap]
 
 lemma models_zeroAdd_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ zeroAddStatement addCode₁ ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticZeroAddStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [zeroAddStatement, arithmeticZeroAddStatement,
     Semiformula.eval_univCl]
@@ -293,10 +293,10 @@ lemma models_zeroAdd_iff_arithmetic {M : Type*} [Nonempty M]
   simp [Semiformula.eval_lMap]
 
 lemma models_omegaCover_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ omegaCoverStatement precCode₁ addCode₁ omegaPowCode₁ iterCode₁ ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticOmegaCoverStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   simp [models_iff, omegaCoverStatement, arithmeticOmegaCoverStatement,
     arithOmegaPowAt, arithAddAt, arithPrecAt, arithIterAt,
     omegaPowAt, addAt, precAt, iterAt, precCode₁, addCode₁,

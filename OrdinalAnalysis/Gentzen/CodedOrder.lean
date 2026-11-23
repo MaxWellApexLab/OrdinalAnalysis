@@ -51,7 +51,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.LowerSyntax
 open OrdinalAnalysis.Gentzen.StandardLX (stdLX)

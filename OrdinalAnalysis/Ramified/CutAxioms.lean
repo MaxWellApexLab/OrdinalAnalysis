@@ -32,6 +32,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.Evaluate
 public import OrdinalAnalysis.Ordinal.Veblen.RankSegments
 
@@ -43,7 +44,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 /-! ### `cut_axioms_of` -/
 

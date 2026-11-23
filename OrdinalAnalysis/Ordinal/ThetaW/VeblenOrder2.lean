@@ -14,7 +14,7 @@
   `ρ < ρ'` and `η < φ_{ξ'}(η')` becomes `β.1 < φ_k ρ' β'` (`phi` returns a raw `ThetaWTerm`, not
   a bundled `ThetaWNoteD`, exactly as in `lt_phi_of_lt`, `ThetaW/VeblenOrder.lean`).
 
-  the design notes's "blocked lemma" section worked out two routes to close
+  the discussion of the blocked lemma worked out two routes to close
   this, both stalling on `harg : phiArg k rho beta < phiArg k rho' beta'` (the argument-level
   form of the inequality, which then closes exactly as `phi_lt_phi_right`'s proof does via
   `theta_lt_theta_iff`/`E_phiArg_eq_of_lt`, only with `rho`/`rho'` now different):

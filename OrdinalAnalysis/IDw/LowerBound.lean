@@ -36,6 +36,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.LowerBoundAux2
 public import OrdinalAnalysis.IDw.Embed
 public import OrdinalAnalysis.IDw.Transfer
@@ -49,7 +50,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDw.Upper
 open OrdinalAnalysis.IDw.Transfer (Cong OkBwd transfer5_bwd freeVariables_subst_numI
   freeVariables_rel_arg freeVariables_nrel_arg)
@@ -498,10 +499,10 @@ theorem eval_embB_stage (P : ℕ → Prop) (S : Stage → Set ℕ) (x : ℕ) (f 
       Semiformula.lMap toLIinfW (belowC orderFormulas (ThetaVNoteD.Omega 0)) :=
     embed_lm _
   rw [h]
-  show Semiformula.Eval (s := Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfStrucN P S)) ![x]
+  show Semiformula.Eval (s := Tarski.Structure.add ℒₒᵣ IInfLangW ℕ (str₂ := iinfStrucN P S)) ![x]
     Empty.elim (Semiformula.lMap (Language.Hom.add₁ ℒₒᵣ IInfLangW)
       (belowC orderFormulas (ThetaVNoteD.Omega 0))) ↔ _
-  rw [Structure.eval_lMap_add₁ (str₂ := iinfStrucN P S)]
+  rw [Tarski.Structure.eval_lMap_add₁ (str₂ := iinfStrucN P S)]
   have := eval_belowC (F := orderFormulas) (N := ℕ) (ThetaVNoteD.Omega 0) x
   rw [Internal.mc_nat] at this
   exact this

@@ -3,17 +3,17 @@
 
   Source: A. Freund, *Impredicativity and trees with gap condition: a second course on
   ordinal analysis*, arXiv:2204.09321, Theorem 6.5 ("Embedding"): given `ID₁ ⊢ ψ`, we
-  obtain `H ⊢^{Ω·2+n}_{Ω+m} ψ⁺` for any nice operator `H` and some `m, n ∈ ℕ`.
+  obtain `H ⊢^{Ω·2+n}_{Ω+m} ψˡ⁺` for any nice operator `H` and some `m, n ∈ ℕ`.
 
   **The proof, as in the source.**  A proof of `σ` from finitely many axioms `θ_i` of `ID₁`
-  is a finitary derivation of `σ, ¬θ_0, …, ¬θ_{k−1}` (Foundation's `⊢ᴸᴷ¹`, with cuts).  By
+  is a finitary derivation of `σ, ¬θ_0, …, ¬θ_{k−1}` (Foundation's `⊢ᶠ¹`, with cuts).  By
   induction over it (`replay`) the calculus derives every numeral instance of the embedded
   sequent at height `Ω + h` and cut rank `Ω + m`: the identity axioms by Lemma 6.1 (the
   atoms have rank at most `Ω`), the propositional rules by clauses (V) and (W), `∀` by the
   ω-rule (the eigenvariable ranges over the numerals), `∃` by clause (W) at the numeral of
   the value of the witness — the replacement of a closed term by its numeral
   (`IDerivable.replace_head`, Freund's remark in the proof of Proposition 6.4) — and a cut
-  by a cut of rank `rk ψ⁺ ≺ Ω + m`.  Every rank has the form `ω · α + j` with `α ⪯ Ω`, so
+  by a cut of rank `rk ψˡ⁺ ≺ Ω + m`.  Every rank has the form `ω · α + j` with `α ⪯ Ω`, so
   finitely many cuts against the axioms, each derivable at height `Ω · 2 + n(i)`
   (`AxDerivable`: Lemma 6.1 and ω-completeness for the axioms of `PA⁻` and of equality,
   the chain for induction, Proposition 6.2 for the closure axiom, Proposition 6.4 for the
@@ -28,7 +28,7 @@
       Freund's `L_ID` does not, and the identity clause `idX` of the calculus compares
       the arguments of `X`-literals syntactically.  The embedding reads `X` as the empty
       predicate (`embK = embed ∘ killX`), which is the reading of `X` in `stdInf`; for an
-      `X`-free sentence `embK σ = embed σ = σ⁺` (`embedding_theorem_xfree`).  This is not
+      `X`-free sentence `embK σ = embed σ = σˡ⁺` (`embedding_theorem_xfree`).  This is not
       a weakening of the bounds but of the statement for sentences mentioning `X`: in
       the calculus as built, `embed σ` itself is not derivable in general.  For the
       positive, `X`-free form `A := ⊥`, the induction axiom
@@ -51,11 +51,13 @@
     `ax_derivable_of_mem`              every axiom of `ID1 A`
     `cut_axioms`                       cutting away the axioms
     `embedding_theorem`                **Theorem 6.5**
-    `embedding_theorem_xfree`          the form `H ⊢^{Ω·2+n}_{Ω+m} σ⁺` for `X`-free `σ`
+    `embedding_theorem_xfree`          the form `H ⊢^{Ω·2+n}_{Ω+m} σˡ⁺` for `X`-free `σ`
 -/
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.AxiomsID
 
 @[expose] public section
@@ -66,15 +68,15 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
-open LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Arithmetic
 
 /-! ### Height and cut complexity of a finitary derivation -/
 
 /-- The height of the replay of an `LK` derivation, above `Ω`. -/
-def hgt : {Γ : Sequent LXI} → ⊢ᴸᴷ¹ Γ → ℕ
+def hgt : {Γ : Sequent LXI} → ⊢ᶠ¹ Γ → ℕ
   | _, Derivation.identity _ _ => 0
   | _, Derivation.verum => 0
   | _, Derivation.cut dp dn => max (hgt dp) (hgt dn) + 1
@@ -85,7 +87,7 @@ def hgt : {Γ : Sequent LXI} → ⊢ᴸᴷ¹ Γ → ℕ
   | _, Derivation.exs d => hgt d + 1
 
 /-- One more than the largest complexity of an embedded cut formula. -/
-def cutCx : {Γ : Sequent LXI} → ⊢ᴸᴷ¹ Γ → ℕ
+def cutCx : {Γ : Sequent LXI} → ⊢ᶠ¹ Γ → ℕ
   | _, Derivation.identity _ _ => 0
   | _, Derivation.verum => 0
   | _, @Derivation.cut _ φ _ _ dp dn => max ((embK φ).complexity + 1) (max (cutCx dp) (cutCx dn))
@@ -120,11 +122,11 @@ theorem tr_free (f : ℕ → ℕ) (n : ℕ) (φ : Semiproposition LXI 1) :
   rw [tr, embK_free, numSubst_free]
 
 theorem tr_shifts (f : ℕ → ℕ) (n : ℕ) (Γ : Sequent LXI) :
-    (Γ⁺).map (tr (n :>ₙ f)) = Γ.map (tr f) := by
+    (Γˡ⁺).map (tr (n :>ₙ f)) = Γ.map (tr f) := by
   induction Γ with
   | nil => rfl
   | cons φ Γ ih =>
-    rw [Rewriting.shifts_cons, List.map_cons, List.map_cons, ih, tr, tr, embK_shift,
+    rw [Rewriting.lshifts_cons, List.map_cons, List.map_cons, ih, tr, tr, embK_shift,
       numSubst_shift]
 
 theorem tr_subst (f : ℕ → ℕ) (φ : Semiproposition LXI 1) (t : SyntacticTerm LXI) :
@@ -199,7 +201,7 @@ theorem subset_cons_cons {α : Type*} {a : α} {Γ Δ : List α} (h : Γ ⊆ Δ)
 assignment `f` of numerals to the free variables, a derivation of the embedded sequent at
 height `Ω + h` and cut rank `Ω + m`, with `h`, `m` read off the derivation. -/
 theorem replay (hX : XFreeL A) (hH : ThetaNote.Nice H) :
-    ∀ {Γ : Sequent LXI} (d : ⊢ᴸᴷ¹ Γ) (f : ℕ → ℕ),
+    ∀ {Γ : Sequent LXI} (d : ⊢ᶠ¹ Γ) (f : ℕ → ℕ),
       IDerivable A (OmegaPlus (cutCx d)) H (OmegaPlus (hgt d)) (Γ.map (tr f))
   | _, Derivation.identity r v, f => by
     have hc : (tr f (Semiformula.rel r v)).freeVariables = ∅ := freeVariables_tr f _
@@ -416,8 +418,8 @@ theorem cut_axioms {H : Set ThetaNote → Set ThetaNote} (hH : ThetaNote.Nice H)
     rwa [show h + 1 + Δ.length = h + (θ :: Δ).length by simp; omega] at key
 
 /-- **Freund, Theorem 6.5 (Embedding).**  If `ID1 A ⊢ σ`, then there are `m, n ∈ ℕ` such that
-`H ⊢^{Ω·2+n}_{Ω+m} σ⁺` for every nice operator `H`; here `σ⁺` is the embedding with `X` read
-as empty (`embK`), which is Freund's `σ⁺` for `X`-free `σ` (`embedding_theorem_xfree`).  The
+`H ⊢^{Ω·2+n}_{Ω+m} σˡ⁺` for every nice operator `H`; here `σˡ⁺` is the embedding with `X` read
+as empty (`embK`), which is Freund's `σˡ⁺` for `X`-free `σ` (`embedding_theorem_xfree`).  The
 operator form is positive (as in the source) and `X`-free. -/
 theorem embedding_theorem (hA : Positive A) (hX : XFreeL A) {σ : Sentence LXI}
     (h : ID1 A ⊢ σ) :
@@ -425,7 +427,7 @@ theorem embedding_theorem (hA : Positive A) (hX : XFreeL A) {σ : Sentence LXI}
       IDerivable A (ThetaNote.nadd ThetaNote.Omega (ThetaNote.ofNat m)) H
         (ThetaNote.nadd (ThetaNote.nadd ThetaNote.Omega ThetaNote.Omega) (ThetaNote.ofNat n))
         [(Rewriting.emb (embK σ) : Proposition LIinf)] := by
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp h
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp h
   have hax : ∀ θ ∈ Δ, AxDerivable A θ := fun θ hθ => ax_derivable_of_mem hA hX (hΔ θ hθ)
   obtain ⟨N, hN⟩ := axDerivable_list Δ hax
   obtain ⟨m0, hm0⟩ := cx_list Δ
@@ -448,8 +450,8 @@ theorem embedding_theorem (hA : Positive A) (hX : XFreeL A) {σ : Sentence LXI}
   exact le_trans (ThetaNote.nadd_le_nadd_left' _ (ThetaNote.le_nadd_left _ _))
     (ThetaNote.nadd_le_nadd_right _ (ThetaNote.ofNat_le_ofNat (le_max_left _ _)))
 
-/-- **Theorem 6.5 for `X`-free sentences**, in Freund's form: `H ⊢^{Ω·2+n}_{Ω+m} σ⁺` with
-`σ⁺ = embed σ` (`I ↦ I^{≺Ω}`). -/
+/-- **Theorem 6.5 for `X`-free sentences**, in Freund's form: `H ⊢^{Ω·2+n}_{Ω+m} σˡ⁺` with
+`σˡ⁺ = embed σ` (`I ↦ I^{≺Ω}`). -/
 theorem embedding_theorem_xfree (hA : Positive A) (hX : XFreeL A) {σ : Sentence LXI}
     (hσ : XFreeL σ) (h : ID1 A ⊢ σ) :
     ∃ m n : ℕ, ∀ H : Set ThetaNote → Set ThetaNote, ThetaNote.Nice H →

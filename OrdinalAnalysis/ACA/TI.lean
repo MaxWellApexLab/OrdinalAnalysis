@@ -4,7 +4,7 @@
   both instances of `toSOAt` at the free set variable `0`.  Everything here is
   a one-line application of `A3`'s `toSOAt`; no new mathematics.
 
-  Per the design note §5.3: this file is the *single source* of the TI
+  This file is the *single source* of the TI
   sentence, over `EpsilonSegmentOrder.precCodeSeg (epsilonNote 0)`, heights in
   `Gamma0Note.EpsilonBelow (epsilonNote 0)` — what `ACAOmega/SecondCut.lean`'s
   `EpsilonStructure`/`secondCutElimination_Gamma0` and
@@ -25,10 +25,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX TI TIupto)
 
 /-- **The witness recovering the free set variable `0`**, over `ξ := Empty`

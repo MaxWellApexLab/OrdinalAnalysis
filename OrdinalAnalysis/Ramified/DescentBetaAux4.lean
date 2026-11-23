@@ -27,6 +27,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.DescentBetaAux3
 
 @[expose] public section
@@ -37,7 +38,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁)
 open OrdinalAnalysis.Gentzen.InternalEpsMonoCode (epsDef₁)
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
@@ -89,7 +90,7 @@ theorem freeVariables_psiR (μ : Lv) : (psiR μ).freeVariables = ∅ := by
       (fun i => by rw [Subsingleton.elim i 0]; simp)
   simp [psiR, h1, h2]
 
-theorem subst_num_eval {M : Type} [s : Structure LRA M] (φ : Semiformula LRA ℕ 1) (x : ℕ)
+theorem subst_num_eval {M : Type} [s : Tarski.Structure LRA M] (φ : Semiformula LRA ℕ 1) (x : ℕ)
     (f : ℕ → M) :
     Semiformula.Eval (s := s) ![] f (φ/[(num x : SyntacticTerm LRA)]) ↔
       Semiformula.Eval (s := s) ![numVal M x] f φ := by
@@ -123,7 +124,7 @@ variable {ρ : Gamma0Note}
 consequence of it, two inferences higher. -/
 theorem conv {A C : Proposition LRA} {Γ : Sequent LRA} {H : Gamma0Note}
     (hA : A.freeVariables = ∅) (hC : C.freeVariables = ∅)
-    (hv : ∀ (M : Type) [Nonempty M] [Structure LRA M] (f : ℕ → M),
+    (hv : ∀ (M : Type) [Nonempty M] [Tarski.Structure LRA M] (f : ℕ → M),
       Semiformula.Evalf f A → Semiformula.Evalf f C)
     (hrk : rank A < ρ) (hρ : Gamma0Note.omegaPow 1 ≤ ρ) (hH : Gamma0Note.epsilonNote 0 ≤ H)
     (h : DerLt ρ (evR A :: Γ) H) :
@@ -151,7 +152,7 @@ theorem belowB_inst (μ : Lv) (v z x : ℕ) :
   rw [h, Rew.subst_bvar, rew_numAtR]
   rfl
 
-theorem eval_belowB {M : Type} [s : Structure LRA M] (μ : Lv) (v z : ℕ) (y : M) (f : ℕ → M) :
+theorem eval_belowB {M : Type} [s : Tarski.Structure LRA M] (μ : Lv) (v z : ℕ) (y : M) (f : ℕ → M) :
     Semiformula.Eval (s := s) ![y] f (belowB μ v z) ↔
       (precM y (numVal M v) → memM μ y (numVal M z)) := by
   simp only [belowB, LogicalConnective.HomClass.map_or, LogicalConnective.HomClass.map_neg,
@@ -288,7 +289,7 @@ theorem freeVariables_nameIff (μ : Lv) {B : Semiformula LRA ℕ 1} (hB : B.free
     (w : ℕ) : (nameIff μ B w).freeVariables = ∅ := by
   simp [nameIff, hB, freeVariables_memAt, freeVariables_nmemAt]
 
-theorem eval_nameIff {M : Type} [s : Structure LRA M] (μ : Lv) (B : Semiformula LRA ℕ 1) (w : ℕ)
+theorem eval_nameIff {M : Type} [s : Tarski.Structure LRA M] (μ : Lv) (B : Semiformula LRA ℕ 1) (w : ℕ)
     (f : ℕ → M) :
     Semiformula.Eval (s := s) ![] f (nameIff μ B w) ↔
       ∀ y : M, (memM μ y (numVal M w) ↔ Semiformula.Eval (s := s) ![y] f B) := by
@@ -398,7 +399,7 @@ theorem step2 {L : Lv} {F : Semiformula LRA ℕ 1} (hFc : F.freeVariables = ∅)
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hA
       rcases hA with rfl | rfl
       · exact rank_nameIff_lt hμ0 hFμ w
-      · exact rank_lt_of_lvlOf_le (by rw [lvlOf_progR]; exact hFl))
+      · rw [hμdef]; exact rank_lt_of_lvlOf_le (by rw [lvlOf_progR]; exact hFl))
     (by
       intro A hA
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hA
@@ -459,8 +460,8 @@ theorem descentOne {L : Lv} (hL : 0 < L) (c : Gamma0Note) :
       intro A hA
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hA
       rcases hA with rfl | rfl
-      · exact rank_lt_of_lvlOf_le (by rw [lvlOf_subst₁]; exact lvlOf_psiR_le L)
-      · exact rank_lt_of_lvlOf_le (by rw [lvlOf_epsA]; exact gamma0_zero_le L))
+      · rw [hρdef]; exact rank_lt_of_lvlOf_le (by rw [lvlOf_subst₁]; exact lvlOf_psiR_le L)
+      · rw [hρdef]; exact rank_lt_of_lvlOf_le (by rw [lvlOf_epsA]; exact gamma0_zero_le L))
     (by
       intro A hA
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hA

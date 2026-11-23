@@ -39,7 +39,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen (LX paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁)
 open OrdinalAnalysis.Gentzen.VeblenTower (towerDef₁)
@@ -61,7 +61,7 @@ def arAt {k n : ℕ} (σ : ArithmeticSemisentence k) (v : Fin k → Semiterm LRA
 
 section Eval
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 theorem eval_arAt {k n : ℕ} (σ : ArithmeticSemisentence k) (v : Fin k → Semiterm LRA ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
@@ -88,7 +88,7 @@ theorem lvlOf_tiMuR_le (μ : Lv) : lvlOf (tiMuR μ) ≤ μ := by
 
 section Model
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 /-- `TI_μ(a)` in `M`: transfinite induction below `a` for every level-`μ` set. -/
 def TImu (μ : Lv) (a : M) : Prop := ∀ z : M, TIupM (fun x => memM μ x z) a
@@ -140,7 +140,7 @@ theorem lvlOf_thetaR_le (μ : Lv) : lvlOf (thetaR μ) ≤ μ := by
 
 section Model
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 theorem eval_thetaR (μ : Lv) (n : M) (f : ℕ → M) :
     Semiformula.Eval (s := s) ![n] f (thetaR μ) ↔
@@ -169,9 +169,9 @@ end Model
 
 section Tower
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν μ : Lv}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν μ : Lv}
 
-omit [Structure.Eq LRA M] in
+omit [Tarski.Structure.Eq LRA M] in
 /-- **The jump of a level-`μ` set is a level-`μ` set**, in `M`. -/
 theorem jump_code_M (hM : M↓[LRA] ⊧* RAlt ν) (h0 : 0 < μ) (hμ : μ < ν) (z : M) :
     ∃ w : M, ∀ x : M, memM μ x w ↔ JumpM (fun y => memM μ y z) x := by

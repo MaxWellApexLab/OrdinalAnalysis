@@ -143,7 +143,7 @@ theorem exists_index_of_lt_omegaPow {a ρ : Gamma0Note} (ha : (1 : Gamma0Note) <
 
 end Notation
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
 open OrdinalAnalysis.Ramified.OmegaDerivableR (veblenIter veblenIter_lt_veblen)
 
@@ -219,7 +219,7 @@ theorem sf_lower_sharp (γ : Gamma0Note) (hγ : (1 : Gamma0Note) ≤ γ) {ρ h :
 
 section Model
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν : Lv}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν : Lv}
 
 /-- In a model of `RAlt ν`: `TI_κ(v̄)` gives transfinite induction for `X` along `≺_b` up
 to every `x < v`, `1 ≤ κ < ν`. -/

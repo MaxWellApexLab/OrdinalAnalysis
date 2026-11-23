@@ -16,12 +16,14 @@ public import OrdinalAnalysis.Gentzen.JumpTransport
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.JumpArithmetic
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.CodedNotation
 
@@ -34,15 +36,15 @@ noncomputable def safeIadd (a b : V) : V :=
   if isNF a then iadd a b else a
 
 /-- A Σ₁ graph for `safeIadd`, with result-first argument order. -/
-def safeIaddDef : 𝚺₁.Semisentence 3 := .mkSigma
+def safeIaddDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “z a b. ∃ q, !isNFbDef q a ∧
     ((q = 1 ∧ !iaddDef z a b) ∨ (q ≠ 1 ∧ z = a))”
 
-instance safeIadd_defined : 𝚺₁-Function₂ (safeIadd : V → V → V) via safeIaddDef := .mk fun v ↦ by
+instance safeIadd_defined : 𝚺ᴬ₁-Function₂ (safeIadd : V → V → V) via safeIaddDef := .mk fun v ↦ by
   simp [safeIaddDef, safeIadd, isNF, isNFb_defined.iff, iadd_defined.iff]
   by_cases h : isNFb (v 1) = 1 <;> simp [h]
 
-instance safeIadd_definable : 𝚺₁-Function₂ (safeIadd : V → V → V) :=
+instance safeIadd_definable : 𝚺ᴬ₁-Function₂ (safeIadd : V → V → V) :=
   safeIadd_defined.to_definable
 
 @[simp] theorem safeIadd_of_nf {a b : V} (ha : isNF a) :
@@ -64,11 +66,11 @@ noncomputable def safeIterConstruction {V : Type*} [ORingStructure V]
     [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] : PR.Construction V safeIterBlueprint where
   zero := fun v ↦ v 0
   succ := fun v _ ih ↦ safeIadd ih (v 1)
-  zero_defined := .mk fun v ↦ by simp [safeIterBlueprint]
+  zero_defined := .mk fun v ↦ by simp only [safeIterBlueprint, Bounding.HierarchySymbol.Semiformula.val_mkSigma]; try simp
   succ_defined := OrdinalAnalysis.iterSucc_defined_wrap safeIaddDef safeIadd
 
 /-- Result-first graph of `k` successive safe additions of `w` to `b`. -/
-def safeIterDef : 𝚺₁.Semisentence 4 :=
+def safeIterDef : 𝚺ᴬ₁.Semisentence 4 :=
   safeIterBlueprint.resultDef.rew (Rew.subst ![#0, #3, #1, #2])
 
 @[simp] theorem eval_safeIterDef (z b w k : V) :
@@ -215,10 +217,10 @@ theorem arithmetic_zeroAdd : 𝗜𝚺₁ ⊢ arithmeticZeroAddStatement := by
 /-! ### Transport to PA[X] -/
 
 lemma models_iterZero_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ iterZeroStatement safeIterCode ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticIterZeroStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [iterZeroStatement, arithmeticIterZeroStatement,
     Semiformula.eval_univCl]
@@ -226,16 +228,16 @@ lemma models_iterZero_iff_arithmetic {M : Type*} [Nonempty M]
   simp [Semiformula.eval_lMap]
 
 lemma models_iterSucc_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ iterSuccStatement safeAddCode safeIterCode ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticIterSuccStatement :=
   JumpTransport.models_iterSucc_gen safeIterDef safeIaddDef
 
 lemma models_noPredZero_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ noPredZeroStatement precCode ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticNoPredZeroStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [noPredZeroStatement, arithmeticNoPredZeroStatement,
     Semiformula.eval_univCl]
@@ -243,10 +245,10 @@ lemma models_noPredZero_iff_arithmetic {M : Type*} [Nonempty M]
   simp [Semiformula.eval_lMap]
 
 lemma models_zeroAdd_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ zeroAddStatement safeAddCode ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticZeroAddStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [zeroAddStatement, arithmeticZeroAddStatement,
     Semiformula.eval_univCl]

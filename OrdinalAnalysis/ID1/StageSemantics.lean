@@ -50,6 +50,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.Calculus
 public import OrdinalAnalysis.ID1.Sound
 public import OrdinalAnalysis.ID1.Internal.Standard
@@ -64,13 +65,13 @@ namespace InductiveDef
 
 namespace StageSem
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Structures reading the stages by given sets -/
 
 /-- The fresh symbols of `LIinf`: `X` read by `P`, the stage `I^{≺α}` by `S α`. -/
 @[instance_reducible]
-def iinfStruc (P : ℕ → Prop) (S : Stage → Set ℕ) : Structure IInfLang ℕ where
+def iinfStruc (P : ℕ → Prop) (S : Stage → Set ℕ) : Tarski.Structure IInfLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | IInfRel.X => P (v 0)
@@ -79,10 +80,10 @@ def iinfStruc (P : ℕ → Prop) (S : Stage → Set ℕ) : Structure IInfLang �
 /-- The `LIinf`-structure on `ℕ`: arithmetic standard, `X` read by `P`, `I^{≺α}` by
 `S α`. -/
 @[instance_reducible]
-def stageStruc (P : ℕ → Prop) (S : Stage → Set ℕ) : Structure LIinf ℕ :=
-  Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfStruc P S)
+def stageStruc (P : ℕ → Prop) (S : Stage → Set ℕ) : Tarski.Structure LIinf ℕ :=
+  Tarski.Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfStruc P S)
 
-section Struc
+section Tarski.Struc
 
 variable (P : ℕ → Prop) (S : Stage → Set ℕ)
 
@@ -148,9 +149,9 @@ theorem numeral_lMap_toLIinf {ξ : Type*} {n : ℕ} (k : ℕ) :
     (f : ξ → ℕ) :
     Semiterm.val (s := stageStruc P S) e f ((m : ℕ) : Semiterm LIinf ξ n) = m := by
   rw [← numeral_lMap_toLIinf m]
-  show Semiterm.val (s := Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfStruc P S)) e f
+  show Semiterm.val (s := Tarski.Structure.add ℒₒᵣ IInfLang ℕ (str₂ := iinfStruc P S)) e f
     (Semiterm.lMap (Language.Hom.add₁ ℒₒᵣ IInfLang) ((m : ℕ) : Semiterm ℒₒᵣ ξ n)) = m
-  rw [Structure.val_lMap_add₁ (str₂ := iinfStruc P S)]
+  rw [Tarski.Structure.val_lMap_add₁ (str₂ := iinfStruc P S)]
   simp
 
 /-- `I^{≺α} t` holds when the value of `t` lies in `S α`. -/
@@ -212,20 +213,20 @@ theorem eval_of_trueLit {φ : Proposition LIinf} (h : TrueLit φ) :
     funext i
     exact val_stageStruc_congr P S _ _ (v i)
   rcases hφ with rfl | rfl
-  · have ht' : Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+  · have ht' : Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
         (fun i => Semiterm.val (s := stdInf) ![] (fun _ => 0) (v i)) := ht
-    show Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+    show Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
       (fun i => Semiterm.val (s := stageStruc P S) ![] (fun _ => 0) (v i))
     rw [e]
     exact ht'
-  · have ht' : ¬Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+  · have ht' : ¬Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
         (fun i => Semiterm.val (s := stdInf) ![] (fun _ => 0) (v i)) := ht
-    show ¬Structure.rel (L := ℒₒᵣ) (M := ℕ) r
+    show ¬Tarski.Structure.rel (L := ℒₒᵣ) (M := ℕ) r
       (fun i => Semiterm.val (s := stageStruc P S) ![] (fun _ => 0) (v i))
     rw [e]
     exact ht'
 
-end Struc
+end Tarski.Struc
 
 /-! ### The stages -/
 
@@ -251,7 +252,7 @@ theorem mem_stageSet_iff (a : ThetaNote) (n : ℕ) :
 /-- **The stage model**: arithmetic standard, `X` read by `P`, and `I^{≺α}` read by the
 stage `S_α`, for every `α ⪯ Ω`. -/
 @[instance_reducible]
-noncomputable def stageModel : Structure LIinf ℕ :=
+noncomputable def stageModel : Tarski.Structure LIinf ℕ :=
   stageStruc P (fun a => stageSet P A a.1)
 
 /-- Truth in the stage model, free variables read as `0`. -/

@@ -19,7 +19,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.ThetaWTerm
 open OrdinalAnalysis.ID1.Internal (band_eq_one bor_eq_one beq_eq_one)
 

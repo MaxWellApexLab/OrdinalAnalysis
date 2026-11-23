@@ -23,13 +23,15 @@ public import OrdinalAnalysis.Gentzen.InternalONote
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 set_option maxHeartbeats 2000000
 
 namespace OrdinalAnalysis.Gentzen.InternalVNote
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.Gentzen.InternalONote
 
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
@@ -66,16 +68,16 @@ omit [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] in
 @[simp] lemma vcVadd_ne_zero (ac bc n cc : V) : vcVadd ac bc n cc ≠ 0 :=
   (vcVadd_pos ac bc n cc).ne'
 
-/-! ### `𝚺₀`-definability of the decode projections -/
+/-! ### `𝚺ᴬ₀`-definability of the decode projections -/
 
-def _root_.LO.FirstOrder.Arithmetic.vcHeadDef : 𝚺₀.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vcHeadDef : 𝚺ᴬ₀.Semisentence 2 := .mkSigma
   “n c. ∃ f <⁺ c, !fstIdxDef f c ∧ !pi₁Def n f”
 
-instance vcHead_defined : 𝚺₀-Function₁ (vcHead : V → V) via vcHeadDef := .mk fun v ↦ by
+instance vcHead_defined : 𝚺ᴬ₀-Function₁ (vcHead : V → V) via vcHeadDef := .mk fun v ↦ by
   simp [vcHeadDef, vcHead, fstIdx_defined.iff, pi₁_defined.iff]
 
-instance vcHead_definable : 𝚺₀-Function₁ (vcHead : V → V) := vcHead_defined.to_definable
-instance vcHead_definable' (Γ) : Γ-Function₁ (vcHead : V → V) := vcHead_definable.of_zero
+instance vcHead_definable : 𝚺ᴬ₀-Function₁ (vcHead : V → V) := vcHead_defined.to_definable
+instance vcHead_definable' (Γ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]) : Γ-Function₁ (vcHead : V → V) := vcHead_definable.of_zero
 
 @[simp] lemma vcHead_le (c : V) : vcHead c ≤ c := by
   have h1 : vcHead c ≤ fstIdx c := by simp [vcHead]
@@ -83,46 +85,46 @@ instance vcHead_definable' (Γ) : Γ-Function₁ (vcHead : V → V) := vcHead_de
   have h3 : c - 1 ≤ c := by simp
   exact le_trans h1 (le_trans h2 h3)
 
-def _root_.LO.FirstOrder.Arithmetic.vcFstDef : 𝚺₀.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vcFstDef : 𝚺ᴬ₀.Semisentence 2 := .mkSigma
   “n c. ∃ h <⁺ c, !vcHeadDef h c ∧ !pi₁Def n h”
 
-instance vcFst_defined : 𝚺₀-Function₁ (vcFst : V → V) via vcFstDef := .mk fun v ↦ by
+instance vcFst_defined : 𝚺ᴬ₀-Function₁ (vcFst : V → V) via vcFstDef := .mk fun v ↦ by
   simp [vcFstDef, vcFst, vcHead_defined.iff, pi₁_defined.iff]
 
-instance vcFst_definable : 𝚺₀-Function₁ (vcFst : V → V) := vcFst_defined.to_definable
-instance vcFst_definable' (Γ) : Γ-Function₁ (vcFst : V → V) := vcFst_definable.of_zero
+instance vcFst_definable : 𝚺ᴬ₀-Function₁ (vcFst : V → V) := vcFst_defined.to_definable
+instance vcFst_definable' (Γ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]) : Γ-Function₁ (vcFst : V → V) := vcFst_definable.of_zero
 
-def _root_.LO.FirstOrder.Arithmetic.vcSndDef : 𝚺₀.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vcSndDef : 𝚺ᴬ₀.Semisentence 2 := .mkSigma
   “n c. ∃ h <⁺ c, !vcHeadDef h c ∧ !pi₂Def n h”
 
-instance vcSnd_defined : 𝚺₀-Function₁ (vcSnd : V → V) via vcSndDef := .mk fun v ↦ by
+instance vcSnd_defined : 𝚺ᴬ₀-Function₁ (vcSnd : V → V) via vcSndDef := .mk fun v ↦ by
   simp [vcSndDef, vcSnd, vcHead_defined.iff, pi₂_defined.iff]
 
-instance vcSnd_definable : 𝚺₀-Function₁ (vcSnd : V → V) := vcSnd_defined.to_definable
-instance vcSnd_definable' (Γ) : Γ-Function₁ (vcSnd : V → V) := vcSnd_definable.of_zero
+instance vcSnd_definable : 𝚺ᴬ₀-Function₁ (vcSnd : V → V) := vcSnd_defined.to_definable
+instance vcSnd_definable' (Γ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]) : Γ-Function₁ (vcSnd : V → V) := vcSnd_definable.of_zero
 
-def _root_.LO.FirstOrder.Arithmetic.vcCoeffDef : 𝚺₀.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vcCoeffDef : 𝚺ᴬ₀.Semisentence 2 := .mkSigma
   “n c. ∃ f <⁺ c, !fstIdxDef f c ∧ !pi₂Def n f”
 
-instance vcCoeff_defined : 𝚺₀-Function₁ (vcCoeff : V → V) via vcCoeffDef := .mk fun v ↦ by
+instance vcCoeff_defined : 𝚺ᴬ₀-Function₁ (vcCoeff : V → V) via vcCoeffDef := .mk fun v ↦ by
   simp [vcCoeffDef, vcCoeff, fstIdx_defined.iff, pi₂_defined.iff]
 
-instance vcCoeff_definable : 𝚺₀-Function₁ (vcCoeff : V → V) := vcCoeff_defined.to_definable
-instance vcCoeff_definable' (Γ) : Γ-Function₁ (vcCoeff : V → V) := vcCoeff_definable.of_zero
+instance vcCoeff_definable : 𝚺ᴬ₀-Function₁ (vcCoeff : V → V) := vcCoeff_defined.to_definable
+instance vcCoeff_definable' (Γ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]) : Γ-Function₁ (vcCoeff : V → V) := vcCoeff_definable.of_zero
 
-instance vcTail_defined : 𝚺₀-Function₁ (vcTail : V → V) via sndIdxDef := .mk fun v ↦ by
+instance vcTail_defined : 𝚺ᴬ₀-Function₁ (vcTail : V → V) via sndIdxDef := .mk fun v ↦ by
   simp [vcTail, sndIdx_defined.iff]
 
-instance vcTail_definable : 𝚺₀-Function₁ (vcTail : V → V) := vcTail_defined.to_definable
-instance vcTail_definable' (Γ) : Γ-Function₁ (vcTail : V → V) := vcTail_definable.of_zero
+instance vcTail_definable : 𝚺ᴬ₀-Function₁ (vcTail : V → V) := vcTail_defined.to_definable
+instance vcTail_definable' (Γ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]) : Γ-Function₁ (vcTail : V → V) := vcTail_definable.of_zero
 
-def _root_.LO.FirstOrder.Arithmetic.vcVaddDef : 𝚺₁.Semisentence 5 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vcVaddDef : 𝚺ᴬ₁.Semisentence 5 := .mkSigma
   “y ac bc n cc. ∃ p, !pairDef p ac bc ∧ ∃ q, !pairDef q p n ∧ ∃ r, !pairDef r q cc ∧ y = r + 1”
 
-instance vcVadd_defined : 𝚺₁-Function₄ (vcVadd : V → V → V → V → V) via vcVaddDef :=
+instance vcVadd_defined : 𝚺ᴬ₁-Function₄ (vcVadd : V → V → V → V → V) via vcVaddDef :=
   .mk fun v ↦ by simp [vcVaddDef, vcVadd, pair_defined.iff]
 
-instance vcVadd_definable : 𝚺₁-Function₄ (vcVadd : V → V → V → V → V) :=
+instance vcVadd_definable : 𝚺ᴬ₁-Function₄ (vcVadd : V → V → V → V → V) :=
   vcVadd_defined.to_definable
 
 /-! ### Round-trip: decoding recovers the subcodes -/
@@ -222,13 +224,13 @@ course-of-values recursion on the pair index `⟪c₁,c₂⟫` legitimate. -/
 /-- The code of the leading Veblen term `φ_a(b)` of `c`. -/
 noncomputable def vcLead (c : V) : V := vcVadd (vcFst c) (vcSnd c) 1 0
 
-def _root_.LO.FirstOrder.Arithmetic.vcLeadDef : 𝚺₁.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vcLeadDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ a, !vcFstDef a c ∧ ∃ b, !vcSndDef b c ∧ !vcVaddDef y a b 1 0”
 
-instance vcLead_defined : 𝚺₁-Function₁ (vcLead : V → V) via vcLeadDef := .mk fun v ↦ by
+instance vcLead_defined : 𝚺ᴬ₁-Function₁ (vcLead : V → V) via vcLeadDef := .mk fun v ↦ by
   simp [vcLeadDef, vcLead, vcFst_defined.iff, vcSnd_defined.iff, vcVadd_defined.iff]
 
-instance vcLead_definable : 𝚺₁-Function₁ (vcLead : V → V) := vcLead_defined.to_definable
+instance vcLead_definable : 𝚺ᴬ₁-Function₁ (vcLead : V → V) := vcLead_defined.to_definable
 
 @[simp] lemma vcLead_vcVadd (ac bc n cc : V) : vcLead (vcVadd ac bc n cc) = vcVadd ac bc 1 0 := by
   simp [vcLead]
@@ -265,15 +267,15 @@ against the *whole* Veblen value on the other side.  `leadV` is that three-way b
 anything else selects `r`. -/
 noncomputable def leadV (x p q r : V) : V := if x = 1 then p else if x = 0 then q else r
 
-def _root_.LO.FirstOrder.Arithmetic.leadVDef : 𝚺₀.Semisentence 5 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.leadVDef : 𝚺ᴬ₀.Semisentence 5 := .mkSigma
   “y x p q r. (x = 1 ∧ y = p) ∨ (x ≠ 1 ∧ x = 0 ∧ y = q) ∨ (x ≠ 1 ∧ x ≠ 0 ∧ y = r)”
 
-instance leadV_defined : 𝚺₀-Function₄ (leadV : V → V → V → V → V) via leadVDef := .mk fun v ↦ by
+instance leadV_defined : 𝚺ᴬ₀-Function₄ (leadV : V → V → V → V → V) via leadVDef := .mk fun v ↦ by
   simp [leadVDef, leadV]
   by_cases h1 : v 1 = 1 <;> by_cases h0 : v 1 = 0 <;> simp [h1, h0]
 
-instance leadV_definable : 𝚺₀-Function₄ (leadV : V → V → V → V → V) := leadV_defined.to_definable
-instance leadV_definable' (Γ) : Γ-Function₄ (leadV : V → V → V → V → V) :=
+instance leadV_definable : 𝚺ᴬ₀-Function₄ (leadV : V → V → V → V → V) := leadV_defined.to_definable
+instance leadV_definable' (Γ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]) : Γ-Function₄ (leadV : V → V → V → V → V) :=
   leadV_definable.of_zero
 
 @[simp] lemma leadV_one (p q r : V) : leadV 1 p q r = p := by simp [leadV]
@@ -298,7 +300,7 @@ noncomputable def icmp₁Main (i s : V) : V :=
     (thenV (cmpV (vcCoeff (π₁ i)) (vcCoeff (π₂ i)))
       (znth s ⟪vcTail (π₁ i), vcTail (π₂ i)⟫))
 
-def _root_.LO.FirstOrder.Arithmetic.icmp₁MainDef : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.icmp₁MainDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y i s.
     ∃ c1, !pi₁Def c1 i ∧ ∃ c2, !pi₂Def c2 i ∧
       ∃ a1, !vcFstDef a1 c1 ∧ ∃ a2, !vcFstDef a2 c2 ∧ ∃ ia, !pairDef ia a1 a2 ∧
@@ -314,13 +316,13 @@ def _root_.LO.FirstOrder.Arithmetic.icmp₁MainDef : 𝚺₁.Semisentence 3 := .
         ∃ rt, !znthDef rt s it ∧
       ∃ inner, !thenVDef inner cn rt ∧ !thenVDef y lead inner”
 
-instance icmp₁Main_defined : 𝚺₁-Function₂ (icmp₁Main : V → V → V) via icmp₁MainDef :=
+instance icmp₁Main_defined : 𝚺ᴬ₁-Function₂ (icmp₁Main : V → V → V) via icmp₁MainDef :=
   .mk fun v ↦ by
   simp [icmp₁MainDef, icmp₁Main, pi₁_defined.iff, pi₂_defined.iff, vcFst_defined.iff,
     vcSnd_defined.iff, vcLead_defined.iff, vcCoeff_defined.iff, vcTail, sndIdx_defined.iff,
     pair_defined.iff, znth_defined.iff, cmpV_defined.iff, leadV_defined.iff, thenV_defined.iff]
 
-instance icmp₁Main_definable : 𝚺₁-Function₂ (icmp₁Main : V → V → V) :=
+instance icmp₁Main_definable : 𝚺ᴬ₁-Function₂ (icmp₁Main : V → V → V) :=
   icmp₁Main_defined.to_definable
 
 /-- Table step of `icmp₁` at the pair index `i = ⟪c1,c2⟫`: the zero base cases, else the
@@ -330,7 +332,7 @@ noncomputable def icmp₁Next (i s : V) : V :=
   else if π₂ i = 0 then 2
   else icmp₁Main i s
 
-def _root_.LO.FirstOrder.Arithmetic.icmp₁NextDef : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.icmp₁NextDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y i s.
     ∃ c1, !pi₁Def c1 i ∧ ∃ c2, !pi₂Def c2 i ∧
       ( (c1 = 0 ∧ c2 = 0 ∧ y = 1)
@@ -338,12 +340,12 @@ def _root_.LO.FirstOrder.Arithmetic.icmp₁NextDef : 𝚺₁.Semisentence 3 := .
       ∨ (c1 ≠ 0 ∧ c2 = 0 ∧ y = 2)
       ∨ (c1 ≠ 0 ∧ c2 ≠ 0 ∧ !icmp₁MainDef y i s) )”
 
-instance icmp₁Next_defined : 𝚺₁-Function₂ (icmp₁Next : V → V → V) via icmp₁NextDef :=
+instance icmp₁Next_defined : 𝚺ᴬ₁-Function₂ (icmp₁Next : V → V → V) via icmp₁NextDef :=
   .mk fun v ↦ by
   simp [icmp₁NextDef, icmp₁Next, pi₁_defined.iff, pi₂_defined.iff, icmp₁Main_defined.iff]
   by_cases h1 : π₁ (v 1) = 0 <;> by_cases h2 : π₂ (v 1) = 0 <;> simp [h1, h2]
 
-instance icmp₁Next_definable : 𝚺₁-Function₂ (icmp₁Next : V → V → V) :=
+instance icmp₁Next_definable : 𝚺ᴬ₁-Function₂ (icmp₁Next : V → V → V) :=
   icmp₁Next_defined.to_definable
 
 /-! ### The `icmp₁` table -/
@@ -374,33 +376,33 @@ noncomputable def icmp₁Table (n : V) : V := icmp₁Table.construction.result !
 (lt = 0, eq = 1, gt = 2) of the codes `c1`, `c2`, read out of the table at `⟪c1,c2⟫`. -/
 noncomputable def icmp₁ (c1 c2 : V) : V := znth (icmp₁Table ⟪c1, c2⟫) ⟪c1, c2⟫
 
-def _root_.LO.FirstOrder.Arithmetic.icmp₁TableDef : 𝚺₁.Semisentence 2 :=
+def _root_.FFL.FirstOrder.Arithmetic.icmp₁TableDef : 𝚺ᴬ₁.Semisentence 2 :=
   icmp₁Table.blueprint.resultDef.rew (Rew.subst ![#0, #1])
 
-instance icmp₁Table_defined : 𝚺₁-Function₁ (icmp₁Table : V → V) via icmp₁TableDef := .mk
+instance icmp₁Table_defined : 𝚺ᴬ₁-Function₁ (icmp₁Table : V → V) via icmp₁TableDef := .mk
   fun v ↦ by simp [icmp₁Table.construction.result_defined_iff, icmp₁TableDef]; rfl
 
-instance icmp₁Table_definable : 𝚺₁-Function₁ (icmp₁Table : V → V) :=
+instance icmp₁Table_definable : 𝚺ᴬ₁-Function₁ (icmp₁Table : V → V) :=
   icmp₁Table_defined.to_definable
 instance icmp₁Table_definable' (Γ) (m : ℕ) :
-    Γ-[m + 1]-Function₁ (icmp₁Table : V → V) :=
+    Γᴬ_[m + 1]-Function₁ (icmp₁Table : V → V) :=
   icmp₁Table_definable.of_sigmaOne
 
-def _root_.LO.FirstOrder.Arithmetic.icmp₁Def : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.icmp₁Def : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y c1 c2. ∃ i, !pairDef i c1 c2 ∧ ∃ t, !icmp₁TableDef t i ∧ !znthDef y t i”
 
-instance icmp₁_defined : 𝚺₁-Function₂ (icmp₁ : V → V → V) via icmp₁Def := .mk fun v ↦ by
+instance icmp₁_defined : 𝚺ᴬ₁-Function₂ (icmp₁ : V → V → V) via icmp₁Def := .mk fun v ↦ by
   simp [icmp₁Def, icmp₁, pair_defined.iff, icmp₁Table_defined.iff, znth_defined.iff]
 
-instance icmp₁_definable : 𝚺₁-Function₂ (icmp₁ : V → V → V) := icmp₁_defined.to_definable
+instance icmp₁_definable : 𝚺ᴬ₁-Function₂ (icmp₁ : V → V → V) := icmp₁_defined.to_definable
 instance icmp₁_definable' (Γ) (m : ℕ) :
-    Γ-[m + 1]-Function₂ (icmp₁ : V → V → V) :=
+    Γᴬ_[m + 1]-Function₂ (icmp₁ : V → V → V) :=
   icmp₁_definable.of_sigmaOne
 
 /-! ### Structural correctness of the `icmp₁` table -/
 
 private lemma def_icmp₁Table {k} (i : Fin k) :
-    𝚺-[1].DefinableFunction (fun v : Fin k → V ↦ icmp₁Table (v i)) :=
+    𝚺ᴬ_[1].DefinableFunction (fun v : Fin k → V ↦ icmp₁Table (v i)) :=
   DefinableFunction₁.comp (F := icmp₁Table) (DefinableFunction.var i)
 
 @[simp] lemma icmp₁Table_seq (n : V) : Seq (icmp₁Table n) := by
@@ -426,7 +428,7 @@ lemma znth_icmp₁Table_eq_icmp₁ :
     ∀ N : V, ∀ k ≤ N, znth (icmp₁Table N) k = icmp₁ (π₁ k) (π₂ k) := by
   intro N
   induction N using ISigma1.sigma1_succ_induction
-  · refine Definable.ball_le (by definability) ?_
+  · refine Definable.arithmetic_ball_le (by definability) ?_
     exact Definable.comp₂
       (DefinableFunction₂.comp (F := znth) (def_icmp₁Table 1) (DefinableFunction.var 0))
       (DefinableFunction₂.comp (F := icmp₁)
@@ -547,20 +549,20 @@ both conditions read `icmp₁ · (vcVadd a b 1 0) = 0`.  Unlike the Cantor-norma
 holds (`icmp₁_zero_vcVadd`), so the uniform clause covers the empty tail.
 
 As in `InternalONote.isNFb`, the flag is built as a product of `0/1` indicators through a
-course-of-values table, so the step stays `𝚺₁` with no negated existentials. -/
+course-of-values table, so the step stays `𝚺ᴬ₁` with no negated existentials. -/
 
 /-- `0/1` indicator that `icmp₁ a b = 0` (i.e. `a ≺ b` in the Veblen order). -/
 noncomputable def ltIndic₁ (a b : V) : V := if icmp₁ a b = 0 then 1 else 0
 
-def _root_.LO.FirstOrder.Arithmetic.ltIndic₁Def : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.ltIndic₁Def : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y a b. ∃ c, !icmp₁Def c a b ∧ ((c = 0 ∧ y = 1) ∨ (c ≠ 0 ∧ y = 0))”
 
-instance ltIndic₁_defined : 𝚺₁-Function₂ (ltIndic₁ : V → V → V) via ltIndic₁Def :=
+instance ltIndic₁_defined : 𝚺ᴬ₁-Function₂ (ltIndic₁ : V → V → V) via ltIndic₁Def :=
   .mk fun v ↦ by
   simp [ltIndic₁Def, ltIndic₁, icmp₁_defined.iff]
   by_cases h : icmp₁ (v 1) (v 2) = 0 <;> simp [h]
 
-instance ltIndic₁_definable : 𝚺₁-Function₂ (ltIndic₁ : V → V → V) :=
+instance ltIndic₁_definable : 𝚺ᴬ₁-Function₂ (ltIndic₁ : V → V → V) :=
   ltIndic₁_defined.to_definable
 
 @[simp] lemma ltIndic₁_eq_one_iff (a b : V) : ltIndic₁ a b = 1 ↔ icmp₁ a b = 0 := by
@@ -576,22 +578,22 @@ noncomputable def fixOk₁ (c : V) : V := ltIndic₁ (vcSnd c) (vcLead c)
 /-- The "tail below the leading term" flag of a code: `1` iff `tail ≺ φ_a(b)`. -/
 noncomputable def tailOk₁ (c : V) : V := ltIndic₁ (vcTail c) (vcLead c)
 
-def _root_.LO.FirstOrder.Arithmetic.fixOk₁Def : 𝚺₁.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.fixOk₁Def : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ b, !vcSndDef b c ∧ ∃ l, !vcLeadDef l c ∧ !ltIndic₁Def y b l”
 
-instance fixOk₁_defined : 𝚺₁-Function₁ (fixOk₁ : V → V) via fixOk₁Def := .mk fun v ↦ by
+instance fixOk₁_defined : 𝚺ᴬ₁-Function₁ (fixOk₁ : V → V) via fixOk₁Def := .mk fun v ↦ by
   simp [fixOk₁Def, fixOk₁, vcSnd_defined.iff, vcLead_defined.iff, ltIndic₁_defined.iff]
 
-instance fixOk₁_definable : 𝚺₁-Function₁ (fixOk₁ : V → V) := fixOk₁_defined.to_definable
+instance fixOk₁_definable : 𝚺ᴬ₁-Function₁ (fixOk₁ : V → V) := fixOk₁_defined.to_definable
 
-def _root_.LO.FirstOrder.Arithmetic.tailOk₁Def : 𝚺₁.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.tailOk₁Def : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ t, !sndIdxDef t c ∧ ∃ l, !vcLeadDef l c ∧ !ltIndic₁Def y t l”
 
-instance tailOk₁_defined : 𝚺₁-Function₁ (tailOk₁ : V → V) via tailOk₁Def := .mk fun v ↦ by
+instance tailOk₁_defined : 𝚺ᴬ₁-Function₁ (tailOk₁ : V → V) via tailOk₁Def := .mk fun v ↦ by
   simp [tailOk₁Def, tailOk₁, vcTail, sndIdx_defined.iff, vcLead_defined.iff,
     ltIndic₁_defined.iff]
 
-instance tailOk₁_definable : 𝚺₁-Function₁ (tailOk₁ : V → V) := tailOk₁_defined.to_definable
+instance tailOk₁_definable : 𝚺ᴬ₁-Function₁ (tailOk₁ : V → V) := tailOk₁_defined.to_definable
 
 @[simp] lemma fixOk₁_vcVadd (ac bc n cc : V) :
     fixOk₁ (vcVadd ac bc n cc) = ltIndic₁ bc (vcVadd ac bc 1 0) := by
@@ -613,7 +615,7 @@ noncomputable def isNFb₁Next (c s : V) : V :=
   nzIndic (vcCoeff c) * znth s (vcFst c) * znth s (vcSnd c) * znth s (vcTail c)
     * fixOk₁ c * tailOk₁ c
 
-def _root_.LO.FirstOrder.Arithmetic.isNFb₁NextDef : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.isNFb₁NextDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y c s.
     ∃ co, !vcCoeffDef co c ∧ ∃ nc, !nzIndicDef nc co ∧
     ∃ a, !vcFstDef a c ∧ ∃ sa, !znthDef sa s a ∧
@@ -623,13 +625,13 @@ def _root_.LO.FirstOrder.Arithmetic.isNFb₁NextDef : 𝚺₁.Semisentence 3 := 
     ∃ tk, !tailOk₁Def tk c ∧
     y = nc * sa * sb * st * fk * tk”
 
-instance isNFb₁Next_defined : 𝚺₁-Function₂ (isNFb₁Next : V → V → V) via isNFb₁NextDef :=
+instance isNFb₁Next_defined : 𝚺ᴬ₁-Function₂ (isNFb₁Next : V → V → V) via isNFb₁NextDef :=
   .mk fun v ↦ by
   simp [isNFb₁NextDef, isNFb₁Next, vcCoeff_defined.iff, nzIndic_defined.iff,
     vcFst_defined.iff, vcSnd_defined.iff, vcTail, sndIdx_defined.iff, znth_defined.iff,
     fixOk₁_defined.iff, tailOk₁_defined.iff]
 
-instance isNFb₁Next_definable : 𝚺₁-Function₂ (isNFb₁Next : V → V → V) :=
+instance isNFb₁Next_definable : 𝚺ᴬ₁-Function₂ (isNFb₁Next : V → V → V) :=
   isNFb₁Next_defined.to_definable
 
 /-! ### The `isNFb₁` table -/
@@ -662,41 +664,41 @@ noncomputable def isNFb₁ (c : V) : V := znth (isNFb₁Table c) c
 /-- **Internal `NF` predicate** on Veblen codes inside `V`. -/
 def isNF₁ (c : V) : Prop := isNFb₁ c = 1
 
-def _root_.LO.FirstOrder.Arithmetic.isNFb₁TableDef : 𝚺₁.Semisentence 2 :=
+def _root_.FFL.FirstOrder.Arithmetic.isNFb₁TableDef : 𝚺ᴬ₁.Semisentence 2 :=
   isNFb₁Table.blueprint.resultDef.rew (Rew.subst ![#0, #1])
 
-instance isNFb₁Table_defined : 𝚺₁-Function₁ (isNFb₁Table : V → V) via isNFb₁TableDef := .mk
+instance isNFb₁Table_defined : 𝚺ᴬ₁-Function₁ (isNFb₁Table : V → V) via isNFb₁TableDef := .mk
   fun v ↦ by simp [isNFb₁Table.construction.result_defined_iff, isNFb₁TableDef]; rfl
 
-instance isNFb₁Table_definable : 𝚺₁-Function₁ (isNFb₁Table : V → V) :=
+instance isNFb₁Table_definable : 𝚺ᴬ₁-Function₁ (isNFb₁Table : V → V) :=
   isNFb₁Table_defined.to_definable
 instance isNFb₁Table_definable' (Γ) (m : ℕ) :
-    Γ-[m + 1]-Function₁ (isNFb₁Table : V → V) :=
+    Γᴬ_[m + 1]-Function₁ (isNFb₁Table : V → V) :=
   isNFb₁Table_definable.of_sigmaOne
 
-def _root_.LO.FirstOrder.Arithmetic.isNFb₁Def : 𝚺₁.Semisentence 2 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.isNFb₁Def : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y c. ∃ t, !isNFb₁TableDef t c ∧ !znthDef y t c”
 
-instance isNFb₁_defined : 𝚺₁-Function₁ (isNFb₁ : V → V) via isNFb₁Def := .mk fun v ↦ by
+instance isNFb₁_defined : 𝚺ᴬ₁-Function₁ (isNFb₁ : V → V) via isNFb₁Def := .mk fun v ↦ by
   simp [isNFb₁Def, isNFb₁, isNFb₁Table_defined.iff, znth_defined.iff]
 
-instance isNFb₁_definable : 𝚺₁-Function₁ (isNFb₁ : V → V) := isNFb₁_defined.to_definable
+instance isNFb₁_definable : 𝚺ᴬ₁-Function₁ (isNFb₁ : V → V) := isNFb₁_defined.to_definable
 instance isNFb₁_definable' (Γ) (m : ℕ) :
-    Γ-[m + 1]-Function₁ (isNFb₁ : V → V) :=
+    Γᴬ_[m + 1]-Function₁ (isNFb₁ : V → V) :=
   isNFb₁_definable.of_sigmaOne
 
 instance isNF₁_definable (Γ) (m : ℕ) :
-    Γ-[m + 1]-Predicate (isNF₁ : V → Prop) := by
+    Γᴬ_[m + 1]-Predicate (isNF₁ : V → Prop) := by
   unfold isNF₁; definability
 
 /-! ### Structural correctness of the `isNFb₁` table -/
 
 private lemma def_isNFb₁Table {k} (i : Fin k) :
-    𝚺-[1].DefinableFunction (fun v : Fin k → V ↦ isNFb₁Table (v i)) :=
+    𝚺ᴬ_[1].DefinableFunction (fun v : Fin k → V ↦ isNFb₁Table (v i)) :=
   DefinableFunction₁.comp (F := isNFb₁Table) (DefinableFunction.var i)
 
 private lemma def_isNFb₁ {k} (i : Fin k) :
-    𝚺-[1].DefinableFunction (fun v : Fin k → V ↦ isNFb₁ (v i)) :=
+    𝚺ᴬ_[1].DefinableFunction (fun v : Fin k → V ↦ isNFb₁ (v i)) :=
   DefinableFunction₁.comp (F := isNFb₁) (DefinableFunction.var i)
 
 @[simp] lemma isNFb₁Table_seq (n : V) : Seq (isNFb₁Table n) := by
@@ -720,7 +722,7 @@ lemma znth_isNFb₁Table_succ {n k : V} (hk : k < n + 1) :
 lemma znth_isNFb₁Table_eq_isNFb₁ : ∀ N : V, ∀ k ≤ N, znth (isNFb₁Table N) k = isNFb₁ k := by
   intro N
   induction N using ISigma1.sigma1_succ_induction
-  · refine Definable.ball_le (by definability) ?_
+  · refine Definable.arithmetic_ball_le (by definability) ?_
     exact Definable.comp₂
       (DefinableFunction₂.comp (F := znth) (def_isNFb₁Table 1) (DefinableFunction.var 0))
       (def_isNFb₁ 0)
@@ -1031,16 +1033,16 @@ lemma icmp₁_swap {c1 c2 : V} (h1 : isNF₁ c1) (h2 : isNF₁ c2) :
   have h := icmp₁_swap_aux ⟪c1, c2⟫ (by simpa using h1) (by simpa using h2)
   simpa using h
 
-/-! ## `𝚺₁` graph formulas for the Veblen notation layer
+/-! ## `𝚺ᴬ₁` graph formulas for the Veblen notation layer
 
 The exact analogues of `CodedNotation.nfDef` / `CodedNotation.precDef`, one notation system
 up.  They are stated here, in the pure arithmetic language, so that `CodedVeblen` only has to
 transport them into `LX`. -/
 
-def nfDef₁ : 𝚺₁.Semisentence 1 := .mkSigma
+def nfDef₁ : 𝚺ᴬ₁.Semisentence 1 := .mkSigma
   “x. !isNFb₁Def 1 x”
 
-def precDef₁ : 𝚺₁.Semisentence 2 := .mkSigma
+def precDef₁ : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “x y. !isNFb₁Def 1 x ∧ !isNFb₁Def 1 y ∧ !icmp₁Def 0 x y”
 
 @[simp] theorem eval_nfDef₁ (x : V) :

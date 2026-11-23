@@ -11,6 +11,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.LowerBound
 
 @[expose] public section
@@ -19,7 +21,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {L : Language}
 
@@ -58,7 +60,7 @@ open OrdinalAnalysis.Gentzen.Embed OrdinalAnalysis.Gentzen.EvInst
 /-- **Consistency of `PA[X]`.** -/
 theorem paLX_consistent : paLX ⊬ (⊥ : Sentence LX) := by
   intro hprov
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp hprov
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp hprov
   have hclosed : ∀ φ ∈ (((⊥ : Sentence LX) : Proposition LX) :: ∼Sequent.embed Δ),
       Semiformula.freeVariables φ = ∅ := by
     intro φ hφ

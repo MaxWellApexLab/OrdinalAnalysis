@@ -32,6 +32,8 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Bridge
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.CutAxioms
 public import OrdinalAnalysis.Ordinal.BelowDerivation
 public import OrdinalAnalysis.Gentzen.Epsilon1Axiom
@@ -44,7 +46,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### No derivation of the empty sequent, generically -/
 
@@ -81,7 +83,7 @@ end OmegaDerivable
 
 namespace Gentzen.Epsilon1LowerBound
 
-open LO.FirstOrder.Arithmetic
+open FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.StandardLX (trueArithLits)
 open OrdinalAnalysis.Gentzen.Evaluate OrdinalAnalysis.Gentzen.EvInst
@@ -108,7 +110,7 @@ theorem paLX₁_axiom_derivable (σ : Sentence LX) (h : σ ∈ paLX₁) :
 transfinite induction along the coded ordering of the notations below `ε₁`. -/
 theorem epsilon1_lower_bound : paLX₁ ⊬ (TI epsilon1Order.prec).univCl := by
   intro hprov
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp hprov
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp hprov
   have hclosed : ∀ φ ∈ (((TI epsilon1Order.prec).univCl : Proposition LX) :: ∼Sequent.embed Δ),
       Semiformula.freeVariables φ = ∅ := by
     intro φ hφ
@@ -127,7 +129,7 @@ theorem epsilon1_lower_bound : paLX₁ ⊬ (TI epsilon1Order.prec).univCl := by
 /-- **Consistency of `PA[X] + TI(ε₀)`**, by the same chain. -/
 theorem paLX₁_consistent : paLX₁ ⊬ (⊥ : Sentence LX) := by
   intro hprov
-  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff.mp hprov
+  obtain ⟨Δ, hΔ, ⟨d⟩⟩ := Theory.Proof.provable_iff_list.mp hprov
   have hclosed : ∀ φ ∈ (((⊥ : Sentence LX) : Proposition LX) :: ∼Sequent.embed Δ),
       Semiformula.freeVariables φ = ∅ := by
     intro φ hφ

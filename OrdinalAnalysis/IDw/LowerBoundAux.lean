@@ -33,10 +33,11 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Lift
 public import OrdinalAnalysis.IDw.UpperAuxForms
 public import OrdinalAnalysis.IDw.Evaluate
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -47,7 +48,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDw.Lift
 
 /-! ### `X ↦ θ`, syntactically -/
@@ -75,20 +76,20 @@ end Subst
 
 /-! ### `X ↦ θ`, semantically -/
 
-section Struc
+section Tarski.Struc
 
 variable {N : Type*}
 
 set_option warn.classDefReducibility false in
 /-- **The structure `s` with `X(t)` read as `θ(t)`**; arithmetic and `J` unchanged. -/
-def xStruc (s : Structure LXJ N) (θ : Semisentence LXJ 1) : Structure LXJ N where
+def xStruc (s : Tarski.Structure LXJ N) (θ : Semisentence LXJ 1) : Tarski.Structure LXJ N where
   func := fun {_} f v => s.func f v
   rel := fun {m} r v => match m, r with
     | _, Sum.inl r => s.rel (Sum.inl r) v
     | _, Sum.inr XJRel.X => Semiformula.Eval (s := s) ![v 0] Empty.elim θ
     | _, Sum.inr XJRel.J => s.rel (Sum.inr XJRel.J) v
 
-variable (s : Structure LXJ N) (θ : Semisentence LXJ 1)
+variable (s : Tarski.Structure LXJ N) (θ : Semisentence LXJ 1)
 
 /-- Term values do not see `X`. -/
 theorem val_xStruc {ξ : Type*} {n : ℕ} (e : Fin n → N) (f : ξ → N) (t : Semiterm LXJ ξ n) :
@@ -156,13 +157,13 @@ theorem eval_substX {ξ : Type*} : ∀ {n : ℕ} (φ : Semiformula LXJ ξ n) (e 
     intro e f
     simp only [substX, Semiformula.eval_ex, ih]
 
-end Struc
+end Tarski.Struc
 
 /-! ### Every axiom of `IDw A` holds in `xStruc s θ` -/
 
 section Models
 
-variable {N : Type} [ORingStructure N] (s : Structure LXJ N) (θ : Semisentence LXJ 1)
+variable {N : Type} [ORingStructure N] (s : Tarski.Structure LXJ N) (θ : Semisentence LXJ 1)
 
 /-- The arithmetic reduct of `xStruc s θ` is that of `s`. -/
 theorem xStruc_lMap : (xStruc s θ).lMap toLXJ = s.lMap toLXJ := rfl
@@ -178,7 +179,7 @@ theorem xStruc_arithStd (hS : s.lMap toLXJ = Arithmetic.standardModel N) :
 /-- **`AAt` sees the own place only through its truth**: two structures with the same `J` and
 standard arithmetic, and two formulas `F₁`, `F₂` with the same truth at level `y`, compile the
 form `φ` to formulas of the same truth. -/
-theorem eval_AAt_congr (s₁ s₂ : Structure LXJ N)
+theorem eval_AAt_congr (s₁ s₂ : Tarski.Structure LXJ N)
     (h₁ : s₁.lMap toLXJ = Arithmetic.standardModel N)
     (h₂ : s₂.lMap toLXJ = Arithmetic.standardModel N)
     (hJ : ∀ a b : N, Jmem (s := s₁) a b ↔ Jmem (s := s₂) a b)
@@ -242,7 +243,7 @@ theorem eval_succInd_xStruc (φ : Semiformula LXJ ℕ 1) (f : ℕ → N) :
 theorem eq_of_arithStd (a b : N) : s.rel (Language.Eq.eq : LXJ.Rel 2) ![a, b] ↔ a = b := by
   show s.rel (Sum.inl Language.Eq.eq) ![a, b] ↔ _
   rw [Upper.rel_inl_iff hS]
-  exact Structure.eq_lang
+  exact Tarski.Structure.eq_lang
 
 /-- **Every axiom of `IDw A` is true in `xStruc s θ`**, if every axiom is true in `s`
 (`s` arithmetically standard; `A` mentions no `X`). -/
@@ -253,9 +254,9 @@ theorem eval_of_mem_IDw_xStruc
   rcases (mem_IDw A).mp hσ with rfl | h | ⟨F, rfl⟩
   · exact (eval_closureAxJ_xStruc s θ A hS).mpr (hM _ (closureAxJ_mem_IDw A))
   · rcases h with h | h | h
-    · let _ : Structure LXJ N := xStruc s θ
-      have _ : Structure.Eq LXJ N := ⟨fun a b => eq_of_arithStd s hS a b⟩
-      have _ : N↓[LXJ] ⊧* 𝗘𝗤 LXJ := Structure.Eq.models_eq LXJ N
+    · let _ : Tarski.Structure LXJ N := xStruc s θ
+      have _ : Tarski.Structure.Eq LXJ N := ⟨fun a b => eq_of_arithStd s hS a b⟩
+      have _ : N↓[LXJ] ⊧* 𝗘𝗤 LXJ := Tarski.Structure.Eq.models_eq LXJ N
       exact Theory.models N (𝗘𝗤 LXJ) h
     · obtain ⟨τ, hτ, rfl⟩ := h
       have h1 := hM _ (mem_IDw_of_paMinus A hτ)
@@ -275,7 +276,7 @@ theorem eval_of_provable_xStruc
     (hM : ∀ σ ∈ IDw A, Semiformula.Eval (s := s) ![] Empty.elim σ)
     {σ : Sentence LXJ} (h : IDw A ⊢ σ) :
     Semiformula.Eval (s := xStruc s θ) ![] Empty.elim σ := by
-  let _ : Structure LXJ N := xStruc s θ
+  let _ : Tarski.Structure LXJ N := xStruc s θ
   have : Nonempty N := ⟨0⟩
   have hT : N↓[LXJ] ⊧* IDw A :=
     Semantics.modelsSet_iff.mpr fun τ hτ => models_iff.mpr (eval_of_mem_IDw_xStruc s θ A hS hM hτ)

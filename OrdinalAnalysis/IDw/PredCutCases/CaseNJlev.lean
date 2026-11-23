@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.PredCutAux
 
 @[expose] public section
@@ -9,8 +10,8 @@ set_option autoImplicit false
 namespace OrdinalAnalysis
 namespace IDw
 
-open LO LO.FirstOrder
--- case_skeleton: generated header ends here
+open FFL FFL.FirstOrder
+-- generated header ends here
 
 /-- Case `njlev` of `predCut_aux` (statement modelled on `and`: `¬Jlev ℓ (s,t)` is a conjunction
 with at most one conjunct, so the premise and its height bound are conditional on

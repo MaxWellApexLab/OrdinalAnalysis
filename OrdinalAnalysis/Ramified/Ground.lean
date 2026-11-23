@@ -26,7 +26,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 
 /-! ### A reading of `LRA`
@@ -34,31 +34,31 @@ open LO LO.FirstOrder LO.FirstOrder.Arithmetic
 Arithmetic standard, the fresh symbols empty.  Deliberately not an instance. -/
 
 /-- The fresh symbols, read as empty.  `RALang` has no function symbols. -/
-def raStruc : Structure RALang ℕ where
+def raStruc : Tarski.Structure RALang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ _ _ => False
 
 /-- **A standard model of `LRA`**: arithmetic standard, `X` and every `∈̇_ν`
 empty. -/
-def stdLRA : Structure LRA ℕ := Structure.add ℒₒᵣ RALang ℕ (str₂ := raStruc)
+def stdLRA : Tarski.Structure LRA ℕ := Tarski.Structure.add ℒₒᵣ RALang ℕ (str₂ := raStruc)
 
 /-! ### Standard models of `LRA`
 
 `LRA = Language.add ℒₒᵣ RALang`, and Foundation builds a structure for a sum of
-languages out of structures for the summands (`Structure.add`).  The arithmetic
+languages out of structures for the summands (`Tarski.Structure.add`).  The arithmetic
 summand is always `Arithmetic.standardModel ℕ`; the fresh summand is a parameter
 throughout this file, because nothing the evaluator does can see it. -/
 
 /-- **A standard model of `LRA`**: arithmetic standard, the fresh symbols read by
 `s₂`.  `Ramified/Literals.lean`'s `stdLRA` is the case `s₂ = raStruc`. -/
-def raStd (s₂ : Structure RALang ℕ) : Structure LRA ℕ :=
-  Structure.add ℒₒᵣ RALang ℕ (str₂ := s₂)
+def raStd (s₂ : Tarski.Structure RALang ℕ) : Tarski.Structure LRA ℕ :=
+  Tarski.Structure.add ℒₒᵣ RALang ℕ (str₂ := s₂)
 
 theorem stdLRA_eq_raStd : stdLRA = raStd raStruc := rfl
 
 /-- The fresh symbols read by a unary `P` (for `X`) and a level-indexed family of
 binary `M ν` (for `∈̇_ν`) — the family the boundedness port reinterprets. -/
-def raStrucOf (P : ℕ → Prop) (M : Lv → ℕ → ℕ → Prop) : Structure RALang ℕ where
+def raStrucOf (P : ℕ → Prop) (M : Lv → ℕ → ℕ → Prop) : Tarski.Structure RALang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v =>
     match r with
@@ -66,11 +66,11 @@ def raStrucOf (P : ℕ → Prop) (M : Lv → ℕ → ℕ → Prop) : Structure R
     | RARel.mem ν => M ν (v 0) (v 1)
 
 /-- **The parametric standard model of `LRA`.** -/
-def stdR (P : ℕ → Prop) (M : Lv → ℕ → ℕ → Prop) : Structure LRA ℕ := raStd (raStrucOf P M)
+def stdR (P : ℕ → Prop) (M : Lv → ℕ → ℕ → Prop) : Tarski.Structure LRA ℕ := raStd (raStrucOf P M)
 
 section StdR
 
-variable (s₂ s₂' : Structure RALang ℕ)
+variable (s₂ s₂' : Tarski.Structure RALang ℕ)
 
 /-- Every `raStd s₂` has the same function symbols: the arithmetic ones come from
 the same `standardModel ℕ`, and `RALang` contributes none.  This is what makes
@@ -84,14 +84,14 @@ theorem raStd_func {k : ℕ} (fn : LRA.Func k) (w : Fin k → ℕ) :
 /-- A term of arithmetic transported to `LRA` keeps its value. -/
 @[simp] theorem val_lMap_toLRA {n : ℕ} (t : Semiterm ℒₒᵣ ℕ n) (e : Fin n → ℕ) (f : ℕ → ℕ) :
     Semiterm.val (s := raStd s₂) e f (Semiterm.lMap toLRA t) = Semiterm.val (M := ℕ) e f t :=
-  Structure.val_lMap_add₁ (str₂ := s₂) t e f
+  Tarski.Structure.val_lMap_add₁ (str₂ := s₂) t e f
 
 /-- A formula of arithmetic transported to `LRA` says in `raStd s₂` exactly what
 it says in the standard model of arithmetic. -/
 @[simp] theorem eval_lMap_toLRA {n : ℕ} (φ : Semiformula ℒₒᵣ ℕ n) (e : Fin n → ℕ) (f : ℕ → ℕ) :
     Semiformula.Eval (s := raStd s₂) e f (Semiformula.lMap toLRA φ)
       ↔ Semiformula.Eval (M := ℕ) e f φ :=
-  Structure.eval_lMap_add₁ (str₂ := s₂) φ e f
+  Tarski.Structure.eval_lMap_add₁ (str₂ := s₂) φ e f
 
 /-- The reading of `∈̇_ν` in `stdR P M` is `M ν`. -/
 theorem stdR_rel_mem (P : ℕ → Prop) (M : Lv → ℕ → ℕ → Prop) (ν : Lv) (v : Fin 2 → ℕ) :
@@ -208,7 +208,7 @@ def evTermR {n : ℕ} (t : Semiterm LRA ℕ n) : ℕ :=
 
 /-- A ground term has the same value in every `raStd s₂` and under every pair of
 environments. -/
-theorem val_groundR_congr (s₂ s₂' : Structure RALang ℕ) {n : ℕ} (e e' : Fin n → ℕ)
+theorem val_groundR_congr (s₂ s₂' : Tarski.Structure RALang ℕ) {n : ℕ} (e e' : Fin n → ℕ)
     (f f' : ℕ → ℕ) :
     ∀ {t : Semiterm LRA ℕ n}, GroundR t →
       Semiterm.val (s := raStd s₂) e f t = Semiterm.val (s := raStd s₂') e' f' t := by
@@ -226,7 +226,7 @@ theorem val_groundR_congr (s₂ s₂' : Structure RALang ℕ) {n : ℕ} (e e' : 
       exact raStd_func s₂ s₂' fn _
 
 /-- The value of a ground term *is* `evTermR`, in every standard structure. -/
-theorem val_groundR (s₂ : Structure RALang ℕ) {n : ℕ} {t : Semiterm LRA ℕ n} (h : GroundR t)
+theorem val_groundR (s₂ : Tarski.Structure RALang ℕ) {n : ℕ} {t : Semiterm LRA ℕ n} (h : GroundR t)
     (e : Fin n → ℕ) (f : ℕ → ℕ) :
     Semiterm.val (s := raStd s₂) e f t = evTermR t :=
   val_groundR_congr s₂ raStruc e (fun _ => 0) f (fun _ => 0) h

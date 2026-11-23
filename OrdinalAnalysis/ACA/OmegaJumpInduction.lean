@@ -45,7 +45,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA.ColumnTower
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁ freeVariables_precCode₁)
 open OrdinalAnalysis.Gentzen.CodedVeblenJump (addCode₁ omegaPowCode₁)
@@ -235,7 +235,7 @@ def TIM {M : Type*} (R : M → M → Prop) (S : M → Prop) (a : M) : Prop :=
 
 section Eval
 
-variable {M : Type*} [Structure LX M]
+variable {M : Type*} [Tarski.Structure LX M]
 
 /-- Membership in column `j` of the interpretation of `X`. -/
 def colE (f : ℕ → M) (j y : M) : Prop :=
@@ -287,7 +287,7 @@ theorem colE_indep (f f' : ℕ → M) (j y : M) : colE f j y ↔ colE f' j y := 
 theorem precE_indep (f f' : ℕ → M) (y x : M) : precE f y x ↔ precE f' y x :=
   eval_precCode₁_indep _ f f'
 
-omit [Structure LX M] in
+omit [Tarski.Structure LX M] in
 theorem TIM_congr {R R' : M → M → Prop} {S S' : M → Prop} {a : M}
     (hR : ∀ y x, R y x ↔ R' y x) (hS : ∀ y, S y ↔ S' y) : TIM R S a ↔ TIM R' S' a := by
   simp only [TIM, hR, hS]
@@ -336,7 +336,7 @@ end Eval
 
 section Model
 
-variable {M : Type} [Nonempty M] [Structure LX M] [Structure.Eq LX M] [M↓[LX] ⊧* paLX]
+variable {M : Type} [Nonempty M] [Tarski.Structure LX M] [Tarski.Structure.Eq LX M] [M↓[LX] ⊧* paLX]
 
 /-- Gentzen's Lemma B for the columns, read in a model: for every column index `k`,
 `TI(Jump(col_k), a)` and `u = ω^a` give `TI(col_k, u)`. -/
@@ -434,10 +434,10 @@ end OrdinalAnalysis.ACA.ColumnTower
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX XRel Xat toLX paLX)
 
 /-! ### The omega-jump axiom has no free variables

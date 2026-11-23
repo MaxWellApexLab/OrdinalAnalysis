@@ -27,11 +27,11 @@ variable (k : ℕ)
 namespace IDw
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### The two plugged forms -/
@@ -42,7 +42,7 @@ section PlugForms
 variable (P : Pred)
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem xFreeI_predOf {G : Semiformula (LIinfW) ℕ 1} (hG : XFreeI G) (m : ℕ)
     (s : Semiterm (LIinfW) ℕ m) : XFreeI (predOf G m s) := (xFreeI_rew _ _).mpr hG

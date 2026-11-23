@@ -17,19 +17,19 @@ set_option autoImplicit false
 namespace OrdinalAnalysis.Gentzen.CodedNotation
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 
-def nfDef : 𝚺₁.Semisentence 1 := .mkSigma
+def nfDef : 𝚺ᴬ₁.Semisentence 1 := .mkSigma
   “x. !isNFbDef 1 x”
 
-def precDef : 𝚺₁.Semisentence 2 := .mkSigma
+def precDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “x y. !isNFbDef 1 x ∧ !isNFbDef 1 y ∧ !icmpDef 0 x y”
 
-def addDef : 𝚺₁.Semisentence 3 := .mkSigma
+def addDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “z x y. !isNFbDef 1 x ∧ !iaddDef z x y”
 
-def omegaPowDef : 𝚺₁.Semisentence 2 := .mkSigma
+def omegaPowDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “z a. !isNFbDef 1 a ∧ !ocOaddDef z a 1 0”
 
 def iterBlueprint : PR.Blueprint 2 where
@@ -40,14 +40,15 @@ noncomputable def iterConstruction {V : Type*} [ORingStructure V]
     [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] : PR.Construction V iterBlueprint where
   zero := fun v ↦ v 0
   succ := fun v _ ih ↦ iadd ih (v 1)
-  zero_defined := .mk fun v ↦ by simp [iterBlueprint]
+  zero_defined := .mk fun v ↦ by simp only [iterBlueprint, Bounding.HierarchySymbol.Semiformula.val_mkSigma]; try simp
   succ_defined := .mk fun v ↦ by
-    simp [iterBlueprint, iadd_defined.iff]
+    simp only [iterBlueprint, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+    first | done | simp [iadd_defined.iff]
 
-def rawIterDef : 𝚺₁.Semisentence 4 :=
+def rawIterDef : 𝚺ᴬ₁.Semisentence 4 :=
   iterBlueprint.resultDef.rew (Rew.subst ![#0, #3, #1, #2])
 
-def iterDef : 𝚺₁.Semisentence 4 := .mkSigma
+def iterDef : 𝚺ᴬ₁.Semisentence 4 := .mkSigma
   “z b w k. !isNFbDef 1 b ∧ !isNFbDef 1 w ∧ !rawIterDef z b w k”
 
 def liftCode {n : ℕ} (σ : ArithmeticSemisentence n) :
@@ -119,9 +120,9 @@ private lemma map_succInd (φ : ArithmeticSemiformula ℕ 1) :
 
 /-- Every PA[X] model has a PA model as its arithmetic reduct. -/
 lemma paLX_models_peano_reduct {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] [M↓[LX] ⊧* paLX] :
+    [sLX : Tarski.Structure LX M] [M↓[LX] ⊧* paLX] :
     (sLX.lMap toLX).toStruc ⊧* 𝗣𝗔 := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   refine ⟨?_⟩
   intro σ hσ
   rcases hσ with hpa | hind
@@ -142,7 +143,7 @@ lemma paLX_models_peano_reduct {M : Type*} [Nonempty M]
 
 /-- The arithmetic reduct of every PA[X] model satisfies IΣ₁. -/
 lemma paLX_models_ISigmaOne_reduct {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] [M↓[LX] ⊧* paLX] :
+    [sLX : Tarski.Structure LX M] [M↓[LX] ⊧* paLX] :
     (sLX.lMap toLX).toStruc ⊧* 𝗜𝚺₁ :=
   Semantics.ModelsSet.of_subset paLX_models_peano_reduct
     (Set.union_subset_union_right _
@@ -166,7 +167,7 @@ language map even though its interpretation is unchanged.
 -/
 lemma paLX_of_peano_semantic {σ : ArithmeticSentence} {τ : Sentence LX}
     (h : 𝗣𝗔 ⊢ σ)
-    (hsem : ∀ (M : Type) [Nonempty M] [sLX : Structure LX M],
+    (hsem : ∀ (M : Type) [Nonempty M] [sLX : Tarski.Structure LX M],
       M↓[LX] ⊧ τ ↔ (sLX.lMap toLX).toStruc ⊧ σ) :
     paLX ⊢ τ := by
   apply Theory.Proof.complete.{0, 0}

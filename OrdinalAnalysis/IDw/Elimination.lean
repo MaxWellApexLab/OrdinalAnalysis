@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Reduction
 public import OrdinalAnalysis.Ordinal.Collapsing.Limit
 
@@ -24,7 +25,7 @@ public import OrdinalAnalysis.Ordinal.Collapsing.Limit
   and `ω_{j+1}(α) = ω(ω_j(α))`.
 
   **Scope of this port.**  Freund's Corollary 7.2 (embedding + iterated Exercise 7.1 (c) +
-  collapsing, giving `H_η ⊢^{ϑη}_{ϑη} ψ⁺`) is *not* ported here.  This file covers Exercise 7.1 (b),(c) only; the multi-level
+  collapsing, giving `H_η ⊢^{ϑη}_{ϑη} ψˡ⁺`) is *not* ported here.  This file covers Exercise 7.1 (b),(c) only; the multi-level
   collapsing corollary is `IDn/Collapsing.lean`'s job (station C4, Buchholz Theorem 4.8, §2.4),
   a different statement (no `ω_m(Ω+1)`-indexed embedding search) that is not written yet.
   Dropped from the mechanical draft: `collapsing_embedded`, `theta_omegaTower_lt`,
@@ -66,7 +67,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Exercise 7.1 (c) -/
 
@@ -268,7 +269,7 @@ theorem elimination_iter {H : Set ThetaVNoteD → Set ThetaVNoteD} (hH : ThetaVN
     rw [ThetaVNoteD.omegaTower_succ_red]
     exact elimination_iter hH m (fun i hi => hρ i (Nat.lt_succ_of_lt hi)) d'
 
-/-- **Elimination `Ω_ω + m → Ω_ω`** (new in `IDw`, design §3.2): `H ⊢^α_{Ω_ω+m} Γ` gives
+/-- **Elimination `Ω_ω + m → Ω_ω`** (new in `IDw`): `H ⊢^α_{Ω_ω+m} Γ` gives
 `H ⊢^{ω_m(α)}_{Ω_ω} Γ`. The side condition of `elimination_iter`, `Ω_ω + i ≠ Ω_{j+1}` for every level
 `j`, is `OmegaW_add_ne_Omega`. -/
 theorem elimination_OmegaW {H : Set ThetaVNoteD → Set ThetaVNoteD} (hH : ThetaVNoteD.NiceS H)

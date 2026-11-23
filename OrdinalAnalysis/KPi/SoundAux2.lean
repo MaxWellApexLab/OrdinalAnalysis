@@ -8,7 +8,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.KPi.Sound
 
-open LO LO.FirstOrder OrdinalAnalysis.KPi.RS
+open FFL FFL.FirstOrder OrdinalAnalysis.KPi.RS
 
 /-! ### Translation of Foundation Δ₀-formulas into RS-formulas -/
 

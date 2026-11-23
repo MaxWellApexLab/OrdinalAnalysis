@@ -34,7 +34,7 @@ set_option maxHeartbeats 800000
 namespace OrdinalAnalysis.Gentzen.Epsilon1UpperBound
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -146,7 +146,7 @@ theorem arithmetic_gamma0_prec {a b : Gamma0Note} (h : a < b) :
   intro M _ _
   rw [models_iff]
   simp [arithmeticGamma0PrecStatement, arithPrecAt, eval_precDef₁,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   change isNF₁ (gamma0ModelCode (V := M) a) ∧
     isNF₁ (gamma0ModelCode (V := M) b) ∧
       icmp₁ (gamma0ModelCode (V := M) a) (gamma0ModelCode (V := M) b) = 0
@@ -164,10 +164,10 @@ private lemma map_gamma0_prec_body (a b : Gamma0Note) :
   rw [lMap_numeral (gamma0Code a), lMap_numeral (gamma0Code b)]
 
 lemma models_gamma0_prec_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (a b : Gamma0Note) :
+    [sLX : Tarski.Structure LX M] (a b : Gamma0Note) :
     M↓[LX] ⊧ closedPrec₁ (gamma0Term a) (gamma0Term b) ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticGamma0PrecStatement a b := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [closedPrec₁, arithmeticGamma0PrecStatement,
     Semiformula.eval_univCl]
@@ -214,10 +214,10 @@ theorem arithmetic_precTrans : 𝗜𝚺₁ ⊢ arithmeticPrecTransStatement := b
     exact hab ⟨ha, hb, hcmp⟩
 
 lemma models_precTrans_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ precTransStatement precCode₁ ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticPrecTransStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   simp [models_iff, precTransStatement, arithmeticPrecTransStatement,
     arithPrecAt, precAt, precCode₁, liftCode, Semiformula.eval_lMap]
 
@@ -298,7 +298,7 @@ theorem arithmetic_succ : 𝗜𝚺₁ ⊢ arithmeticSuccStatement := by
   intro M _ _
   rw [models_iff]
   simp [arithmeticSuccStatement, arithPrecAt, eval_precDef₁,
-    Structure.numeral_eq_numeral, numeral_eq_natCast]
+    Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   intro y
   change (isNF₁ y → isNF₁ (gamma0ModelCode (V := M) eps0succ) →
       ¬ icmp₁ y (gamma0ModelCode (V := M) eps0succ) = 0) ∨
@@ -331,7 +331,7 @@ noncomputable def succStatement : Sentence LX :=
 
 /-- The `lMap` transport of the successor-step statement, for an abstract `Σ₁` definition `π`
 of the order (so that the kernel never unfolds the concrete formula of `precDef₁`). -/
-private lemma map_succ_gen (π : 𝚺₁.Semisentence 2) (c₁ c₂ : ℕ) :
+private lemma map_succ_gen (π : 𝚺ᴬ₁.Semisentence 2) (c₁ c₂ : ℕ) :
     Semiformula.lMap toLX
         (∀¹ (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 1), (c₁ : Semiterm ℒₒᵣ ℕ 1)] ▹
               Rewriting.emb π.val) ⋎
@@ -370,7 +370,7 @@ private lemma map_succ_body :
   map_succ_gen precDef₁ (gamma0Code eps0succ) (gamma0Code (epsilonNote 0))
 
 private lemma models_succ_gen {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (π : 𝚺₁.Semisentence 2) (c₁ c₂ : ℕ) :
+    [sLX : Tarski.Structure LX M] (π : 𝚺ᴬ₁.Semisentence 2) (c₁ c₂ : ℕ) :
     M↓[LX] ⊧ ((∀¹ (∼(precAt (liftCode π) (#0 : Semiterm LX ℕ 1) (c₁ : Semiterm LX ℕ 1)) ⋎
           (precAt (liftCode π) (#0 : Semiterm LX ℕ 1) (c₂ : Semiterm LX ℕ 1) ⋎
             (“#0 = !!(c₂ : Semiterm LX ℕ 1)” : Semiformula LX ℕ 1)))).univCl :
@@ -382,14 +382,14 @@ private lemma models_succ_gen {M : Type*} [Nonempty M]
               Rewriting.emb π.val) ⋎
             (“#0 = !!(c₂ : Semiterm ℒₒᵣ ℕ 1)” : Semiformula ℒₒᵣ ℕ 1)))).univCl :
           ArithmeticSentence) := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [Semiformula.eval_univCl]
   rw [← map_succ_gen]
   simp [Semiformula.eval_lMap]
 
 lemma models_succ_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ succStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticSuccStatement :=
   models_succ_gen precDef₁ (gamma0Code eps0succ) (gamma0Code (epsilonNote 0))
@@ -508,7 +508,7 @@ theorem arithmetic_tower_omegaPow (n : ℕ) :
   intro M _ _
   rw [models_iff]
   simp [arithmeticTowerOmegaPowStatement, arithOmegaPowAt,
-    eval_omegaPowDef₁, Structure.numeral_eq_numeral, numeral_eq_natCast]
+    eval_omegaPowDef₁, Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast]
   change isNF₁ (gamma0ModelCode (V := M) (etower n)) ∧
     gamma0ModelCode (V := M) (etower (n + 1)) = iomegaPow (gamma0ModelCode (V := M) (etower n))
   exact ⟨isNF₁_gamma0ModelCode _, (iomegaPow_etower n).symm⟩
@@ -524,11 +524,11 @@ private lemma map_tower_omegaPow_body (n : ℕ) :
   rw [lMap_numeral (gamma0Code (etower (n + 1))), lMap_numeral (gamma0Code (etower n))]
 
 lemma models_tower_omegaPow_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (n : ℕ) :
+    [sLX : Tarski.Structure LX M] (n : ℕ) :
     M↓[LX] ⊧ (omegaPowAt omegaPowCode₁ (gamma0Term (etower (n + 1)))
       (gamma0Term (etower n))).univCl ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticTowerOmegaPowStatement n := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [arithmeticTowerOmegaPowStatement,
     Semiformula.eval_univCl]

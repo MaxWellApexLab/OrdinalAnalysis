@@ -29,8 +29,9 @@
 
 module
 
-public import Foundation.SecondOrder.Derivation
-public import Foundation.SecondOrder.Semantics
+public import Foundation.SecondOrder.LK.Basic
+public import OrdinalAnalysis.ListLK.SecondOrder
+public import Foundation.SecondOrder.Tarski.Basic
 public import OrdinalAnalysis.Proof.Bridge
 public import OrdinalAnalysis.Ordinal.OmegaPow
 public import OrdinalAnalysis.Gentzen.CodedNotation
@@ -41,10 +42,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 
 /-! ### `ω`, as a notation
 

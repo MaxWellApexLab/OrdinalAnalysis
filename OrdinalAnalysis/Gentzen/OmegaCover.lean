@@ -18,7 +18,7 @@ set_option maxHeartbeats 800000
 namespace OrdinalAnalysis.Gentzen.OmegaCover
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.JumpArithmetic
@@ -347,7 +347,7 @@ lemma safeIter_omegaBlock_succ (b d k : V) (hb : isNF b) (hd : isNF d) :
     (safeIterConstruction (V := V)).result ![b, ocOadd d 1 0] (k + 1) =
       iadd b (ocOadd d (k + 1) 0) := by
   induction k using ISigma1.sigma1_succ_induction
-  · apply HierarchySymbol.Definable.comp₂
+  · apply Bounding.HierarchySymbol.Definable.comp₂
     · exact ⟨safeIterDef.rew <| Rew.embSubsts
           ![(#0 : ArithmeticSemiterm V 2), &b, &(ocOadd d 1 0), ‘#1 + 1’],
         by intro v; simp [eval_safeIterDef]⟩
@@ -458,10 +458,10 @@ theorem arithmetic_omegaCover : 𝗜𝚺₁ ⊢ arithmeticOmegaCoverStatement :=
 /-! ### Transport to PA[X] and the concrete jump lemmas -/
 
 lemma models_omegaCover_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ omegaCoverStatement precCode safeAddCode omegaPowCode safeIterCode ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticOmegaCoverStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   simp [models_iff, omegaCoverStatement, arithmeticOmegaCoverStatement,
     arithOmegaPowAt, arithAddAt, arithPrecAt, arithIterAt,
     omegaPowAt, addAt, precAt, iterAt, precCode, safeAddCode,

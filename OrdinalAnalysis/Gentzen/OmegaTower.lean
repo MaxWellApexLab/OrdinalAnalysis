@@ -19,7 +19,7 @@ set_option maxHeartbeats 800000
 namespace OrdinalAnalysis.Gentzen.OmegaTower
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.CodedNotation
 open OrdinalAnalysis.Gentzen.JumpArithmetic
@@ -122,7 +122,7 @@ theorem arithmetic_tower_omegaPow (n : ℕ) :
   intro M _ _
   rw [models_iff]
   simp [arithmeticTowerOmegaPowStatement, arithOmegaPowAtTower,
-    eval_omegaPowDef, Structure.numeral_eq_numeral, numeral_eq_natCast,
+    eval_omegaPowDef, Tarski.Structure.numeral_eq_numeral, numeral_eq_natCast,
     towerCode, towerCode_nf]
 
 /-- Arithmetic numerals are preserved by the language embedding into LX. -/
@@ -169,11 +169,11 @@ private lemma map_tower_omegaPow_body (n : ℕ) :
   rw [lMap_numeral (towerCode (n + 1)), lMap_numeral (towerCode n)]
 
 lemma models_tower_omegaPow_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] (n : ℕ) :
+    [sLX : Tarski.Structure LX M] (n : ℕ) :
     M↓[LX] ⊧ (omegaPowAt omegaPowCode (towerTerm (n + 1))
       (towerTerm n)).univCl ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticTowerOmegaPowStatement n := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [arithmeticTowerOmegaPowStatement,
     Semiformula.eval_univCl]

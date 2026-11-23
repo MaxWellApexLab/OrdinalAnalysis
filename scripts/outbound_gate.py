@@ -49,6 +49,10 @@ ALLOWED_RANGES = (
     (0x2B00, 0x2BFF),   # Miscellaneous symbols and arrows: Lean/Mathlib dot product
     (0x1D400, 0x1D7FF), # Mathematical alphanumeric symbols
     (0x1F800, 0x1F8FF), # Supplemental arrows-C: the implication arrow of Foundation's formulas
+    (0x02B0, 0x02FF),   # Spacing modifier letters: superscript l of the list-sequent notation
+    (0x1D80, 0x1DBF),   # Phonetic extensions supplement: superscript f of the first-order provability notation
+    (0x2980, 0x29FF),   # Miscellaneous mathematical symbols-B: strict-implicit binder brackets
+    (0x27F0, 0x27FF),   # Supplemental arrows-A: Foundation's LK2 derivation notation
 )
 
 BINARY_SUFFIXES = {
@@ -69,6 +73,9 @@ CREDENTIAL_CONTEXT = re.compile(r"(?i)(api[_-]?key|secret|token|passw)")
 LONG_TOKEN = re.compile(r"[A-Za-z0-9_\-]{24,}")
 URL = re.compile(r"(?i)https?://")
 
+
+import codecs
+INTERNAL_POINTER = re.compile(codecs.decode("qrfvta abgrf?|qrfvta §|\\ofxl[0-9]\\o|erzbgr_ohvyq|yrna_jnez|qvfcngpu_tngr|pnfr_fxryrgba|vq1_gb_vqa|bgf_ersrerapr|znva yvar|cvgsnyy abgrf?|qensgrq zrpunavpnyyl|guvf ynaqvat'f oevrs|svefg ynaqvat|nqwhqvpng|\\oerpba/|\\ogbbyf/|_qensg/|Vsnpr_svyyrq|A1/P4|A1j", 'rot13'), re.I)  # private-name patterns, rot13
 
 def allowed_char(ch: str) -> bool:
     if ord(ch) < 128:
@@ -175,6 +182,10 @@ def main():
         text = read_text(path)
         if text is None:
             continue
+        if str(path).endswith(('.lean', '.md')):
+            for lineno, line in enumerate(text.splitlines(), 1):
+                if INTERNAL_POINTER.search(line):
+                    findings.append(('internal-pointer', f'{path}:{lineno}', line.strip()[:80]))
         for lineno, line in enumerate(text.splitlines(), 1):
             for code, excerpt in scan_line(line, args.strict_urls, extras):
                 findings.append((code, f"{path}:{lineno}", excerpt))

@@ -36,11 +36,12 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.LowerBoundAux
 public import OrdinalAnalysis.IDw.StageSemantics
 public import OrdinalAnalysis.IDw.TISentence
 public import OrdinalAnalysis.IDw.Internal.OrderBridge
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -51,7 +52,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDw.Upper
 open OrdinalAnalysis.IDw.Internal (code tcOmega mc mc_nat mc_Omega thNFDef thDomDef isNF isDom isTerm_of_isNF iltb iltb_trans)
 open OrdinalAnalysis.IDw.Lift (ArithStd Jmem)
@@ -69,7 +70,7 @@ def fieldInJ0 : Sentence LXJ := ∀¹ thetaX
 
 section Model
 
-variable {N : Type} [ORingStructure N] [s : Structure LXJ N] [ArithStd N]
+variable {N : Type} [ORingStructure N] [s : Tarski.Structure LXJ N] [ArithStd N]
 
 omit [ArithStd N] in
 theorem lMap_zero_numeral {ξ : Type*} {n : ℕ} :
@@ -191,7 +192,7 @@ open StageSem
 theorem formStruc_eq (T : Set ℕ) (Qr : ℕ → ℕ → Prop) :
     formStruc T Qr = formStr (N := ℕ) (fun t => t ∈ T) Qr := by
   have h : StageSem.pqStruc T Qr = Upper.pqStruc (N := ℕ) (fun t => t ∈ T) Qr := by
-    refine Structure.ext (funext₃ fun k f v => ?_) (funext₃ fun k r v => ?_)
+    refine Tarski.Structure.ext (funext₃ fun k f v => ?_) (funext₃ fun k r v => ?_)
     · exact PEmpty.elim f
     · cases r <;> rfl
   unfold formStruc formStr

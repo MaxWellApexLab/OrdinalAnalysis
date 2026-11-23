@@ -25,11 +25,11 @@ variable (k : ℕ)
 namespace IDw
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### The two plugged forms -/
@@ -40,7 +40,7 @@ section PlugForms
 variable (P : Pred)
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem params_plugI {S : Set (Stage)}
     (hP : ∀ (m : ℕ) (s : Semiterm (LIinfW) ℕ m), params (P m s) ⊆ S) :

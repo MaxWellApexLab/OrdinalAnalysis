@@ -4,7 +4,7 @@
 
   Source: A. Freund, arXiv:2204.09321, Lemma 7.7 / Definition 7.6, one level up (see
   `Veblen.lean`'s module docstring for the precise correspondence `φ_k(ρ,β) := ϑ_k(Ω_{k+1}·ρ+β)`
-  and why its order properties were left unattempted there).  the design notes item 1c
+  and why its order properties were left unattempted there).  The analysis there
   identifies the three facts the predicative cut elimination step actually consumes (Buchholz
   1992's `φ.2`–`φ.4`, restricted to the domain `ρ, β ≺ Ω_{k+1}`):
   * `φ.3` (monotonicity in `β`) — `phi_lt_phi_right`;
@@ -186,7 +186,7 @@ theorem E_phiArg_eq_of_lt {k : ℕ} {rho beta : ThetaWNoteD} (hrho : rho < Omega
 /-! ### `φ_k` order preservation -/
 
 /-- **`φ.3`: `φ_k` is strictly monotone in `β`** (Freund, Lemma 7.7 / Def 7.6, one level up;
-the design notes item 1c). The only fact the predicative cut-elimination step needs
+the discussion there). The only fact the predicative cut-elimination step needs
 from this file at every use site of `phi_lt_phi_right`. -/
 theorem phi_lt_phi_right {k : ℕ} {rho beta beta' : ThetaWNoteD} (hrho : rho < Omega k)
     (hbeta : beta < Omega k) (hbeta' : beta' < Omega k) (h : beta < beta') :
@@ -217,7 +217,7 @@ theorem phi_lt_phi_right {k : ℕ} {rho beta beta' : ThetaWNoteD} (hrho : rho < 
       exact List.mem_append_right _ hg'
 
 /-- **`φ.2`: `φ_k(ρ,β)` is additively closed** (Freund, Lemma 7.7 / Def 7.6, one level up;
-the design notes item 1c): any two notations below `φ_k(ρ,β)` have their sum below it
+the discussion there): any two notations below `φ_k(ρ,β)` have their sum below it
 too. This is exactly `add_lt_prin`, since `φ_k(ρ,β) = ϑ_k(⋯)` is always a principal term
 (`isPrin_theta`) once it is known to be in the domain (`dom_phi_of_lt`), which the same
 hypotheses `ρ, β ≺ Ω_{k+1}` supply. No new order argument over `E_k` is needed for this one. -/

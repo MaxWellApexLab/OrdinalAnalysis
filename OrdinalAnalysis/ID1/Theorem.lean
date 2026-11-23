@@ -23,6 +23,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.Embed
 public import OrdinalAnalysis.ID1.LowerBound
 
@@ -34,7 +35,7 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 open OrdinalAnalysis.ID1.Internal
 
 /-- A formula in which `X` does not occur is `X`-free (the two predicates have the same
@@ -59,7 +60,7 @@ theorem xFreeL_accForm : XFreeL (accForm precC) :=
   xFreeL_of_noX _ LowerBound.noX_accForm
 
 /-- **Freund, Theorem 6.5, for `ID1Acc precC`**: every `X`-free theorem `σ` has a derivation
-`H_0 ⊢^β_{Ω+m} σ⁺`. -/
+`H_0 ⊢^β_{Ω+m} σˡ⁺`. -/
 theorem embedding_accForm {σ : Sentence LXI} (hσ : LowerBound.NoX σ)
     (h : ID1Acc precC ⊢ σ) :
     ∃ (m : ℕ) (β : ThetaNote), IDerivable (accForm precC)

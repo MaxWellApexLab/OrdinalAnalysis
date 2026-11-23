@@ -32,11 +32,13 @@ public import OrdinalAnalysis.IDw.Internal.Order
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ID1.Internal (bor band beq bor_eq_one band_eq_one beq_eq_one)
 
 section Model
@@ -45,41 +47,41 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 /-! ### Definability at every level -/
 
-instance iltb_definable : 𝚺₁-Function₂ (iltb : V → V → V) := iltb_defined.to_definable
-instance iltb_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₂ (iltb : V → V → V) :=
+instance iltb_definable : 𝚺ᴬ₁-Function₂ (iltb : V → V → V) := iltb_defined.to_definable
+instance iltb_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₂ (iltb : V → V → V) :=
   iltb_definable.of_sigmaOne
-instance iall_definable : 𝚺₁-Function₃ (iall : V → V → V → V) := iall_defined.to_definable
-instance iall_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₃ (iall : V → V → V → V) :=
+instance iall_definable : 𝚺ᴬ₁-Function₃ (iall : V → V → V → V) := iall_defined.to_definable
+instance iall_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₃ (iall : V → V → V → V) :=
   iall_definable.of_sigmaOne
-instance iex_definable : 𝚺₁-Function₃ (iex : V → V → V → V) := iex_defined.to_definable
-instance iex_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₃ (iex : V → V → V → V) :=
+instance iex_definable : 𝚺ᴬ₁-Function₃ (iex : V → V → V → V) := iex_defined.to_definable
+instance iex_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₃ (iex : V → V → V → V) :=
   iex_definable.of_sigmaOne
-instance sumK_definable : 𝚺₁-Function₁ (sumK : V → V) := sumK_defined.to_definable
-instance sumK_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (sumK : V → V) :=
+instance sumK_definable : 𝚺ᴬ₁-Function₁ (sumK : V → V) := sumK_defined.to_definable
+instance sumK_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (sumK : V → V) :=
   sumK_definable.of_sigmaOne
-instance sok_definable : 𝚺₁-Function₁ (sok : V → V) := sok_defined.to_definable
-instance sok_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (sok : V → V) :=
+instance sok_definable : 𝚺ᴬ₁-Function₁ (sok : V → V) := sok_defined.to_definable
+instance sok_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (sok : V → V) :=
   sok_definable.of_sigmaOne
-instance descOk_definable : 𝚺₁-Function₁ (descOk : V → V) := descOk_defined.to_definable
-instance descOk_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (descOk : V → V) :=
+instance descOk_definable : 𝚺ᴬ₁-Function₁ (descOk : V → V) := descOk_defined.to_definable
+instance descOk_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (descOk : V → V) :=
   descOk_definable.of_sigmaOne
-instance nfA_definable : 𝚺₁-Function₁ (nfA : V → V) := nfA_defined.to_definable
-instance nfA_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (nfA : V → V) :=
+instance nfA_definable : 𝚺ᴬ₁-Function₁ (nfA : V → V) := nfA_defined.to_definable
+instance nfA_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (nfA : V → V) :=
   nfA_definable.of_sigmaOne
-instance isNFb_definable : 𝚺₁-Function₁ (isNFb : V → V) := isNFb_defined.to_definable
-instance isNFb_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (isNFb : V → V) :=
+instance isNFb_definable : 𝚺ᴬ₁-Function₁ (isNFb : V → V) := isNFb_defined.to_definable
+instance isNFb_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (isNFb : V → V) :=
   isNFb_definable.of_sigmaOne
-instance domOk_definable : 𝚺₁-Function₃ (domOk : V → V → V → V) := domOk_defined.to_definable
-instance domOk_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₃ (domOk : V → V → V → V) :=
+instance domOk_definable : 𝚺ᴬ₁-Function₃ (domOk : V → V → V → V) := domOk_defined.to_definable
+instance domOk_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₃ (domOk : V → V → V → V) :=
   domOk_definable.of_sigmaOne
-instance isDomb_definable : 𝚺₁-Function₁ (isDomb : V → V) := isDomb_defined.to_definable
-instance isDomb_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (isDomb : V → V) :=
+instance isDomb_definable : 𝚺ᴬ₁-Function₁ (isDomb : V → V) := isDomb_defined.to_definable
+instance isDomb_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (isDomb : V → V) :=
   isDomb_definable.of_sigmaOne
 
-instance isNF_definable (Γ) (m : ℕ) : Γ-[m + 1]-Predicate (isNF : V → Prop) := by
+instance isNF_definable (Γ) (m : ℕ) : Γᴬ_[m + 1]-Predicate (isNF : V → Prop) := by
   unfold isNF; definability
 
-instance isDom_definable (Γ) (m : ℕ) : Γ-[m + 1]-Predicate (isDom : V → Prop) := by
+instance isDom_definable (Γ) (m : ℕ) : Γᴬ_[m + 1]-Predicate (isDom : V → Prop) := by
   unfold isDom; definability
 
 /-! ### Shapes of codes -/

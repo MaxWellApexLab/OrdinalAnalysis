@@ -11,6 +11,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ordinal.NaturalSum
 public import OrdinalAnalysis.Proof.CutRank
 
@@ -18,12 +19,12 @@ public import OrdinalAnalysis.Proof.CutRank
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 variable {L : Language}
 
 /-- The ordinal height of a derivation, as a notation below `ε₀`. -/
-def ord {Δ : Sequent L} : ⊢ᴸᴷ¹ Δ → ONote
+def ord {Δ : Sequent L} : ⊢ᶠ¹ Δ → ONote
   | Derivation.identity _ _ => 0
   | Derivation.verum => 0
   | Derivation.cut dp dn => nadd (ord dp) (ord dn) + 1
@@ -37,25 +38,25 @@ def ord {Δ : Sequent L} : ⊢ᴸᴷ¹ Δ → ONote
     ord (Derivation.identity r v) = 0 := by simp [ord]
 
 @[simp] theorem ord_verum :
-    ord (Derivation.verum : ⊢ᴸᴷ¹ ([⊤] : Sequent L)) = 0 := by simp [ord]
+    ord (Derivation.verum : ⊢ᶠ¹ ([⊤] : Sequent L)) = 0 := by simp [ord]
 
-@[simp] theorem ord_or {φ ψ : Proposition L} {Γ : Sequent L} (d : ⊢ᴸᴷ¹ φ :: ψ :: Γ) :
+@[simp] theorem ord_or {φ ψ : Proposition L} {Γ : Sequent L} (d : ⊢ᶠ¹ φ :: ψ :: Γ) :
     ord d.or = ord d + 1 := by simp [ord]
 
-@[simp] theorem ord_contraction {Δ Γ : Sequent L} (d : ⊢ᴸᴷ¹ Δ) (ss : Δ ⊆ Γ) :
+@[simp] theorem ord_contraction {Δ Γ : Sequent L} (d : ⊢ᶠ¹ Δ) (ss : Δ ⊆ Γ) :
     ord (d.contraction ss) = ord d + 1 := by simp [ord]
 
 @[simp] theorem ord_and {φ ψ : Proposition L} {Γ : Sequent L}
-    (dp : ⊢ᴸᴷ¹ φ :: Γ) (dq : ⊢ᴸᴷ¹ ψ :: Γ) :
+    (dp : ⊢ᶠ¹ φ :: Γ) (dq : ⊢ᶠ¹ ψ :: Γ) :
     ord (dp.and dq) = nadd (ord dp) (ord dq) + 1 := by simp [ord]
 
 @[simp] theorem ord_cut {φ : Proposition L} {Γ Δ : Sequent L}
-    (dp : ⊢ᴸᴷ¹ φ :: Γ) (dn : ⊢ᴸᴷ¹ ∼φ :: Δ) :
+    (dp : ⊢ᶠ¹ φ :: Γ) (dn : ⊢ᶠ¹ ∼φ :: Δ) :
     ord (dp.cut dn) = nadd (ord dp) (ord dn) + 1 := by simp [ord]
 
 /-- Every derivation is assigned a normal-form notation, so `repr (ord d)` is a
 genuine ordinal. -/
-instance ord_nf {Δ : Sequent L} : ∀ d : ⊢ᴸᴷ¹ Δ, ONote.NF (ord d)
+instance ord_nf {Δ : Sequent L} : ∀ d : ⊢ᶠ¹ Δ, ONote.NF (ord d)
   | Derivation.identity _ _ => by rw [ord_identity]; infer_instance
   | Derivation.verum => by rw [ord_verum]; infer_instance
   | Derivation.cut dp dn => by

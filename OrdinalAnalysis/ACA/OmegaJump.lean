@@ -21,7 +21,7 @@
   together with the evident monotonicity facts relating them to `ACA_0`/`ACA`.
 
   The pairing function reused throughout is Foundation's Cantor pairing
-  (`LO.FirstOrder.Arithmetic.pair`/`pairDef`, already `Sigma_0`-definable and
+  (`FFL.FirstOrder.Arithmetic.pair`/`pairDef`, already `Sigma_0`-definable and
   used by the sequence-coding machinery of `HFS`); `columnAt Y k x` reads
   `x` as belonging to column `k` of `Y` through that pairing graph, and
   `jumpColumnAt k` is Gentzen's jump (`Gentzen/Jump.lean`, instantiated at the
@@ -46,10 +46,10 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX XRel Xat toLX paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁)
 open OrdinalAnalysis.Gentzen.CodedVeblenJump (addCode₁ omegaPowCode₁ jumpB₁)

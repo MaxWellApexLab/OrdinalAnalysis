@@ -12,6 +12,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.InfTools
 
 @[expose] public section
@@ -22,7 +23,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- Close a goal `l₁ ⊆ l₂` between explicit lists. -/
 macro "subset_tac" : tactic =>

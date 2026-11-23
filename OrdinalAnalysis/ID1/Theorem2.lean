@@ -33,7 +33,7 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 open OrdinalAnalysis.ID1.Internal
 
 /-- **The Bachmann–Howard analysis of `ID₁`**, both halves, for the same order `≺ = precC` and

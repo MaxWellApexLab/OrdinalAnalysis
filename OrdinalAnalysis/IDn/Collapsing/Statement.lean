@@ -12,7 +12,7 @@
   p. 26 (Lemma 4.6; `K̄ := {Ω̄_σ : σ ≤ I}`, `Ω̄_σ = Ω_σ + 1` for regular `Ω_σ`, `Ω_σ` otherwise;
   `𝒜(Θ; γ, κ, μ) :⇔ μ ∈ K̄ & γ, κ, μ ∈ H_γ[Θ] & k(Θ) ⊆ ⋂_{τ ≥ κ} C_τ(γ + 1)`; Lemma 4.7
   (𝒜1)–(𝒜4)), p. 27 (**Theorem 4.8** and its cases 1–3), p. 28 (the step (□), cases 4.1–4.3),
-  p. 29 (end of 4.3, the Corollary); the design note the design notes; A. Freund,
+  p. 29 (end of 4.3, the Corollary); the plan the plan; A. Freund,
   arXiv:2204.09321, Theorem 6.7 (the one-level case, `ID1/Collapsing.lean`), Theorem 5.9
   (boundedness), Exercise 6.6, Theorem 7.8 (predicative cut elimination one level up).
 
@@ -24,8 +24,7 @@
   **Deviation: here `α̂ := γ + ω^{μ+μ+α}`** (`Basic.hat`).  `HopS` is closed under
   `φ_σ(ρ, β) = ϑ_σ(Ω_{σ+1}·ρ + β)` only when `Ω_{σ+1}·ρ + β ⪯ γ'`, whereas Buchholz's `H_γ` is
   closed under `φ` by definition (Lemma 4.6 b)); the doubled `μ` makes the base `γ'` of the
-  step (□) at least `ω^{Ω_{σ+1}·2}`, above every such argument (audit the design notes,
-  item 1).  Lemma 4.7 (𝒜4) holds verbatim with `μ + μ` for `μ`.
+  step (□) at least `ω^{Ω_{σ+1}·2}`, above every such argument.  Lemma 4.7 (𝒜4) holds verbatim with `μ + μ` for `μ`.
 
   Proof by main induction on `μ` and subsidiary induction on `α`.
 
@@ -48,7 +47,7 @@
   **The results of other stages, taken as hypotheses (`CollapseHyps`).**  Transcribed from
   their `ID₁` counterparts per level (never imported):
   * `bound` — Freund Theorem 5.9 / Buchholz Lemma 3.17 at level `k` (`ID1/Boundedness.lean`
-    `boundedness`; in flight as `IDn/_draft/Boundedness.lean`);
+    `boundedness`);
   * `negStage` — Freund Exercise 6.6 / Buchholz Lemma 3.9 c) at level `k`
     (`ID1/Boundedness.lean` `neg_stage_bound`);
   * `predCut` — Buchholz Theorem 3.16 (predicative cut elimination) with Lemma 4.6 b)
@@ -59,11 +58,12 @@
 
   **The corollary** (Buchholz p. 29, Corollary; Freund Corollary 7.2) per level: `collapse_zero`
   (`γ = 0`, `Θ = ∅`) and `collapse_zero_bound` (followed by boundedness at level `k`, the steps
-  4–5 of the lower bound, design note §2.7).
+  4–5 of the lower bound).
 -/
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Collapsing.Basic
 
 @[expose] public section
@@ -76,7 +76,7 @@ namespace IDn
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ}
 

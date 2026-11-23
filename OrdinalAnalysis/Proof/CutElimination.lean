@@ -25,13 +25,14 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Proof.Elimination
 
 @[expose] public section
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 variable {L : Language}
 
@@ -74,8 +75,8 @@ theorem cutFree_induction {motive : NONote → Sequent L → Prop}
       BoundedDerivable 0 β (φ :: Γ) → BoundedDerivable 0 γ (ψ :: Γ) →
       motive β (φ :: Γ) → motive γ (ψ :: Γ) → motive α (φ ⋏ ψ :: Γ))
     (hall : ∀ {α β : NONote} {φ : Semiproposition L 1} {Γ : Sequent L},
-      β < α → BoundedDerivable 0 β (Semiformula.free φ :: Γ⁺) →
-      motive β (Semiformula.free φ :: Γ⁺) → motive α ((∀¹ φ) :: Γ))
+      β < α → BoundedDerivable 0 β (Semiformula.free φ :: Γˡ⁺) →
+      motive β (Semiformula.free φ :: Γˡ⁺) → motive α ((∀¹ φ) :: Γ))
     (hexs : ∀ {α β : NONote} {φ : Semiproposition L 1} {Γ : Sequent L} (t),
       β < α → BoundedDerivable 0 β (φ/[t] :: Γ) →
       motive β (φ/[t] :: Γ) → motive α ((∃¹ φ) :: Γ))

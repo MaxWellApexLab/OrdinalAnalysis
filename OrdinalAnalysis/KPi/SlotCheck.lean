@@ -28,7 +28,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis
 namespace KPi
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Foundation's quote notation: `“x y. …”` numbers the FIRST binder `#0`. -/
 
@@ -143,7 +143,7 @@ section Semantics
 variable {M : Type*}
 
 /-- The `ℒ_Ad`-structure on `M` interpreting `∈` by `r` and `Ad` by `P`. -/
-abbrev adStruc (r : M → M → Prop) (P : M → Prop) : Structure LAd M where
+abbrev adStruc (r : M → M → Prop) (P : M → Prop) : Tarski.Structure LAd M where
   func := fun _ f => Empty.elim f
   rel := fun _ R v => match R with
     | AdRel.mem => r (v 0) (v 1)

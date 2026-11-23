@@ -34,12 +34,12 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-- **The guard**, with arguments `c p s m e k`:
 `c = ⟨m, s, e, p⟩ ∧ k + stage p < s`, where `stage p` is the first component of
 the second component of `p`. -/
-def guardDef : 𝚺₁.Semisentence 6 := .mkSigma
+def guardDef : 𝚺ᴬ₁.Semisentence 6 := .mkSigma
   “c p s m e k. ∃ c₁, !pairDef c m c₁ ∧ ∃ c₂, !pairDef c₁ s c₂ ∧ !pairDef c₂ e p ∧
     ∃ y, ∃ z, !pairDef p y z ∧ ∃ t, ∃ w, !pairDef z t w ∧ k + t < s”
 

@@ -50,6 +50,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.DescentBetaAux6
 public import OrdinalAnalysis.Ordinal.Veblen.FundSeq
 public import OrdinalAnalysis.Ramified.SemiformalLower
@@ -194,7 +195,7 @@ theorem endsIn_chain {e P : Gamma0Note} (hP : Gamma0Note.PowClosed e P) (m : ℕ
 
 end Notation
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
 
 /-! ### Heights -/

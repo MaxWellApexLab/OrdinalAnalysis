@@ -19,6 +19,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Calculus
 
 @[expose] public section
@@ -29,7 +30,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Setting: the trivial operator and the trivial form -/
 
@@ -133,7 +134,7 @@ theorem trueN_ltI (a b : ℕ) : TrueN (ltI (numI a) (numI b)) ↔ a < b := by
     | 0 => exact val_numI a _ _
     | 1 => exact val_numI b _ _
   simp only [e]
-  show Structure.rel (L := ℒₒᵣ) (Language.LT.lt : Language.Rel ℒₒᵣ 2) ![a, b] ↔ a < b
+  show Tarski.Structure.rel (L := ℒₒᵣ) (Language.LT.lt : Language.Rel ℒₒᵣ 2) ![a, b] ↔ a < b
   simp
 
 theorem trueLit_not_lt (m : ℕ) (h : 2 ≤ m) : TrueLit (∼(ltI (numI m) (numI 2))) := by

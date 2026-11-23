@@ -17,11 +17,11 @@ variable (k : ℕ)
 namespace IDw
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Predicates plugged into an operator form -/
@@ -32,7 +32,7 @@ section Plug
 variable (P : Pred)
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem plugI_rel {m j : ℕ} (r : (LIinfW).Rel j) (v : Fin j → Semiterm (LIinfW) ℕ m) :
     plugI k P (Semiformula.rel r v) = plugRel k P r v := rfl

@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Calculus
 public import OrdinalAnalysis.IDn.ReductionAux
 public import OrdinalAnalysis.Ordinal.ThetaW.HullCofinal
@@ -56,7 +57,7 @@ variable {n : ℕ}
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The shapes of the cut formula -/
 

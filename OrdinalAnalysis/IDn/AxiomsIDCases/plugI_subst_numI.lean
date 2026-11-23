@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
 public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_verum
 public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_or
@@ -28,11 +29,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Exercise 6.3 -/
@@ -43,7 +44,7 @@ section Ex63
 variable {A : Fin n → Semisentence (LXIn n) 1} {ρ : ThetaWNoteD} {H : Set ThetaWNoteD → Set ThetaWNoteD}
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem plugI_subst_numI (P : Pred n) (hP : ∀ {n₁ n₂ : ℕ} {ω : Rew (LIinfN n) ℕ n₁ ℕ n₂}, FixF ω →
       ∀ s, ω ▹ P n₁ s = P n₂ (ω s)) (φ : Semiformula (LIinfN n) ℕ 1) (m : ℕ) :

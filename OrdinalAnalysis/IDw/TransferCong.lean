@@ -33,6 +33,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Transfer
 public import OrdinalAnalysis.IDw.NumSubst
 public import OrdinalAnalysis.IDw.Sound
@@ -47,9 +48,9 @@ namespace IDw
 
 namespace Transfer
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 /-! ### The connective/quantifier depth of a schema formula -/
 

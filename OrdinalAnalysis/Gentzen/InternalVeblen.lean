@@ -22,7 +22,7 @@
   quantified inside the induction predicate).
 
   `iveblen_mono` / `veb_mono` are `iepsilon_mono` / `eps_mono` under the same substitution.
-  `veb_surj` is stated exactly as design §4 G3 requests it, from the hypothesis that `e` is
+  `veb_surj` is stated exactly as required, from the hypothesis that `e` is
   *already* a fixed point of `φ_a`; the harder statement — every single term `φ_p(q)` with
   `p` not below `a` is `φ_a(h)` for some `h` — is `InternalEpsMono.eps_surj`'s actual content
   at `a = 1` and is left as a follow-up (its proof needs a genuine trichotomy on `icmp₁ p a`,
@@ -36,13 +36,15 @@ public import OrdinalAnalysis.Gentzen.VNoteBridge
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 set_option maxHeartbeats 2000000
 
 namespace OrdinalAnalysis.Gentzen.InternalVeblen
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -60,21 +62,21 @@ code of `1`) from the fixed base `1` to an arbitrary base `a`. -/
 noncomputable def vebFixIndic (a g : V) : V :=
   if g ≠ 0 ∧ vcCoeff g = 1 ∧ vcTail g = 0 ∧ icmp₁ a (vcFst g) = 0 then 1 else 0
 
-def _root_.LO.FirstOrder.Arithmetic.vebFixIndicDef : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.vebFixIndicDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y a g. ∃ n, !vcCoeffDef n g ∧ ∃ t, !sndIdxDef t g ∧ ∃ f, !vcFstDef f g ∧
     ∃ c, !icmp₁Def c a f ∧
     ((g ≠ 0 ∧ n = 1 ∧ t = 0 ∧ c = 0 ∧ y = 1) ∨
       ((g = 0 ∨ n ≠ 1 ∨ t ≠ 0 ∨ c ≠ 0) ∧ y = 0))”
 
 instance vebFixIndic_defined :
-    𝚺₁-Function₂ (vebFixIndic : V → V → V) via vebFixIndicDef := .mk fun v ↦ by
+    𝚺ᴬ₁-Function₂ (vebFixIndic : V → V → V) via vebFixIndicDef := .mk fun v ↦ by
   simp [vebFixIndicDef, vebFixIndic, vcCoeff_defined.iff, vcTail, sndIdx_defined.iff,
     vcFst_defined.iff, icmp₁_defined.iff]
   by_cases h0 : v 2 = 0 <;> by_cases h1 : vcCoeff (v 2) = 1 <;>
     by_cases h2 : sndIdx (v 2) = 0 <;>
     by_cases h3 : icmp₁ (v 1) (vcFst (v 2)) = 0 <;> simp [h0, h1, h2, h3]
 
-instance vebFixIndic_definable : 𝚺₁-Function₂ (vebFixIndic : V → V → V) :=
+instance vebFixIndic_definable : 𝚺ᴬ₁-Function₂ (vebFixIndic : V → V → V) :=
   vebFixIndic_defined.to_definable
 
 lemma vebFixIndic_eq_one_iff (a g : V) :
@@ -106,16 +108,16 @@ lemma vebFix_destruct {a g : V} (h : vebFixIndic a g = 1) :
 noncomputable def iveblen (a g : V) : V :=
   if vebFixIndic a g = 1 then g else vcVadd a g 1 0
 
-def _root_.LO.FirstOrder.Arithmetic.iveblenDef : 𝚺₁.Semisentence 3 := .mkSigma
+def _root_.FFL.FirstOrder.Arithmetic.iveblenDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma
   “y a g. ∃ q, !vebFixIndicDef q a g ∧
     ((q = 1 ∧ y = g) ∨ (q ≠ 1 ∧ !vcVaddDef y a g 1 0))”
 
 instance iveblen_defined :
-    𝚺₁-Function₂ (iveblen : V → V → V) via iveblenDef := .mk fun v ↦ by
+    𝚺ᴬ₁-Function₂ (iveblen : V → V → V) via iveblenDef := .mk fun v ↦ by
   simp [iveblenDef, iveblen, vebFixIndic_defined.iff, vcVadd_defined.iff]
   by_cases h : vebFixIndic (v 1) (v 2) = 1 <;> simp [h]
 
-instance iveblen_definable : 𝚺₁-Function₂ (iveblen : V → V → V) :=
+instance iveblen_definable : 𝚺ᴬ₁-Function₂ (iveblen : V → V → V) :=
   iveblen_defined.to_definable
 
 lemma iveblen_of_fix {a g : V} (h : vebFixIndic a g = 1) : iveblen a g = g := by

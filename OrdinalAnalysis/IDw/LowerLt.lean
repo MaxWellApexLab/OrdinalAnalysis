@@ -37,7 +37,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.IDw.Upper
 open OrdinalAnalysis.IDw.Lift (ArithStd)
 open OrdinalAnalysis.IDw.Internal (mc iltb)

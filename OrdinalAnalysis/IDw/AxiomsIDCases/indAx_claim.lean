@@ -7,6 +7,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.AxiomsIDCases.closure_inst
 public import OrdinalAnalysis.IDw.Transfer
 public import OrdinalAnalysis.IDw.AxiomsLogic
@@ -55,11 +56,11 @@ end ThetaVNoteD
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 section Sums
 

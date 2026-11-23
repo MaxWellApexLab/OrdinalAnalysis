@@ -36,6 +36,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.NumSubst
 public import OrdinalAnalysis.ID1.Sound
 
@@ -103,7 +104,7 @@ end ThetaNote
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Structural helpers -/
 
@@ -670,8 +671,8 @@ end Arith
 section Semantics
 
 theorem stdInf_lMap_eq : stdInf.lMap (stageHom Stage.top) = stdI (fun _ => False) ∅ := by
-  unfold Structure.lMap
-  show Structure.mk _ _ = Structure.mk _ _
+  unfold Tarski.Structure.lMap
+  show Tarski.Structure.mk _ _ = Tarski.Structure.mk _ _
   congr 1
   · funext k f v
     rcases f with f | f
@@ -731,8 +732,8 @@ end Semantics
 
 section Closure
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 variable {A : Semisentence LXI 1} {ρ : ThetaNote} {H : Set ThetaNote → Set ThetaNote}
 

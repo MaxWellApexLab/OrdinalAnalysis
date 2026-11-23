@@ -4,7 +4,7 @@
   whose ONLY non-logical symbol is the binary predicate `∈`, plus the unary predicate `Ad`
   ("admissible").
 
-  **Design decisions (recorded in the design notes).**
+  **Design decisions.**
 
     * We do NOT reuse Foundation's `ℒₛₑₜ`.  `ℒₛₑₜ` carries a PRIMITIVE equality symbol; B92 has
       none (`u = v` is the DEFINED formula `u ⊆ v ∧ v ⊆ u`, and its axiom (Ext) is exactly the
@@ -32,7 +32,7 @@
 
 module
 
-public import Foundation.FirstOrder.Basic
+public import OrdinalAnalysis.ListLK.Calculus
 
 @[expose] public section
 
@@ -42,7 +42,7 @@ namespace OrdinalAnalysis
 
 namespace KPi
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- The relation symbols of `ℒ_Ad`: the binary `∈` and the unary `Ad`. -/
 inductive AdRel : ℕ → Type

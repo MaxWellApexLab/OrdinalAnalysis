@@ -2,8 +2,8 @@
    mechanical translation, plus by hand: the `OmegaW` constructor arm in every exhaustive match
    on term shape; the new `CsetS.ofOmegaW` clause and its propagation through every induction on
    `CsetS`; `NiceS.OmegaW_mem`, `OmegaW_mem_HopS`, `theta_OmegaW_mem_HopS`; and, since `ThetaV` has
-   no per-level `Hull.lean` to import (the design notes: `Hull`/`HullCofinal` are
-   "not copied"), the three level-independent definitions `thetaD`/`IsOperator`/`adjoin` that
+   no per-level `Hull.lean` to import (`Hull`/`HullCofinal` are
+   not copied), the three level-independent definitions `thetaD`/`IsOperator`/`adjoin` that
    `ThetaW/Hull.lean` happened to also define, inlined here verbatim (mechanical rename only). -/
 /-
   One level-free hull `C(α, β)` and one operator `H_α` for all levels of the multi-level
@@ -39,7 +39,7 @@
   * `HopS a` is nice for the all-level atomic support `Atoms` (`ThetaVNoteD.NiceS`), hence
     closed under `+`, `⊕`, `ω^·`, `ω ·`, successor; `adjoin` keeps niceness; `OmegaW ∈ H X` for
     any nice `H` (`NiceS.OmegaW_mem`, since `Atoms Ω_ω = []`).
-  * **New**, for `CollapsingLimit` (the design notes): `OmegaW_mem_HopS` (`Ω_ω` is
+  * **New**, for `CollapsingLimit`: `OmegaW_mem_HopS` (`Ω_ω` is
     in `H_α(X)` unconditionally) and `theta_OmegaW_mem_HopS` (`ϑ_k(Ω_ω) ∈ H_b(X)` once `Ω_ω ≤ b`)
     — the latter is exactly Proposition 3.11 (b) (`theta_mem_HopS`, unchanged) specialised to
     `x = Ω_ω` via the former; no new machinery, only the observation that it applies.
@@ -361,10 +361,9 @@ namespace ThetaVNoteD
 open ThetaVTerm
 
 /-! ### `thetaD`, `IsOperator`, `adjoin`: level-independent definitions of `ThetaW/Hull.lean`,
-inlined here since `ThetaV` has no per-level `Hull.lean` (the design notes: `Hull`
-is "not copied", `HullSingle` "should import `ThetaV.{Basic,Order,Dom,Arith}` directly"); the two
+inlined here since `ThetaV` has no per-level `Hull.lean` (`Hull` is not copied, `HullSingle` imports `ThetaV.{Basic,Order,Dom,Arith}` directly); the two
 per-level notions `Cset`/`CsetT`/`HullHyp`/`Nice`/`Hop` of `Hull.lean` are not ported (they are
-the rejected merged design the `ThetaW/HullDom.lean` docstring adjudicates against; `HullDom.lean`
+the rejected merged design the `ThetaW/HullDom.lean` docstring decides against; `HullDom.lean`
 below re-proves only what survives it). -/
 
 /-- `ϑ_k α`, taking its domain proof explicitly: `ThetaVNoteD` has no unconditional `theta`
@@ -488,7 +487,7 @@ theorem theta_mem_HopS (k : ℕ) {x b : ThetaVNoteD} {X : Set ThetaVNoteD} (hx :
     (hxb : x ≤ b) (hdom : Dom (ThetaVTerm.theta k x.1)) : thetaD k x hdom ∈ HopS b X :=
   fun c d hbc hX => theta_mem_CsetS k (hx c d hbc hX) (lt_of_le_of_lt hxb hbc) hdom
 
-/-- **New**, for `CollapsingLimit` (the design notes): `Ω_ω ∈ H_α(X)`
+/-- **New**, for `CollapsingLimit`: `Ω_ω ∈ H_α(X)`
 unconditionally, since `Ω_ω ∈ C(c, d)` unconditionally (`OmegaW_mem_CsetS`). -/
 theorem OmegaW_mem_HopS (a : ThetaVNoteD) (X : Set ThetaVNoteD) : OmegaW ∈ HopS a X :=
   fun c d _ _ => OmegaW_mem_CsetS c d

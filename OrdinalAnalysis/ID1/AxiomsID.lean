@@ -11,7 +11,7 @@
   `plugI P B` replaces in `B` every atom `I^{≺Ω} s` by `P(s)` and every `¬I^{≺Ω} s` by `¬P(s)`.
   Two predicates occur: the stage `I^{≺γ}` (`predStage γ`), for which
   `plugI (I^{≺γ}) (A(t, I^{≺Ω})) = A(t, I^{≺γ})` (`plugI_unfold`), and a formula `G` with one
-  free slot (`predOf G`), for which the embedded `A(x, F)` is `plugI (F⁺) (A(x, I^{≺Ω}))`
+  free slot (`predOf G`), for which the embedded `A(x, F)` is `plugI (Fˡ⁺) (A(x, I^{≺Ω}))`
   (`embK_substI`).  Both commute with the substitutions of the calculus (`rew_plugI`).
 
   **Exercise 6.3** (`ex63`): if `H ⊢^α_ρ Γ, ¬θ(s), ψ(s)` for every closed `s`, then
@@ -23,14 +23,14 @@
   embedded closure axiom: Lemma 6.1 for `A(n̄, I^{≺Ω})`, clause (Fix), two disjunctions and the
   ω-rule.
 
-  **Proposition 6.4** (`indAx_derivable`): for `Cl := ∀x (A(x, ψ⁺) → ψ⁺(x))`, by induction on
+  **Proposition 6.4** (`indAx_derivable`): for `Cl := ∀x (A(x, ψˡ⁺) → ψˡ⁺(x))`, by induction on
   `δ ⪯ Ω` (well-founded, on the notations),
 
-      H[δ] ⊢^{ω·β + ω·δ}_0 ¬Cl, ¬I^{≺δ} t, ψ⁺(t)        for every closed t,
+      H[δ] ⊢^{ω·β + ω·δ}_0 ¬Cl, ¬I^{≺δ} t, ψˡ⁺(t)        for every closed t,
 
-  `β := Ω ⊕ c` with `c` the complexity of `ψ⁺` (so `rk ψ⁺ ⪯ β`, as Freund's
-  `β = max{rk ψ⁺, 1}`, and `ω · β + ω · Ω = Ω · 2`).  The premise for `γ ≺ δ` of clause (V) on
-  `¬I^{≺δ} t` combines the induction hypothesis through Exercise 6.3, Lemma 6.1 for `ψ⁺(t)`,
+  `β := Ω ⊕ c` with `c` the complexity of `ψˡ⁺` (so `rk ψˡ⁺ ⪯ β`, as Freund's
+  `β = max{rk ψˡ⁺, 1}`, and `ω · β + ω · Ω = Ω · 2`).  The premise for `γ ≺ δ` of clause (V) on
+  `¬I^{≺δ} t` combines the induction hypothesis through Exercise 6.3, Lemma 6.1 for `ψˡ⁺(t)`,
   clause (V) on the conjunction, the replacement of `t` by the numeral of its value, and
   clause (W) on `¬Cl`.  At `δ = Ω` the ω-rule and two disjunctions give the axiom at height
   `Ω · 2 + 5`, and the universal closure adds its number of variables.
@@ -50,6 +50,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.AxiomsPA
 
 @[expose] public section
@@ -60,9 +61,9 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL FFL.FirstOrder
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 /-! ### Predicates plugged into an operator form -/
 
@@ -337,7 +338,7 @@ theorem plugI_unfold (A : Semisentence LXI 1) (g : Stage) (t : SyntacticTerm LIi
     plugI (predStage g) (unfold A Stage.top t) = unfold A g t := by
   rw [unfold_eq_rew, unfold_eq_rew, ← rew_plugI_stage g (fixF_subst _), plugI_lMap_top]
 
-/-- **The embedded `A(x, F)` is `A(x, I^{≺Ω})` with `F⁺` plugged in.** -/
+/-- **The embedded `A(x, F)` is `A(x, I^{≺Ω})` with `Fˡ⁺` plugged in.** -/
 theorem embK_substI (F : Semiformula LXI ℕ 1) :
     ∀ {n : ℕ} (φ : Semiformula LXI ℕ n),
       embK (substI F φ) = plugI (predOf (embK F)) (embK φ) := by
@@ -1081,7 +1082,7 @@ theorem numSubst₁_eq_self {φ : Semiformula LIinf ℕ 1} (h : φ.freeVariables
   exact absurd hx' (by simp)
 
 /-- **The embedded induction axiom under a numeral assignment**: `¬Cl(G) ∨ ∀x (¬I x ∨ G(x))`
-with `G = F⁺` under the assignment. -/
+with `G = Fˡ⁺` under the assignment. -/
 theorem indAx_inst (hX : XFreeL A) (F : Semiformula LXI ℕ 1) (g : ℕ → ℕ) :
     numSubst g ▹ embK ((∀¹ (opAt A F 🡒 F)) 🡒 ∀¹ (Iat #0 🡒 F)) =
       ∼(ClF A (numSubst₁ g ▹ embK F)) ⋎

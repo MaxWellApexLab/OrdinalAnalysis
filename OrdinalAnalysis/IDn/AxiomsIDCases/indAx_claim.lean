@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
 public import OrdinalAnalysis.IDn.AxiomsIDCases.opShape_rew
 public import OrdinalAnalysis.IDn.AxiomsIDCases.params_plugI
@@ -27,11 +28,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Proposition 6.4: the induction axiom -/
@@ -42,7 +43,7 @@ section Induction
 variable {A : Fin n → Semisentence (LXIn n) 1} {H : Set ThetaWNoteD → Set ThetaWNoteD}
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 /-- Every `s : Stage n` has `atomRkStage s ≤ Omega (n-1)`, hence `omegaMul (atomRkStage s) =
 Omega (n-1)` (a fixed point), always `≤` any bound already `≥ Omega (n-1)`. -/

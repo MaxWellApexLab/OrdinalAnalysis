@@ -23,6 +23,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Proof.CutElimination
 public import OrdinalAnalysis.Proof.CutRank
 public import OrdinalAnalysis.Ordinal.Notation
@@ -31,7 +32,7 @@ public import OrdinalAnalysis.Ordinal.Notation
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 variable {L : Language}
 
@@ -49,7 +50,7 @@ what `BoundedDerivable` below forces, its index still being `NONote` — gives
 back exactly the old function, `OrdinalNotation.ofNat 0` being `(0 : NONote)`
 and `OrdinalNotation.succ`/`nadd` the `NONote` ones by definition. -/
 def ordN {O : Type} [LinearOrder O] [WellFoundedLT O] [OrdinalNotation O]
-    {Δ : Sequent L} : ⊢ᴸᴷ¹ Δ → O
+    {Δ : Sequent L} : ⊢ᶠ¹ Δ → O
   | Derivation.identity _ _ => OrdinalNotation.ofNat 0
   | Derivation.verum => OrdinalNotation.ofNat 0
   | Derivation.contraction d _ => ordN d
@@ -64,7 +65,7 @@ namespace BoundedDerivable
 /-- **Forwards.**  Every concrete derivation is an indexed one, at its own
 height and its own cut rank. -/
 theorem ofDerivation {Δ : Sequent L} :
-    ∀ d : ⊢ᴸᴷ¹ Δ, BoundedDerivable (cutRank d) (ordN d) Δ
+    ∀ d : ⊢ᶠ¹ Δ, BoundedDerivable (cutRank d) (ordN d) Δ
   | Derivation.identity rl v => .identity rl v
   | Derivation.verum => .verum
   | Derivation.contraction d ss => by
@@ -95,7 +96,7 @@ theorem ofDerivation {Δ : Sequent L} :
 This is what makes Foundation's semantics available: soundness, the standard
 model, and everything built on `Derivation` transfers without redevelopment. -/
 theorem toDerivation {r : ℕ} :
-    ∀ {α : NONote} {Γ : Sequent L}, BoundedDerivable r α Γ → Nonempty (⊢ᴸᴷ¹ Γ) := by
+    ∀ {α : NONote} {Γ : Sequent L}, BoundedDerivable r α Γ → Nonempty (⊢ᶠ¹ Γ) := by
   intro α Γ h
   induction h with
   | identity rl v => exact ⟨Derivation.identity rl v⟩
@@ -111,7 +112,7 @@ theorem toDerivation {r : ℕ} :
 counterpart, at a height bounded by an explicit tower of `ω`-powers over its
 own height — and that bound is below `ε₀`, because `NONote` is the type of
 notations below `ε₀`. -/
-theorem cutFree_of_derivation {Δ : Sequent L} (d : ⊢ᴸᴷ¹ Δ) :
+theorem cutFree_of_derivation {Δ : Sequent L} (d : ⊢ᶠ¹ Δ) :
     BoundedDerivable 0 (NONote.omegaTower (cutRank d) (ordN d)) Δ :=
   cutElimination _ (ofDerivation d)
 

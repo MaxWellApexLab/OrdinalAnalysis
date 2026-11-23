@@ -19,8 +19,9 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.Setup
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -28,29 +29,29 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.Idiom
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### (a) Completeness for `paLX`
 
-`Theory.Proof.complete : T ⊨[Struc.{max u w} L] φ → T ⊢ φ`
+`Theory.Proof.complete : T ⊨[Tarski.Struc.{max u w} L] φ → T ⊢ φ`
 (Foundation/FirstOrder/Completeness/CounterModel.lean:241) is the general
 completeness theorem.  `LX : Language.{0}`, so the models range over `Type 0`
 and the universe instantiation is `.{0, 0}`.  The hypothesis is unpacked by
 
-  `consequence_iff'   : T ⊨[Struc.{v,u} L] φ ↔
-      ∀ (M : Type v) [Nonempty M] [Structure L M] [M↓[L] ⊧* T], M↓[L] ⊧ φ`
+  `consequence_iff'   : T ⊨[Tarski.Struc.{v,u} L] φ ↔
+      ∀ (M : Type v) [Nonempty M] [Tarski.Structure L M] [M↓[L] ⊧* T], M↓[L] ⊧ φ`
       (Foundation/FirstOrder/Basic/Semantics/Semantics.lean:550)
-  `consequence_iff_eq' : … ↔ ∀ (M : Type v) [Nonempty M] [Structure L M]
-      [Structure.Eq L M] [M↓[L] ⊧* T], M↓[L] ⊧ φ`   (needs `[𝗘𝗤 L ⪯ T]`)
+  `consequence_iff_eq' : … ↔ ∀ (M : Type v) [Nonempty M] [Tarski.Structure L M]
+      [Tarski.Structure.Eq L M] [M↓[L] ⊧* T], M↓[L] ⊧ φ`   (needs `[𝗘𝗤 L ⪯ T]`)
       (Foundation/FirstOrder/Basic/Eq.lean:276)
 
 The second form is the one to use: `paLX` contains `𝗘𝗤 LX` (instance
-`paLX_eqTheory` in `Setup.lean`), and `Structure.Eq LX M` makes the object
+`paLX_eqTheory` in `Setup.lean`), and `Tarski.Structure.Eq LX M` makes the object
 equality `“x = y”` evaluate to Lean's `x = y` under `simp`. -/
 
 /-- Completeness for `paLX`, plain form. -/
 theorem paLX_proves_of_models {σ : Sentence LX}
-    (h : ∀ (M : Type) [Nonempty M] [Structure LX M] [M↓[LX] ⊧* paLX],
+    (h : ∀ (M : Type) [Nonempty M] [Tarski.Structure LX M] [M↓[LX] ⊧* paLX],
       M↓[LX] ⊧ σ) :
     paLX ⊢ σ := by
   apply Theory.Proof.complete.{0, 0}
@@ -61,7 +62,7 @@ theorem paLX_proves_of_models {σ : Sentence LX}
 /-- Completeness for `paLX`, with equality interpreted as Lean equality.
 This is the form to use in practice. -/
 theorem paLX_proves_of_models_eq {σ : Sentence LX}
-    (h : ∀ (M : Type) [Nonempty M] [Structure LX M] [Structure.Eq LX M]
+    (h : ∀ (M : Type) [Nonempty M] [Tarski.Structure LX M] [Tarski.Structure.Eq LX M]
       [M↓[LX] ⊧* paLX], M↓[LX] ⊧ σ) :
     paLX ⊢ σ := by
   apply Theory.Proof.complete.{0, 0}
@@ -74,7 +75,7 @@ theorem paLX_proves_of_models_eq {σ : Sentence LX}
 with `consequence_iff'`.)  This is how previously proved sentences are reused
 inside a model. -/
 theorem models_of_paLX_proof {σ : Sentence LX} (h : paLX ⊢ σ)
-    (M : Type) [Nonempty M] [Structure LX M] [M↓[LX] ⊧* paLX] :
+    (M : Type) [Nonempty M] [Tarski.Structure LX M] [M↓[LX] ⊧* paLX] :
     M↓[LX] ⊧ σ :=
   consequence_iff'.mp (Theory.Proof.sound h) M
 
@@ -99,18 +100,18 @@ reducible/instances transparency and therefore refuse to rewrite *any* term
 containing that symbol ("target expression is not type-correct under the
 `implicit` transparency level").  Keeping the symbol hidden behind an opaque
 `Xrel` means `simp` only ever sees `Xrel M x`. -/
-def Xrel (M : Type*) [Structure LX M] (x : M) : Prop :=
-  Structure.rel (L := LX) (Sum.inr XRel.X) ![x]
+def Xrel (M : Type*) [Tarski.Structure LX M] (x : M) : Prop :=
+  Tarski.Structure.rel (L := LX) (Sum.inr XRel.X) ![x]
 
 /-- `X(t)` evaluates to `Xrel` at the value of `t`.  Proved by definitional
 unfolding (`Semiformula.eval_rel` is `of_eq rfl`) plus one `funext`; see the
 note on `Xrel` for why neither `rw` nor `simp` can do this step. -/
-@[simp] theorem eval_Xat {M : Type*} [Structure LX M] {n : ℕ}
+@[simp] theorem eval_Xat {M : Type*} [Tarski.Structure LX M] {n : ℕ}
     (t : Semiterm LX ℕ n) (e : Fin n → M) (f : ℕ → M) :
     (Xat t).Eval e f ↔ Xrel M (t.val e f) := by
   have h : (Semiterm.val e f ∘ ![t] : Fin 1 → M) = ![t.val e f] :=
     Matrix.comp₁ t
-  exact Iff.of_eq (congrArg (Structure.rel (L := LX) (Sum.inr XRel.X)) h)
+  exact Iff.of_eq (congrArg (Tarski.Structure.rel (L := LX) (Sum.inr XRel.X)) h)
 
 /-! ### (c) Induction over a formula mentioning `X`
 
@@ -132,8 +133,8 @@ theorem succInd_mem_paLX (ψ : Semiformula LX ℕ 1) :
 
 /-- Induction for an arbitrary `LX`-formula `ψ` (which may mention `X`),
 invoked inside a model of `paLX`.  The numerals stay as term values because
-an arbitrary `Structure LX M` carries no `Zero M`/`Add M` to reduce them to. -/
-theorem paLX_induction {M : Type*} [Nonempty M] [Structure LX M]
+an arbitrary `Tarski.Structure LX M` carries no `Zero M`/`Add M` to reduce them to. -/
+theorem paLX_induction {M : Type*} [Nonempty M] [Tarski.Structure LX M]
     [M↓[LX] ⊧* paLX] (ψ : Semiformula LX ℕ 1) (f : ℕ → M) :
     ψ.Eval ![((0 : ℕ) : Semiterm LX ℕ 0).val ![] f] f →
     (∀ x : M,
@@ -147,7 +148,7 @@ theorem paLX_induction {M : Type*} [Nonempty M] [Structure LX M]
     Semiformula.eval_substs, Matrix.constant_eq_singleton] using hInd
 
 /-- Induction specialised to the predicate `X` itself. -/
-theorem paLX_X_induction {M : Type*} [Nonempty M] [Structure LX M]
+theorem paLX_X_induction {M : Type*} [Nonempty M] [Tarski.Structure LX M]
     [M↓[LX] ⊧* paLX] (f : ℕ → M)
     (h0 : Xrel M (((0 : ℕ) : Semiterm LX ℕ 0).val ![] f))
     (hs : ∀ x : M, Xrel M x →
@@ -202,7 +203,7 @@ A universally quantified sentence is written as `(∀¹ φ).univCl` with
 
 /-- From a Lean proof in every model to a derivation of the universal closure. -/
 theorem paLX_proves_univCl_of_forall (φ : Semiformula LX ℕ 1)
-    (h : ∀ (M : Type) [Nonempty M] [Structure LX M] [Structure.Eq LX M]
+    (h : ∀ (M : Type) [Nonempty M] [Tarski.Structure LX M] [Tarski.Structure.Eq LX M]
       [M↓[LX] ⊧* paLX], ∀ (f : ℕ → M) (x : M), φ.Eval ![x] f) :
     paLX ⊢ (∀¹ φ).univCl := by
   apply paLX_proves_of_models_eq
@@ -216,7 +217,7 @@ theorem paLX_proves_univCl_of_forall (φ : Semiformula LX ℕ 1)
 every model. -/
 theorem forall_of_paLX_proves_univCl (φ : Semiformula LX ℕ 1)
     (h : paLX ⊢ (∀¹ φ).univCl)
-    (M : Type) [Nonempty M] [Structure LX M] [M↓[LX] ⊧* paLX]
+    (M : Type) [Nonempty M] [Tarski.Structure LX M] [M↓[LX] ⊧* paLX]
     (f : ℕ → M) (x : M) : φ.Eval ![x] f := by
   have := models_of_paLX_proof h M
   rw [models_iff] at this
@@ -226,13 +227,13 @@ theorem forall_of_paLX_proves_univCl (φ : Semiformula LX ℕ 1)
 /-! Evaluation of the `Setup.lean` formulas.  `prec.Eval ![y, x] f` is the
 meaning of `y ≺ x`. -/
 
-@[simp] theorem eval_precAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_precAt {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) {n : ℕ} (y x : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (precAt prec y x).Eval e f ↔ prec.Eval ![y.val e f, x.val e f] f := by
   simp [precAt]
 
-@[simp] theorem eval_below {M : Type*} [Structure LX M]
+@[simp] theorem eval_below {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (x : M) (f : ℕ → M) :
     (below prec).Eval ![x] f ↔
       ∀ y : M, prec.Eval ![y, x] f → Xrel M y := by
@@ -247,7 +248,7 @@ meaning of `y ≺ x`. -/
     · exact Or.inr (h y hy)
     · exact Or.inl hy
 
-@[simp] theorem eval_Prog {M : Type*} [Structure LX M]
+@[simp] theorem eval_Prog {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (f : ℕ → M) :
     (Prog prec).Eval ![] f ↔
       ∀ x : M, (∀ y : M, prec.Eval ![y, x] f → Xrel M y) → Xrel M x := by
@@ -266,7 +267,7 @@ meaning of `y ≺ x`. -/
     · exact Or.inr (h x hx)
     · exact Or.inl (fun hb => hx ((eval_below prec x f).mp hb))
 
-@[simp] theorem eval_TI {M : Type*} [Structure LX M]
+@[simp] theorem eval_TI {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (f : ℕ → M) :
     (TI prec).Eval ![] f ↔
       ((∀ x : M, (∀ y : M, prec.Eval ![y, x] f → Xrel M y) → Xrel M x) →
@@ -286,7 +287,7 @@ meaning of `y ≺ x`. -/
     · exact Or.inr (h hprog)
     · exact Or.inl hprog
 
-@[simp] theorem eval_TIupto {M : Type*} [Structure LX M]
+@[simp] theorem eval_TIupto {M : Type*} [Tarski.Structure LX M]
     (prec : Semiformula LX ℕ 2) (t : Semiterm LX ℕ 0) (f : ℕ → M) :
     (TIupto prec t).Eval ![] f ↔
       ((∀ x : M, (∀ y : M, prec.Eval ![y, x] f → Xrel M y) → Xrel M x) →
@@ -317,7 +318,7 @@ it suffices to prove, in every model, that progressiveness of `X` forces `X`
 below `t`. -/
 theorem paLX_proves_TIupto_of_models (prec : Semiformula LX ℕ 2)
     (t : Semiterm LX ℕ 0)
-    (h : ∀ (M : Type) [Nonempty M] [Structure LX M] [Structure.Eq LX M]
+    (h : ∀ (M : Type) [Nonempty M] [Tarski.Structure LX M] [Tarski.Structure.Eq LX M]
       [M↓[LX] ⊧* paLX], ∀ f : ℕ → M,
         (∀ x : M, (∀ y : M, prec.Eval ![y, x] f → Xrel M y) → Xrel M x) →
         ∀ x : M, prec.Eval ![x, t.val ![] f] f → Xrel M x) :

@@ -26,11 +26,13 @@ public import OrdinalAnalysis.ID1.Internal.Codes
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.ID1.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.Gentzen.InternalONote
 
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
@@ -40,17 +42,17 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 The flags `nfA`, `sumK`, `sok` and `descOk` of the normal-form recogniser, at every level
 of the hierarchy, as for the other functions of the coding. -/
 
-instance nfA_definable : 𝚺₁-Function₁ (nfA : V → V) := nfA_defined.to_definable
-instance nfA_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (nfA : V → V) :=
+instance nfA_definable : 𝚺ᴬ₁-Function₁ (nfA : V → V) := nfA_defined.to_definable
+instance nfA_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (nfA : V → V) :=
   nfA_definable.of_sigmaOne
-instance sumK_definable : 𝚺₁-Function₁ (sumK : V → V) := sumK_defined.to_definable
-instance sumK_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (sumK : V → V) :=
+instance sumK_definable : 𝚺ᴬ₁-Function₁ (sumK : V → V) := sumK_defined.to_definable
+instance sumK_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (sumK : V → V) :=
   sumK_definable.of_sigmaOne
-instance sok_definable : 𝚺₁-Function₁ (sok : V → V) := sok_defined.to_definable
-instance sok_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (sok : V → V) :=
+instance sok_definable : 𝚺ᴬ₁-Function₁ (sok : V → V) := sok_defined.to_definable
+instance sok_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (sok : V → V) :=
   sok_definable.of_sigmaOne
-instance descOk_definable : 𝚺₁-Function₁ (descOk : V → V) := descOk_defined.to_definable
-instance descOk_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₁ (descOk : V → V) :=
+instance descOk_definable : 𝚺ᴬ₁-Function₁ (descOk : V → V) := descOk_defined.to_definable
+instance descOk_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₁ (descOk : V → V) :=
   descOk_definable.of_sigmaOne
 
 /-! ### Shapes of codes -/

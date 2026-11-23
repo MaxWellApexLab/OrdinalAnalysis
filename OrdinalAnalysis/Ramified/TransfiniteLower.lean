@@ -26,6 +26,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.LowerBound
 
 @[expose] public section
@@ -74,7 +75,7 @@ theorem ofNat_lt_omegaPow_ofNat {n : ℕ} (hn : 1 ≤ n) (k : ℕ) :
   exact (Ordinal.natCast_lt_omega0 k).trans_le
     (Ordinal.left_le_opow _ (by exact_mod_cast (show 0 < n by omega)))
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### Cut elimination below `ω^{e+1}` -/
 
@@ -121,7 +122,7 @@ theorem ramified_lower_bound_omegaPow {n : ℕ} (hn : 1 ≤ n) :
     RAlt (Gamma0Note.omegaPow (Gamma0Note.ofNat n)) ⊬
       (Semiformula.univCl (TIR (vebSegOrderR (Gamma0Note.ofNat (n + 1)) 0
         (zero_lt_ofNat_of_pos (Nat.succ_pos n))).prec) : Sentence LRA) := by
-  rintro ⟨h⟩
+  intro h
   set L := Gamma0Note.omegaPow (Gamma0Note.ofNat n) with hLdef
   set C := vebSegOrderR (Gamma0Note.ofNat (n + 1)) 0 (zero_lt_ofNat_of_pos (Nat.succ_pos n))
     with hCdef

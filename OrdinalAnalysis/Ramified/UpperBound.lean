@@ -48,7 +48,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁)
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
 open OrdinalAnalysis.Gentzen.VeblenEpsilon0UpperBound (vtower repr_vtower)
@@ -98,7 +98,7 @@ theorem exists_lt_veblenIter (m : ℕ) (a : Gamma0Note)
 
 section Levels
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν : ℕ}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν : ℕ}
 
 theorem ofNat_pos' {n : ℕ} (h : 0 < n) : (0 : Gamma0Note) < Gamma0Note.ofNat n := by
   rw [← Gamma0Note.ofNat_zero]; exact Gamma0Note.ofNat_lt_ofNat h
@@ -164,7 +164,7 @@ theorem lvlOf_segGuardR (b : Gamma0Note) : lvlOf (segGuardR b) = 0 := by
 
 section Eval
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 /-- `X(x)` in `M`. -/
 def XM (x : M) : Prop := s.rel (Sum.inr RARel.X : LRA.Rel 1) ![x]
@@ -259,7 +259,7 @@ end Eval
 
 section Model
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν : ℕ}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν : ℕ}
 
 /-- **The upper bound in a model**: in every model of `RAlt (ν+1)` with true
 equality, `X` satisfies transfinite induction along `≺_b` up to `ā`, for

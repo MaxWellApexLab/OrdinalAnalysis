@@ -29,6 +29,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Gentzen.StandardLX
 public import OrdinalAnalysis.Gentzen.LowerSyntax
 
@@ -38,8 +39,8 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.Gentzen.NumSubst
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting LO.FirstOrder.LawfulSyntacticRewriting
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting FFL.FirstOrder.LawfulSyntacticRewriting
 open OrdinalAnalysis.Gentzen OrdinalAnalysis.Gentzen.StandardLX
 
 /-- Every rewriter fixes a numeral. -/
@@ -126,10 +127,10 @@ theorem numSubst_shift (f : ℕ → ℕ) (n : ℕ) (φ : Proposition LX) :
   simpa [← comp_app] using smul_ext' <| by ext x <;> simp [Rew.comp_app]
 
 theorem seqSubst_shifts (f : ℕ → ℕ) (n : ℕ) (Γ : Sequent LX) :
-    seqSubst (n :>ₙ f) Γ⁺ = seqSubst f Γ := by
+    seqSubst (n :>ₙ f) Γˡ⁺ = seqSubst f Γ := by
   induction Γ with
   | nil => rfl
-  | cons φ Γ ih => simp [Rewriting.shifts_cons, numSubst_shift, ih]
+  | cons φ Γ ih => simp [Rewriting.lshifts_cons, numSubst_shift, ih]
 
 /-- **The `exs` premise.**  The witness becomes the closed term `numSubst f t`. -/
 theorem numSubst_subst (f : ℕ → ℕ) (t : SyntacticTerm LX) (φ : Semiproposition LX 1) :

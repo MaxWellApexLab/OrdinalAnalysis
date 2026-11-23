@@ -317,7 +317,7 @@ theorem acc (a : ThetaNote) : Acc (· < ·) a :=
     (InvImage.accessible Subtype.val (ThetaTerm.isAcc a.2))
 
 /-- **The ϑ-order on normal terms is well founded.** -/
-instance wellFoundedLT : WellFoundedLT ThetaNote := ⟨⟨acc⟩⟩
+instance wellFoundedLT : WellFoundedLT ThetaNote := ⟨acc⟩
 
 /-- The ϑ-notation as an ordinal notation system. -/
 instance instOrdinalNotation : OrdinalNotation ThetaNote := ThetaNote.ordinalNotation

@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Calculus
 
 /-
@@ -51,7 +52,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 
 /-! ### Bounding of single literals -/
@@ -429,7 +430,7 @@ theorem boundedness_height (hH : ThetaVNoteD.IsOperator H) {ψ : Proposition (LI
 
 /-- **Boundedness at the height itself**: a derivation of height `α ≺ Ω_{k+1}` bounds its whole
 end sequent at level `k` to the stage `α` (the form used at level `0` in the last step of the
-lower bound, design note §2.7 step 5). -/
+lower bound). -/
 theorem boundedness_self (hH : ThetaVNoteD.IsOperator H) (hαΩ : α < ThetaVNoteD.Omega k)
     (d : IDwDerivable A ρ H α Γ) :
     IDwDerivable A ρ H α (Γ.map (capAt k (StageAt.ofLt k α hαΩ))) :=

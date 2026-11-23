@@ -32,6 +32,7 @@
 
 module
 
+public import Mathlib.Data.List.Nodup
 public import OrdinalAnalysis.Ordinal.Theta.Basic
 public import Mathlib.Data.List.Lex
 public import Mathlib.Data.List.Perm.Subperm
@@ -481,7 +482,7 @@ theorem sum_le_sum_of_injective {as bs : List ThetaTerm} (hbs : Desc bs)
     simpa using h ⟨i, h₁⟩
   have h2 : ((List.finRange as.length).map (fun i => bs.get (g i))).Subperm bs := by
     have hn : ((List.finRange as.length).map g).Subperm (List.finRange bs.length) :=
-      List.Nodup.subperm ((List.nodup_finRange _).map hg)
+      List.Nodup.subperm (List.Nodup.map_on (fun _ _ _ _ h => hg h) (List.nodup_finRange _))
         (fun x _ => List.mem_finRange x)
     have := subperm_map' bs.get hn
     rwa [List.map_map, List.map_get_finRange] at this

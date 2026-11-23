@@ -32,7 +32,7 @@ set_option maxHeartbeats 2000000
 namespace OrdinalAnalysis.Gentzen.VNoteBridge
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.NotationBridge (orderingCode thenV_orderingCode cmpV_natCast)

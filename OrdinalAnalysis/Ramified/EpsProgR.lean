@@ -45,7 +45,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen (LX paLX)
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁)
 open OrdinalAnalysis.Gentzen.InternalEpsMonoCode (epsDef₁)
@@ -73,7 +73,7 @@ theorem lvlOf_tiUpR (φ : Semiformula LRA ℕ 1) (t : Semiterm LRA ℕ 0) :
 
 section Eval
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 private theorem eval_subst_bvar_one {n : ℕ} (φ : Semiformula LRA ℕ 1) (x : M) (e : Fin n → M)
     (f : ℕ → M) :
@@ -157,7 +157,7 @@ theorem lvlOf_psiR_le (μ : Lv) : lvlOf (psiR μ) ≤ μ := by
 
 section Psi
 
-variable {M : Type} [s : Structure LRA M]
+variable {M : Type} [s : Tarski.Structure LRA M]
 
 /-- `ψ_μ(g)` in `M`. -/
 def PsiM (μ : Lv) (g : M) : Prop := ∀ u : M, epsM u g → TImu μ u
@@ -190,7 +190,7 @@ end Psi
 
 section Model
 
-variable {M : Type} [Nonempty M] [s : Structure LRA M] [Structure.Eq LRA M] {ν μ : Lv}
+variable {M : Type} [Nonempty M] [s : Tarski.Structure LRA M] [Tarski.Structure.Eq LRA M] {ν μ : Lv}
   (hM : M↓[LRA] ⊧* RAlt ν)
 include hM
 

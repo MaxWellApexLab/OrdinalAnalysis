@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
 public import OrdinalAnalysis.IDn.AxiomsIDCases.unfold_top_eq
 public import OrdinalAnalysis.IDn.AxiomsIDCases.closure_inst
@@ -18,11 +19,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Proposition 6.2: the closure axiom -/
@@ -33,7 +34,7 @@ section Closure
 variable {A : Fin n → Semisentence (LXIn n) 1}
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 /-- Every parameter of a formula built from `bodyTop k (A k)`/`IOmegaAt k` alone (the shapes
 occurring in this proof) is some level's top stage, whose `.val` is that level's `Omega`,

@@ -15,11 +15,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Proposition 6.2: the closure axiom -/
@@ -30,7 +30,7 @@ section Closure
 variable {A : Semisentence (LXIn n) 1}
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem unfold_top_eq (A : Semisentence (LXIn n) 1) (t : SyntacticTerm (LIinfN n)) :
     unfold A k (StageAt.top k.val) t = (bodyTop k A)/[t] := rfl

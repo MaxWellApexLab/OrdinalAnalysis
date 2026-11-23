@@ -2581,3 +2581,30 @@ info: 'OrdinalAnalysis.InductiveDef.UpperBound.tiUptoSentence_Omega' depends on 
 
 /-- info: 'OrdinalAnalysis.KPi.RS.star_kpi' depends on axioms: [propext, Classical.choice, Quot.sound] -/
 #guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.star_kpi
+
+/-- info: 'OrdinalAnalysis.KPi.RS.HInf.weaken' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.HInf.weaken
+
+/-- info: 'OrdinalAnalysis.KPi.RS.embed_derivation' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.embed_derivation
+
+/-- info: 'OrdinalAnalysis.KPi.RS.embedding_kpi' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.embedding_kpi
+
+/-- info: 'OrdinalAnalysis.KPi.RS.embedding_logic' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.embedding_logic
+
+/-- info: 'OrdinalAnalysis.KPi.RS.hinf_union' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.KPi.RS.hinf_union
+
+/-- info: 'OrdinalAnalysis.Frontier.FinFun.lxL_irrefl' depends on axioms: [propext] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Frontier.FinFun.lxL_irrefl
+
+/-- info: 'OrdinalAnalysis.Frontier.FinFun.lxL_asymm' depends on axioms: [propext, Classical.choice, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Frontier.FinFun.lxL_asymm
+
+/-- info: 'OrdinalAnalysis.Frontier.FinFun.lxL_root_trans' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Frontier.FinFun.lxL_root_trans
+
+/-- info: 'OrdinalAnalysis.Frontier.FinFun.Nmodel.lx_not_transitive' depends on axioms: [propext, Quot.sound] -/
+#guard_msgs in #print axioms OrdinalAnalysis.Frontier.FinFun.Nmodel.lx_not_transitive

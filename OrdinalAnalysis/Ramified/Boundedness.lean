@@ -43,6 +43,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.LowerClass
 public import OrdinalAnalysis.Gentzen.Boundedness
 
@@ -54,7 +55,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /- See `Ramified/LowerClass.lean`: `numAtR` is a plain `def`, and
 `numAtR_zero` is a `simp` lemma that fights every other fact about `numAtR`

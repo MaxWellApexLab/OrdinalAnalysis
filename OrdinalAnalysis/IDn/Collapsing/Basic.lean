@@ -24,6 +24,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Calculus
 public import OrdinalAnalysis.Ordinal.Collapsing.ThetaWInstance
 
@@ -60,7 +61,7 @@ namespace IDn
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ}
 
@@ -92,7 +93,7 @@ noncomputable def psi (k : ℕ) (a : ThetaWNoteD) : ThetaWNoteD := (Notn.thetaWL
 `μ` twice so that in the step (□) the base `γ' ⪰ ω^{μ+μ} ⪰ ω^{Ω_{σ+1}·2}` exceeds every argument
 `Ω_{σ+1}·ρ + β` (`ρ, β ≺ Ω_{σ+1}`) of the syntactic Veblen function `φ_σ(ρ, β) = ϑ_σ(Ω_{σ+1}·ρ + β)`:
 `HopS` is closed under `ϑ_σ` only on arguments `⪯ γ'` (`theta_mem_HopS`), unlike Buchholz's `H_γ`,
-which is closed under `φ` by definition (Lemma 4.6 b)).  Audit the design notes item 1. -/
+which is closed under `φ` by definition (Lemma 4.6 b)). -/
 def hat (γ μ α : ThetaWNoteD) : ThetaWNoteD := γ + ThetaWNoteD.omegaPow (μ + μ + α)
 
 /-- **`H_γ[Θ]`**, `k(Θ) = X`: the level-free Buchholz operator `H_γ` (`HopS γ`) with `X`

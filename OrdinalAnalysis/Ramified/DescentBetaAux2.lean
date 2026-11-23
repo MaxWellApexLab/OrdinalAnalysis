@@ -24,6 +24,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.DescentBetaAux1
 
 @[expose] public section
@@ -34,7 +35,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-- `Γ` is derivable in `RA_∞` with the junk literals, at cut rank `ρ`, below the
 height `H`. -/
@@ -169,7 +170,6 @@ theorem cutHyp {A : Proposition LRA} {Γ Δ : Sequent LRA} {H H' : Gamma0Note}
 theorem of_RAlt {ν : Lv} (hν : 1 ≤ ν) {φ : Proposition LRA} (hφ : φ.freeVariables = ∅)
     (h : RAlt ν ⊢ Semiformula.univCl φ) (hρ : Gamma0Note.blkTop ν ≤ ρ) {H : Gamma0Note}
     (hH : Gamma0Note.epsilonNote 0 ≤ H) : DerLt ρ [evR φ] H := by
-  obtain ⟨h⟩ := h
   obtain ⟨ν', k, α, hν', hα, hd⟩ := provable_rank_height_of_exists (RAlt ν)
     (fun τ hτ => RAlt_axiom_derivable_lt_epsilon hν τ hτ) h
   have hν'lt : ν' < ν := by
@@ -186,7 +186,7 @@ theorem of_RAlt {ν : Lv} (hν : 1 ≤ ν) {φ : Proposition LRA} (hφ : φ.free
 
 /-- **A validity**, embedded: finite cut rank, height below `ε₀`. -/
 theorem of_valid {φ : Proposition LRA} (hφ : φ.freeVariables = ∅)
-    (hv : ∀ (M : Type) [Nonempty M] [Structure LRA M] (f : ℕ → M), Semiformula.Evalf f φ)
+    (hv : ∀ (M : Type) [Nonempty M] [Tarski.Structure LRA M] (f : ℕ → M), Semiformula.Evalf f φ)
     (hρ : Gamma0Note.omegaPow 1 ≤ ρ) {H : Gamma0Note}
     (hH : Gamma0Note.epsilonNote 0 ≤ H) : DerLt ρ [evR φ] H := by
   have hprov : (∅ : Theory LRA) ⊢ Semiformula.univCl φ := by
@@ -196,7 +196,7 @@ theorem of_valid {φ : Proposition LRA} (hφ : φ.freeVariables = ∅)
     rw [models_iff_proposition]
     intro f
     exact hv M f
-  obtain ⟨h⟩ := hprov
+  have h := hprov
   obtain ⟨ν', k, α, hν', hα, hd⟩ := provable_rank_height_of_exists (∅ : Theory LRA)
     (fun τ hτ => absurd hτ (Set.notMem_empty τ)) h
   have h0 : ν' = 0 := by
@@ -233,7 +233,7 @@ theorem freeVariables_impList (C : Proposition LRA) (hC : C.freeVariables = ∅)
         h A List.mem_cons_self, freeVariables_impList C hC As
           (fun B hB => h B (List.mem_cons_of_mem _ hB)), Finset.union_empty]
 
-theorem evalf_impList {M : Type} [Structure LRA M] (f : ℕ → M) (C : Proposition LRA) :
+theorem evalf_impList {M : Type} [Tarski.Structure LRA M] (f : ℕ → M) (C : Proposition LRA) :
     ∀ (As : List (Proposition LRA)),
       ((∀ A ∈ As, Semiformula.Evalf f A) → Semiformula.Evalf f C) →
         Semiformula.Evalf f (impList As C)
@@ -276,7 +276,7 @@ context `Γ` below `H ≥ ε₀`, then `C` is derivable in the context `Γ` belo
 theorem discharge {C : Proposition LRA} {Γ : Sequent LRA} {H : Gamma0Note}
     (As : List (Proposition LRA)) (hC : C.freeVariables = ∅)
     (hAc : ∀ A ∈ As, A.freeVariables = ∅)
-    (hv : ∀ (M : Type) [Nonempty M] [Structure LRA M] (f : ℕ → M),
+    (hv : ∀ (M : Type) [Nonempty M] [Tarski.Structure LRA M] (f : ℕ → M),
       (∀ A ∈ As, Semiformula.Evalf f A) → Semiformula.Evalf f C)
     (hrk : ∀ A ∈ As, rank A < ρ) (hd : ∀ A ∈ As, DerLt ρ (evR A :: Γ) H)
     (hρ : Gamma0Note.omegaPow 1 ≤ ρ) (hH : Gamma0Note.epsilonNote 0 ≤ H) :

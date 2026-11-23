@@ -35,6 +35,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ACA.OmegaJumpProg
 public import OrdinalAnalysis.ACA.SegmentBridge
 
@@ -45,10 +46,10 @@ set_option maxHeartbeats 1000000
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX Xat paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁ freeVariables_precCode₁)
 
@@ -686,9 +687,14 @@ theorem epsJump_plus (b : Gamma0Note)
         (PSeq.wk (by intro x hx; simp only [List.mem_cons] at hx ⊢; tauto) J2)
     exact PSeq.or c
   -- open the `∃²Y` of the axiom instance at `Z := 0`
+  -- `∃² IsOmegaJump` is substituted by the generic lemma `Rew.app_exs₁`, never by unfolding: leaving the
+  -- kernel to compute `Rew.app` on the (huge, coded) `IsOmegaJump` exhausts its memory (v4.35).
   have hax : Provable ACAplus
-      (∃² ((SecondOrder.Rew.subst ![freeWitness]).q.app IsOmegaJump)) :=
-    spec₂ (ofAxiom omegaJumpAxiom_mem_ACAplus) arith_freeWitness
+      (∃² ((SecondOrder.Rew.subst ![freeWitness]).q.app IsOmegaJump)) := by
+    have h := spec₂ (ofAxiom omegaJumpAxiom_mem_ACAplus) arith_freeWitness
+    simp only [Semiproposition.subst₁, omegaJumpAxiom] at h
+    rw [SecondOrder.Rew.app_exs₁] at h
+    exact h
   have J4 : PSeq ACAplus [∀² (∼((SecondOrder.Rew.subst ![freeWitness]).q.app IsOmegaJump)),
       toSOAt segWitness (tiX (gamma0Term (epsilonNote b)))] := by
     refine PSeq.all₂ ACAplus_shift₁_invariant ?_
@@ -717,7 +723,7 @@ end OrdinalAnalysis.ACA
 
 namespace OrdinalAnalysis.ACA.SegBridgeE
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis OrdinalAnalysis.Gentzen
 open OrdinalAnalysis.Gentzen.CodedVeblen
 open OrdinalAnalysis.Gentzen.CodedVeblenJump
@@ -735,7 +741,7 @@ def segGuardE (e : Gamma0Note) : Semiformula LX ℕ 1 :=
   ∼(precAt precCode₁ (#0 : Semiterm LX ℕ 1) (Semiterm.numeral (segBoundE e))) ⋎
     Xat (#0 : Semiterm LX ℕ 1)
 
-private theorem val_numeral_eq {M : Type*} [Nonempty M] [Structure LX M] (k : ℕ) {n : ℕ}
+private theorem val_numeral_eq {M : Type*} [Nonempty M] [Tarski.Structure LX M] (k : ℕ) {n : ℕ}
     (e : Fin n → M) (f : ℕ → M) :
     (Semiterm.numeral k : Semiterm LX ℕ n).val e f =
       (Semiterm.numeral k : Semiterm LX ℕ 0).val ![] f := by
@@ -848,10 +854,10 @@ end OrdinalAnalysis.ACA.SegBridgeE
 
 namespace OrdinalAnalysis.ACA
 
-open LO LO.SecondOrder
-open LO.SecondOrder.Semiformula
-open LO.SecondOrder.Semiproposition
-open scoped LO.FirstOrder
+open FFL FFL.SecondOrder
+open FFL.SecondOrder.Semiformula
+open FFL.SecondOrder.Semiproposition
+open scoped FFL.FirstOrder
 open OrdinalAnalysis.Gentzen (LX Xat TIupto paLX)
 open OrdinalAnalysis.Gentzen.CodedVeblen (precCode₁)
 open OrdinalAnalysis.Gentzen.Epsilon1UpperBound (gamma0Term)

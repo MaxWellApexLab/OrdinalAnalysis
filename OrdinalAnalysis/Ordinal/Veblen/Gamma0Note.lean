@@ -235,7 +235,7 @@ theorem lt_wf : @WellFounded Gamma0Note (· < ·) :=
   InvImage.wf repr Ordinal.lt_wf
 
 instance : WellFoundedLT Gamma0Note :=
-  ⟨lt_wf⟩
+  lt_wf
 
 instance : WellFoundedRelation Gamma0Note :=
   ⟨(· < ·), lt_wf⟩

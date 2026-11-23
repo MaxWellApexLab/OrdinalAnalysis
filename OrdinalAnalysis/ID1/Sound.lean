@@ -60,13 +60,13 @@ namespace OrdinalAnalysis
 
 namespace InductiveDef
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The standard structures -/
 
 /-- The fresh predicates read by `P` and `S`.  `IXLang` has no function
 symbols. -/
-def ixStruc (P : ℕ → Prop) (S : Set ℕ) : Structure IXLang ℕ where
+def ixStruc (P : ℕ → Prop) (S : Set ℕ) : Tarski.Structure IXLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with
     | IXRel.X => P (v 0)
@@ -74,8 +74,8 @@ def ixStruc (P : ℕ → Prop) (S : Set ℕ) : Structure IXLang ℕ where
 
 /-- **The standard structure of `LXI`**: arithmetic standard, `X` read by `P`,
 `I` read by `S`. -/
-def stdI (P : ℕ → Prop) (S : Set ℕ) : Structure LXI ℕ :=
-  Structure.add ℒₒᵣ IXLang ℕ (str₂ := ixStruc P S)
+def stdI (P : ℕ → Prop) (S : Set ℕ) : Tarski.Structure LXI ℕ :=
+  Tarski.Structure.add ℒₒᵣ IXLang ℕ (str₂ := ixStruc P S)
 
 section Std
 
@@ -89,7 +89,7 @@ theorem stdI_lMap_toLXI : (stdI P S).lMap toLXI = Arithmetic.standardModel ℕ :
     (f : ξ → ℕ) :
     Semiformula.Eval (s := stdI P S) e f (Semiformula.lMap toLXI φ)
       ↔ Semiformula.Eval (M := ℕ) e f φ :=
-  Structure.eval_lMap_add₁ (str₂ := ixStruc P S) φ e f
+  Tarski.Structure.eval_lMap_add₁ (str₂ := ixStruc P S) φ e f
 
 /-- Term values do not depend on the readings of `X` and `I`. -/
 theorem val_stdI_congr (Q : ℕ → Prop) (T : Set ℕ) {ξ : Type*} {n : ℕ} (e : Fin n → ℕ)
@@ -134,8 +134,8 @@ theorem positive_monotone {ξ : Type*} (P : ℕ → Prop) {S S' : Set ℕ} (hS :
         = (fun i => Semiterm.val (s := stdI P S') e f (v i)) :=
       funext fun i => val_stdI_congr P S P S' e f (v i)
     rcases r with r | r
-    · show Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) →
-        Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S') e f (v i))
+    · show Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) →
+        Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S') e f (v i))
       rw [hv]
       exact id
     · cases r with
@@ -154,8 +154,8 @@ theorem positive_monotone {ξ : Type*} (P : ℕ → Prop) {S S' : Set ℕ} (hS :
         = (fun i => Semiterm.val (s := stdI P S') e f (v i)) :=
       funext fun i => val_stdI_congr P S P S' e f (v i)
     rcases r with r | r
-    · show ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) →
-        ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S') e f (v i))
+    · show ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) →
+        ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S') e f (v i))
       rw [hv]
       exact id
     · cases r with
@@ -195,8 +195,8 @@ theorem eval_substI {ξ : Type*} (P : ℕ → Prop) (S : Set ℕ) (F : Semiformu
         = (fun i => Semiterm.val (s := stdI P SF) e f (v i)) :=
       funext fun i => val_stdI_congr P S P SF e f (v i)
     rcases r with r | r
-    · show Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) ↔
-        Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P SF) e f (v i))
+    · show Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) ↔
+        Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P SF) e f (v i))
       rw [hv]
     · cases r with
       | X =>
@@ -213,8 +213,8 @@ theorem eval_substI {ξ : Type*} (P : ℕ → Prop) (S : Set ℕ) (F : Semiformu
         = (fun i => Semiterm.val (s := stdI P SF) e f (v i)) :=
       funext fun i => val_stdI_congr P S P SF e f (v i)
     rcases r with r | r
-    · show ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) ↔
-        ¬Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P SF) e f (v i))
+    · show ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P S) e f (v i)) ↔
+        ¬Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdI P SF) e f (v i))
       rw [hv]
     · cases r with
       | X =>
@@ -331,9 +331,9 @@ set_option linter.style.haveILetI false in
 /-- Every equality axiom is true in `stdI P S`: `=` is read as equality. -/
 theorem eval_of_eqAxiom {σ : Sentence LXI} (h : σ ∈ 𝗘𝗤 LXI) :
     Semiformula.Eval (s := stdI P S) ![] Empty.elim σ := by
-  letI : Structure LXI ℕ := stdI P S
-  haveI : Structure.Eq LXI ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
-  haveI : ℕ↓[LXI] ⊧* 𝗘𝗤 LXI := Structure.Eq.models_eq LXI ℕ
+  letI : Tarski.Structure LXI ℕ := stdI P S
+  haveI : Tarski.Structure.Eq LXI ℕ := ⟨fun _ _ => iff_of_eq rfl⟩
+  haveI : ℕ↓[LXI] ⊧* 𝗘𝗤 LXI := Tarski.Structure.Eq.models_eq LXI ℕ
   exact Theory.models ℕ (𝗘𝗤 LXI) h
 
 /-- Every transported axiom of `𝗣𝗔⁻` is true in `stdI P S`. -/
@@ -369,7 +369,7 @@ theorem eval_of_succInd {σ : Sentence LXI} (h : σ ∈ InductionScheme LXI Set.
 /-- `stdI P S` is a model of `paLXI`, for every `P` and `S`. -/
 theorem models_paLXI :
     letI := stdI P S; ℕ↓[LXI] ⊧* paLXI := by
-  let _ : Structure LXI ℕ := stdI P S
+  let _ : Tarski.Structure LXI ℕ := stdI P S
   refine Semantics.modelsSet_iff.mpr fun σ hσ => models_iff.mpr ?_
   rcases hσ with h | h | h
   · exact eval_of_eqAxiom P S h
@@ -399,14 +399,14 @@ theorem eval_of_mem_ID1 (hA : Positive A) (P : ℕ → Prop) {σ : Sentence LXI}
 the operator is a model of `ID1 A`. -/
 theorem models_ID1 (hA : Positive A) (P : ℕ → Prop) :
     letI := stdI P (lfpA P A); ℕ↓[LXI] ⊧* ID1 A := by
-  let _ : Structure LXI ℕ := stdI P (lfpA P A)
+  let _ : Tarski.Structure LXI ℕ := stdI P (lfpA P A)
   exact Semantics.modelsSet_iff.mpr fun σ hσ => models_iff.mpr (eval_of_mem_ID1 A hA P hσ)
 
 /-- **Every theorem of `ID1 A` is true in the standard model.** -/
 theorem eval_of_provable_ID1 (hA : Positive A) (P : ℕ → Prop) {σ : Sentence LXI}
     (h : ID1 A ⊢ σ) :
     Semiformula.Eval (s := stdI P (lfpA P A)) ![] Empty.elim σ := by
-  let _ : Structure LXI ℕ := stdI P (lfpA P A)
+  let _ : Tarski.Structure LXI ℕ := stdI P (lfpA P A)
   exact models_iff.mp (models_of_provable (models_ID1 A hA P) h)
 
 /-- **`ID₁` is consistent** for every positive operator form. -/

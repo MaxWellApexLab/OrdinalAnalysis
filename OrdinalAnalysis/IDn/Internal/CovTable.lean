@@ -29,11 +29,13 @@ public import OrdinalAnalysis.ID1.Internal.CovTable
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDn.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ID1.Internal (bor band beq covVal covTable covVal_unfold covVal_zero
   covVal_succ covValDef covTableDef)
 
@@ -47,20 +49,20 @@ noncomputable def tagP (c : V) : V := c + c
 /-- The "code `c` at level `i`" tag: an odd position coordinate. -/
 noncomputable def tagL (i c : V) : V := ⟪i, c⟫ + ⟪i, c⟫ + 1
 
-def tagPDef : 𝚺₀.Semisentence 2 := .mkSigma “y c. y = c + c”
+def tagPDef : 𝚺ᴬ₀.Semisentence 2 := .mkSigma “y c. y = c + c”
 
-def tagLDef : 𝚺₁.Semisentence 3 := .mkSigma “y i c. ∃ p, !pairDef p i c ∧ y = p + p + 1”
+def tagLDef : 𝚺ᴬ₁.Semisentence 3 := .mkSigma “y i c. ∃ p, !pairDef p i c ∧ y = p + p + 1”
 
-instance tagP_defined : 𝚺₀-Function₁ (tagP : V → V) via tagPDef := .mk fun v ↦ by
+instance tagP_defined : 𝚺ᴬ₀-Function₁ (tagP : V → V) via tagPDef := .mk fun v ↦ by
   simp [tagPDef, tagP]
 
-instance tagL_defined : 𝚺₁-Function₂ (tagL : V → V → V) via tagLDef := .mk fun v ↦ by
+instance tagL_defined : 𝚺ᴬ₁-Function₂ (tagL : V → V → V) via tagLDef := .mk fun v ↦ by
   simp [tagLDef, tagL, pair_defined.iff]
 
-instance tagP_definable : 𝚺₀-Function₁ (tagP : V → V) := tagP_defined.to_definable
-instance tagL_definable : 𝚺₁-Function₂ (tagL : V → V → V) := tagL_defined.to_definable
-instance tagP_definable' (Γ) : Γ-Function₁ (tagP : V → V) := tagP_definable.of_zero
-instance tagL_definable' (Γ) (m : ℕ) : Γ-[m + 1]-Function₂ (tagL : V → V → V) :=
+instance tagP_definable : 𝚺ᴬ₀-Function₁ (tagP : V → V) := tagP_defined.to_definable
+instance tagL_definable : 𝚺ᴬ₁-Function₂ (tagL : V → V → V) := tagL_defined.to_definable
+instance tagP_definable' (Γ : Bounding.HierarchySymbol ℬ[<, ℒₒᵣ]) : Γ-Function₁ (tagP : V → V) := tagP_definable.of_zero
+instance tagL_definable' (Γ) (m : ℕ) : Γᴬ_[m + 1]-Function₂ (tagL : V → V → V) :=
   tagL_definable.of_sigmaOne
 
 /-! ### The basic order facts about the tags -/

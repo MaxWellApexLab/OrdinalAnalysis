@@ -2,13 +2,13 @@
   `ThetaWNoteD` at every level `k`, as a complete `CollapsingNotation`/`CollapsingLevel` (and,
   as a bonus, `CollapsingTower`): no `sorry`, no hypotheses structure needed.
 
-  History. The first landing
+  History. The first version
   of this file left the 19 hull-dependent fields (of 42) as hypotheses, `ThetaWNotationFacts`/
   `ThetaWHullFacts`, because the level-free Buchholz hull (Definition 4.2: one `C(α, β)` closed
   under every `ϑ_j` restricted to domain arguments below `α`) did not exist yet in
-  `Ordinal/ThetaW/*` — only N1's own per-level `Hop k` (`ThetaW/Hull.lean`), which the plan's §2b
+  `Ordinal/ThetaW/*` — only the earlier per-level `Hop k` (`ThetaW/Hull.lean`), which the plan's §2b
   already flagged as almost certainly the wrong shape.  The level-free operator has since landed,
-  settling that adjudication in Lean:
+  settling that decision in Lean:
   * `Ordinal/ThetaW/HullSingle.lean`: `CsetS`, `HopS` (the level-free `H_α`), `NiceS`, `Ahull`
     (the level-free support, replacing the per-level `Ehull k`), `theta_isLeastS`,
     `theta_mem_HopS`, `theta_lt_theta_of_mem_HopS`, `HopS_nice`.
@@ -18,9 +18,7 @@
     `not_Hop_zero_subset_Hop_one`), and `HullHypGe k` (`HullHypS j` for every `j ≥ k`, Buchholz's
     `𝒜(Θ; γ, κ, μ)` quantifying over every `τ ⪰ κ`), with `HullHypGe.up/mono/lt_theta/
     union_singleton` and `dom_add_omegaPow_ge`.
-  Every field of `thetaWCN`/`thetaWLevel`/`thetaWTower` below is filled from these, checked to
-  compile (`remote_build.sh`, sky4) before landing, matching the adjudicated
-  scratch `Iface_filled.lean`.  `DomK`/`thetaD` (total, junk `0` outside the domain — distinct
+  Every field of `thetaWCN`/`thetaWLevel`/`thetaWTower` below is filled from these, checked to compile.  `DomK`/`thetaD` (total, junk `0` outside the domain — distinct
   from `ThetaW/Hull.lean`'s own dependent `thetaD k a hdom`, which lives in a different,
   untouched namespace and is never opened here) are still defined fresh, exactly as before.
 -/
@@ -161,7 +159,7 @@ example (k : ℕ) : (thetaWLevel k).Stage = {a : ThetaWNoteD // a ≤ ThetaWNote
 
 /-! ## Bonus: `ThetaWNoteD` as a `CollapsingTower` (Layer 3, C4)
 
-Not asked for by this landing's brief (only `CollapsingLevel` was), but every field is now
+Beyond `CollapsingLevel`, every field is now
 provable from the same two files, so it costs nothing to include: `Omega_strictMono` and
 `add_Omega_Omega` were already provable before this update; `Omega_lt_theta_succ` and
 `hullHyp_up` needed exactly the level-free hull this update brought in

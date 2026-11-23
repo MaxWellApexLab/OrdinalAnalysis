@@ -22,7 +22,7 @@
   As with `EpsilonStructure`, the laws deliberately omit `a < veblen a x` unconditionally at
   fixed `a`; what holds is only the weaker `le_veblen_right` (`x ≤ veblen a x`), because on
   `Gamma0Note` the ε-numbers, ζ-numbers, etc. are honest elements of the notation type, not
-  merely a bound the calculus stays under (the pitfall notes: `a < ω ^ a` is false at fixed
+  merely a bound the calculus stays under (the pitfalls: `a < ω ^ a` is false at fixed
   points, and `φ` is not strictly monotone in its first argument).
 -/
 

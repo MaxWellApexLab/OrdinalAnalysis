@@ -25,6 +25,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.DescentBetaAux5
 
 @[expose] public section
@@ -35,7 +36,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalVNote (precDef₁)
 open OrdinalAnalysis.Gentzen.InternalVeblenCode (vebDef₁)
 open OrdinalAnalysis.Gentzen.VNoteBridge (gamma0Code)
@@ -64,7 +65,7 @@ theorem lvlOf_effEquiv_le {L κ : Lv} (h : κ ≤ L) (z w : ℕ) : lvlOf (effEqu
   simp only [effEquiv, lvlOf_all, lvlOf_and, lvlOf_or, lvlOf_neg, lvlOf_memAt]
   exact max_le (max_le le_rfl h) (max_le h le_rfl)
 
-theorem eval_effEquiv {M : Type} [s : Structure LRA M] (L κ : Lv) (z w : ℕ) (f : ℕ → M) :
+theorem eval_effEquiv {M : Type} [s : Tarski.Structure LRA M] (L κ : Lv) (z w : ℕ) (f : ℕ → M) :
     Semiformula.Eval (s := s) ![] f (effEquiv L κ z w) ↔
       ∀ y : M, (memM L y (numVal M z) ↔ memM κ y (numVal M w)) := by
   simp only [effEquiv, Semiformula.eval_all, LogicalConnective.HomClass.map_and,

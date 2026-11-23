@@ -28,7 +28,7 @@ set_option maxHeartbeats 1600000
 namespace OrdinalAnalysis.Gentzen.InternalEpsMonoCode
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -42,7 +42,7 @@ variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 /-! ## The ε-graph `Eps(y, g)` -/
 
 /-- `Eps(y, g)`: `g` is a normal code and `y` is its ε-value, `y = ε_g`. -/
-def epsDef₁ : 𝚺₁.Semisentence 2 := .mkSigma
+def epsDef₁ : 𝚺ᴬ₁.Semisentence 2 := .mkSigma
   “y g. !isNFb₁Def 1 g ∧ !iepsilonDef y g”
 
 @[simp] theorem eval_epsDef₁ (y g : V) :
@@ -57,7 +57,7 @@ def epsAt (epsCode : Semiformula LX ℕ 2) {n : ℕ}
     (y g : Semiterm LX ℕ n) : Semiformula LX ℕ n :=
   Rew.subst ![y, g] ▹ epsCode
 
-@[simp] theorem eval_epsAt {M : Type*} [Structure LX M]
+@[simp] theorem eval_epsAt {M : Type*} [Tarski.Structure LX M]
     (epsCode : Semiformula LX ℕ 2) {n : ℕ} (y g : Semiterm LX ℕ n)
     (e : Fin n → M) (f : ℕ → M) :
     (epsAt epsCode y g).Eval e f ↔ epsCode.Eval ![y.val e f, g.val e f] f := by
@@ -67,7 +67,7 @@ def epsAt (epsCode : Semiformula LX ℕ 2) {n : ℕ}
 
 /-- `Fix(e)`: `e` is a normal code and an ε-number.  Narrower than
 `VeblenSuccStep.baseDef₁` — see the module docstring. -/
-def fixDef₁ : 𝚺₁.Semisentence 1 := .mkSigma
+def fixDef₁ : 𝚺ᴬ₁.Semisentence 1 := .mkSigma
   “e. !isNFb₁Def 1 e ∧ !fixIndicDef 1 e”
 
 @[simp] theorem eval_fixDef₁ (e : V) :
@@ -164,6 +164,33 @@ theorem arithmetic_epsMono : 𝗜𝚺₁ ⊢ arithmeticEpsMonoStatement := by
 
 /-! ## Transport to `PA[X]` -/
 
+/-- The `lMap` transport of the (EPSMONO) body, for abstract `Σ₁` definitions of the guard, the
+normal-form predicate, the ε-graph and the order (so that the kernel never unfolds the concrete
+formulas of `fixDef₁`, `nfDef₁`, `epsDef₁`, `precDef₁`). -/
+private lemma map_epsMono_gen (φ : 𝚺ᴬ₁.Semisentence 1) (ν : 𝚺ᴬ₁.Semisentence 1)
+    (ε : 𝚺ᴬ₁.Semisentence 2) (π : 𝚺ᴬ₁.Semisentence 2) :
+    Semiformula.lMap toLX
+        (∀¹ ∀¹ ∀¹
+          (∼(Rew.subst ![(#2 : Semiterm ℒₒᵣ ℕ 3)] ▹ Rewriting.emb φ.val) ⋎
+            (∼(Rew.subst ![(#1 : Semiterm ℒₒᵣ ℕ 3)] ▹ Rewriting.emb ν.val) ⋎
+              (∼(Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 3), #1] ▹ Rewriting.emb ε.val) ⋎
+                (∼(Rew.subst ![(#2 : Semiterm ℒₒᵣ ℕ 3), #0] ▹ Rewriting.emb π.val) ⋎
+                  (∃¹
+                    ((Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 4)] ▹ Rewriting.emb ν.val) ⋏
+                      ((Rew.subst ![(#3 : Semiterm ℒₒᵣ ℕ 4), #0] ▹ Rewriting.emb ε.val) ⋏
+                        (Rew.subst ![(#0 : Semiterm ℒₒᵣ ℕ 4), #2] ▹
+                          Rewriting.emb π.val))))))))) =
+      (∀¹ ∀¹ ∀¹
+        (∼(formulaAt (liftCode φ) (#2 : Semiterm LX ℕ 3)) ⋎
+          (∼(formulaAt (liftCode ν) (#1 : Semiterm LX ℕ 3)) ⋎
+            (∼(epsAt (liftCode ε) (#0 : Semiterm LX ℕ 3) #1) ⋎
+              (∼(precAt (liftCode π) #2 #0) ⋎
+                (∃¹
+                  (formulaAt (liftCode ν) (#0 : Semiterm LX ℕ 4) ⋏
+                    (epsAt (liftCode ε) (#3 : Semiterm LX ℕ 4) #0 ⋏
+                      precAt (liftCode π) #0 #2)))))))) := by
+  simp [formulaAt, epsAt, precAt, liftCode, Semiformula.lMap_subst]
+
 private lemma map_epsMono_body :
     Semiformula.lMap toLX
         (∀¹ ∀¹ ∀¹
@@ -183,15 +210,14 @@ private lemma map_epsMono_body :
                 (∃¹
                   (formulaAt nfCode₁ (#0 : Semiterm LX ℕ 4) ⋏
                     (epsAt epsCode₁ (#3 : Semiterm LX ℕ 4) #0 ⋏
-                      precAt precCode₁ #0 #2)))))))) := by
-  simp [arithFixAt, arithNfAt, arithEpsAt, arithPrecAt, formulaAt, epsAt, precAt,
-    fixCode₁, nfCode₁, epsCode₁, precCode₁, liftCode, Semiformula.lMap_subst]
+                      precAt precCode₁ #0 #2)))))))) :=
+  map_epsMono_gen fixDef₁ nfDef₁ epsDef₁ precDef₁
 
 lemma models_epsMono_iff_arithmetic {M : Type*} [Nonempty M]
-    [sLX : Structure LX M] :
+    [sLX : Tarski.Structure LX M] :
     M↓[LX] ⊧ epsMonoStatement ↔
       (sLX.lMap toLX).toStruc ⊧ arithmeticEpsMonoStatement := by
-  letI : Structure ℒₒᵣ M := sLX.lMap toLX
+  letI : Tarski.Structure ℒₒᵣ M := sLX.lMap toLX
   rw [models_iff, models_iff]
   simp only [epsMonoStatement, arithmeticEpsMonoStatement, Semiformula.eval_univCl]
   rw [← map_epsMono_body]
@@ -206,8 +232,8 @@ theorem concrete_epsMono : paLX ⊢ epsMonoStatement := by
 
 /-! ## Semantic form -/
 
-theorem models_epsMonoStatement {M : Type*} [Nonempty M] [Structure LX M]
-    [Structure.Eq LX M] :
+theorem models_epsMonoStatement {M : Type*} [Nonempty M] [Tarski.Structure LX M]
+    [Tarski.Structure.Eq LX M] :
     M↓[LX] ⊧ epsMonoStatement ↔
       ∀ f : ℕ → M, ∀ e g u : M,
         fixCode₁.Eval ![e] f →

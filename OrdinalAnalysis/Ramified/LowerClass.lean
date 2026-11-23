@@ -49,6 +49,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.Ramified.CodedOrderR
 
 @[expose] public section
@@ -59,7 +60,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /- `numAtR` is a plain `def` (not an `abbrev`), and `numAtR_zero` — the fact
 that it agrees with `num` at level `0` — is a `simp` lemma pointed the wrong

@@ -38,7 +38,7 @@ namespace OrdinalAnalysis
 
 namespace Ramified
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-- **The cut-rank bound the level guard buys.**  Every axiom of `RAlt ν`
 (`ν ≥ 1`), evaluated and embedded, has cut rank strictly below `blkTop ν`. -/

@@ -64,12 +64,12 @@ namespace Gentzen
 
 namespace StandardLX
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The standard model of `LX`
 
 `LX = Language.add ℒₒᵣ XLang`, and Foundation builds a structure for a sum of
-languages out of structures for the summands: `Structure.add`
+languages out of structures for the summands: `Tarski.Structure.add`
 (Foundation/FirstOrder/Basic/Model.lean:92).  The arithmetic summand is
 `Arithmetic.standardModel ℕ` (Arithmetic/Basic/Model.lean:25) — the *canonical*
 `ℒₒᵣ`-structure Foundation puts on any `[ORingStructure M]`, and hence on `ℕ`.
@@ -78,25 +78,25 @@ The `XLang` summand is the only free choice, and it is kept as a parameter. -/
 /-- The fresh predicate read by `P`.  `XLang` has no function symbols
 (`XLang.Func k = PEmpty`), so `func` is vacuous and, in particular, does not
 depend on `P` — which is what makes `val_stdLX_congr` below true. -/
-def xStruc (P : ℕ → Prop) : Structure XLang ℕ where
+def xStruc (P : ℕ → Prop) : Tarski.Structure XLang ℕ where
   func := fun _ fn _ => PEmpty.elim fn
   rel := fun _ r v => match r with | XRel.X => P (v 0)
 
 /-- **The standard model of `LX`**: arithmetic standard, `X` read by `P`. -/
-def stdLX (P : ℕ → Prop) : Structure LX ℕ :=
-  Structure.add ℒₒᵣ XLang ℕ (str₂ := xStruc P)
+def stdLX (P : ℕ → Prop) : Tarski.Structure LX ℕ :=
+  Tarski.Structure.add ℒₒᵣ XLang ℕ (str₂ := xStruc P)
 
 variable (P Q : ℕ → Prop)
 
 /-- The arithmetic reduct of `stdLX P` is Foundation's canonical structure on
-`ℕ`, *on the nose*.  `Structure.lMap_add₁` (Model.lean:108) is `rfl`, and
+`ℕ`, *on the nose*.  `Tarski.Structure.lMap_add₁` (Model.lean:108) is `rfl`, and
 `toLX = Language.Hom.add₁ ℒₒᵣ XLang` (Setup.lean:74), so the reduct is literally
-the `str₁` argument that `Structure.add` was given.
+the `str₁` argument that `Tarski.Structure.add` was given.
 
 This is the fact every arithmetic lemma of Foundation is transported by: an
 `ℒₒᵣ`-formula `φ` satisfies
 `(Semiformula.lMap toLX φ).Eval (s := stdLX P) e f ↔ φ.Eval e f`
-(`Structure.eval_lMap_add₁`, Model.lean:124), the right-hand side being
+(`Tarski.Structure.eval_lMap_add₁`, Model.lean:124), the right-hand side being
 evaluation in the standard model of arithmetic. -/
 theorem stdLX_lMap_toLX : (stdLX P).lMap toLX = Arithmetic.standardModel ℕ := rfl
 
@@ -105,20 +105,20 @@ theorem stdLX_lMap_toLX : (stdLX P).lMap toLX = Arithmetic.standardModel ℕ := 
 of `ℒₒᵣ` denote. -/
 @[simp] theorem val_lMap_toLX {n : ℕ} (t : Semiterm ℒₒᵣ ℕ n) (e : Fin n → ℕ) (f : ℕ → ℕ) :
     Semiterm.val (s := stdLX P) e f (Semiterm.lMap toLX t) = Semiterm.val (M := ℕ) e f t :=
-  Structure.val_lMap_add₁ (str₂ := xStruc P) t e f
+  Tarski.Structure.val_lMap_add₁ (str₂ := xStruc P) t e f
 
 /-- A formula of arithmetic transported to `LX` says in `stdLX P` exactly what
 it says in the standard model of arithmetic; the reading of `X` cannot
 interfere.  Every axiom of `Theory.lMap toLX 𝗣𝗔⁻` is checked through this
-(`Structure.eval_lMap_add₁`, Foundation/FirstOrder/Basic/Model.lean:124). -/
+(`Tarski.Structure.eval_lMap_add₁`, Foundation/FirstOrder/Basic/Model.lean:124). -/
 @[simp] theorem eval_lMap_toLX {n : ℕ} (φ : Semiformula ℒₒᵣ ℕ n) (e : Fin n → ℕ) (f : ℕ → ℕ) :
     Semiformula.Eval (s := stdLX P) e f (Semiformula.lMap toLX φ)
       ↔ Semiformula.Eval (M := ℕ) e f φ :=
-  Structure.eval_lMap_add₁ (str₂ := xStruc P) φ e f
+  Tarski.Structure.eval_lMap_add₁ (str₂ := xStruc P) φ e f
 
 /-- The arithmetic relations of `stdLX P` are the standard ones. -/
 theorem stdLX_rel_inl {k : ℕ} (r : (ℒₒᵣ : Language).Rel k) (v : Fin k → ℕ) :
-    (stdLX P).rel (Sum.inl r) v ↔ Structure.rel (M := ℕ) r v := Iff.rfl
+    (stdLX P).rel (Sum.inl r) v ↔ Tarski.Structure.rel (M := ℕ) r v := Iff.rfl
 
 /-- The fresh relation of `stdLX P` is `P`. -/
 theorem stdLX_rel_X (v : Fin 1 → ℕ) :
@@ -197,8 +197,8 @@ def numLX : ℕ → SyntacticTerm LX := fun n => Semiterm.numeral n
 
 /-- **`n̄` denotes `n`.**  The numeral of `LX` is the `toLX`-image of the
 numeral of `ℒₒᵣ` (`lMap_toLX_numeral`, Gentzen/Code.lean:295), so
-`Structure.val_lMap_add₁` sends the computation into the arithmetic reduct,
-where `Structure.numeral_eq_numeral` (Arithmetic/Basic/Misc.lean:138) and
+`Tarski.Structure.val_lMap_add₁` sends the computation into the arithmetic reduct,
+where `Tarski.Structure.numeral_eq_numeral` (Arithmetic/Basic/Misc.lean:138) and
 `Nat.numeral_eq` (ibid.:34) finish it. -/
 @[simp] theorem val_numLX (n : ℕ) (f : ℕ → ℕ) :
     Semiterm.val (s := stdLX P) ![] f (numLX n) = n := by
@@ -206,7 +206,7 @@ where `Structure.numeral_eq_numeral` (Arithmetic/Basic/Misc.lean:138) and
       = Semiterm.lMap toLX ((n : ℕ) : Semiterm ℒₒᵣ ℕ 0) := (lMap_toLX_numeral n).symm
   have key : Semiterm.val (s := stdLX P) ![] f (Semiterm.lMap toLX ((n : ℕ) : Semiterm ℒₒᵣ ℕ 0))
       = Semiterm.val (M := ℕ) ![] f ((n : ℕ) : Semiterm ℒₒᵣ ℕ 0) :=
-    Structure.val_lMap_add₁ (str₂ := xStruc P) _ _ _
+    Tarski.Structure.val_lMap_add₁ (str₂ := xStruc P) _ _ _
   rw [h, key]
   simp
 
@@ -266,9 +266,9 @@ theorem eval_indep_of_isArithLit {φ : Proposition LX} (h : IsArithLit φ) (f g 
   obtain ⟨k, r, v, hφ, hcl⟩ := h
   have hv : ∀ i, Semiterm.val (s := stdLX P) ![] f (v i)
       = Semiterm.val (s := stdLX Q) ![] g (v i) := fun i => val_closed_std P Q _ f g (hcl i)
-  have key : Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdLX P) ![] f (v i))
-      = Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdLX Q) ![] g (v i)) :=
-    congrArg (Structure.rel (M := ℕ) r) (funext hv)
+  have key : Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdLX P) ![] f (v i))
+      = Tarski.Structure.rel (M := ℕ) r (fun i => Semiterm.val (s := stdLX Q) ![] g (v i)) :=
+    congrArg (Tarski.Structure.rel (M := ℕ) r) (funext hv)
   rcases hφ with rfl | rfl
   · exact Iff.of_eq key
   · exact not_congr (Iff.of_eq key)

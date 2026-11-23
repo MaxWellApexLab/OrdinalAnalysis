@@ -13,7 +13,7 @@
 
 module
 
-public import Foundation.FirstOrder.Basic.CutFree
+public import OrdinalAnalysis.ListLK.Calculus
 public import Mathlib.SetTheory.Ordinal.Notation
 
 @[expose] public section

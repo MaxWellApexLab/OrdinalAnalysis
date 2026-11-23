@@ -22,7 +22,7 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Upper
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-- **The upper bound of `ID_ω`**: for every notation `a ≺ Ω₁`, `IDw WFormWc` proves transfinite
 induction for the free predicate `X` up to `a`. -/

@@ -8,8 +8,7 @@
   operator form per level, `LevelBounded` a syntactic side condition) to the UNIFORM
   formulation of Pohlers 1998 p.270, Buchholz 1987 p.144, Buchholz-Pohlers 1978 p.121: a
   single binary `J`, a single schema `A(x, y)` used at every level, and `∀y`-quantified
-  closure/induction axioms. See the design notes
-  for the design record; `OrdinalAnalysis.IDw.Sound` for the standard-model soundness.
+  closure/induction axioms. See `OrdinalAnalysis.IDw.Sound` for the standard-model soundness.
 
   **Why binary, why uniform (not a family).** A unary `I_ω` whose defining form mentions
   "all `I_k`" is not first-order (a formula names finitely many symbols); the honest way
@@ -90,7 +89,7 @@ namespace OrdinalAnalysis
 
 namespace IDw
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 
 /-! ### The object language `LXJ` -/
 

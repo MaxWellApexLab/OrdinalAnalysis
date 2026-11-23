@@ -65,9 +65,10 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.ID1.StageSemantics
 public import OrdinalAnalysis.ID1.Elimination
-public import Foundation.FirstOrder.Completeness
+public import Foundation.FirstOrder.LK.Completeness
 
 @[expose] public section
 
@@ -79,7 +80,7 @@ namespace InductiveDef
 
 namespace LowerBound
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.ID1.Internal
 
 /-! ### The sentences -/
@@ -336,7 +337,7 @@ theorem lMap_swap_indBody (F : Semiformula LXI ℕ 1) :
   simp only [LogicalConnective.HomClass.map_imply, Semiformula.lMap_all]
   rw [lMap_swap_opAt, lMap_swap_of_noX (Iat #0) (noX_Iat _)]
 
-variable {M : Type} [Nonempty M] (s : Structure LXI M)
+variable {M : Type} [Nonempty M] (s : Tarski.Structure LXI M)
 
 /-- Truth of a universal closure after the reinterpretation. -/
 theorem eval_swap_univCl (φ : Proposition LXI) :
@@ -357,9 +358,9 @@ theorem eval_swap_of_mem_ID1Acc (hEq : ∀ a b : M,
     {σ : Sentence LXI} (hσ : σ ∈ ID1Acc precC) :
     Semiformula.Eval (s := s.lMap swapXI) ![] Empty.elim σ := by
   rcases (mem_ID1 (accForm precC)).mp hσ with h | h | h | rfl | ⟨F, rfl⟩
-  · let _ : Structure LXI M := s.lMap swapXI
-    have _ : Structure.Eq LXI M := ⟨fun a b => hEq a b⟩
-    have := Structure.Eq.models_eq LXI M
+  · let _ : Tarski.Structure LXI M := s.lMap swapXI
+    have _ : Tarski.Structure.Eq LXI M := ⟨fun a b => hEq a b⟩
+    have := Tarski.Structure.Eq.models_eq LXI M
     exact Theory.models M (𝗘𝗤 LXI) h
   · obtain ⟨τ, hτ, rfl⟩ := h
     rw [Semiformula.eval_lMap]
@@ -383,10 +384,10 @@ section Provable
 
 /-- A sentence provable in `ID1Acc precC` is true in every structure satisfying its
 axioms (soundness, in the form used below). -/
-theorem eval_of_provable_of_axioms {M : Type} [Nonempty M] (s : Structure LXI M)
+theorem eval_of_provable_of_axioms {M : Type} [Nonempty M] (s : Tarski.Structure LXI M)
     (hM : ∀ σ ∈ ID1Acc precC, Semiformula.Eval (s := s) ![] Empty.elim σ) {σ : Sentence LXI}
     (h : ID1Acc precC ⊢ σ) : Semiformula.Eval (s := s) ![] Empty.elim σ := by
-  let _ : Structure LXI M := s
+  let _ : Tarski.Structure LXI M := s
   have hT : M↓[LXI] ⊧* ID1Acc precC :=
     Semantics.modelsSet_iff.mpr fun τ hτ => models_iff.mpr (hM τ hτ)
   exact models_iff.mp (models_of_provable hT h)

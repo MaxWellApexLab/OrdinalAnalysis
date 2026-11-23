@@ -160,7 +160,7 @@ end ThetaNote
 
 namespace InductiveDef
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The rank -/
 

@@ -54,14 +54,14 @@ namespace InductiveDef
 
 namespace WellOrdering
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ID1.Internal OrdinalAnalysis.InductiveDef.Lift
 
 /-! ### Definability in `LXI` -/
 
 section Definability
 
-variable {N : Type*} [ORingStructure N] [Structure LXI N] [ArithStd N]
+variable {N : Type*} [ORingStructure N] [Tarski.Structure LXI N] [ArithStd N]
 
 omit [ORingStructure N] [ArithStd N] in
 theorem dfn_all {k : ℕ} {R : (Fin (k + 1) → N) → Prop} (h : LXI.Definable R) :
@@ -83,10 +83,10 @@ theorem dfn_pred {k : ℕ} {Q : N → Prop} (hQ : LXI.DefinablePred Q) (i : Fin 
   Language.Definable.of_iff (hQ.retraction ![i]) fun v => by simp
 
 theorem dfn_comp {k : ℕ} {Q : N → Prop} (hQ : LXI.DefinablePred Q) {f : (Fin k → N) → N}
-    (hf : 𝚺₁.DefinableFunction f) : LXI.Definable fun v : Fin k → N => Q (f v) :=
+    (hf : 𝚺ᴬ₁.DefinableFunction f) : LXI.Definable fun v : Fin k → N => Q (f v) :=
   @Language.DefinablePred.comp LXI N _ Q k f hQ (definable_of_arith hf)
 
-theorem dfn_sigma {k : ℕ} {R : (Fin k → N) → Prop} (h : 𝚺₁.Definable R) : LXI.Definable R :=
+theorem dfn_sigma {k : ℕ} {R : (Fin k → N) → Prop} (h : 𝚺ᴬ₁.Definable R) : LXI.Definable R :=
   definable_of_arith h
 
 end Definability
@@ -95,13 +95,13 @@ end Definability
 
 section Model
 
-variable {N : Type*} [ORingStructure N] [Structure LXI N] [ArithStd N]
+variable {N : Type*} [ORingStructure N] [Tarski.Structure LXI N] [ArithStd N]
   [N↓[LXI] ⊧* ID1Acc precC] [N↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 /-- `W`: the extension of `I`, the accessible part of `≺`. -/
 abbrev W (x : N) : Prop := Imem x
 
-omit [Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
+omit [Tarski.Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
 theorem precM_iff (y x : N) : precM precC y x ↔ isNF y ∧ isNF x ∧ iltb y x = 1 :=
   eval_thPrecDef y x
 
@@ -171,11 +171,11 @@ def ProgD : Prop := ∀ ξ, Dom G ξ → (∀ ξ', Dom G ξ' → iltb ξ' ξ = 1
 
 variable {G F}
 
-omit [Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
+omit [Tarski.Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
 theorem holds_of_hl (hP : ProgD G F) {ξ : N} (hξ : Dom G ξ) (h : HL G F (itoL ξ)) : F ξ :=
   hP ξ hξ fun ξ' hξ' hlt => h ξ' hξ' ((iltb_itoL_iff hξ'.1 hξ.1).mpr hlt)
 
-omit [Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
+omit [Tarski.Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
 theorem hl_zero : HL G F (0 : N) := fun _ _ h => absurd h (not_iltb_zero _)
 
 omit [N↓[LXI] ⊧* ID1Acc precC] in
@@ -347,7 +347,7 @@ def TIup (β : N) (F : N → Prop) : Prop := ProgD W F → ∀ ξ, Dom W ξ → 
 /-- The code of `Ω + 1 = ⟨Ω, 0⟩`. -/
 noncomputable def omegaSucc : N := tcCons 1 (tcCons 0 0)
 
-omit [Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
+omit [Tarski.Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
 theorem isNF_omegaSucc : isNF (omegaSucc : N) := by
   refine (isNF_tcCons_iff 1 (tcCons 0 0)).mpr ⟨(isSL_cons_iff _ _).mpr ⟨?_, ?_, ?_⟩,
     fun h => tcCons_ne_zero 0 0 h.1⟩
@@ -398,7 +398,7 @@ noncomputable def tau : ℕ → N
   | 0 => omegaSucc
   | n + 1 => tcCons (tau n) 0
 
-omit [Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
+omit [Tarski.Structure LXI N] [ArithStd N] [N↓[LXI] ⊧* ID1Acc precC] in
 /-- `τ_n` is a normal sum without coefficients. -/
 theorem tau_facts : ∀ n : ℕ, isNF (tau n : N) ∧ kind (tau n : N) = 3 ∧
     ∀ g : N, iinE g (tau n) ≠ 1

@@ -2,6 +2,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.PredCutCases.CaseLiteral
 public import OrdinalAnalysis.IDw.PredCutCases.CaseVerum
 public import OrdinalAnalysis.IDw.PredCutCases.CaseIdX
@@ -24,8 +25,8 @@ set_option autoImplicit false
 namespace OrdinalAnalysis
 namespace IDw
 
-open LO LO.FirstOrder
--- case_skeleton: generated header ends here
+open FFL FFL.FirstOrder
+-- generated header ends here
 
 theorem predCut_aux
     {A : Semisentence LForm 2}

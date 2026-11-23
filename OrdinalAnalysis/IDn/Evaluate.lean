@@ -55,6 +55,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Calculus
 
 @[expose] public section
@@ -69,7 +70,7 @@ variable {n : ℕ}
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 section Numeral
 
@@ -128,9 +129,9 @@ theorem lMap_toLIinfN_numeral (t : ℕ) :
 @[simp] theorem val_numeral_stdInfN (p : ℕ) (e : Fin m → ℕ) (ε : ξ → ℕ) :
     Semiterm.val (s := stdInfN) e ε ((p : ℕ) : Semiterm (LIinfN n) ξ m) = p := by
   rw [← lMap_toLIinfN_numeral p]
-  show Semiterm.val (s := Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfFalseN)) e ε
+  show Semiterm.val (s := Tarski.Structure.add ℒₒᵣ (IInfLangN n) ℕ (str₂ := iinfFalseN)) e ε
     (Semiterm.lMap (Language.Hom.add₁ ℒₒᵣ (IInfLangN n)) ((p : ℕ) : Semiterm ℒₒᵣ ξ m)) = p
-  rw [Structure.val_lMap_add₁ (str₂ := iinfFalseN)]
+  rw [Tarski.Structure.val_lMap_add₁ (str₂ := iinfFalseN)]
   simp
 
 @[simp] theorem val_numI (p : ℕ) (e : Fin 0 → ℕ) (ε : ℕ → ℕ) :
@@ -302,7 +303,7 @@ end ThetaWNoteD
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### The replacement relation -/
 

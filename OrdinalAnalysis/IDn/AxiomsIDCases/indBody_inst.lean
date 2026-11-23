@@ -1,5 +1,6 @@
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.AxiomsIDCases.Defs
 public import OrdinalAnalysis.IDn.AxiomsIDCases.params_plugI
 public import OrdinalAnalysis.IDn.AxiomsIDCases.plugI_subst_numI
@@ -24,11 +25,11 @@ variable {n : ℕ} (k : Fin n)
 namespace IDn
 
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
-open LO.FirstOrder.Rewriting LO.FirstOrder.TransitiveRewriting
+open FFL.FirstOrder.Rewriting FFL.FirstOrder.TransitiveRewriting
 
-open LO.FirstOrder.LawfulSyntacticRewriting
+open FFL.FirstOrder.LawfulSyntacticRewriting
 
 
 /-! ### Proposition 6.4, the axiom -/
@@ -39,7 +40,7 @@ section IndAxiom
 variable {A : Fin n → Semisentence (LXIn n) 1} {H : Set ThetaWNoteD → Set ThetaWNoteD}
 
 
--- case_skeleton: generated header ends here
+-- generated header ends here
 
 theorem indBody_inst (G : Semiformula (LIinfN n) ℕ 1) (m : ℕ) :
     (∼(IOmegaAt k (#0 : Semiterm (LIinfN n) ℕ 1)) ⋎ G)/[numI m] = ∼(IOmegaAt k (numI m)) ⋎ G/[numI m] := by

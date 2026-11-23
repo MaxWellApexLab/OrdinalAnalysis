@@ -2,7 +2,7 @@
   Vocabulary and small facts for the collapsing theorem of `ID_ω`
   (`IDw/Collapsing/Statement.lean`), all proved (no `sorry`).  Transcribed from
   `IDn/Collapsing/Basic.lean` (mechanical translation, then by hand); the new parts are the
-  limit index `muBarW ⊤ = Ω_ω` (the design notes) and the `Jlev` arms.
+  limit index `muBarW ⊤ = Ω_ω` and the `Jlev` arms.
 
   Source: W. Buchholz, *A simplified version of local predicativity*, in: P. Aczel,
   H. Simmons, S. Wainer (eds.), *Proof Theory* (Leeds 1990), CUP 1992, p. 26 (Lemma 4.6, the
@@ -36,6 +36,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDw.Calculus
 public import OrdinalAnalysis.Ordinal.Collapsing.ThetaVInstance
 public import OrdinalAnalysis.Ordinal.Collapsing.Limit
@@ -73,7 +74,7 @@ namespace IDw
 
 namespace Collapsing
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 /-! ### Ordinal vocabulary -/
 
@@ -95,7 +96,7 @@ def muBar : ℕ → ThetaVNoteD
 
 @[simp] theorem muBar_succ (s : ℕ) : muBar (s + 1) = ThetaVNoteD.Omega s + ThetaVNoteD.one := rfl
 
-/-- **`Ω̄_m`, `m : WithTop ℕ`** (design §3.3): `↑0 ↦ 0`, `↑(s+1) ↦ Ω_{s+1} + 1`, `⊤ ↦ Ω_ω`.
+/-- **`Ω̄_m`, `m : WithTop ℕ`**: `↑0 ↦ 0`, `↑(s+1) ↦ Ω_{s+1} + 1`, `⊤ ↦ Ω_ω`.
 `Ω_ω` is singular, so `Ω̄_ω = Ω_ω` (Buchholz p. 26). The main induction of Theorem 4.8 runs
 over `m : WithTop ℕ` (well founded: `WithTop.wellFoundedLT`). -/
 def muBarW : WithTop ℕ → ThetaVNoteD

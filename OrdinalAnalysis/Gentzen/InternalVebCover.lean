@@ -78,13 +78,15 @@ public import OrdinalAnalysis.Gentzen.InternalVeblenSurj
 
 @[expose] public section
 
+open scoped FFL.FirstOrder.Bounding
+
 set_option autoImplicit false
 set_option maxHeartbeats 1600000
 
 namespace OrdinalAnalysis.Gentzen.InternalVebCover
 
 open Classical
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic
 open OrdinalAnalysis.Gentzen.InternalONote
 open OrdinalAnalysis.Gentzen.InternalVNote
 open OrdinalAnalysis.Gentzen.InternalVNoteOrder
@@ -109,9 +111,10 @@ noncomputable def vebTowerConstruction {V : Type*} [ORingStructure V]
     [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁] : PR.Construction V vebTowerBlueprint where
   zero := fun v ↦ v 1
   succ := fun v _ ih ↦ iveblen (v 0) ih
-  zero_defined := .mk fun v ↦ by simp [vebTowerBlueprint]
+  zero_defined := .mk fun v ↦ by simp only [vebTowerBlueprint, Bounding.HierarchySymbol.Semiformula.val_mkSigma]; try simp
   succ_defined := .mk fun v ↦ by
-    simp [vebTowerBlueprint, iveblen_defined.iff]
+    simp only [vebTowerBlueprint, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+    first | done | simp [iveblen_defined.iff]
 
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
@@ -131,18 +134,18 @@ lemma ivebTower_one (a c : V) : ivebTower a c 1 = iveblen a c := by
   rwa [zero_add, ivebTower_zero] at h
 
 /-- Result-first graph of the internal Veblen tower, argument order `(y, a, c, n)`. -/
-def _root_.LO.FirstOrder.Arithmetic.ivebTowerDef : 𝚺₁.Semisentence 4 :=
+def _root_.FFL.FirstOrder.Arithmetic.ivebTowerDef : 𝚺ᴬ₁.Semisentence 4 :=
   vebTowerBlueprint.resultDef.rew (Rew.subst ![#0, #3, #1, #2])
 
 instance ivebTower_defined :
-    𝚺₁-Function₃ (ivebTower : V → V → V → V) via ivebTowerDef := .mk
+    𝚺ᴬ₁-Function₃ (ivebTower : V → V → V → V) via ivebTowerDef := .mk
   fun v ↦ by simp [vebTowerConstruction.result_defined_iff, ivebTowerDef]; rfl
 
-instance ivebTower_definable : 𝚺₁-Function₃ (ivebTower : V → V → V → V) :=
+instance ivebTower_definable : 𝚺ᴬ₁-Function₃ (ivebTower : V → V → V → V) :=
   ivebTower_defined.to_definable
 
 instance ivebTower_definable' (Γ) (m : ℕ) :
-    Γ-[m + 1]-Function₃ (ivebTower : V → V → V → V) :=
+    Γᴬ_[m + 1]-Function₃ (ivebTower : V → V → V → V) :=
   ivebTower_definable.of_sigmaOne
 
 /-- The Veblen tower stays inside the normal forms. -/

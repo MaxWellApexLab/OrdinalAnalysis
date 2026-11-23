@@ -13,19 +13,19 @@
 
 module
 
-public import Foundation.FirstOrder.Basic.CutFree
+public import OrdinalAnalysis.ListLK.Calculus
 
 @[expose] public section
 
 namespace OrdinalAnalysis
 
-open LO LO.FirstOrder LO.FirstOrder.Derivation
+open FFL FFL.FirstOrder FFL.FirstOrder.Derivation
 
 variable {L : Language}
 
 /-- The cut rank of a derivation: `0` if it is cut free, otherwise one more
 than the largest complexity of a cut formula occurring in it. -/
-def cutRank {Δ : Sequent L} : ⊢ᴸᴷ¹ Δ → ℕ
+def cutRank {Δ : Sequent L} : ⊢ᶠ¹ Δ → ℕ
   | Derivation.identity _ _ => 0
   | Derivation.verum => 0
   | @Derivation.cut _ φ _ _ dp dn =>
@@ -40,33 +40,33 @@ def cutRank {Δ : Sequent L} : ⊢ᴸᴷ¹ Δ → ℕ
     cutRank (Derivation.identity r v) = 0 := by simp [cutRank]
 
 @[simp] theorem cutRank_verum :
-    cutRank (Derivation.verum : ⊢ᴸᴷ¹ ([⊤] : Sequent L)) = 0 := by simp [cutRank]
+    cutRank (Derivation.verum : ⊢ᶠ¹ ([⊤] : Sequent L)) = 0 := by simp [cutRank]
 
-@[simp] theorem cutRank_contraction {Δ Γ : Sequent L} (d : ⊢ᴸᴷ¹ Δ) (ss : Δ ⊆ Γ) :
+@[simp] theorem cutRank_contraction {Δ Γ : Sequent L} (d : ⊢ᶠ¹ Δ) (ss : Δ ⊆ Γ) :
     cutRank (d.contraction ss) = cutRank d := by simp [cutRank]
 
 @[simp] theorem cutRank_or {φ ψ : Proposition L} {Γ : Sequent L}
-    (d : ⊢ᴸᴷ¹ φ :: ψ :: Γ) : cutRank d.or = cutRank d := by simp [cutRank]
+    (d : ⊢ᶠ¹ φ :: ψ :: Γ) : cutRank d.or = cutRank d := by simp [cutRank]
 
 @[simp] theorem cutRank_and {φ ψ : Proposition L} {Γ : Sequent L}
-    (dp : ⊢ᴸᴷ¹ φ :: Γ) (dq : ⊢ᴸᴷ¹ ψ :: Γ) :
+    (dp : ⊢ᶠ¹ φ :: Γ) (dq : ⊢ᶠ¹ ψ :: Γ) :
     cutRank (dp.and dq) = max (cutRank dp) (cutRank dq) := by simp [cutRank]
 
 @[simp] theorem cutRank_cut {φ : Proposition L} {Γ Δ : Sequent L}
-    (dp : ⊢ᴸᴷ¹ φ :: Γ) (dn : ⊢ᴸᴷ¹ ∼φ :: Δ) :
+    (dp : ⊢ᶠ¹ φ :: Γ) (dn : ⊢ᶠ¹ ∼φ :: Δ) :
     cutRank (dp.cut dn) = max (φ.complexity + 1) (max (cutRank dp) (cutRank dn)) := by
   simp [cutRank]
 
 /-- A cut always forces the rank above zero. -/
 theorem cutRank_cut_pos {φ : Proposition L} {Γ Δ : Sequent L}
-    (dp : ⊢ᴸᴷ¹ φ :: Γ) (dn : ⊢ᴸᴷ¹ ∼φ :: Δ) : 0 < cutRank (dp.cut dn) := by
+    (dp : ⊢ᶠ¹ φ :: Γ) (dn : ⊢ᶠ¹ ∼φ :: Δ) : 0 < cutRank (dp.cut dn) := by
   simp only [cutRank_cut]
   omega
 
 /-- The bridge to `Foundation`'s own predicate: a derivation has rank zero
 exactly when it is cut free.  This is what makes the ordinal analysis compose
 with the existing library rather than duplicate it. -/
-theorem cutRank_eq_zero_iff {Δ : Sequent L} (d : ⊢ᴸᴷ¹ Δ) :
+theorem cutRank_eq_zero_iff {Δ : Sequent L} (d : ⊢ᶠ¹ Δ) :
     cutRank d = 0 ↔ IsCutFree d := by
   induction d with
   | identity r v => simp [IsCutFree.identity]

@@ -40,6 +40,7 @@
 
 module
 
+public import OrdinalAnalysis.ListLK.Calculus
 public import OrdinalAnalysis.IDn.Calculus
 
 @[expose] public section
@@ -50,7 +51,7 @@ namespace OrdinalAnalysis
 
 namespace IDn
 
-open LO LO.FirstOrder
+open FFL FFL.FirstOrder
 
 variable {n : ℕ}
 
@@ -311,7 +312,7 @@ theorem boundedness_height (hH : ThetaWNoteD.IsOperator H) {ψ : Proposition (LI
 
 /-- **Boundedness at the height itself**: a derivation of height `α ≺ Ω_{k+1}` bounds its whole
 end sequent at level `k` to the stage `α` (the form used at level `0` in the last step of the
-lower bound, design note §2.7 step 5). -/
+lower bound). -/
 theorem boundedness_self (hH : ThetaWNoteD.IsOperator H) (hαΩ : α < ThetaWNoteD.Omega k.val)
     (d : IDnDerivable A ρ H α Γ) :
     IDnDerivable A ρ H α (Γ.map (capAt k (StageAt.ofLt k.val α hαΩ))) :=

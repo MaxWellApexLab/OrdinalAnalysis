@@ -24,18 +24,19 @@ set_option autoImplicit false
 
 namespace OrdinalAnalysis.IDw.Internal
 
-open LO LO.FirstOrder LO.FirstOrder.Arithmetic LO.FirstOrder.Arithmetic.HierarchySymbol
+open FFL FFL.FirstOrder FFL.FirstOrder.Arithmetic FFL.FirstOrder.Bounding.HierarchySymbol
 open OrdinalAnalysis.ID1.Internal (bor band beq bor_eq_one band_eq_one beq_eq_one)
 
 /-- `x ≺ y` on codes. -/
-def thLtDef : 𝚺₁.Semisentence 2 := .mkSigma “x y. !iltbDef 1 x y”
+def thLtDef : 𝚺ᴬ₁.Semisentence 2 := .mkSigma “x y. !iltbDef 1 x y”
 
 section Model
 
 variable {V : Type*} [ORingStructure V] [V↓[ℒₒᵣ] ⊧* 𝗜𝚺₁]
 
 @[simp] theorem eval_thLtDef (x y : V) : thLtDef.val.Evalb ![x, y] ↔ iltb x y = 1 := by
-  simp [thLtDef, iltb_defined.iff, eq_comm]
+  simp only [thLtDef, Bounding.HierarchySymbol.Semiformula.val_mkSigma]
+  first | done | simp [iltb_defined.iff, eq_comm]
 
 @[simp] theorem eval_isSLDef (s : V) : isSLDef.val.Evalb ![s] ↔ isSL s := by
   simp [isSLDef, isSL, isDom, sumK_defined.iff, nfA_defined.iff, isDomb_defined.iff, eq_comm]
